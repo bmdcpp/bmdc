@@ -1,3 +1,6 @@
+[![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.png?v=103)](https://opensource.org/licenses/GPL-3.0/) 
+![Maintenance](https://img.shields.io/maintenance/yes/2023)
+
 # BMDC++ &ndash; file sharing program using Direct Connect protocols
 
 Website: https://bmdcpp.github.io/<br/>
