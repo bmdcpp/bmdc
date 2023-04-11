@@ -27,7 +27,6 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 */
 #ifdef __linux__
-// Small edit//Mank//gcc49x
 //#define _BSD_SOURCE 1
 #define _DEFAULT_SOURCE 1
 #endif
@@ -36,7 +35,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #if !defined(_MSC_VER)
 #include <sys/time.h>
 #endif
-#ifdef WIN32
+#ifdef _WIN32
 #include <errno.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -47,10 +46,13 @@ POSSIBILITY OF SUCH DAMAGE.
 #define gettimeofday natpmp_gettimeofday
 #else
 #include <errno.h>
+
+
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+
 #define closesocket close
 #endif
 #include "natpmp.h"
