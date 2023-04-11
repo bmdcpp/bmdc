@@ -375,7 +375,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 # ----------------------------------------------------------------------
 # Compile and link flags
 # ----------------------------------------------------------------------
-	_platform = 'win32'#flag for cross enable compile
+#	_platform = 'win32'#flag for cross enable compile
 	env.MergeFlags(BUILD_FLAGS['common'])
 	env.MergeFlags(BUILD_FLAGS[env['mode']])
 
