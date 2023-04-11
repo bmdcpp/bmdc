@@ -330,13 +330,13 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		LIB_IS_NATPMP = False
 
 	# GeoIp
-	#if conf.CheckHeader('GeoIP.h'):
-	#	print ('Found GeoIP headers')
-	#	conf.env.Append(CPPDEFINES = 'HAVE_GEOIPLIB')
-	#	LIB_IS_GEO = True
-	#else:
-	#	print ('Dont Found GeoIP headers or libs')
-	#	Exit(1)
+	if conf.CheckHeader('GeoIP.h'):
+		print ('Found GeoIP headers')
+		conf.env.Append(CPPDEFINES = 'HAVE_GEOIPLIB')
+		LIB_IS_GEO = True
+	else:
+		print ('Dont Found GeoIP headers or libs')
+		Exit(1)
 
 	# libtar for Backup/Restore man...
 	if conf.env.get('libtar'):
