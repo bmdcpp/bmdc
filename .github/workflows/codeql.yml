@@ -55,7 +55,7 @@ jobs:
         # queries: security-extended,security-and-quality
     - name: Installing extra dependencies and compiling (Ubuntu)
       run: |
-       sudo apt install build-essential g++ gcc scons python3 libgtk-4-dev scons libmaxminddb-dev libgtk-3-dev libgeoip-dev
+       sudo apt install build-essential g++ gcc scons python3 libgtk-4-dev scons libmaxminddb-dev libgtk-3-dev libgeoip-dev libnatpmp-dev
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, Go, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
