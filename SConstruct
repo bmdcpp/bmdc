@@ -458,7 +458,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if not LIB_IS_UPNP:
 		mini_env = env.Clone(package = LIB_UPNP)
 		upnp = SConscript(dirs = 'miniupnpc', variant_dir = BUILD_PATH + LIB_UPNP, duplicate = 0, exports = {'env': mini_env})
-	#if not LIB_IS_NATPMP:
+	if not LIB_IS_NATPMP:
 	natpmp_env = env.Clone(package = LIB_NATPMP)
 	pmp = SConscript(dirs = 'natpmp', variant_dir = BUILD_PATH + LIB_NATPMP, duplicate = 0, exports = { 'env': natpmp_env })
 
@@ -474,23 +474,23 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	(linux_pot_file, obj_files) = SConscript(dirs = 'linux', variant_dir = env['build_path'] + 'gui', duplicate = 0, exports = {'env': ui_env})
 
 	# Create the executable
-	#if not LIB_IS_UPNP and not LIB_IS_NATPMP and NEW_SETTING:
-	#	env.Program(target = PACKAGE, source = [libdcpp, upnp, pmp, settings_files, obj_files])
-	#elif not LIB_IS_UPNP and NEW_SETTING:
-	#	env.Program(target = PACKAGE, source = [libdcpp, upnp,settings_files, obj_files])
-	#elif not LIB_IS_NATPMP and NEW_SETTING:
-	#	env.Program(target = PACKAGE, source = [libdcpp, pmp,settings_files, obj_files])
-	#elif NEW_SETTING:
-	#	env.Program(target = PACKAGE, source = [libdcpp,settings_files, obj_files])
-	#elif not NEW_SETTING and not LIB_IS_UPNP and not LIB_IS_NATPMP:
-	#	env.Program(target = PACKAGE, source = [libdcpp,obj_files])
-	#elif not NEW_SETTING and not LIB_IS_UPNP:
-	#	env.Program(target = PACKAGE, source = [libdcpp,upnp,obj_files])
-	#elif not NEW_SETTING and not LIB_IS_NATPMP:
-	#	env.Program(target = PACKAGE, source = [libdcpp,pmp,obj_files])
-	#elif not NEW_SETTING:
-	#	env.Program(target = PACKAGE, source = [libdcpp,obj_files])
-	#else:
+	if not LIB_IS_UPNP and not LIB_IS_NATPMP and NEW_SETTING:
+		env.Program(target = PACKAGE, source = [libdcpp, upnp, pmp, settings_files, obj_files])
+	elif not LIB_IS_UPNP and NEW_SETTING:
+		env.Program(target = PACKAGE, source = [libdcpp, upnp,settings_files, obj_files])
+	elif not LIB_IS_NATPMP and NEW_SETTING:
+		env.Program(target = PACKAGE, source = [libdcpp, pmp,settings_files, obj_files])
+	elif NEW_SETTING:
+		env.Program(target = PACKAGE, source = [libdcpp,settings_files, obj_files])
+	elif not NEW_SETTING and not LIB_IS_UPNP and not LIB_IS_NATPMP:
+		env.Program(target = PACKAGE, source = [libdcpp,obj_files])
+	elif not NEW_SETTING and not LIB_IS_UPNP:
+		env.Program(target = PACKAGE, source = [libdcpp,upnp,obj_files])
+	elif not NEW_SETTING and not LIB_IS_NATPMP:
+		env.Program(target = PACKAGE, source = [libdcpp,pmp,obj_files])
+	elif not NEW_SETTING:
+		env.Program(target = PACKAGE, source = [libdcpp,obj_files])
+	else:
 	env.Program(target = PACKAGE, source = [libdcpp,obj_files])
 
 	# i18n
