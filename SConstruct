@@ -459,8 +459,8 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		mini_env = env.Clone(package = LIB_UPNP)
 		upnp = SConscript(dirs = 'miniupnpc', variant_dir = BUILD_PATH + LIB_UPNP, duplicate = 0, exports = {'env': mini_env})
 	if not LIB_IS_NATPMP:
-	natpmp_env = env.Clone(package = LIB_NATPMP)
-	pmp = SConscript(dirs = 'natpmp', variant_dir = BUILD_PATH + LIB_NATPMP, duplicate = 0, exports = { 'env': natpmp_env })
+		natpmp_env = env.Clone(package = LIB_NATPMP)
+		pmp = SConscript(dirs = 'natpmp', variant_dir = BUILD_PATH + LIB_NATPMP, duplicate = 0, exports = { 'env': natpmp_env })
 
 	# Build the dcpp library
 	dcpp_env = env.Clone(package = CORE_PACKAGE)
@@ -491,7 +491,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	elif not NEW_SETTING:
 		env.Program(target = PACKAGE, source = [libdcpp,obj_files])
 	else:
-	env.Program(target = PACKAGE, source = [libdcpp,obj_files])
+		env.Program(target = PACKAGE, source = [libdcpp,obj_files])
 
 	# i18n
 	env.MergePotFiles(source = [glade_pot_file, linux_pot_file], target = 'po/%s.pot' % PACKAGE)
