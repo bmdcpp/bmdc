@@ -218,10 +218,8 @@ int CryptoManager::getKeyLength(TLSTmpKeys key) {
 	switch (key) {
 		case KEY_DH_512:
 		case KEY_RSA_512:
-			return 512;
 		case KEY_DH_1024:
 		case KEY_RSA_1024:
-			return 1024;
 		case KEY_DH_2048:
 		case KEY_RSA_2048:
 			return 2048;
