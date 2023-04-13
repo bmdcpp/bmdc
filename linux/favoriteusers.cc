@@ -109,7 +109,7 @@ void FavoriteUsers::on_right_btn_pressed (GtkGestureClick* /*gesture*/,
 //	g_menu_append_item (menu, menu_item_add);
 //	g_object_unref (menu_item_add);
 
-	GMenuItem* menu_item_edit = g_menu_item_new ("delete", "favu.delete");
+	GMenuItem* menu_item_edit = g_menu_item_new ("Delete", "favu.delete");
 	g_menu_append_item (menu, menu_item_edit);
 	g_object_unref (menu_item_edit);
 

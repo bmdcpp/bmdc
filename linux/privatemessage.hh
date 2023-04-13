@@ -1,5 +1,6 @@
 /*
  * Copyright © 2004-2018 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2011-2025 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -148,7 +149,7 @@ class PrivateMessage:
 		UserCommandMenu *userCommandMenu;
 		bool notCreated;
 		GtkWidget* m_menu;
-		static const GActionEntry win_entries[];
+		static const GActionEntry pm_entries[];
 
 };
 

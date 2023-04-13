@@ -235,10 +235,8 @@ Hub::Hub(const string &address, const string &encoding):
 	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("chatScroll")));
 	// Connect the signals to their callback functions.
 	//g_signal_connect(getContainer(), "size-allocate", G_CALLBACK(onSizeWindowState_gui), (gpointer)this);
-//	g_signal_connect(getContainer(), "focus-in-event", G_CALLBACK(onFocusIn_gui), (gpointer)this);
 //	g_signal_connect(nickView.get(), "key-release-event", G_CALLBACK(onNickListKeyRelease_gui), (gpointer)this);
 	g_signal_connect(getWidget("chatEntry"), "activate", G_CALLBACK(onSendMessage_gui), (gpointer)this);
-//	g_signal_connect(getWidget("chatEntry"), "key-press-event", G_CALLBACK(onEntryKeyPress_gui), (gpointer)this);
 //	g_signal_connect(getWidget("chatText"), "motion-notify-event", G_CALLBACK(onChatPointerMoved_gui), (gpointer)this);
 //	g_signal_connect(getWidget("chatText"), "visibility-notify-event", G_CALLBACK(onChatVisibilityChanged_gui), (gpointer)this);
 	g_signal_connect(adjustment, "value_changed", G_CALLBACK(onChatScroll_gui), (gpointer)this);
@@ -1916,10 +1914,8 @@ void Hub::addStatusMessage_gui(string message, Msg::TypeMsg typemsg, Sound::Type
 gboolean Hub::onFocusIn_gui(GtkWidget*, GdkEventFocus*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-
 	// fix select text
 	gtk_editable_set_position(GTK_EDITABLE(hub->getWidget("chatEntry")), -1);
-
 	return TRUE;
 }
 */
@@ -2169,8 +2165,6 @@ gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event , GtkT
 			//g_signal_connect(hub->getWidget("copyipItem"), "activate", G_CALLBACK(onCopyIpItem_gui),(gpointer)hub);
 			g_object_set_data_full(G_OBJECT(hub->getWidget("ripeitem")),"ip_addr",g_strdup(tmp.c_str()),g_free);
 			g_object_set_data_full(G_OBJECT(hub->getWidget("copyipItem")),"ip_addr",g_strdup(tmp.c_str()),g_free);
-
-			//gtk_widget_show_all(hub->getWidget("ipMenu"));
 
 			//gtk_menu_popup_at_pointer(GTK_MENU(hub->getWidget("ipMenu")),NULL);
 			return TRUE;
@@ -2788,35 +2782,7 @@ void Hub::onBrowseItemClicked_gui(GtkWidget*,GVariant*, gpointer data)
 		g_list_free(list);
 	}
 }
-/*
-void Hub::onPartialFileListOpen_gui(GtkWidget*,GVariant*, gpointer data)
-{
-	Hub *hub = (Hub *)data;
 
-	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) > 0)
-	{
-		string cid;
-		GtkTreeIter iter;
-		GtkTreePath *path;
-		typedef Func3<Hub, string,bool,bool> F3;
-		F3 *func;
-		GList *list = gtk_tree_selection_get_selected_rows(hub->nickSelection, NULL);
-
-		for (GList *i = list; i; i = i->next)
-		{
-			path = (GtkTreePath *)i->data;
-			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(hub->nickStore), &iter, path))
-			{
-				cid = hub->nickView.getString(&iter, "CID");
-				func = new F3(hub, &Hub::getFileList_client, cid,FALSE,TRUE);
-				WulforManager::get()->dispatchClientFunc(func);
-			}
-			gtk_tree_path_free(path);
-		}
-		g_list_free(list);
-	}
-}
-*/
 void Hub::onMatchItemClicked_gui(GtkWidget*,GVariant*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
@@ -2927,7 +2893,7 @@ void Hub::onRemoveUserItemClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 	}
 }
 /*
-void Hub::onCopyURIClicked_gui(GtkMenuItem*, gpointer data)
+void Hub::onCopyURIClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -2943,7 +2909,7 @@ void Hub::onCopyURIClicked_gui(GtkMenuItem*, gpointer data)
 }
 */
 /*
-void Hub::onOpenLinkClicked_gui(GtkMenuItem*, gpointer data)
+void Hub::onOpenLinkClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	string error = dcpp::Util::emptyString;
@@ -2953,21 +2919,21 @@ void Hub::onOpenLinkClicked_gui(GtkMenuItem*, gpointer data)
 		hub->setStatus_gui("statusMain", error);
 }
 
-void Hub::onOpenHubClicked_gui(GtkMenuItem*, gpointer data)
+void Hub::onOpenHubClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
 	WulforManager::get()->getMainWindow()->showHub_gui(hub->selectedTagStr);
 }
 
-void Hub::onSearchMagnetClicked_gui(GtkMenuItem*, gpointer data)
+void Hub::onSearchMagnetClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
 	WulforManager::get()->getMainWindow()->addSearch_gui(hub->selectedTagStr);
 }
 
-void Hub::onDownloadClicked_gui(GtkMenuItem* , gpointer data)
+void Hub::onDownloadClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	WulforManager::get()->getMainWindow()->fileToDownload_gui(hub->selectedTagStr, SETTING(DOWNLOAD_DIRECTORY));
@@ -3024,7 +2990,7 @@ void Hub::onDownloadToClicked_gui(GtkMenuItem*, gpointer data)
 
 }
 
-void Hub::onMagnetPropertiesClicked_gui(GtkMenuItem*, gpointer data)
+void Hub::onMagnetPropertiesClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -3157,7 +3123,7 @@ void Hub::onAddIgnoreUserItemClicked_gui(GtkWidget*,GVariant* v, gpointer data)
     }
 }
 
-void Hub::onRemoveIgnoreUserItemClicked_gui(GtkMenuItem*, gpointer data)
+void Hub::onRemoveIgnoreUserItemClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -3199,7 +3165,7 @@ void Hub::onRemoveIgnoreUserItemClicked_gui(GtkMenuItem*, gpointer data)
 }
 
 //Protect Users
-void Hub::onProtectUserClicked_gui(GtkMenuItem*, gpointer data)
+void Hub::onProtectUserClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 {
 	Hub *hub =(Hub *)data;
 	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) >0)
@@ -3232,7 +3198,7 @@ void Hub::onProtectUserClicked_gui(GtkMenuItem*, gpointer data)
 	}
 }
 
-void Hub::onUnProtectUserClicked_gui(GtkMenuItem*, gpointer data)
+void Hub::onUnProtectUserClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 {
 	Hub *hub =(Hub *)data;
 	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) >0 )
@@ -3265,7 +3231,7 @@ void Hub::onUnProtectUserClicked_gui(GtkMenuItem*, gpointer data)
 	}
 }
 
-void Hub::onShowReportClicked_gui(GtkMenuItem* , gpointer data)
+void Hub::onShowReportClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 {
     Hub *hub = (Hub *)data;
 	string cid,icon;
@@ -3296,7 +3262,7 @@ void Hub::onShowReportClicked_gui(GtkMenuItem* , gpointer data)
 	}
 }
 //Test SUR
-void Hub::onTestSURItemClicked_gui(GtkMenuItem*, gpointer data)
+void Hub::onTestSURItemClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -3339,7 +3305,7 @@ void Hub::onTestSURItemClicked_gui(GtkMenuItem*, gpointer data)
 	}
 }
 //check FL
-void Hub::onCheckFLItemClicked_gui(GtkMenuItem* , gpointer data)
+void Hub::onCheckFLItemClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -3667,9 +3633,6 @@ void Hub::addAsFavorite_client()
 		entry.setGroup(dcpp::Util::emptyString);
 
 		FavoriteManager::getInstance()->addFavorite(entry);
-
-//		const FavoriteHubEntryList &fh = FavoriteManager::getInstance()->getFavoriteHubs();
-//		WulforManager::get()->getMainWindow()->updateFavoriteHubMenu_client(fh);
 
 		func = new F3(this, &Hub::addStatusMessage_gui, _("Favorite hub added"), Msg::STATUS, Sound::NONE);
 		WulforManager::get()->dispatchGuiFunc(func);
@@ -4405,7 +4368,7 @@ void Hub::on(ClientListener::SearchFlood, Client *, const string &msg) noexcept
 	F3 *func = new F3(this, &Hub::addStatusMessage_gui, _("Search spam detected from ") + msg, Msg::STATUS, Sound::NONE);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
-//[BMDC++
+
 void Hub::on(ClientListener::CheatMessage, Client *, const string &msg) noexcept
 {
 	typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;

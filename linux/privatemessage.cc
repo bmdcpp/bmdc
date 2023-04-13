@@ -37,7 +37,7 @@
 using namespace std;
 using namespace dcpp;
 
-const GActionEntry PrivateMessage::win_entries[] = {
+const GActionEntry PrivateMessage::pm_entries[] = {
 		{ "add-fav-user", onAddFavItem, NULL, NULL, NULL },
 		{ "rem-fav-user", onDeleteFavItem, NULL, NULL, NULL }
 };
@@ -51,7 +51,7 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 {
 	GSimpleActionGroup *group;
 	group = g_simple_action_group_new ();
-	g_action_map_add_action_entries (G_ACTION_MAP (group), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	g_action_map_add_action_entries (G_ACTION_MAP (group), pm_entries, G_N_ELEMENTS (pm_entries), (gpointer)this);
 	gtk_widget_insert_action_group(getContainer(),"pm" ,G_ACTION_GROUP(group));
 
 	setName(cid);
@@ -1572,12 +1572,6 @@ GMenu *PrivateMessage::createmenu()
 		GtkWidget *copyNicks = gtk_menu_item_new_with_label(_("Copy Nick(s)"));
 	
 		gtk_menu_item_set_submenu(GTK_MENU_ITEM(u_item),userCommandMenu->getContainer());
-		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), fitem);
-		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu),close);
-		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu),copyHubUrl);
-		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu),addFav);
-		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu),copyNicks);
-		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), u_item);
 
 		g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyCID), (gpointer)this);
 		g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
@@ -1585,7 +1579,7 @@ GMenu *PrivateMessage::createmenu()
 		g_signal_connect_swapped(copyNicks, "activate", G_CALLBACK(onCopyNicks), (gpointer)this);
 		notCreated = false;
 	}	
-    return m_menu;*/
+	*/
     return menu;
 }
 /*
