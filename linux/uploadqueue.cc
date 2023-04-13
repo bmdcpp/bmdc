@@ -71,7 +71,7 @@ selection(NULL)
 	g_signal_connect (gesture, "pressed",
                     G_CALLBACK (onWidgetPressed), (gpointer)this);
 	g_signal_connect (gesture, "released",
-                    G_CALLBACK (on_widget_right_btn_released), (gpointer)this);
+                    G_CALLBACK (on_right_btn_released), (gpointer)this);
 	gtk_widget_add_controller (GTK_WIDGET(users.get()), GTK_EVENT_CONTROLLER (gesture));
 
 }
@@ -113,7 +113,7 @@ void UploadQueue::onWidgetPressed (GtkGestureClick* /*gesture*/,
 
 }
 
-void UploadQueue::on_widget_right_btn_released (GtkGestureClick *gesture,
+void UploadQueue::on_right_btn_released (GtkGestureClick *gesture,
                                     int             /* n_press*/,
                                     double          /* x*/,
                                     double           /*y*/,

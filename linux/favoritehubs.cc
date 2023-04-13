@@ -30,7 +30,7 @@
 using namespace std;
 using namespace dcpp;
 
-const GActionEntry FavoriteHubs::win_entries[] = {
+const GActionEntry FavoriteHubs::fav_tab_entries[] = {
     { "add", onAddEntry_gui, NULL, NULL, NULL },
     { "edit", onEditEntry_gui, NULL, NULL, NULL },
     { "connect",onConnect_gui, NULL, NULL, NULL },
@@ -44,7 +44,7 @@ FavoriteHubs::FavoriteHubs():
 {
 	GSimpleActionGroup *group;
 	group = g_simple_action_group_new ();
-	g_action_map_add_action_entries (G_ACTION_MAP (group), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	g_action_map_add_action_entries (G_ACTION_MAP (group), fav_tab_entries, G_N_ELEMENTS (fav_tab_entries), (gpointer)this);
 	gtk_widget_insert_action_group(getContainer(),"fav" ,G_ACTION_GROUP(group));
 
 	// Initialize favorite hub list treeview

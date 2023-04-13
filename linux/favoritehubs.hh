@@ -127,7 +127,7 @@ class FavoriteHubs:
 		
 		bool checkAddys(const std::string url);//@True if not find in FavList
 
-		static const GActionEntry win_entries[];
+		static const GActionEntry fav_tab_entries[];
 
 };
 
