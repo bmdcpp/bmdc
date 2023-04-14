@@ -195,22 +195,12 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
     statusBar = gtk_statusbar_new();
     gtk_box_append(GTK_BOX(bBox) , statusBar);
 
-/*	
-    g_signal_connect(getWidget("limitingButton"),"clicked",G_CALLBACK(onPopupPopover),(gpointer)this);
-*/
 	// magnet dialog
 	//setChooseMagnetDialog_gui();
 	//g_signal_connect(getWidget("MagnetDialog"), "response", G_CALLBACK(onResponseMagnetDialog_gui), (gpointer) this);
 	//g_signal_connect(getWidget("MagnetDialog"), "delete-event", G_CALLBACK(onDeleteEventMagnetDialog_gui), (gpointer) this);
 	//gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("transferCheckButton")), TRUE);
-
 	// About dialog
-	//gchar *comments = g_strdup_printf(_("DC++ Client based on the source code FreeDC++\n\nBMDC++ version: %s.%s\nCore version: %s"),
-	//	GUI_VERSION_STRING, BMDC_REVISION_STRING, VERSIONSTRING);
-	//gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(getWidget("aboutDialog")), comments);
-
-	//gtk_about_dialog_set_logo_icon_name(GTK_ABOUT_DIALOG(getWidget("aboutDialog")),"bmdc");
-
 	// Set all windows to the default icon
 	gtk_window_set_default_icon_name(g_get_prgname());
 	// All notebooks created in glade need one page.
@@ -234,7 +224,6 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	g_signal_connect(dq, "clicked", G_CALLBACK(onDownloadQueueClicked_gui), (gpointer)this);
 	g_signal_connect(nt, "clicked", G_CALLBACK(onNotepadClicked_gui), (gpointer)this);
 	g_signal_connect(sl, "clicked", G_CALLBACK(onSystemLogClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("AwayIcon"), "clicked", G_CALLBACK(onAwayClicked_gui), (gpointer)this);
 	g_signal_connect(df, "clicked", G_CALLBACK(onFinishedDownloadsClicked_gui), (gpointer)this);
 	g_signal_connect(du, "clicked", G_CALLBACK(onFinishedUploadsClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("openFileListMenuItem"), "activate", G_CALLBACK(onOpenFileListClicked_gui), (gpointer)this);
@@ -242,8 +231,6 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 //	g_signal_connect(getWidget("refreshFileListMenuItem"), "activate", G_CALLBACK(onRefreshFileListClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("reconnectMenuItem"), "activate", G_CALLBACK(onReconnectClicked_gui), (gpointer)this);
 	g_signal_connect(sp, "clicked", G_CALLBACK(onPreferencesClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("exitMenuItem"), "activate", G_CALLBACK(onQuitClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("detitem"), "activate", G_CALLBACK(onDetectionClicked_gui), (gpointer)this);
 	g_signal_connect(cmd, "clicked", G_CALLBACK(onCmdDebugClicked_gui), (gpointer)this);
 	g_signal_connect(uq, "clicked", G_CALLBACK(onUploadQueueClicked_gui), (gpointer)this);
 	g_signal_connect(rec, "clicked", G_CALLBACK(onRecentHubClicked_gui), (gpointer)this);
@@ -254,8 +241,6 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 //	#else
 //		gtk_widget_set_sensitive(getWidget("exportitem"), FALSE);
 //	#endif
-//	g_signal_connect(getWidget("previousTabMenuItem"), "activate", G_CALLBACK(onPreviousTabClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("nextTabMenuItem"), "activate", G_CALLBACK(onNextTabClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("transferCheckButton"), "toggled", G_CALLBACK(onTransferToggled_gui), (gpointer)this);
 //	g_signal_connect(getWidget("browseButton"), "clicked", G_CALLBACK(onBrowseMagnetButton_gui), (gpointer)this);
 //	g_signal_connect(getWidget("setMagnetChoiceItem"), "activate", G_CALLBACK(onSetMagnetChoiceDialog_gui), (gpointer)this);
@@ -499,8 +484,6 @@ void MainWindow::addBookEntry_gui(BookEntry *entry)
 
 	gtk_notebook_insert_page(GTK_NOTEBOOK(note), page, label, ipos);
 
-//	g_signal_connect(label, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
-
 	if(WGETB("use-close-button"))
 	{
 		GtkWidget *closeButton = entry->getCloseButton();
@@ -673,9 +656,7 @@ void MainWindow::removeTabMenuItem_gui(GtkWidget *menuItem)
 
 	if (gtk_notebook_get_n_pages(book) == 0)
 	{
-	//	gtk_widget_set_sensitive(getWidget("previousTabMenuItem"), FALSE);
-	//	gtk_widget_set_sensitive(getWidget("nextTabMenuItem"), FALSE);
-	//	gtk_widget_set_sensitive(getWidget("tabMenuSeparator"), FALSE);
+//
 	}
 }
 
@@ -1271,7 +1252,6 @@ void MainWindow::onSetMagnetChoiceDialog_gui(GtkWidget*, gpointer data)
 	GtkWidget *chooser = mw->getWidget("flistDialog");
 	gtk_window_set_title(GTK_WINDOW(chooser), _("Choose a directory"));
 	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(chooser), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
-//	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), WGETS("magnet-choose-dir").c_str());
 
 	mw->setChooseMagnetDialog_gui();
 
@@ -1291,7 +1271,8 @@ void MainWindow::onResponseMagnetDialog_gui(GtkWidget *dialog, gint response, gp
 		{
 			if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(mw->getWidget("dowloadQueueRadioButton"))))
 			{
-				g_autofree gchar *temp = nullptr;//gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(mw->getWidget("flistDialog")));
+				GFile* file = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(mw->getWidget("flistDialog")));
+				gchar *temp = g_file_get_path(file);
 				if (temp)
 				{
 					path = string(temp) + G_DIR_SEPARATOR_S;
@@ -1301,6 +1282,7 @@ void MainWindow::onResponseMagnetDialog_gui(GtkWidget *dialog, gint response, gp
 
 				WSET("magnet-choose-dir", path);
 				WSET("magnet-action", 1);
+				g_free(temp);
 			}
 			else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(mw->getWidget("searchRadioButton"))))
 				WSET("magnet-action", 0);
@@ -1322,11 +1304,12 @@ void MainWindow::onResponseMagnetDialog_gui(GtkWidget *dialog, gint response, gp
 
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(mw->getWidget("dowloadQueueRadioButton"))))
 		{
-			g_autofree gchar *temp = nullptr;//gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(mw->getWidget("flistDialog")));
+			GFile* file = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(mw->getWidget("flistDialog")));
+			gchar *temp = g_file_get_path(file);
 			if (temp)
 			{
 				path = string(temp) + G_DIR_SEPARATOR_S;
-				//g_free(temp);
+				g_free(temp);
 			}
 
 			if (!File::isAbsolute(path))
@@ -1525,7 +1508,7 @@ gboolean MainWindow::onButtonReleasePage_gui(GtkWidget*, GdkEventButton *event, 
 /*
 void MainWindow::onRaisePage_gui(GtkMenuItem*, gpointer data)
 {
-	WulforManager::get()->getMainWindow()->raisePage_gui((GtkWidget *)data);
+	
 }
 */
 void MainWindow::onPageSwitched_gui(GtkNotebook *notebook, GtkWidget*, guint num, gpointer data)
@@ -1696,9 +1679,6 @@ void MainWindow::onResponse(GtkWidget* wid , int response ,gpointer data)
 		if(outConns != prevProxy || outConns == SettingsManager::OUTGOING_SOCKS5) {
 			Socket::socksUpdated();
 		}
-		//END
-		//mw->setTabPosition_gui(WGETI("tab-position"));
-		//mw->setToolbarStyle_gui(WGETI("toolbar-style"));
 		// All hubs and PMs
 		for (StringIterC it = mw->EntryList.begin(); it != mw->EntryList.end(); ++it)
 		{
@@ -1855,15 +1835,16 @@ void MainWindow::onOpenFileListClicked_gui(GtkWidget*, gpointer )
 	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(chooser), GTK_FILE_CHOOSER_ACTION_OPEN);
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), Util::getListPath().c_str());
 
-	gint response = gtk_dialog_run(GTK_DIALOG(chooser));
+	gint response = gtk_widget_show(GTK_DIALOG(chooser));
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		g_autofree gchar *cptemp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
+		gchar *cptemp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
 
 		if (cptemp)
 		{
 			string spath(cptemp);
+			g_free(cptemp);
 
 			UserPtr user = DirectoryListing::getUserFromFilename(spath);
 			if (user)
@@ -2184,11 +2165,11 @@ void MainWindow::onTTHFileButton_gui(GtkWidget* , gpointer /*data*/)
 //	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(chooser), GTK_FILE_CHOOSER_ACTION_OPEN);
 //	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), "/home/");
 
-//	gint response = gtk_dialog_run(GTK_DIALOG(chooser));
+//	gint response = gtk_widget_show(GTK_DIALOG(chooser));
 
 //	if (response == GTK_RESPONSE_OK)
 	{
-//		g_autofree gchar *cptemp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
+//		gchar *cptemp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
 //		gtk_widget_set_sensitive(mw->getWidget("buttonok"),FALSE);
 //		TTHHash hasht;
 //		if(hasht.stop)
@@ -2335,37 +2316,7 @@ void MainWindow::onCloseAllofPM_gui(GtkWidget*, gpointer data)
 	}
 	mw->privateMessage = noff;
 }
-/* partial */
-/*
-void MainWindow::parsePartial(HintedUser aUser, string txt)
-{
-	const string scid = aUser.user->getCID().toBase32();
-	bool braise = !SETTING(POPUNDER_FILELIST);
-	BookEntry *entry = findBookEntry(Entry::SHARE_BROWSER, scid);
-	string spath = QueueManager::getInstance()->getListPath(aUser) + ".xml.bz2";
 
-	if(entry != NULL)
-	{
-	  dynamic_cast<ShareBrowser*>(entry)->loadXML(txt);
-	}
-	else
-	{
-		if ( (entry == NULL) && !spath.empty())
-		{
-			entry = new ShareBrowser(aUser, spath, "/", 0, false);
-			addBookEntry_gui(entry);
-			dynamic_cast<ShareBrowser*>(entry)->loadXML(txt);
-		}
-	}
-	if ((entry != NULL) && braise)
-		raisePage_gui(entry->getContainer());
-}
-/*
-void MainWindow::on(QueueManagerListener::PartialList, const HintedUser& aUser, const string& text) noexcept
-{
-
-}
-*/
 void MainWindow::updateStats_gui(string file, uint64_t bytes, size_t files, uint32_t tick)
 {
 	if (bytes > startBytes)

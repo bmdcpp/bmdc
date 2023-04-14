@@ -81,8 +81,6 @@ class Hub:
 	private:
 		dcpp::FavoriteHubEntry* getFavoriteHubEntry();
 		typedef std::unordered_map<std::string, std::string> UserMap;
-		typedef std::unordered_map<GtkWidget*, std::string> ImageList;
-		typedef std::pair<std::string, GtkWidget*> ImageLoad;
 
 		// GUI functions
 		void setStatus_gui(std::string statusBar, std::string text);
@@ -108,7 +106,6 @@ private:
 		void nickToChat_gui(const std::string &nick);
 		void addFavoriteUser_gui(dcpp::StringMap params);
 		void removeFavoriteUser_gui(dcpp::StringMap params);
-		//BMDC++
 		void addProtected_gui(dcpp::StringMap params);
 
 		void addPrivateMessage_gui(Msg::TypeMsg typemsg, std::string nick, std::string cid, std::string url, std::string message, bool useSetting);
@@ -116,7 +113,6 @@ private:
 		void loadImage_gui(std::string target, std::string tth);
 		void openImage_gui(std::string target);
 		void insertBBcodeEntry_gui(std::string ch);
-		//BMDC++
 		void set_Header_tooltip_gui();
 		void columnHeader(int num, std::string name);
 
@@ -124,6 +120,7 @@ private:
 		static void onSizeWindowState_gui(GtkWidget* widget,GdkRectangle *allocation,gpointer data);
 //		static gboolean onNickListKeyRelease_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 //		static gboolean onEntryKeyPress_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+
 //		static gboolean onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
 //		static gboolean onLinkTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
 //		static gboolean onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
@@ -157,7 +154,6 @@ private:
 //		static void onItalicButtonClicked_gui(GtkWidget *widget, gpointer data);
 //		static void onBoldButtonClicked_gui(GtkWidget *widget, gpointer data);
 //		static void onUnderlineButtonClicked_gui(GtkWidget *widget, gpointer data);
-//		static void onPartialFileListOpen_gui(GtkMenuItem *item, gpointer data);
 		static void onCloseItem(GtkWidget* ,GVariant*, gpointer data);
 		static void onCopyHubUrl(GtkWidget* ,GVariant*, gpointer data);
 		static void onAddFavItem(GtkWidget* ,GVariant*, gpointer data);
@@ -179,7 +175,6 @@ private:
 //		static void onUnProtectUserClicked_gui(GtkWidget*,GVariant* v, gpointer data);
 //		static void onProtectUserClicked_gui(GtkWidget*,GVariant* v, gpointer data);
 		static void onRefreshUserListClicked_gui(GtkWidget *wid, gpointer data);
-
 		static void on_setImage_tab(GtkButton *widget, gpointer data);
 		static void onToglleButtonIcon(GtkToggleButton *button, gpointer data);
 		//[colorize userlist
@@ -216,7 +211,6 @@ private:
 
 		void getParams_client(dcpp::StringMap &user, dcpp::Identity &id);
 		std::string realFile_client(std::string tth);
-		//BMDC++
 		std::string formatAdditionalInfo(const std::string& aIp, bool sIp, bool sCC);
 		std::string getIcons(const dcpp::Identity& id);
 
