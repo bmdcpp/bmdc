@@ -140,6 +140,15 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
                     G_CALLBACK (on_right_btn_released), (gpointer)this);
   gtk_widget_add_controller (GTK_WIDGET(getContainer()), GTK_EVENT_CONTROLLER (gesture));
 
+  //------- keys stuff
+  GtkEventController* keys = gtk_event_controller_key_new ();
+
+  g_signal_connect (keys, "key-pressed",
+                    G_CALLBACK (key_pressed_gui), (gpointer)this);
+  g_signal_connect (keys, "key-released",
+                    G_CALLBACK (key_released_gui), (gpointer)this);
+  gtk_widget_add_controller (GTK_WIDGET(getWidget("entry")), GTK_EVENT_CONTROLLER (keys));
+
 	history.push_back("");
 	
 	const OnlineUser* user = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl);
@@ -1631,3 +1640,19 @@ void PrivateMessage::setImageButton(const string country)
 	gtk_image_set_from_pixbuf (GTK_IMAGE(getWidget("ImageButton")),WulforUtil::LoadCountryPixbuf(country));
 }
 */
+
+gboolean PrivateMessage::key_pressed_gui ( GtkEventControllerKey* self,  guint keyval,  guint keycode,  GdkModifierType state,  gpointer data )
+{
+
+	if( keyval == GDK_KEY_Return  ) {
+			onSendMessage_gui(NULL,data);
+			return TRUE;
+	}
+	return FALSE;
+}
+
+void PrivateMessage::key_released_gui (  GtkEventControllerKey* self,  guint keyval,  guint keycode,  GdkModifierType state,  gpointer data )
+{
+
+}
+

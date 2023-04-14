@@ -84,10 +84,13 @@ class PrivateMessage:
                                     double           x,
                                     double           y,
                                     gpointer *widget);
+		static gboolean key_pressed_gui ( GtkEventControllerKey* self,	guint keyval,
+  							guint keycode,	GdkModifierType state,	gpointer user_data	);
+		static void key_released_gui (  GtkEventControllerKey* self,  guint keyval,
+  							guint keycode,  GdkModifierType state,  gpointer user_data  );
 
 		// GUI callbacks
-		/*static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
-		static gboolean onKeyPress_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+		/*
 		static gboolean onLinkTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
 		static gboolean onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
 		static gboolean onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);

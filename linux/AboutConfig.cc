@@ -91,7 +91,7 @@ void   AboutConfig::on_right_btn_pressed (GtkGestureClick* /*gesture*/,
                                    double             y,
                                    gpointer         *data)
 {
-	AboutConfig *AC = (AboutConfig*)data;
+		AboutConfig *AC = (AboutConfig*)data;
     GMenu *menu = g_menu_new ();
     GMenuItem *menu_item_add = g_menu_item_new ("Edit", "abc.edit");
     g_menu_append_item (menu, menu_item_add);
