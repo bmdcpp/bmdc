@@ -51,7 +51,7 @@ using namespace dcpp;
 
 const string Hub::tagPrefix = "#";
 
-const GActionEntry Hub::win_entries[] = {
+const GActionEntry Hub::hub_entries[] = {
     { "nick-to-chat", onNickToChat_gui  , NULL, NULL, NULL },
     { "msg-to-user", onMsgItemClicked_gui , NULL, NULL, NULL },
     { "browse-fl", onBrowseItemClicked_gui , NULL, NULL, NULL },
@@ -59,9 +59,9 @@ const GActionEntry Hub::win_entries[] = {
     { "grant-slot", onGrantItemClicked_gui, NULL, NULL, NULL },
     { "fav-hubs", onAddFavItem, NULL, NULL,NULL },
     { "rem-f-hub" , onRemoveFavHub , NULL, NULL,NULL},
-    { "add-fav-user",onAddFavoriteUserClicked_gui, NULL, NULL, NULL},
-    { "copy-url",onCopyHubUrl, NULL, NULL, NULL},
-    { "reconnect",onReconnectItemTab, NULL, NULL, NULL}
+    { "add-fav-user", onAddFavoriteUserClicked_gui, NULL, NULL, NULL},
+    { "copy-url", onCopyHubUrl, NULL, NULL, NULL},
+    { "reconnect", onReconnectItemTab, NULL, NULL, NULL}
 };
 
 Hub::Hub(const string &address, const string &encoding):
@@ -76,7 +76,7 @@ Hub::Hub(const string &address, const string &encoding):
 	setName(CID(address).toBase32());
 
 	GSimpleActionGroup* simple = g_simple_action_group_new ();
-	g_action_map_add_action_entries (G_ACTION_MAP (simple), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	g_action_map_add_action_entries (G_ACTION_MAP (simple), hub_entries, G_N_ELEMENTS (hub_entries), (gpointer)this);
 	gtk_widget_insert_action_group(getContainer(), "hub" ,G_ACTION_GROUP(simple));
 	gtk_widget_insert_action_group(getLabelBox(), "hub" ,G_ACTION_GROUP(simple));
 	gtk_widget_insert_action_group(getWidget("nickView"), "hub" ,G_ACTION_GROUP(simple));
@@ -166,12 +166,6 @@ Hub::Hub(const string &address, const string &encoding):
 	tag_mark = gtk_text_buffer_create_mark(chatBuffer, NULL, &iter, TRUE);
 	emot_mark = gtk_text_buffer_create_mark(chatBuffer, NULL, &iter, TRUE);
 
-	// image magnet
-	imageLoad.first = dcpp::Util::emptyString;
-	imageLoad.second = NULL;
-	imageMagnet.first = dcpp::Util::emptyString;
-	imageMagnet.second = dcpp::Util::emptyString;
-
 	// Initialize the user command menu
 	userCommandMenu = new UserCommandMenu(g_menu_new(), GTK_WIDGET(nickView.get()), ::UserCommand::CONTEXT_USER);
 	// Hub ...
@@ -190,7 +184,7 @@ Hub::Hub(const string &address, const string &encoding):
 	}
 	// Emoticons dialog
 	emotdialog = new EmoticonsDialog(getWidget("chatEntry"), getWidget("emotButton"), getWidget("emotPacksMenu"), packName, address);
-	if ( (p_faventry) &&  ( !p_faventry->get(SettingsManager::USE_EMOTS,SETTING(USE_EMOTS))))
+	if ( (p_faventry) &&  ( !p_faventry->get(SettingsManager::USE_EMOTS, SETTING(USE_EMOTS))))
 		gtk_widget_set_sensitive(getWidget("emotButton"), FALSE);
 
 	useEmoticons = true;
@@ -341,13 +335,13 @@ Hub::Hub(const string &address, const string &encoding):
                     G_CALLBACK (on_right_btn_released), (gpointer)this);
     gtk_widget_add_controller (GTK_WIDGET(nickView.get()), GTK_EVENT_CONTROLLER (gesture));
 //------- keys stuff
-  GtkEventController* keys = gtk_event_controller_key_new ();
+	GtkEventController* keys = gtk_event_controller_key_new ();
 
-  g_signal_connect (keys, "key-pressed",
+	g_signal_connect (keys, "key-pressed",
                     G_CALLBACK (key_pressed_gui), (gpointer)this);
-  g_signal_connect (keys, "key-released",
+	g_signal_connect (keys, "key-released",
                     G_CALLBACK (key_released_gui), (gpointer)this);
-  gtk_widget_add_controller (GTK_WIDGET(getWidget("chatEntry")), GTK_EVENT_CONTROLLER (keys));
+	gtk_widget_add_controller (GTK_WIDGET(getWidget("chatEntry")), GTK_EVENT_CONTROLLER (keys));
 
 }
 
@@ -1333,7 +1327,7 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 
 			// Support bbCode: [i]italic-text[/i], [u]underline-text[/u]
 			// [img]magnet-link[/img]
-				if (g_ascii_strncasecmp(tagName.c_str(), "[img]", 5) == 0)
+				/*if (g_ascii_strncasecmp(tagName.c_str(), "[img]", 5) == 0)
 				{
 					string::size_type i = tagName.rfind("[/img]");
 					if (i != string::npos)
@@ -1342,8 +1336,8 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 						if (WulforUtil::isMagnet(image_magnet))
 							notlink = image_tag = true;
 					}
-				}
-				else if (g_ascii_strncasecmp(tagName.c_str(), "[b]", 3) == 0)
+				}*/
+				if (g_ascii_strncasecmp(tagName.c_str(), "[b]", 3) == 0)
 				{
 					string::size_type i = tagName.rfind("[/b]");
 					if (i != string::npos)

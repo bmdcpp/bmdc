@@ -245,7 +245,6 @@ private:
 		virtual void on(dcpp::ClientListener::SearchFlood, dcpp::Client *, const std::string &message) noexcept;
 		virtual void on(dcpp::ClientListener::CheatMessage, dcpp::Client *, const std::string &msg) noexcept;
 		virtual void on(dcpp::ClientListener::HubTopic, dcpp::Client *, const std::string &top) noexcept;
-		//virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) noexcept;
 
 		UserMap userMap;
 		UnMapIter userIters;
@@ -290,7 +289,7 @@ private:
 		bool useEmoticons;
 		bool notCreated;
 		bool isFavBool;
-		static const GActionEntry win_entries[];
+		static const GActionEntry hub_entries[];
 
 };
 #else
