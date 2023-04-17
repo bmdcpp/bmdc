@@ -1,8 +1,12 @@
-# BMDC++ &ndash; file sharing using DC and ADC protocols
+[![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.png?v=103)](https://opensource.org/licenses/GPL-3.0/) 
+[![CodeQL](https://github.com/bmdcpp/bmdc/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/bmdcpp/bmdc/actions/workflows/codeql.yml)
+![Maintenance](https://img.shields.io/maintenance/yes/2023)
+
+# BMDC &ndash; file sharing using DC and ADC protocols
 
 ## Introduction
 
-BMDC++ &ndash; DC++ client based on FreeDC++ with Ignore Users and other changes.<br/>
+BMDC &ndash; DC++ client based on FreeDC++ with Ignore Users and other changes.<br/>
 See [BMDC-Changelog.txt](https://github.com/bmdcpp/bmdc/blob/master/BMDC-Changelog.txt) for detailed info.
 
 ## License
@@ -67,7 +71,7 @@ $ /path/to/install/bin/bmdc
 
 ## Uninstalling
 
-To uninstall BMDC++, simply delete the directory you installed it in.
+To uninstall BMDC, simply delete the directory you installed it in.
 
 To uninstall using scons, run:
 
