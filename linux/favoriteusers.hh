@@ -102,7 +102,7 @@ class FavoriteUsers:
 		TreeView favoriteUserView;
 		GtkListStore *favoriteUserStore;
 		GtkTreeSelection *favoriteUserSelection;
-		static const GActionEntry FavoriteUsers::win_entries[];
+		static const GActionEntry win_entries[];
 };
 
 #else

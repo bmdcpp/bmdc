@@ -102,7 +102,7 @@ int WulforManager::createMainWindow()
 {
 	int status;
 
-    application = gtk_application_new ("org.bmdcteam.bmdc", G_APPLICATION_DEFAULT_FLAGS);
+    application = gtk_application_new ("org.bmdcteam.bmdc", G_APPLICATION_FLAGS_NONE);//TODO::not-deprectaed
     g_signal_connect (application, "activate", G_CALLBACK (activate), (gpointer)this);
     g_signal_connect (application, "shutdown", G_CALLBACK (shutdown), (gpointer)this);
 	status = g_application_run (G_APPLICATION (application), argc, argv);

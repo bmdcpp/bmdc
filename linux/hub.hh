@@ -249,9 +249,6 @@ private:
 		UserMap userMap;
 		UnMapIter userIters;
 		UserMap userFavoriteMap;
-		ImageList imageList;
-		ImageLoad imageLoad;
-		dcpp::StringPair imageMagnet;
 		IgnoreMenu* ignoreMenu;
 		GtkTextTag *TagsMap[Tag::TAG_LAST];
 		dcpp::Client *client;
