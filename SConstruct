@@ -350,7 +350,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		env.Append(LINKFLAGS='-lXss')
 
 	env.ParseConfig('pkg-config --libs gtk4')
-	env.ParseConfig('pkg-config --libs bz2')
+	#env.ParseConfig('pkg-config --libs bz2')
 	
 	env.ParseConfig('pkg-config --cflags glib-2.0')
 	env.ParseConfig('pkg-config --libs glib-2.0')
