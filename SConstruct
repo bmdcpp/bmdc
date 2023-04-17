@@ -243,7 +243,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		print ('\tNote: You might have the lib but not the headers')
 		Exit(1)
 
-	if not conf.CheckLibWithHeader('bzip2', 'bzlib.h', 'c'):
+	if not conf.CheckLibWithHeader('bz2', 'bzlib.h', 'c'):
 		print ('\tbz2 library (bz2 compression) not found')
 		print ('\tNote: You might have the lib but not the headers')
 		Exit(1)
