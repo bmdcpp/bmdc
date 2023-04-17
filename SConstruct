@@ -25,13 +25,7 @@ LIB_HAVE_XATTR = False
 # For Idle Detection, Enabled by defualt
 LIB_HAVE_XSS = False
 NEW_SETTING = False
-# , '-Werror' ,'-Wfatal-errors'
-#'-fno-stack-protector',
-# #,'-fpermissive' ],
-#,'-Weffc++'
-#'-L/usr/local/lib','-L/usr/lib',
-#'-ldl',
-# http://stackoverflow.com/questions/1564937/gcc-warning-will-be-initialized-after
+
 BUILD_FLAGS = {#'-Wno-unused-parameter','-Wno-unused-value',
 	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT','-pipe','-DUSE_STACKTRACE=1' ,'-fpermissive'],#temp,'-DUSE_WIN32_CODE'
 	'debug'   : ['-O1','-g', '-ggdb','-W', '-Wall','-Wextra','-D_DEBUG' ,'-DUSE_ADDR2LINE','-Wno-reorder','-DGDK_DISABLE_DEPRECATED','-DGTK_DISABLE_DEPRECATED','-Wno-unused-parameter','-Wno-unused-value','-Wno-format','-Wfatal-errors'],#'-fpermissive' ,'-Wpadded'
@@ -295,30 +289,21 @@ if not 'install' in COMMAND_LINE_TARGETS:
 				if conf.CheckPKG('libnotify >= 0.7'):
 					conf.env.Append(CPPDEFINES = 'HAVE_LIBNOTIFY_0_7')
 
-	# Sound
-	#conf.env['HAVE_CANBERRA_LIB'] = 0
-	#if not conf.CheckPKG('libcanberra'):
-	#	print ('\tlibcanberra not found.')
-	#	print ('\tNote: You might have the lib but not the headers')
-	#	Exit(1)
-	#else:
-	#	conf.env['HAVE_CANBERRA_LIB'] = 1
-
 	# Check for MiniUPnPc
-	#if not conf.CheckLib('libminiupnpc'):
-	#	LIB_IS_UPNP = False
+	if not conf.CheckLib('libminiupnpc'):
+		LIB_IS_UPNP = False
 	# Check for natpmp
 	if not conf.CheckLib('libnatpmp'):
 		LIB_IS_NATPMP = False
 
 	# GeoIp
-	#if conf.CheckHeader('maxminddb.h'):
-	#	print ('Found GeoIP headers')
-	#	conf.env.Append(CPPDEFINES = 'HAVE_GEOIPLIB')
-	#	LIB_IS_GEO = True
-	#else:
-	#	print ('Dont Found GeoIP headers or libs')
-	#	Exit(1)
+	if conf.CheckHeader('maxminddb.h'):
+		print ('Found GeoIP headers')
+		conf.env.Append(CPPDEFINES = 'HAVE_GEOIPLIB')
+		LIB_IS_GEO = True
+	else:
+		print ('Dont Found GeoIP headers or libs')
+		Exit(1)
 
 	# libtar for Backup/Restore man...
 	if conf.env.get('libtar'):
@@ -432,9 +417,9 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if not LIB_IS_UPNP:
 		mini_env = env.Clone(package = LIB_UPNP)
 		upnp = SConscript(dirs = 'miniupnpc', variant_dir = BUILD_PATH + LIB_UPNP, duplicate = 0, exports = {'env': mini_env})
-	#if not LIB_IS_NATPMP:
-	natpmp_env = env.Clone(package = LIB_NATPMP)
-	pmp = SConscript(dirs = 'natpmp', variant_dir = BUILD_PATH + LIB_NATPMP, duplicate = 0, exports = { 'env': natpmp_env })
+	if not LIB_IS_NATPMP:
+		natpmp_env = env.Clone(package = LIB_NATPMP)
+		pmp = SConscript(dirs = 'natpmp', variant_dir = BUILD_PATH + LIB_NATPMP, duplicate = 0, exports = { 'env': natpmp_env })
 
 	# Build the dcpp library
 	dcpp_env = env.Clone(package = CORE_PACKAGE)
@@ -448,24 +433,24 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	(linux_pot_file, obj_files) = SConscript(dirs = 'linux', variant_dir = env['build_path'] + 'gui', duplicate = 0, exports = {'env': ui_env})
 
 	# Create the executable
-	#if not LIB_IS_UPNP and not LIB_IS_NATPMP and NEW_SETTING:
-	#	env.Program(target = PACKAGE, source = [libdcpp, upnp, pmp, settings_files, obj_files])
-	#elif not LIB_IS_UPNP and NEW_SETTING:
-	#	env.Program(target = PACKAGE, source = [libdcpp, upnp,settings_files, obj_files])
-	#elif not LIB_IS_NATPMP and NEW_SETTING:
-	#	env.Program(target = PACKAGE, source = [libdcpp, pmp,settings_files, obj_files])
-	#elif NEW_SETTING:
-	#	env.Program(target = PACKAGE, source = [libdcpp,settings_files, obj_files])
-	#elif not NEW_SETTING and not LIB_IS_UPNP and not LIB_IS_NATPMP:
-	#	env.Program(target = PACKAGE, source = [libdcpp,obj_files])
-	#elif not NEW_SETTING and not LIB_IS_UPNP:
-	#	env.Program(target = PACKAGE, source = [libdcpp,upnp,obj_files])
-	#elif not NEW_SETTING and not LIB_IS_NATPMP:
-	#	env.Program(target = PACKAGE, source = [libdcpp,pmp,obj_files])
-	#elif not NEW_SETTING:
-	#	env.Program(target = PACKAGE, source = [libdcpp,obj_files])
-	#else:
-	env.Program(target = PACKAGE, source = [libdcpp,obj_files ,settings_files  ])
+	if not LIB_IS_UPNP and not LIB_IS_NATPMP and NEW_SETTING:
+		env.Program(target = PACKAGE, source = [libdcpp, upnp, pmp, settings_files, obj_files])
+	elif not LIB_IS_UPNP and NEW_SETTING:
+		env.Program(target = PACKAGE, source = [libdcpp, upnp,settings_files, obj_files])
+	elif not LIB_IS_NATPMP and NEW_SETTING:
+		env.Program(target = PACKAGE, source = [libdcpp, pmp,settings_files, obj_files])
+	elif NEW_SETTING:
+		env.Program(target = PACKAGE, source = [libdcpp,settings_files, obj_files])
+	elif not NEW_SETTING and not LIB_IS_UPNP and not LIB_IS_NATPMP:
+		env.Program(target = PACKAGE, source = [libdcpp,obj_files])
+	elif not NEW_SETTING and not LIB_IS_UPNP:
+		env.Program(target = PACKAGE, source = [libdcpp,upnp,obj_files])
+	elif not NEW_SETTING and not LIB_IS_NATPMP:
+		env.Program(target = PACKAGE, source = [libdcpp,pmp,obj_files])
+	elif not NEW_SETTING:
+		env.Program(target = PACKAGE, source = [libdcpp,obj_files])
+	else:
+		env.Program(target = PACKAGE, source = [libdcpp,obj_files ,settings_files  ])
 
 	# i18n
 	env.MergePotFiles(source = [glade_pot_file, linux_pot_file], target = 'po/%s.pot' % PACKAGE)

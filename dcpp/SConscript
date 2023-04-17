@@ -10,14 +10,9 @@ env.Append(CPPDEFINES = 'BUILDING_DCPP')
 env.ParseConfig('pkg-config --cflags glib-2.0')
 env.ParseConfig('pkg-config --cflags libmaxminddb')
 
-#env.Append(CPPFLAGS = '-IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64//lib/glib-2.0/include -IC:/msys64/ucrt64/include')
-
-
 if _platform == "win32":
 	env.Append(LIBS = ['wsock32','iphlpapi','ws2_32'])
 	env.Append(LINKFLAGS= ['-lwsock32','-lws2_32'])
-	#env.Append(CPPDEFINES = '_WIN32')
-	#env.Append(LINKFLAGS='-lwsock32 -lws2_32')		
 
 # Build the dcpp files and create the library
 libdcpp  = env.StaticLibrary(target = 'dcpp', source = dcpp_files)
