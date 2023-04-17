@@ -1707,7 +1707,7 @@ void MainWindow::onAwayClicked_gui(GtkWidget*, gpointer data)
 //		WulforManager::get()->dispatchGuiFunc(func);
 
 	}else
-//	{
+	{
 		Util::switchAway();
 		Util::setManualAway(true);
 //		mw->setMainStatus_gui(_("Away mode on"));
