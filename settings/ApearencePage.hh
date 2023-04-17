@@ -18,7 +18,7 @@
 #define _APPEARENCE_PAGE_
 #include <gtk/gtk.h>
 #include "SettingsPage.hh"
-#include <linux/treeview.hh>
+#include "../linux/treeview.hh"
 /*----------------------------------------------------------------------------*/
 class ApearencePage : public SettingsPage
 {

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2005-2017 Markus Lindqvist <nanodc.developer@gmail.com>
+ * Copyright © 2005-2021 Markus Lindqvist <nanodc.developer@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,17 +21,19 @@
 #ifndef _WIN32
 #include <iostream>
 #include <cxxabi.h> // __cxxabiv1::__cxa_demangle
+
+#ifndef WIN32
 #if USE_STACKTRACE
 #include <execinfo.h> // backtrace_symbols
 #endif
-
+#endif
 #include "stacktrace.hh"
 
 namespace cow {
-
+#if USE_STACKTRACE
 void StackTrace::generate_frames()
 {
-#if USE_STACKTRACE
+
     this->clear();
 
     const int size = 200;
@@ -45,9 +47,8 @@ void StackTrace::generate_frames()
         this->push_back(parse_line(symbols[i]));
 
     free(symbols);
-#endif // USE_STACKTRACE
 }
-
+#endif // USE_STACKTRACE
 /* Example lines
 
 ./a.out(_ZN3cow10StackTrace15generate_framesEv+0x27) [0x8049499]
@@ -57,10 +58,10 @@ void StackTrace::generate_frames()
 /lib/tls/libc.so.6(__libc_start_main+0xc8) [0xb7d13ea8]
 ./a.out(__gxx_personality_v0+0x65) [0x8048f61]
 */
-
+#if USE_STACKTRACE
 StackFrame StackTrace::parse_line(const std::string &line)
 {
-#if USE_STACKTRACE
+
     std::string object;
     std::string function;
     std::string address;
@@ -110,8 +111,9 @@ StackFrame StackTrace::parse_line(const std::string &line)
 #endif // USE_ADDR2LINE
 
     return StackFrame(object, function, address, file, linenum);
-#endif // USE_STACKTRACE
+
 }
+#endif // USE_STACKTRACE
 
 #if USE_ADDR2LINE
 void StackTrace::run_addr2line(const std::string &object, const std::string &address,

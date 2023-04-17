@@ -1,4 +1,4 @@
-//      Copyright 2011-2017 BMDC
+//      Copyright BMDC
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 
 #include "System.hh"
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "settingsmanager.hh"
 #include "../dcpp/LogManager.h"
 
@@ -29,8 +29,9 @@ SystemLog::SystemLog():
 BookEntry(Entry::SYSTEML,_("System Log"),"system"),
  buffer(NULL),sysMark(NULL)
 {
+	
 	WulforUtil::setTextDeufaults(getWidget("systextview"),SETTING(BACKGROUND_CHAT_COLOR),"",false,"","SystemLog");
-	WulforUtil::setTextColor(WGETS("text-system-fore-color"),string("SystemLog"));
+	WulforUtil::setTextColor(WGETS("text-system-fore-color"),string("SystemLog"),getWidget("systextview"));
 
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("systextview")));
 	gtk_text_buffer_get_end_iter(buffer, &iter);
@@ -39,7 +40,6 @@ BookEntry(Entry::SYSTEML,_("System Log"),"system"),
 	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("sysscroll")));
 
 	g_signal_connect(adjustment, "value_changed", G_CALLBACK(onScroll_gui), (gpointer)this);
-	g_signal_connect(adjustment, "changed", G_CALLBACK(onResize_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonClear"), "clicked", G_CALLBACK(onClearButton), (gpointer)this);
 }
 
@@ -57,7 +57,7 @@ void SystemLog::add_gui(time_t t, string message,int sev)
 {
 	gtk_text_buffer_move_mark(buffer, sysMark, &iter);
 	gtk_text_buffer_get_end_iter(buffer, &iter);
-	gtk_text_buffer_insert_pixbuf(buffer, &iter , getImageSev(sev));//The Severinity image
+	gtk_text_buffer_insert_paintable(buffer, &iter , getImageSev(sev));//The Severinity image
 	gtk_text_buffer_move_mark(buffer, sysMark, &iter);
 	
 	string line = "[ " + Util::getShortTimeString(t)+" ] " + message + "\n\0";
@@ -147,9 +147,9 @@ void SystemLog::on(LogManagerListener::Message, time_t t, const string& message,
     WulforManager::get()->dispatchGuiFunc(func);
 }
 
-GdkPixbuf* SystemLog::getImageSev(int sev)
+GdkPaintable* SystemLog::getImageSev(int sev)
 {
-	string src;
+	string src = dcpp::Util::emptyString;
 	switch(sev)
 	{
 		case LogManager::Sev::LOW: 
@@ -163,6 +163,8 @@ GdkPixbuf* SystemLog::getImageSev(int sev)
 			break;
 		default:break;
 	};
-	return gdk_pixbuf_new_from_resource_at_scale(src.c_str(),24,24,FALSE,NULL);
+	GtkWidget* icon = gtk_image_new_from_resource(src.c_str());
+	g_object_set(icon ,"icon-size" ,GTK_ICON_SIZE_NORMAL, NULL);
+	return gtk_image_get_paintable(GTK_IMAGE(icon));
 }
 

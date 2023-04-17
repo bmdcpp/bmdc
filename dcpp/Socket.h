@@ -42,7 +42,7 @@ const int INVALID_SOCKET = -1;
 #include "GetSet.h"
 #include "Util.h"
 #include "Exception.h"
-
+#include <atomic>
 #include <memory>
 
 namespace dcpp {
@@ -114,7 +114,7 @@ public:
 	void writeAll(const void* aBuffer, int aLen, uint32_t timeout = 0);
 	virtual int write(const void* aBuffer, int aLen);
 	int write(const string& aData) { return write(aData.data(), (int)aData.length()); }
-	virtual void writeTo(const string& aIp, const uint16_t& aPort, const void* aBuffer, int aLen, bool proxy = true);
+	virtual void writeTo(const string& aIp, const uint16_t& aPort, const void* aBuffer, int aLen, bool proxy = false);
 	void writeTo(const string& aIp, const uint16_t& aPort, const string& aData) { writeTo(aIp, aPort, aData.data(), (int)aData.length()); }
 	virtual void shutdown() noexcept;
 	virtual void close() noexcept;
@@ -197,8 +197,8 @@ protected:
 
 	class Stats {
 	public:
-		uint64_t totalDown;
-		uint64_t totalUp;
+		std::atomic<uint64_t> totalDown;
+		std::atomic<uint64_t> totalUp;
 	};
 	static Stats stats;
 

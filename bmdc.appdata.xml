@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>bmdc.desktop</id>
+  <name>BMDC</name>
+  <developer_name>BMDCTeam</developer_name>
+      ⁠<summary>⁠.<summary/>
+  <description>
+  <p>
+   BMDC Direct Connect Client.
+  </p>
+  <p>
+   For any modern Linux.
+  </p>
+</description>
+  <metadata_license>MIT</metadata_license>
+  <project_license>GPLv3</project_license>
+  <url type="bugtracker">http://launchpad.net/bmdc++</url>
+  <url type="donation">none </url>
+  <url type="faq">http://launchpad.net/bmdc++</url>
+  <url type="help">http://launchpad.net/bmdc++</url>
+  <url type="homepage">http://launchpad.net/bmdc++</url>
+  <project_group>none</project_group>
+  <screenshots>
+    <screenshot type="default">
+      <caption>none</caption>
+      <image height="630" width="1120">http://launchpad.net/bmdc++.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>none</caption>
+      <image height="630" width="1120">http://launchpad.net/bmdc++.png</image>
+    </screenshot>
+  </screenshots>
+</component>

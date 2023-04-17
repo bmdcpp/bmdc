@@ -23,7 +23,7 @@
 namespace dcpp {
 
 CID CID::generate() {
-	uint8_t data[CIDSIZE];
+	uint8_t data[CID::SIZE];
 	for(size_t i = 0; i < sizeof(data); ++i) {
 		data[i] = (uint8_t)Util::rand();
 	}

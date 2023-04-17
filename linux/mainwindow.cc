@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2017 BMDC
+ * Copyright © BMDC 2022 - 2025
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,9 +19,6 @@
  * In addition, as a special exception, compiling, linking, and/or
  * using OpenSSL with this program is allowed.
  */
-#ifndef _DATADIR
- #define _DATADIR DATADIR
-#endif
 
 #include "mainwindow.hh"
 
@@ -39,9 +36,6 @@
 #include "../dcpp/HttpDownload.h"
 #include "../dcpp/version.h"
 #include "../dcpp/ThrottleManager.h"
-#if 0
-#include "../dcpp/PluginManager.h"
-#endif
 #include "../dcpp/ConnectivityManager.h"
 #include "../dcpp/HashManager.h"
 
@@ -61,7 +55,7 @@
 #include "emoticons.hh"
 #include "UserCommandMenu.hh"
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "version.hh"
 #include "System.hh"
 #include "cmddebug.hh"
@@ -77,317 +71,180 @@
 #include "settingsdialog.hh"
 #include "hashdialog.hh"
 
-#ifdef HAVE_APPINDCATOR
-	#include <libappindicator/app-indicator.h>
-#endif
-
 #include "Shortcuts.hh"
 
 using namespace std;
 using namespace dcpp;
 
-
-string MainWindow::icons[(MainWindow::IconsToolbar)END][2] =
-{
-	{"connect", "connect"},
-	{"favorite-hubs", "favHubs"},
-	{"favorite-users", "favUsers"},
-	{"public-hubs", "publicHubs"},
-	{"search-adl", "searchADL"},
-	{"search-spy", "searchSpy"},
-	{"queue", "queue"},
-	{"finished-downloads", "finishedDownloads"},
-	{"finished-uploads", "finishedUploads"},
-	{"notepad", "notepad"},
-	{"system", "system"},
-	{"away", "AwayIcon"},
-	{"limiting", "limitingButton"}
+const GActionEntry MainWindow::win_entries[] = {
+		{ "close-tab", onCloseClicked_gui, NULL, NULL, NULL }
 };
 
-MainWindow::MainWindow():
-	Entry(Entry::MAIN_WINDOW, "mainwindow"),
-	transfers(NULL), 
-	minimized(false),
-#ifdef USE_STATUSICON
-	 timer(0),
-#endif
-	lastUpdate(0),
-	lastUp(0), lastDown(0),
-	statusFrame(1),
-	current_width(-1),
-	current_height(-1),
-	is_maximized(FALSE)
+static GtkWidget* createButtonToolbarWidget(std::string name, std::string label, bool bText )
 {
-	string stmp;
-	startTime = GET_TICK();
-	HashManager::getInstance()->getStats(stmp, startBytes, startFiles);
-	updateStats_gui("", 0, 0, 0);
+	GtkWidget* widget;
+	if(bText)
+	 	widget = gtk_button_new_with_label(label.c_str());
+	else		
+		widget = gtk_button_new_from_icon_name(name.c_str());
 	
-	window = GTK_WINDOW(getWidget("mainWindow"));
-	gtk_window_set_role(window, getID().c_str());
-	// Configure the dialogs
-	gtk_window_set_transient_for(GTK_WINDOW(getWidget("exitDialog")), window);
-	gtk_window_set_transient_for(GTK_WINDOW(getWidget("connectDialog")), window);
-	gtk_window_set_transient_for(GTK_WINDOW(getWidget("flistDialog")), window);
-	gtk_window_set_transient_for(GTK_WINDOW(getWidget("ucLineDialog")), window);
+	return widget;	
+}
 
-	setStatRate_gui();
+MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
+	Entry(Entry::MAIN_WINDOW, "mainwindow"),
+	transfers(NULL), minimized(false),
+	lastUpdate(0), lastUp(0), lastDown(0),
+	statusFrame(1),	current_width(-1),
+	current_height(-1),	is_maximized(FALSE),
+	window(window), bText(false)
+{
+	if(bText) //set
+		bText = true;
+//	string stmp;
+//	startTime = GET_TICK();
+//	HashManager::getInstance()->getStats(stmp, startBytes, startFiles);
+//	updateStats_gui("", 0, 0, 0);
+//	setStatRate_gui();
 
-	// toolbar
-	setToolbarMenu_gui("connectMenuItemBar", "connect", "toolbar-button-connect");
-	setToolbarMenu_gui("favHubsMenuItemBar", "favHubs", "toolbar-button-fav-hubs");
-	setToolbarMenu_gui("favUsersMenuItemBar", "favUsers", "toolbar-button-fav-users");
-	setToolbarMenu_gui("publicHubsMenuItemBar", "publicHubs", "toolbar-button-public-hubs");
-	setToolbarMenu_gui("settingsMenuItemBar", "settings", "toolbar-button-settings");
-	setToolbarMenu_gui("hashMenuItemBar", "hash", "toolbar-button-hash");
-	setToolbarMenu_gui("searchMenuItemBar", "search", "toolbar-button-search");
-	setToolbarMenu_gui("searchADLMenuItemBar", "searchADL", "toolbar-button-search-adl");
-	setToolbarMenu_gui("searchSpyMenuItemBar", "searchSpy", "toolbar-button-search-spy");
-	setToolbarMenu_gui("queueMenuItemBar", "queue", "toolbar-button-queue");
-	setToolbarMenu_gui("finishedDownloadsMenuItemBar", "finishedDownloads", "toolbar-button-finished-downloads");
-	setToolbarMenu_gui("finishedUploadsMenuItemBar", "finishedUploads", "toolbar-button-finished-uploads");
-	setToolbarMenu_gui("quitMenuItemBar", "quit", "toolbar-button-quit");
-	//BMDC++
-	setToolbarMenu_gui("checknotepad", "notepad", "toolbar-button-notepad");
-	setToolbarMenu_gui("checksystem", "system", "toolbar-button-system");
-	setToolbarMenu_gui("awaycitem", "AwayIcon", "toolbar-button-away");
-	setToolbarMenu_gui("limitingcmenu", "limitingButton", "toolbar-button-limiting");
+	GtkWidget* mWidget = gtk_box_new(GTK_ORIENTATION_VERTICAL, 12);
+	gtk_window_set_child(GTK_WINDOW(window),mWidget);
 
-	gint fpos = 0;
-	ToolbarStyle = 0;
-	GtkBox *box = GTK_BOX(getWidget("hbox4"));
-	GtkWidget *child = getWidget("toolbar1");
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("leftToolbarItem")), FALSE);
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("hideToolbarItem")), (WGETI("toolbar-style") == 4) ? TRUE : FALSE);
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("sizeToolbarItem")), WGETB("toolbar-small"));
+	GtkWidget* wTool = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12);
+	gtk_box_append(GTK_BOX(mWidget),wTool);
+
+	GtkWidget* wConnect = createButtonToolbarWidget("bmdc-connect", "Connect", bText);
+	gtk_box_append(GTK_BOX(wTool), wConnect);
+	g_signal_connect(wConnect, "clicked", G_CALLBACK(onConnectClicked_gui), (gpointer)this);
+
+  	GtkWidget* favHub = createButtonToolbarWidget("bmdc-favorite-hubs", "Favorite Hubs", bText);
+  	gtk_box_append(GTK_BOX(wTool), favHub);
+  
+  	GtkWidget* recHub = createButtonToolbarWidget("bmdc-recent-hubs", "Recent Hubs", bText); 
+  	gtk_box_append(GTK_BOX(wTool), recHub);
+
+	GtkWidget* favuser = createButtonToolbarWidget("bmdc-favorite-users", "Favorite Users", bText);
+	gtk_box_append(GTK_BOX(wTool), favuser);
+  
+	GtkWidget* dq = createButtonToolbarWidget("bmdc-queue", "Download Queue", bText);
+	gtk_box_append(GTK_BOX(wTool), dq);
+
+	GtkWidget* wHash = createButtonToolbarWidget("bmdc-hash", "Hashing", bText);
+	gtk_box_append(GTK_BOX(wTool), wHash);
+
+	GtkWidget* search = createButtonToolbarWidget("bmdc-search", "Search", bText);
+	gtk_box_append(GTK_BOX(wTool), search);
+
+	GtkWidget* publicHub = createButtonToolbarWidget("bmdc-public-hubs", "Public Hubs", bText);
+	gtk_box_append(GTK_BOX(wTool), publicHub);
+  
+	GtkWidget* df = createButtonToolbarWidget("bmdc-finished-downloads", "Finished Downloads", bText);
+	gtk_box_append(GTK_BOX(wTool), df);
+
+	GtkWidget* du = createButtonToolbarWidget("bmdc-finished-uploads", "Finished Uploads", bText);
+	gtk_box_append(GTK_BOX(wTool), du);
+  
+	GtkWidget* uq = createButtonToolbarWidget("bmdc-upload-quene", "Upload Queue", bText);
+	gtk_box_append(GTK_BOX(wTool), uq);
+
+	GtkWidget* sp =createButtonToolbarWidget("bmdc-preferences","Settings",bText);
+	gtk_box_append(GTK_BOX(wTool), sp);
+
+	GtkWidget* ac = gtk_button_new_with_label("About Config");
+	gtk_box_append(GTK_BOX(wTool), ac);
+
+	GtkWidget* nt = createButtonToolbarWidget("bmdc-notepad", "Notepad",bText);
+ 	gtk_box_append(GTK_BOX(wTool), nt);
+
+	GtkWidget* sl = gtk_button_new_with_label("System Log");
+	gtk_box_append(GTK_BOX(wTool), sl);
+  
+	GtkWidget* cmd = gtk_button_new_with_label("Cmd Log");
+	gtk_box_append(GTK_BOX(wTool), cmd);
+
+	GtkWidget* adl = createButtonToolbarWidget("bmdc-search-adl", "ADL Search", bText);
+	gtk_box_append(GTK_BOX(wTool), adl);
+
+	GtkWidget* sspy = createButtonToolbarWidget("bmdc-search-spy", "Search Spy", bText);
+  	gtk_box_append(GTK_BOX(wTool), sspy);
+  
+	GtkWidget* hpaned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
+
+	note = gtk_notebook_new();
+
+	GSimpleActionGroup *group;
+	group = g_simple_action_group_new ();
+	g_action_map_add_action_entries (G_ACTION_MAP (group), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	gtk_widget_insert_action_group(note,"app" ,G_ACTION_GROUP(group));
 	
-	if (WGETB("toolbar-small"))
-		g_object_set(G_OBJECT(child), "icon-size", GTK_ICON_SIZE_SMALL_TOOLBAR, NULL);
+	gtk_paned_set_start_child (GTK_PANED (hpaned), note);
 
-	if (WGETI("toolbar-position") == 1)
-	{
-		box = GTK_BOX(getWidget("vbox1"));
-		gtk_orientable_set_orientation(GTK_ORIENTABLE(child), GTK_ORIENTATION_HORIZONTAL);
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("topToolbarItem")), TRUE);
-		fpos = 1;
-	}
-	gtk_box_pack_start(box, child, FALSE, FALSE, 2);
-	gtk_box_reorder_child(box, child, fpos);
-	g_object_unref(child);
+    transfers = new Transfers();
+    gtk_paned_set_end_child(GTK_PANED(hpaned) , transfers->getContainer());
+    transfers->show();
 
-	g_signal_connect(G_OBJECT(getWidget("sizeToolbarItem")), "toggled", G_CALLBACK(onSizeToolbarToggled_gui), (gpointer)this);
-	g_signal_connect(G_OBJECT(getWidget("hideToolbarItem")), "toggled", G_CALLBACK(onHideToolbarToggled_gui), (gpointer)this);
-	g_signal_connect(G_OBJECT(getWidget("topToolbarItem")), "toggled", G_CALLBACK(onTopToolbarToggled_gui), (gpointer)this);
-	g_signal_connect(G_OBJECT(getWidget("leftToolbarItem")), "toggled", G_CALLBACK(onLeftToolbarToggled_gui), (gpointer)this);
-	g_signal_connect(G_OBJECT(getWidget("add")), "clicked", G_CALLBACK(onAddButtonClicked_gui), (gpointer)this);
+	int  pos = WGETI("transfer-pane-position");
+	gtk_paned_set_position(GTK_PANED(hpaned), pos);
 
-	GtkWidget *menu = gtk_menu_new();
-	gtk_menu_tool_button_set_menu(GTK_MENU_TOOL_BUTTON(getWidget("favHubs")), menu);
-	const FavoriteHubEntryList &fh = FavoriteManager::getInstance()->getFavoriteHubs();
-	gtk_container_foreach(GTK_CONTAINER(menu), (GtkCallback)gtk_widget_destroy, NULL);
+    gtk_box_append(GTK_BOX(mWidget) , GTK_WIDGET(hpaned));
 
-	for (auto it = fh.begin(); it != fh.end(); ++it)
-	{
-		FavoriteHubEntry *entry = *it;
-		string saddress = entry->getServer();
-		string sencoding = entry->getEncoding();
-		GtkWidget *item = gtk_menu_item_new_with_label(saddress.c_str());
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-		g_object_set_data_full(G_OBJECT(item), "address", g_strdup(saddress.c_str()), g_free);
-		g_object_set_data_full(G_OBJECT(item), "encoding", g_strdup(sencoding.c_str()), g_free);
-		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(onHubClicked_gui), (gpointer)this);
-	}
-	gtk_widget_show_all(menu);
+	GtkWidget* bBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL , 300);
 
-	///Limits menu
-	menu = gtk_menu_new();
-	gtk_menu_tool_button_set_menu(GTK_MENU_TOOL_BUTTON(getWidget("limitingButton")), menu);
-	gtk_container_foreach(GTK_CONTAINER(menu), (GtkCallback)gtk_widget_destroy, NULL);
-	GtkWidget *wdisupitem = gtk_menu_item_new_with_label(_("Upload Limit (disable)"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), wdisupitem);
-	g_object_set_data_full(G_OBJECT(wdisupitem), "type", g_strdup("up"), g_free);
-	g_signal_connect(G_OBJECT(wdisupitem), "activate", G_CALLBACK(onLimitingDisable), (gpointer)this);
-	GtkWidget *sep =  gtk_separator_menu_item_new();
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
-	///TODO @change to dynamic
-	for(int i = 10240; i<2097152; i = i*2+40960/2) {
-		string tmenu = Util::formatBytes(i) + (_("/s"));
-		string tspeed = Util::toString(i);
-		GtkWidget *item = gtk_menu_item_new_with_label(tmenu.c_str());
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-		g_object_set_data_full(G_OBJECT(item), "speed", g_strdup(tspeed.c_str()), g_free);
-		g_object_set_data_full(G_OBJECT(item), "type", g_strdup("up"), g_free);
-		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(onLimitingMenuItem_gui), (gpointer)this);
-	}
-	
-	sep = gtk_separator_menu_item_new();
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
-	GtkWidget *dwitem = gtk_menu_item_new_with_label(_("Download Limit (disable)"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), dwitem);
-	g_object_set_data_full(G_OBJECT(dwitem), "type", g_strdup("dw"), g_free);
-	g_signal_connect(G_OBJECT(dwitem), "activate", G_CALLBACK(onLimitingDisable), (gpointer)this);
-	sep = gtk_separator_menu_item_new();
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
+    gtk_box_append(GTK_BOX(mWidget) , bBox) ;
 
-	for(int j = 10240; j<2097152; j = j*2+40960/2) {
-		string tmenu = Util::formatBytes(j) + (_("/s"));
-		string tspeed = Util::toString(j);
-		GtkWidget *item = gtk_menu_item_new_with_label(tmenu.c_str());
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-		g_object_set_data_full(G_OBJECT(item), "speed", g_strdup(tspeed.c_str()), g_free);
-		g_object_set_data_full(G_OBJECT(item), "type", g_strdup("dw"), g_free);
-		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(onLimitingMenuItem_gui), (gpointer)this);
-	}
-
-	gtk_widget_show_all(menu);
-
-	// menu
-	g_object_ref_sink(getWidget("statusIconMenu"));
-	g_object_ref_sink(getWidget("toolbarMenu"));
+    statusBar = gtk_statusbar_new();
+    gtk_box_append(GTK_BOX(bBox) , statusBar);
 
 	// magnet dialog
-	gtk_window_set_transient_for(GTK_WINDOW(getWidget("MagnetDialog")), window);
-	setChooseMagnetDialog_gui();
-	g_signal_connect(getWidget("MagnetDialog"), "response", G_CALLBACK(onResponseMagnetDialog_gui), (gpointer) this);
-	g_signal_connect(getWidget("MagnetDialog"), "delete-event", G_CALLBACK(onDeleteEventMagnetDialog_gui), (gpointer) this);
-
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("transferCheckButton")), TRUE);
-
+	//setChooseMagnetDialog_gui();
+	//g_signal_connect(getWidget("MagnetDialog"), "response", G_CALLBACK(onResponseMagnetDialog_gui), (gpointer) this);
+	//g_signal_connect(getWidget("MagnetDialog"), "delete-event", G_CALLBACK(onDeleteEventMagnetDialog_gui), (gpointer) this);
 	// About dialog
-	gchar *comments = g_strdup_printf(_("DC++ Client based on the source code FreeDC++\n\nBMDC++ version: %s.%s\nCore version: %s"),
-		GUI_VERSION_STRING, BMDC_REVISION_STRING, VERSIONSTRING);
-	gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(getWidget("aboutDialog")), comments);
-	g_free(comments);
-
-	gtk_about_dialog_set_logo_icon_name(GTK_ABOUT_DIALOG(getWidget("aboutDialog")),"bmdc");
-
-	g_signal_connect(getWidget("aboutDialog"),"activate-link",G_CALLBACK(onAboutDialogActivateLink_gui),(gpointer)this);
-
-	// This has to be set in code in order to activate the link
-	gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(getWidget("aboutDialog")), "http://launchpad.net/bmdc++");
-	gtk_window_set_transient_for(GTK_WINDOW(getWidget("aboutDialog")), window);
-
 	// Set all windows to the default icon
 	gtk_window_set_default_icon_name(g_get_prgname());
-	//note do not check Gerror here
-	GdkPixbuf* p_buf = NULL;
-	p_buf = gdk_pixbuf_new_from_resource("/org/bmdc-team/bmdc/icons/hicolor/96x96/apps/bmdc.png",NULL);
-	gtk_window_set_default_icon(p_buf);
-
 	// All notebooks created in glade need one page.
 	// In our case, this is just a placeholder, so we remove it.
-	gtk_notebook_remove_page(GTK_NOTEBOOK(getWidget("book")), -1);
-	g_object_set_data(G_OBJECT(getWidget("book")), "page-rotation-list", NULL);
-	gtk_widget_set_sensitive(getWidget("closeMenuItem"), FALSE);
-	gtk_notebook_set_show_border (GTK_NOTEBOOK(getWidget("book")),FALSE);
-	// Connect the signals to their callback functions.
-	g_signal_connect(window, "delete-event", G_CALLBACK(onCloseWindow_gui), (gpointer)this);
-	g_signal_connect(window, "window-state-event", G_CALLBACK(onWindowState_gui), (gpointer)this);
-	g_signal_connect(window, "size-allocate", G_CALLBACK(onSizeWindowState_gui), (gpointer)this);
-	g_signal_connect(window, "focus-in-event", G_CALLBACK(onFocusIn_gui), (gpointer)this);
-	g_signal_connect(window, "key-press-event", G_CALLBACK(onKeyPressed_gui), (gpointer)this);
-	g_signal_connect(getWidget("book"), "switch-page", G_CALLBACK(onPageSwitched_gui), (gpointer)this);
-	g_signal_connect_after(getWidget("pane"), "realize", G_CALLBACK(onPaneRealized_gui), (gpointer)this);
-	g_signal_connect(getWidget("connect"), "clicked", G_CALLBACK(onConnectClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("favHubs"), "clicked", G_CALLBACK(onFavoriteHubsClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("favUsers"), "clicked", G_CALLBACK(onFavoriteUsersClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("publicHubs"), "clicked", G_CALLBACK(onPublicHubsClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("settings"), "clicked", G_CALLBACK(onPreferencesClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("hash"), "clicked", G_CALLBACK(onHashClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("search"), "clicked", G_CALLBACK(onSearchClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("searchADL"), "clicked", G_CALLBACK(onSearchADLClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("searchSpy"), "clicked", G_CALLBACK(onSearchSpyClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("queue"), "clicked", G_CALLBACK(onDownloadQueueClicked_gui), (gpointer)this);
-	/**/
-	g_signal_connect(getWidget("notepad"), "clicked", G_CALLBACK(onNotepadClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("system"), "clicked", G_CALLBACK(onSystemLogClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("AwayIcon"), "clicked", G_CALLBACK(onAwayClicked_gui), (gpointer)this);
-	/**/
-	g_signal_connect(getWidget("quit"), "clicked", G_CALLBACK(onQuitClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("finishedDownloads"), "clicked", G_CALLBACK(onFinishedDownloadsClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("finishedUploads"), "clicked", G_CALLBACK(onFinishedUploadsClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("openFileListMenuItem"), "activate", G_CALLBACK(onOpenFileListClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("openOwnListMenuItem"), "activate", G_CALLBACK(onOpenOwnListClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("refreshFileListMenuItem"), "activate", G_CALLBACK(onRefreshFileListClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("quickConnectMenuItem"), "activate", G_CALLBACK(onConnectClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("reconnectMenuItem"), "activate", G_CALLBACK(onReconnectClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("settingsMenuItem"), "activate", G_CALLBACK(onPreferencesClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("closeMenuItem"), "activate", G_CALLBACK(onCloseClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("exitMenuItem"), "activate", G_CALLBACK(onQuitClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("favoriteHubsMenuItem"), "activate", G_CALLBACK(onFavoriteHubsClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("favoriteUsersMenuItem"), "activate", G_CALLBACK(onFavoriteUsersClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("publicHubsMenuItem"), "activate", G_CALLBACK(onPublicHubsClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("indexingProgressMenuItem"), "activate", G_CALLBACK(onHashClicked_gui), (gpointer)this);
-	/**/
-	g_signal_connect(getWidget("detitem"), "activate", G_CALLBACK(onDetectionClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("cmditem"), "activate", G_CALLBACK(onCmdDebugClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("uqueueitem"), "activate", G_CALLBACK(onUploadQueueClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("RecentHubMenuItem"), "activate", G_CALLBACK(onRecentHubClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("tthitem"), "activate", G_CALLBACK(onTTHFileDialog_gui), (gpointer)this);
-	g_signal_connect(getWidget("buttonfile"), "clicked", G_CALLBACK(onTTHFileButton_gui), (gpointer)this);
-	#ifdef HAVE_LIBTAR
-		g_signal_connect(getWidget("exportitem"), "activate", G_CALLBACK(onExportItemClicked_gui), (gpointer)this);
-	#else
-		gtk_widget_set_sensitive(getWidget("exportitem"), FALSE);
-	#endif
-	g_signal_connect(getWidget("searchMenuItem"), "activate", G_CALLBACK(onSearchClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("searchADLMenuItem"), "activate", G_CALLBACK(onSearchADLClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("searchSpyMenuItem"), "activate", G_CALLBACK(onSearchSpyClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("downloadQueueMenuItem"), "activate", G_CALLBACK(onDownloadQueueClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("finishedDownloadsMenuItem"), "activate", G_CALLBACK(onFinishedDownloadsClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("finishedUploadsMenuItem"), "activate", G_CALLBACK(onFinishedUploadsClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("previousTabMenuItem"), "activate", G_CALLBACK(onPreviousTabClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("nextTabMenuItem"), "activate", G_CALLBACK(onNextTabClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("aboutMenuItem"), "activate", G_CALLBACK(onAboutClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("transferCheckButton"), "toggled", G_CALLBACK(onTransferToggled_gui), (gpointer)this);
-	g_signal_connect(getWidget("browseButton"), "clicked", G_CALLBACK(onBrowseMagnetButton_gui), (gpointer)this);
-	g_signal_connect(getWidget("dowloadQueueRadioButton"), "toggled", G_CALLBACK(onDowloadQueueToggled_gui), (gpointer)this);
-	g_signal_connect(getWidget("searchRadioButton"), "toggled", G_CALLBACK(onSearchMagnetToggled_gui), (gpointer)this);
-	g_signal_connect(getWidget("showRadioButton"), "toggled", G_CALLBACK(onSearchMagnetToggled_gui), (gpointer)this);
-	g_signal_connect(getWidget("setMagnetChoiceItem"), "activate", G_CALLBACK(onSetMagnetChoiceDialog_gui), (gpointer)this);
-	/**/
-	g_signal_connect(getWidget("CloseTabHubAllMenuItem"), "activate", G_CALLBACK(onCloseAllHub_gui), (gpointer)this);
-	g_signal_connect(getWidget("CloseTabPMAllMenuItem"), "activate", G_CALLBACK(onCloseAllPM_gui), (gpointer)this);
-	g_signal_connect(getWidget("CloseTabPMOfflineItem"), "activate", G_CALLBACK(onCloseAllofPM_gui), (gpointer)this);
-	g_signal_connect(getWidget("recontallitem"), "activate", G_CALLBACK(onReconectAllHub_gui), (gpointer)this);
-	/**/
-	g_signal_connect(getWidget("ShortCutsWin"),"activate", G_CALLBACK(onShortcutsWin), (gpointer)this);
-	
-	g_signal_connect(getWidget("menunotepad"), "activate",G_CALLBACK(onNotepadClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("AboutConfigItem"), "activate", G_CALLBACK(onAboutConfigClicked_gui), (gpointer)this);
-	// Help menu
-	g_object_set_data_full(G_OBJECT(getWidget("homeMenuItem")), "link",
-		g_strdup("http://launchpad.net/bmdc++"), g_free);
-	g_signal_connect(getWidget("homeMenuItem"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
-
-	g_object_set_data_full(G_OBJECT(getWidget("sourceMenuItem")), "link",
-		g_strdup("http://code.launchpad.net/bmdc++"), g_free);
-	g_signal_connect(getWidget("sourceMenuItem"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
-
-	g_object_set_data_full(G_OBJECT(getWidget("issueMenuItem")), "link",
-		g_strdup("http://bugs.launchpad.net/bmdc++"), g_free);
-	g_signal_connect(getWidget("issueMenuItem"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
-
-	g_object_set_data_full(G_OBJECT(getWidget("forumDiscussionItem")), "link",
-		g_strdup("http://answers.launchpad.net/bmdc++"), g_free);
-	g_signal_connect(getWidget("forumDiscussionItem"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
-
-	g_object_set_data_full(G_OBJECT(getWidget("changeLogItem")), "link",
-		g_strdup((string("file:///") + string(_DATADIR) + string("/doc/bmdc/BMDC-Changelog.txt")).c_str()), g_free);
-	g_signal_connect(getWidget("changeLogItem"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
-
-	g_object_set_data_full(G_OBJECT(getWidget("dowloadMenuItem1")), "link",
-		g_strdup("https://sourceforge.net/projects/freedcppmv/files/"), g_free);
-	g_signal_connect(getWidget("dowloadMenuItem1"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
-
-	g_object_set_data_full(G_OBJECT(getWidget("dowloadMenuItem2")), "link",
-		g_strdup("https://launchpad.net/~bmdc-team/+archive/ppa-stable"), g_free);
-	g_signal_connect(getWidget("dowloadMenuItem2"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
-
+//	gtk_notebook_remove_page(GTK_NOTEBOOK(note), -1);
+//	g_object_set_data(G_OBJECT(note), "page-rotation-list", NULL);
+//  Connect the signals to their callback functions.
+//	g_signal_connect(window, "delete-event", G_CALLBACK(onCloseWindow_gui), (gpointer)this);
+//	g_signal_connect(window, "window-state-event", G_CALLBACK(onWindowState_gui), (gpointer)this);
+//	g_signal_connect(window, "size-allocate", G_CALLBACK(onSizeWindowState_gui), (gpointer)this);
+	g_signal_connect(note, "switch-page", G_CALLBACK(onPageSwitched_gui), (gpointer)this);
+	g_signal_connect(favHub, "clicked", G_CALLBACK(onFavoriteHubsClicked_gui), (gpointer)this);
+	g_signal_connect(favuser, "clicked", G_CALLBACK(onFavoriteUsersClicked_gui), (gpointer)this);
+	g_signal_connect(publicHub, "clicked", G_CALLBACK(onPublicHubsClicked_gui), (gpointer)this);
+	g_signal_connect(wHash, "clicked", G_CALLBACK(onHashClicked_gui), (gpointer)this);
+	g_signal_connect(search, "clicked", G_CALLBACK(onSearchClicked_gui), (gpointer)this);
+	g_signal_connect(adl, "clicked", G_CALLBACK(onSearchADLClicked_gui), (gpointer)this);
+	g_signal_connect(sspy, "clicked", G_CALLBACK(onSearchSpyClicked_gui), (gpointer)this);
+	g_signal_connect(dq, "clicked", G_CALLBACK(onDownloadQueueClicked_gui), (gpointer)this);
+	g_signal_connect(nt, "clicked", G_CALLBACK(onNotepadClicked_gui), (gpointer)this);
+	g_signal_connect(sl, "clicked", G_CALLBACK(onSystemLogClicked_gui), (gpointer)this);
+	g_signal_connect(df, "clicked", G_CALLBACK(onFinishedDownloadsClicked_gui), (gpointer)this);
+	g_signal_connect(du, "clicked", G_CALLBACK(onFinishedUploadsClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("openFileListMenuItem"), "activate", G_CALLBACK(onOpenFileListClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("openOwnListMenuItem"), "activate", G_CALLBACK(onOpenOwnListClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("refreshFileListMenuItem"), "activate", G_CALLBACK(onRefreshFileListClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("reconnectMenuItem"), "activate", G_CALLBACK(onReconnectClicked_gui), (gpointer)this);
+	g_signal_connect(sp, "clicked", G_CALLBACK(onPreferencesClicked_gui), (gpointer)this);
+	g_signal_connect(cmd, "clicked", G_CALLBACK(onCmdDebugClicked_gui), (gpointer)this);
+	g_signal_connect(uq, "clicked", G_CALLBACK(onUploadQueueClicked_gui), (gpointer)this);
+	g_signal_connect(recHub, "clicked", G_CALLBACK(onRecentHubClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("tthitem"), "activate", G_CALLBACK(onTTHFileDialog_gui), (gpointer)this);
+//	g_signal_connect(getWidget("buttonfile"), "clicked", G_CALLBACK(onTTHFileButton_gui), (gpointer)this);
+//	#ifdef HAVE_LIBTAR
+//		g_signal_connect(getWidget("exportitem"), "activate", G_CALLBACK(onExportItemClicked_gui), (gpointer)this);
+//	#else
+//		gtk_widget_set_sensitive(getWidget("exportitem"), FALSE);
+//	#endif
+//	g_signal_connect(getWidget("transferCheckButton"), "toggled", G_CALLBACK(onTransferToggled_gui), (gpointer)this);
+//	g_signal_connect(getWidget("browseButton"), "clicked", G_CALLBACK(onBrowseMagnetButton_gui), (gpointer)this);
+//	g_signal_connect(getWidget("setMagnetChoiceItem"), "activate", G_CALLBACK(onSetMagnetChoiceDialog_gui), (gpointer)this);
+	g_signal_connect(ac, "clicked", G_CALLBACK(onAboutConfigClicked_gui), (gpointer)this);
 	onQuit = false;
-
-	// colourstuff 
-	string s_css = WulforManager::get()->getPath() + "/ui/resources.css";
+	// colourstuff
+/*	string s_css = WulforManager::get()->getPath() + "/ui/resources.css";
 	if(Util::fileExists(s_css) == true) {
 		GtkCssProvider *provider =  gtk_css_provider_get_default ();
 		GError *error = NULL;
@@ -395,58 +252,29 @@ MainWindow::MainWindow():
 		if(error != NULL) {
 			g_print("Error while loading custom CSS for BMDC %s",error->message);
 			g_error_free(error);
-		}	
-	}	
+		}
+	}*/
 	// colourstuff end
-
 	// Load window state and position from settings manager
-	gint iposX = WGETI("main-window-pos-x");
-	gint iposY = WGETI("main-window-pos-y");
-	gint isizeX = WGETI("main-window-size-x");
-	gint isizeY = WGETI("main-window-size-y");
-
-	gtk_window_move(window, iposX, iposY);
-
-	gtk_window_set_default_size (GTK_WINDOW (window),
-                               isizeX,
-                               isizeY);
-
-	if (WGETI("main-window-maximized"))
-		gtk_window_maximize(window);
-
+//	gint iposX = WGETI("main-window-pos-x");
+//	gint iposY = WGETI("main-window-pos-y");
+//	gint isizeX = WGETI("main-window-size-x");
+//	gint isizeY = WGETI("main-window-size-y");
 	setMainStatus_gui(_("Welcome to ") + string(g_get_application_name()));
-
-	loadIcons_gui();
-	showTransfersPane_gui();
-
+	//	showTransfersPane_gui();
 	// Putting this after all the resizing and moving makes the window appear
 	// in the correct position instantly, looking slightly more cool
 	// (seems we have rather poor standards for cool?)
-	gtk_widget_show_all(GTK_WIDGET(window));
-	
-	//@fix hideing transfers
-	if(WGETB("hide-transfers"))
-		gtk_widget_hide(transfers->getContainer());
-	//@end
+	gtk_widget_show(GTK_WIDGET(window));
 
-	setToolbarButton_gui();
-	setTabPosition_gui(WGETI("tab-position"));
-	setToolbarStyle_gui(WGETI("toolbar-style"));
-
-#ifdef USE_STATUSICON
-		createStatusIcon_gui();
-#endif
-
-#ifdef HAVE_APPINDCATOR
-	createAppIndicator();
-#endif
-	
-	setInitThrotles();
+//	setInitThrotles();
 	Sound::start();
 	Notify::start();
-#if 0
-	PluginManager::getInstance()->runHook(HOOK_UI_CREATED, getContainer(), NULL);
-#endif	
+}
+
+void MainWindow::onButtonPressed_gui(GtkGestureClick* self, gint n_press, gdouble x, gdouble y, gpointer user_data)
+{
+
 }
 
 MainWindow::~MainWindow()
@@ -457,46 +285,32 @@ MainWindow::~MainWindow()
 
 	listQueue.shutdown();
 
-	GList *list = (GList *)g_object_get_data(G_OBJECT(getWidget("book")), "page-rotation-list");
-	g_list_free(list);
+	//GList *list = (GList *)g_object_get_data(G_OBJECT(getWidget("book")), "page-rotation-list");
+	//g_list_free(list);
 
 	// Save window state and position
-	gint posX, posY, transferPanePosition;
+	gint posX = 0 , posY = 0, transferPanePosition = 0;
 
-	gtk_window_get_position(window, &posX, &posY);
-	transferPanePosition = current_height - gtk_paned_get_position(GTK_PANED(getWidget("pane")));
+//	gtk_window_get_position(window, &posX, &posY);
+	transferPanePosition =  gtk_paned_get_position(GTK_PANED(getWidget("pane")));
 
 	if(!is_maximized || (minimized == false)) {
-		WSET("main-window-pos-x", posX);
-		WSET("main-window-pos-y", posY);
-		WSET("main-window-size-x", current_width);
-		WSET("main-window-size-y", current_height);
+//		WSET("main-window-pos-x", posX);
+//		WSET("main-window-pos-y", posY);
+//		WSET("main-window-size-x", current_width);
+//		WSET("main-window-size-y", current_height);
 	}
-	WSET("main-window-maximized", (int)is_maximized);
-	
-	if (transferPanePosition > 5)
+
+	if (transferPanePosition)
 		WSET("transfer-pane-position", transferPanePosition);
-		
-	#ifdef USE_STATUSICON
-		if (timer > 0)
-		g_source_remove(timer);
-	#endif
 
-	WSET("status-icon-blink-use", bUseStatusIconBlink);
-	gtk_widget_destroy(GTK_WIDGET(window));
-#ifdef USE_STATUSICON
-		g_object_unref(statusIcon);
-#endif	
-
-	g_object_unref(getWidget("statusIconMenu"));
-	g_object_unref(getWidget("toolbarMenu"));
 	Sound::stop();
 	Notify::stop();
 }
 
 GtkWidget *MainWindow::getContainer()
 {
-	return getWidget("mainWindow");
+	return window;
 }
 
 void MainWindow::show()
@@ -524,67 +338,24 @@ void MainWindow::setTitle(const string& text)
 	else
 		sTitle = g_get_application_name();
 
-	gtk_window_set_title(window, sTitle.c_str());
+	gtk_window_set_title(GTK_WINDOW(window), sTitle.c_str());
 }
 
 bool MainWindow::isActive_gui()
 {
-	return gtk_window_is_active(window);
+	return true;
 }
 
 void MainWindow::setUrgent_gui()
 {
-	//flashing?
-	gtk_window_set_urgency_hint(window, true);
+
 }
 /*
  * Create and show Transfers pane
  */
 void MainWindow::showTransfersPane_gui()
 {
-	dcassert(transfers == NULL);
 
-	transfers = new Transfers();
-	gtk_paned_pack2(GTK_PANED(getWidget("pane")), transfers->getContainer(), TRUE, TRUE);
-	addChild(transfers);
-	transfers->show();
-	if(WGETB("hide-transfers"))
-		gtk_widget_hide(transfers->getContainer());
-	
-}
-
-/*
- * Load the custom icons or the icon name as per the setting
- */
-void MainWindow::loadIcons_gui()
-{
-	//WulforUtil::registerIcons();
-	#define g_tool_set gtk_tool_button_set_icon_name
-	#define g_image_set gtk_image_set_from_icon_name
-	
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("favHubs")), "bmdc-favorite-hubs");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("favUsers")), "bmdc-favorite-users");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("publicHubs")), "bmdc-public-hubs");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("settings")), "bmdc-preferences");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("hash")), "bmdc-hash");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("search")), "bmdc-search");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("searchADL")), "bmdc-search-adl");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("searchSpy")), "bmdc-search-spy");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("queue")), "bmdc-queue");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("finishedDownloads")), "bmdc-finished-downloads");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("finishedUploads")), "bmdc-finished-uploads");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("quit")), "bmdc-quit");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("connect")), "bmdc-connect");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("system")), "bmdc-system");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("notepad")), "bmdc-notepad");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("limitingButton")), "bmdc-limiting");
-
-	g_image_set(GTK_IMAGE(getWidget("imageHubs")), "bmdc-public-hubs", GTK_ICON_SIZE_SMALL_TOOLBAR);
-	g_image_set(GTK_IMAGE(getWidget("imageDownloadSpeed")), "bmdc-download", GTK_ICON_SIZE_SMALL_TOOLBAR);
-	g_image_set(GTK_IMAGE(getWidget("imageUploadSpeed")), "bmdc-upload", GTK_ICON_SIZE_SMALL_TOOLBAR);
-	g_image_set(GTK_IMAGE(getWidget("imageDownloadRate")), "bmdc-download", GTK_ICON_SIZE_SMALL_TOOLBAR);
-	g_image_set(GTK_IMAGE(getWidget("imageUploadRate")), "bmdc-upload", GTK_ICON_SIZE_SMALL_TOOLBAR);
 }
 
 void MainWindow::autoOpen_gui()
@@ -592,12 +363,9 @@ void MainWindow::autoOpen_gui()
 	if (WGETB("open-public"))
 		showPublicHubs_gui();
 	if (WGETB("open-queue"))
-	{
 		showBook(Entry::DOWNLOAD_QUEUE,new DownloadQueue());
-		setStatusOfIcons(QUEUE,true);
-	}	
 	if (WGETB("open-favorite-hubs"))
-		showFavoriteHubs_gui();
+		showBook(Entry::FAVORITE_HUBS, new FavoriteHubs());
 	if (WGETB("open-favorite-users"))
 		showFavoriteUsers_gui();
 	if (WGETB("open-finished-downloads"))
@@ -614,57 +382,64 @@ void MainWindow::autoOpen_gui()
 		showUploadQueue_gui();
 }
 
-void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
+void MainWindow::onPopupPopover(GtkWidget*  , gpointer data)
 {
-	MainWindow *mw = (MainWindow *)data;
-	string s_speed = (gchar *)g_object_get_data(G_OBJECT(widget), "speed");
-	string s_type = (gchar *)g_object_get_data(G_OBJECT(widget), "type");
+    MainWindow* mw = (MainWindow*)data;
+    #ifndef grid_add
+    #define grid_add(box,widget,x,y,z,c) gtk_grid_attach(GTK_GRID(box), widget ,x,y,z,c)
+    #endif
+//    GtkWidget *popover = gtk_popover_new(mw->getWidget("limitingButton"));
+    GtkWidget *labelup = gtk_label_new("Upload Limit");
+    GtkWidget *labeldown = gtk_label_new("Download Limit");
+    GtkWidget* scaleUp = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL,0,9999999,1);
+    GtkWidget* scaleDown = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL,0,9999999,1);
+    GtkWidget* grid = gtk_grid_new();
 
-	if(s_speed.empty() || s_type.empty())
-			return;
+    grid_add(grid,labeldown,0,0,1,1);
+    grid_add(grid,scaleDown,1,0,1,1);
+    grid_add(grid,labelup,0,2,1,1);
+    grid_add(grid,scaleUp,1,2,1,1);
 
-	if(s_type == "up")
-	{
-		ThrottleManager::setSetting(SettingsManager::MAX_UPLOAD_SPEED_MAIN, Util::toInt(s_speed)/1024 );
-		mw->setLimitingIcon(true);
-	}
-	else if(s_type == "dw")
-	{
-		ThrottleManager::setSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN, Util::toInt(s_speed)/1024 );
-		mw->setLimitingIcon(true);
-	}
-	
-	SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE, true);
-	mw->setStatRate_gui();
+    int iup = SETTING(MAX_UPLOAD_SPEED_MAIN);
+	int idown = SETTING(MAX_DOWNLOAD_SPEED_MAIN);
+    gtk_range_set_value (GTK_RANGE(scaleDown),idown);
+    gtk_range_set_value (GTK_RANGE(scaleUp),iup);
+
+    g_signal_connect(GTK_RANGE(scaleDown),"value-changed",G_CALLBACK(onLimitingMenuItem_gui),(gpointer)mw);
+    g_object_set_data_full(G_OBJECT(scaleDown),"type",g_strdup("dw"),g_free);
+    g_signal_connect(GTK_RANGE(scaleUp),"value-changed",G_CALLBACK(onLimitingMenuItem_gui),(gpointer)mw);
+    g_object_set_data_full(G_OBJECT(scaleUp),"type",g_strdup("up"),g_free);
 
 }
 
-void MainWindow::setLimitingIcon(bool bLimited)
-{
-	setMainStatus_gui(string(_("Throtle ")) + ( bLimited ? string(_("on")) : string(_("off"))));
-	setStatusOfIcons(LIMITING, bLimited);
-}
-
-void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
+void MainWindow::onLimitingMenuItem_gui(GtkRange *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	string s_type = (gchar *)g_object_get_data(G_OBJECT(widget), "type");
 
 	if(s_type.empty())
-		return;
-	
-	if(s_type == "dw")
+			return;
+
+	if(s_type == "up")
 	{
-		ThrottleManager::setSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN, 0);
+		ThrottleManager::setSetting(SettingsManager::MAX_UPLOAD_SPEED_MAIN, gtk_range_get_value(widget)/1024 );
 	}
-	else if(s_type == "up")
+	else if(s_type == "dw")
 	{
-		ThrottleManager::setSetting(SettingsManager::MAX_UPLOAD_SPEED_MAIN, 0);
+		ThrottleManager::setSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN, gtk_range_get_value(widget)/1024 );
 	}
-	
-	SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE, false);
-	mw->setLimitingIcon(false);
+
+    if(gtk_range_get_value(widget) == 0)
+    {
+        SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE, false);
+    }
+    else
+    {
+        SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE, true);
+    }
+
 	mw->setStatRate_gui();
+
 }
 
 void MainWindow::setInitThrotles()
@@ -674,31 +449,22 @@ void MainWindow::setInitThrotles()
 	bool benabled = SETTING(THROTTLE_ENABLE);
 //@:Enabled
 	if(benabled && (iup > 0) ) {
-		setLimitingIcon(true);
+	//	setLimitingIcon(true);
 		return;
 	}
 	if(benabled && (idown > 0)) {
-		setLimitingIcon(true);
+	//	setLimitingIcon(true);
 		return;
 	}
 //@:disabled
 	if(!benabled && (iup == 0)) {
-		setLimitingIcon(false);
+	//	setLimitingIcon(false);
 		return;
 	}
 	if(!benabled && (idown == 0)) {
-		setLimitingIcon(false);
+	//	setLimitingIcon(false);
 		return;
 	}
-}
-
-void MainWindow::setToolbarMenu_gui(const string &item_key, const string &button_key, const string &key)
-{
-	GtkWidget *item = getWidget(item_key);
-	GtkWidget *button = getWidget(button_key);
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), WGETB(key));
-	g_object_set_data_full(G_OBJECT(item), "key", g_strdup(key.c_str()), g_free);
-	g_signal_connect(G_OBJECT(item), "toggled", G_CALLBACK(onToolToggled_gui), (gpointer)button);
 }
 
 void MainWindow::addBookEntry_gui(BookEntry *entry)
@@ -707,51 +473,45 @@ void MainWindow::addBookEntry_gui(BookEntry *entry)
 
 	GtkWidget *page = entry->getContainer();
 	GtkWidget *label = entry->getLabelBox();
-	GtkWidget *tabMenuItem = entry->getTabMenuItem();
+	GMenu *tabMenuItem = entry->getTabMenuItem();
 	int ipos = entry->getPositionTab();
 
 	addTabMenuItem_gui(tabMenuItem, page);
 
-	gtk_notebook_insert_page(GTK_NOTEBOOK(getWidget("book")), page, label, ipos);
+	gtk_notebook_insert_page(GTK_NOTEBOOK(note), page, label, ipos);
 
-	g_signal_connect(label, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
-	
 	if(WGETB("use-close-button"))
 	{
 		GtkWidget *closeButton = entry->getCloseButton();
-		g_signal_connect(closeButton, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
 		g_signal_connect(closeButton, "clicked", G_CALLBACK(onCloseBookEntry_gui), (gpointer)entry);
 	}
-	gtk_widget_set_sensitive(getWidget("closeMenuItem"), TRUE);
-
-	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(getWidget("book")), page, TRUE);
-
+	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(note), page, TRUE);
 	entry->show();
 }
 
 GtkWidget *MainWindow::currentPage_gui()
 {
-	int iPageNum = gtk_notebook_get_current_page(GTK_NOTEBOOK(getWidget("book")));
+	int iPageNum = gtk_notebook_get_current_page(GTK_NOTEBOOK(note));
 
 	if (iPageNum == -1)
 		return NULL;
 	else
-		return gtk_notebook_get_nth_page(GTK_NOTEBOOK(getWidget("book")), iPageNum);
+		return gtk_notebook_get_nth_page(GTK_NOTEBOOK(note), iPageNum);
 }
 
 void MainWindow::raisePage_gui(GtkWidget *page)
 {
-	int inum = gtk_notebook_page_num(GTK_NOTEBOOK(getWidget("book")), page);
-	int icurrentNum = gtk_notebook_get_current_page(GTK_NOTEBOOK(getWidget("book")));
+	int inum = gtk_notebook_page_num(GTK_NOTEBOOK(note), page);
+	int icurrentNum = gtk_notebook_get_current_page(GTK_NOTEBOOK(note));
 
 	if (inum != -1 && inum != icurrentNum)
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(getWidget("book")), inum);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(note), inum);
 }
 
 void MainWindow::removeBookEntry_gui(BookEntry *entry)
 {
-	if(entry == NULL) return;//entry can not be NULL at any rate
-	
+	if(!entry) return;//entry can not be NULL 
+
 	string entryID = entry->getID();
 	Entry::EntryType type = entry->getType();
 	removeItemFromList(type, entryID);
@@ -764,9 +524,9 @@ void MainWindow::removeBookEntry_gui(BookEntry *entry)
 	if (it != EntryList.end())
 		EntryList.erase(it);
 
-	GtkNotebook *book = GTK_NOTEBOOK(getWidget("book"));
+	GtkNotebook *book = GTK_NOTEBOOK(note);
 	GtkWidget *page = entry->getContainer();
-	GtkWidget* menuItem = entry->getTabMenuItem();
+	GMenu* menuItem = entry->getTabMenuItem();
 	int inum = gtk_notebook_page_num(book, page);
 	removeChild(entry);
 
@@ -788,11 +548,10 @@ void MainWindow::removeBookEntry_gui(BookEntry *entry)
 		}
 		gtk_notebook_remove_page(book, inum);
 
-		removeTabMenuItem_gui(menuItem);
+//		removeTabMenuItem_gui(menuItem);
 
 		if (gtk_notebook_get_n_pages(book) == 0)
 		{
-			gtk_widget_set_sensitive(getWidget("closeMenuItem"), FALSE);
 			setTitle(""); // Reset window title to default
 		}
 	}
@@ -803,7 +562,7 @@ void MainWindow::removeItemFromList(Entry::EntryType type, string sid)
 	vector<Entry*> tmp;
 	switch(type)
 	{
-		case Entry::FAVORITE_HUBS:
+		/*case Entry::FAVORITE_HUBS:
 			setStatusOfIcons(FAVORITE_HUBS,false);
 			break;
 		case Entry::FAVORITE_USERS:
@@ -832,7 +591,7 @@ void MainWindow::removeItemFromList(Entry::EntryType type, string sid)
 			break;
 		case Entry::DOWNLOAD_QUEUE:
 			setStatusOfIcons(QUEUE,false);
-			break;
+			break;*/
 		case Entry::HUB:
 			if(Hubs.empty()) break;
 			 for(auto it = Hubs.begin();it != Hubs.end();++it)
@@ -862,7 +621,7 @@ void MainWindow::removeItemFromList(Entry::EntryType type, string sid)
 
 void MainWindow::previousTab_gui()
 {
-	GtkNotebook *book = GTK_NOTEBOOK(getWidget("book"));
+	GtkNotebook *book = GTK_NOTEBOOK(note);
 
 	if (gtk_notebook_get_current_page(book) == 0)
 		gtk_notebook_set_current_page(book, -1);
@@ -872,7 +631,7 @@ void MainWindow::previousTab_gui()
 
 void MainWindow::nextTab_gui()
 {
-	GtkNotebook *book = GTK_NOTEBOOK(getWidget("book"));
+	GtkNotebook *book = GTK_NOTEBOOK(note);
 
 	if (gtk_notebook_get_n_pages(book) - 1 == gtk_notebook_get_current_page(book))
 		gtk_notebook_set_current_page(book, 0);
@@ -880,82 +639,28 @@ void MainWindow::nextTab_gui()
 		gtk_notebook_next_page(book);
 }
 
-void MainWindow::addTabMenuItem_gui(GtkWidget* menuItem, GtkWidget* page)
+void MainWindow::addTabMenuItem_gui(GMenu* menu, GtkWidget* page)
 {
-	g_signal_connect(menuItem, "activate", G_CALLBACK(onRaisePage_gui), (gpointer)page);
-	gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("tabsMenu")), menuItem);
-	gtk_widget_show_all(getWidget("tabsMenu"));
+ 	GMenuItem * menuItem = g_menu_item_new("Close Tab","app.tab-close");
+ 	g_menu_append_item(menu ,menuItem);
 
-	gtk_widget_set_sensitive(getWidget("previousTabMenuItem"), TRUE);
-	gtk_widget_set_sensitive(getWidget("nextTabMenuItem"), TRUE);
-	gtk_widget_set_sensitive(getWidget("tabMenuSeparator"), TRUE);
 }
 
 void MainWindow::removeTabMenuItem_gui(GtkWidget *menuItem)
 {
-	GtkNotebook *book = GTK_NOTEBOOK(getWidget("book"));
-
-	gtk_container_remove(GTK_CONTAINER(getWidget("tabsMenu")), menuItem);
+	GtkNotebook *book = GTK_NOTEBOOK(note);
 
 	if (gtk_notebook_get_n_pages(book) == 0)
 	{
-		gtk_widget_set_sensitive(getWidget("previousTabMenuItem"), FALSE);
-		gtk_widget_set_sensitive(getWidget("nextTabMenuItem"), FALSE);
-		gtk_widget_set_sensitive(getWidget("tabMenuSeparator"), FALSE);
+//
 	}
 }
-
-/*
- * Create status icon.
- */
-#ifdef USE_STATUSICON
-void MainWindow::createStatusIcon_gui()
-{
-	bUseStatusIconBlink = WGETB("status-icon-blink-use");
-	statusIcon = gtk_status_icon_new_from_icon_name(g_get_prgname());
-
-	g_signal_connect(getWidget("statusIconQuitItem"), "activate", G_CALLBACK(onQuitClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("statusIconShowInterfaceItem"), "toggled", G_CALLBACK(onShowInterfaceToggled_gui), (gpointer)this);
-	g_signal_connect(statusIcon, "activate", G_CALLBACK(onStatusIconActivated_gui), (gpointer)this);
-	g_signal_connect(statusIcon, "popup-menu", G_CALLBACK(onStatusIconPopupMenu_gui), (gpointer)this);
-
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("statusIconBlinkUseItem")), bUseStatusIconBlink);
-	g_signal_connect(getWidget("statusIconBlinkUseItem"), "toggled", G_CALLBACK(onStatusIconBlinkUseToggled_gui), (gpointer)this);
-
-	if (SETTING(ALWAYS_TRAY))
-		gtk_status_icon_set_visible(statusIcon, TRUE);
-	else
-		gtk_status_icon_set_visible(statusIcon, FALSE);
-}
-
-void MainWindow::updateStatusIconTooltip_gui(string download, string upload)
-{
-		ostringstream toolTip;
-		toolTip << g_get_application_name() << endl << _("Download: ") << download << endl << _("Upload: ") << upload;
-		gtk_status_icon_set_tooltip_text(statusIcon, toolTip.str().c_str());
-}
-#endif
-
-#ifdef HAVE_APPINDCATOR
-void MainWindow::createAppIndicator()
-{
-	indicator = app_indicator_new ( "bmdc","bmdc",APP_INDICATOR_CATEGORY_SYSTEM_SERVICES );
-	app_indicator_set_status ( indicator, APP_INDICATOR_STATUS_PASSIVE );
-	g_signal_connect(getWidget("statusIconQuitItem"), "activate", G_CALLBACK(onQuitClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("statusIconShowInterfaceItem"), "toggled", G_CALLBACK(onShowInterfaceToggled_gui), (gpointer)this);
-	gtk_widget_set_sensitive(getWidget("statusIconBlinkUseItem"),FALSE);
-	app_indicator_set_menu ( indicator, GTK_MENU (getWidget("statusIconMenu") ));
-	app_indicator_set_secondary_activate_target ( indicator, GTK_WIDGET (getWidget("statusIconShowInterfaceItem") ));
-}
-#endif
 
 void MainWindow::setMainStatus_gui(string text, time_t t)
 {
 	if (!text.empty())
 	{
 		text = "[" + Util::getShortTimeString(t) + "] " + text;
-		gtk_label_set_text(GTK_LABEL(getWidget("labelStatus")), text.c_str());
-
 		if(statustext.size() > (uint32_t)WGETI("max-tooltips"))
 		{
 			    statustext.pop();
@@ -969,8 +674,7 @@ void MainWindow::setMainStatus_gui(string text, time_t t)
 		}
 		statustext.push(text);
 		statusTextOnToolTip += "\n" + text;
-		gtk_widget_set_tooltip_text(getWidget("labelStatus"), statusTextOnToolTip.c_str());
-
+		gtk_statusbar_push(GTK_STATUSBAR(statusBar), gtk_statusbar_get_context_id(GTK_STATUSBAR(statusBar),"Info") , statusTextOnToolTip.c_str());
 	}
 }
 
@@ -1015,7 +719,7 @@ void MainWindow::showBook(const EntryType type, BookEntry* book)
 {
 	BookEntry *entry = findBookEntry(type);
 
-	if(entry == NULL)
+	if(!entry)
 	{
 		addBookEntry_gui(book);
 		raisePage_gui(book->getContainer());
@@ -1033,15 +737,14 @@ void MainWindow::onAboutConfigClicked_gui(GtkWidget*, gpointer data)
 void MainWindow::showFavoriteHubs_gui()
 {
 	showBook(Entry::FAVORITE_HUBS, new FavoriteHubs());
-	setStatusOfIcons(FAVORITE_HUBS,true);
+
 }
 
 void MainWindow::showFavoriteUsers_gui()
 {
 	showBook(Entry::FAVORITE_USERS, new FavoriteUsers());
-	setStatusOfIcons(FAVORITE_USERS,true);
 }
-//
+
 void MainWindow::showCmdDebug_gui()
 {
 	showBook(Entry::CMD, new cmddebug());
@@ -1050,13 +753,11 @@ void MainWindow::showCmdDebug_gui()
 void MainWindow::showSystemLog_gui()
 {
 	showBook(Entry::SYSTEML, new SystemLog());
-	setStatusOfIcons(SYSTEM, true);
 }
 
 void MainWindow::showNotepad_gui()
 {
 	showBook(Entry::NOTEPAD, new Notepad());
-	setStatusOfIcons(NOTEPAD, true);
 }
 
 void MainWindow::showUploadQueue_gui()
@@ -1077,13 +778,11 @@ void MainWindow::showDetection_gui()
 void MainWindow::showFinishedDownloads_gui()
 {
 	showBook(Entry::FINISHED_DOWNLOADS, FinishedTransfers::createFinishedDownloads());
-	setStatusOfIcons(FDOWNLOADS, true);
 }
 
 void MainWindow::showFinishedUploads_gui()
 {
 	showBook(Entry::FINISHED_UPLOADS, FinishedTransfers::createFinishedUploads());
-	setStatusOfIcons(FUPLOADS, true);
 }
 
 void MainWindow::showHub_gui(string saddress, string encoding)
@@ -1092,7 +791,7 @@ void MainWindow::showHub_gui(string saddress, string encoding)
 
 	if(saddress.empty())
 	{
-		showMessageDialog_gui(_("Empty hub address specified"),_("Empty hub address specified"));
+	//	showMessageDialog_gui(_("Empty hub address specified"),_("Empty hub address specified"));
 		return;
 	}
 
@@ -1113,13 +812,11 @@ void MainWindow::showHub_gui(string saddress, string encoding)
 void MainWindow::showSearchSpy_gui()
 {
 	showBook(Entry::SEARCH_SPY, new SearchSpy());
-	setStatusOfIcons(SEARCH_SPY,true);
 }
 
 void MainWindow::showSearchADL_gui()
 {
 	showBook(Entry::SEARCH_ADL, new SearchADL());
-	setStatusOfIcons(SEARCH_ADL,true);
 }
 
 void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string hubUrl, string message, bool useSetting)
@@ -1157,12 +854,6 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 		if (!isActive_gui())
 		{
 			show = true;
-	#ifdef USE_STATUSICON
-				if (bUseStatusIconBlink && timer == 0)
-				{
-					timer = g_timeout_add(1000, animationStatusIcon_gui, (gpointer)this);
-				}
-	#endif	
 		}
 		else if (currentPage_gui() != entry->getContainer() && !WGETI("notify-only-not-active"))
 		{
@@ -1190,7 +881,7 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 				string::size_type j = message.size();
 
 				Notify::get()->showNotify("", message.substr(0, j - i) + "...", Notify::PRIVATE_MESSAGE);
-				
+
 			}
 			else
 				Notify::get()->showNotify("", message, Notify::PRIVATE_MESSAGE);
@@ -1200,17 +891,6 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 	if (braise)
 		raisePage_gui(entry->getContainer());
 }
-#ifdef USE_STATUSICON
-void MainWindow::removeTimerSource_gui()
-{
-	if (timer > 0)
-	{
-		g_source_remove(timer);
-		timer = 0;
-		gtk_status_icon_set_from_icon_name(statusIcon, g_get_prgname());
-	}
-}
-#endif
 
 void MainWindow::addPrivateStatusMessage_gui(Msg::TypeMsg typemsg, string cid, string message)
 {
@@ -1230,7 +910,6 @@ void MainWindow::addPublicStatusMessage_gui(std::string hub,std::string message,
 void MainWindow::showPublicHubs_gui()
 {
 	showBook(Entry::PUBLIC_HUBS, new PublicHubs());
-	setStatusOfIcons(PUBLIC_HUBS,true);
 }
 
 void MainWindow::showShareBrowser_gui(HintedUser user, string filename, string dir, int64_t speed ,bool useSetting)
@@ -1324,85 +1003,12 @@ void MainWindow::actionMagnet_gui(string magnet)
 	}
 }
 
-void MainWindow::updateFavoriteHubMenu_client(const FavoriteHubEntryList &fh)
-{
-	ListParamPair list;
-	for (FavoriteHubEntryList::const_iterator it = fh.begin(); it != fh.end(); ++it)
-	{
-		ParamPair param;
-		FavoriteHubEntry *entry = *it;
-		param.first = entry->getServer();
-		param.second = entry->getEncoding();
-		list.push_back(param);
-	}
-
-	Func1<MainWindow, ListParamPair> *func = new Func1<MainWindow, ListParamPair>(this, &MainWindow::updateFavoriteHubMenu_gui, list);
-	WulforManager::get()->dispatchGuiFunc(func);
-}
-
-void MainWindow::updateFavoriteHubMenu_gui(ListParamPair list)
-{
-	GtkWidget *menu = gtk_menu_tool_button_get_menu(GTK_MENU_TOOL_BUTTON(getWidget("favHubs")));
-	gtk_container_foreach(GTK_CONTAINER(menu), (GtkCallback)gtk_widget_destroy, NULL);
-
-	for (auto it = list.begin(); it != list.end(); ++it)
-	{
-		const ParamPair &param = *it;
-		string address = param.first;
-		string encoding = param.second;
-		GtkWidget *item = gtk_menu_item_new_with_label(address.c_str());
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-		g_object_set_data_full(G_OBJECT(item), "address", g_strdup(address.c_str()), g_free);
-		g_object_set_data_full(G_OBJECT(item), "encoding", g_strdup(encoding.c_str()), g_free);
-		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(onHubClicked_gui), (gpointer)this);
-	}
-	gtk_widget_show_all(menu);
-}
-
 void MainWindow::onHubClicked_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	string saddress = (gchar *)g_object_get_data(G_OBJECT(widget), "address");
 	string sencoding = (gchar *)g_object_get_data(G_OBJECT(widget), "encoding");
 	mw->showHub_gui(saddress, sencoding);
-}
-
-void MainWindow::setToolbarButton_gui()
-{
-	if (!WGETB("toolbar-button-connect"))
-		gtk_widget_hide(getWidget("connect"));
-	if (!WGETB("toolbar-button-fav-hubs"))
-		gtk_widget_hide(getWidget("favHubs"));
-	if (!WGETB("toolbar-button-fav-users"))
-		gtk_widget_hide(getWidget("favUsers"));
-	if (!WGETB("toolbar-button-public-hubs"))
-		gtk_widget_hide(getWidget("publicHubs"));
-	if (!WGETB("toolbar-button-settings"))
-		gtk_widget_hide(getWidget("settings"));
-	if (!WGETB("toolbar-button-hash"))
-		gtk_widget_hide(getWidget("hash"));
-	if (!WGETB("toolbar-button-search"))
-		gtk_widget_hide(getWidget("search"));
-	if (!WGETB("toolbar-button-search-spy"))
-		gtk_widget_hide(getWidget("searchSpy"));
-	if (!WGETB("toolbar-button-search-adl"))
-		gtk_widget_hide(getWidget("searchADL"));
-	if (!WGETB("toolbar-button-queue"))
-		gtk_widget_hide(getWidget("queue"));
-	if (!WGETB("toolbar-button-quit"))
-		gtk_widget_hide(getWidget("quit"));
-	if (!WGETB("toolbar-button-finished-downloads"))
-		gtk_widget_hide(getWidget("finishedDownloads"));
-	if (!WGETB("toolbar-button-finished-uploads"))
-		gtk_widget_hide(getWidget("finishedUploads"));
-	if (!WGETB("toolbar-button-notepad"))
-		gtk_widget_hide(getWidget("notepad"));
-	if (!WGETB("toolbar-button-system"))
-		gtk_widget_hide(getWidget("system"));
-	if (!WGETB("toolbar-button-away"))
-		gtk_widget_hide(getWidget("AwayIcon"));
-	if (!WGETB("toolbar-button-limiting"))
-		gtk_widget_hide(getWidget("limitingButton"));
 }
 
 void MainWindow::setTabPosition_gui(int position)
@@ -1427,37 +1033,7 @@ void MainWindow::setTabPosition_gui(int position)
 			tabPosition = GTK_POS_TOP;
 	}
 
-	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(getWidget("book")), tabPosition);
-}
-
-void MainWindow::setToolbarStyle_gui(int istyle)
-{
-	GtkToolbarStyle toolbarStyle;
-
-	switch (istyle)
-	{
-		case 1:
-			toolbarStyle = GTK_TOOLBAR_TEXT;
-			break;
-		case 2:
-			toolbarStyle = GTK_TOOLBAR_BOTH;
-			break;
-		case 3:
-			toolbarStyle = GTK_TOOLBAR_BOTH_HORIZ;
-			break;
-		case 4:
-			gtk_widget_hide(getWidget("toolbar1"));
-			return;
-		case 0:
-		default:
-			toolbarStyle = GTK_TOOLBAR_ICONS;
-	}
-
-	if (istyle != 4)
-	{
-		gtk_widget_show(getWidget("toolbar1"));
-		gtk_toolbar_set_style(GTK_TOOLBAR(getWidget("toolbar1")), toolbarStyle);
-	}
+	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(note), tabPosition);
 }
 
 bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucParams)
@@ -1466,15 +1042,15 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 	GtkDialog *dialog =  GTK_DIALOG(gtk_dialog_new_with_buttons (_("User Commands Dialog"),
 								GTK_WINDOW(mw->getContainer()),
 								GTK_DIALOG_DESTROY_WITH_PARENT,
-								BMDC_STOCK_OK,
+								"_OK",
 								GTK_RESPONSE_OK,
-								BMDC_STOCK_CANCEL,
+								"_Cancel",
 								GTK_RESPONSE_CANCEL,
 								NULL));
-								
+
 	GtkWidget *content_area = gtk_dialog_get_content_area (dialog);
 	GtkWidget *table = gtk_grid_new();
-	gtk_container_add(GTK_CONTAINER(content_area), table);
+//	gtk_container_add(GTK_CONTAINER(content_area), table);
 
 	string::size_type i = 0;
 	StringList names;
@@ -1532,27 +1108,23 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 				wid->widget = comboBox;
 				wid->label = label;
 				WidgList.push_back(wid);
-				gtk_grid_attach(GTK_GRID(table), label, iuacolums++, iuRow,1,1);
-				gtk_grid_attach(GTK_GRID(table), comboBox, iuacolums, ++iuRow,1,1);
-				gtk_widget_show(label);
-				gtk_widget_show(comboBox);
-
+	//			gtk_grid_attach(GTK_GRID(table), label, iuacolums++, iuRow,1,1);
+	//			gtk_grid_attach(GTK_GRID(table), comboBox, iuacolums, ++iuRow,1,1);
+	
 		  } else {
 				iuacolums = 0;
 				GtkWidget *label = gtk_label_new(caption.c_str());
 				GtkWidget *entry = gtk_entry_new();
-				gtk_entry_set_text(GTK_ENTRY(entry),(ucParams["line:"+ name]).c_str());
+	//			gtk_entry_set_text(GTK_ENTRY(entry),(ucParams["line:"+ name]).c_str());
 				Widgets *wid = new Widgets();
 				wid->widget = entry;
 				wid->label = label;
 				WidgList.push_back(wid);
-				gtk_grid_attach(GTK_GRID(table),label,iuacolums++,iuRow,1,1);
-				gtk_grid_attach(GTK_GRID(table),entry,iuacolums,++iuRow,1,1);
+	//			gtk_grid_attach(GTK_GRID(table),label,iuacolums++,iuRow,1,1);
+	//			gtk_grid_attach(GTK_GRID(table),entry,iuacolums,++iuRow,1,1);
 
-				gtk_widget_show(label);
-				gtk_widget_show(entry);
 			}
-			gtk_widget_show_all(table);
+
 			names.push_back(name);
 		}
 		i = j + 1;
@@ -1560,12 +1132,8 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 
 	if(names.empty())
 		return true;
-	gint response = gtk_dialog_run(dialog);
-
-   // Fix crash, if the dialog gets programmatically destroyed.
-	if (response == GTK_RESPONSE_NONE)
-		return false;
-	if (response == GTK_RESPONSE_OK)
+//	gint response = gtk_dialog_run(dialog);
+//	if (response == GTK_RESPONSE_OK)
 	{
 		for(size_t i = 0, iend = WidgList.size(); i < iend; ++i)
 		{
@@ -1576,7 +1144,7 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 
 		   if(wid->widget == NULL)
 				continue;
-			
+
 			if(GTK_IS_COMBO_BOX_TEXT(wid->widget))
 			{
 				const gchar *value = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(wid->widget));
@@ -1584,17 +1152,15 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 			}
 			else if( GTK_IS_ENTRY(wid->widget))
 			{
-				const gchar *value = gtk_entry_get_text(GTK_ENTRY(wid->widget));
+				const gchar *value = gtk_editable_get_text(GTK_EDITABLE(wid->widget));
 				ucParams["line:"+names[i]] = string(value);
 			}
 			else { return true;}
 
 			WidgList.pop_back();
 		}
-		gtk_widget_destroy(GTK_WIDGET(dialog));
 		return true;
 	}
-	gtk_widget_destroy(GTK_WIDGET(dialog));
 	return false;
 }
 
@@ -1612,21 +1178,20 @@ void MainWindow::showMagnetDialog_gui(const string &magnet, const string &name, 
 {
 	gtk_window_set_title(GTK_WINDOW(getWidget("MagnetDialog")), _("Magnet Properties / Choice"));
 	// entry
-	gtk_entry_set_text(GTK_ENTRY(getWidget("magnetEntry")), magnet.c_str());
-	gtk_entry_set_text(GTK_ENTRY(getWidget("magnetNameEntry")), name.c_str());
-	gtk_entry_set_text(GTK_ENTRY(getWidget("magnetSizeEntry")), Util::formatBytes(size).c_str());
-	gtk_entry_set_text(GTK_ENTRY(getWidget("exactSizeEntry")), Util::formatExactSize(size).c_str());
-	gtk_entry_set_text(GTK_ENTRY(getWidget("tthEntry")), tth.c_str());
+	gtk_editable_set_text(GTK_EDITABLE(getWidget("magnetEntry")), magnet.c_str());
+	gtk_editable_set_text(GTK_EDITABLE(getWidget("magnetNameEntry")), name.c_str());
+	gtk_editable_set_text(GTK_EDITABLE(getWidget("magnetSizeEntry")), Util::formatBytes(size).c_str());
+	gtk_editable_set_text (GTK_EDITABLE(getWidget("exactSizeEntry")), Util::formatExactSize(size).c_str());
+	gtk_editable_set_text (GTK_EDITABLE(getWidget("tthEntry")), tth.c_str());
 	// chooser dialog
 	GtkWidget *chooser = getWidget("flistDialog");
 	gtk_window_set_title(GTK_WINDOW(chooser), _("Choose a directory"));
 	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(chooser), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
-	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), WGETS("magnet-choose-dir").c_str());
+//	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), WGETS("magnet-choose-dir").c_str());
 	// choose
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("choiceCheckButton")), FALSE);
 	setChooseMagnetDialog_gui();
 
-	gtk_widget_show_all(getWidget("MagnetDialog"));
 }
 
 void MainWindow::setChooseMagnetDialog_gui()
@@ -1654,13 +1219,7 @@ void MainWindow::onBrowseMagnetButton_gui(GtkWidget*, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 
 	GtkWidget *dialog = mw->getWidget("flistDialog");
-	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-
-	// if the dialog gets programmatically destroyed.
-	if (response == GTK_RESPONSE_NONE)
-		return;
-
-	gtk_widget_hide(dialog);
+	//@TODO: show dialog
 }
 
 void MainWindow::onDowloadQueueToggled_gui(GtkWidget*, gpointer data)
@@ -1689,7 +1248,6 @@ void MainWindow::onSetMagnetChoiceDialog_gui(GtkWidget*, gpointer data)
 	GtkWidget *chooser = mw->getWidget("flistDialog");
 	gtk_window_set_title(GTK_WINDOW(chooser), _("Choose a directory"));
 	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(chooser), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
-	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), WGETS("magnet-choose-dir").c_str());
 
 	mw->setChooseMagnetDialog_gui();
 
@@ -1709,17 +1267,18 @@ void MainWindow::onResponseMagnetDialog_gui(GtkWidget *dialog, gint response, gp
 		{
 			if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(mw->getWidget("dowloadQueueRadioButton"))))
 			{
-				g_autofree gchar *temp = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(mw->getWidget("flistDialog")));
+				GFile* file = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(mw->getWidget("flistDialog")));
+				gchar *temp = g_file_get_path(file);
 				if (temp)
 				{
 					path = string(temp) + G_DIR_SEPARATOR_S;
-					//g_free(temp);
 				}
 				if (!File::isAbsolute(path))
 					path = SETTING(DOWNLOAD_DIRECTORY);
 
 				WSET("magnet-choose-dir", path);
 				WSET("magnet-action", 1);
+				g_free(temp);
 			}
 			else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(mw->getWidget("searchRadioButton"))))
 				WSET("magnet-action", 0);
@@ -1734,18 +1293,19 @@ void MainWindow::onResponseMagnetDialog_gui(GtkWidget *dialog, gint response, gp
 		// magnet properties plus choice frame
 		string name, tth;
 		int64_t size;
-		string magnet = gtk_entry_get_text(GTK_ENTRY(mw->getWidget("magnetEntry")));
+		string magnet = gtk_editable_get_text(GTK_EDITABLE(mw->getWidget("magnetEntry")));
 
 		WulforUtil::splitMagnet(magnet, name, size, tth);
 		gboolean set = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(mw->getWidget("choiceCheckButton")));
 
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(mw->getWidget("dowloadQueueRadioButton"))))
 		{
-			g_autofree gchar *temp = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(mw->getWidget("flistDialog")));
+			GFile* file = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(mw->getWidget("flistDialog")));
+			gchar *temp = g_file_get_path(file);
 			if (temp)
 			{
 				path = string(temp) + G_DIR_SEPARATOR_S;
-				//g_free(temp);
+				g_free(temp);
 			}
 
 			if (!File::isAbsolute(path))
@@ -1784,12 +1344,12 @@ void MainWindow::addFileDownloadQueue_client(string name, int64_t size, string t
 	{
 		if (!tth.empty())
 		{
-			QueueManager::getInstance()->add(name, size, TTHValue(tth) , HintedUser(make_shared<User>(User(CID())),string()));
+			QueueManager::getInstance()->add(name, size, TTHValue(tth) , HintedUser(make_shared<User>(User(CID())), dcpp::Util::emptyString));
 
 			// automatically search for alternative download locations
 			if (SETTING(AUTO_SEARCH))
 				SearchManager::getInstance()->search(tth, 0, SearchManager::TYPE_TTH, SearchManager::SIZE_DONTCARE,
-					string());
+					dcpp::Util::emptyString);
 		}
 	}
 	catch (const Exception& e)
@@ -1805,30 +1365,25 @@ void MainWindow::showMessageDialog_gui(const string primaryText, const string se
 {
 	if (primaryText.empty())
 		return;
+	if (secondaryText.empty())
+		return;
 
-	GtkWidget* dialog = gtk_message_dialog_new(window, GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_MESSAGE_WARNING, GTK_BUTTONS_OK, "%s", primaryText.c_str());
-
-	if (!secondaryText.empty())
-		gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(dialog), "%s", secondaryText.c_str());
-
-	gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
-	g_signal_connect(dialog, "response", G_CALLBACK(gtk_widget_destroy), dialog);
-	gtk_widget_show(dialog);
+	GtkAlertDialog* dialog = gtk_alert_dialog_new ("%s - %s", primaryText.c_str() , secondaryText.c_str() );
+	gtk_alert_dialog_show(dialog ,GTK_WINDOW(window));
 }
 
-void MainWindow::onSizeWindowState_gui(GtkWidget* widget,GtkAllocation*,gpointer data)
+void MainWindow::onSizeWindowState_gui(GtkWidget* /*widget*/,GtkAllocation*,gpointer data)
 {
 	MainWindow* mw = ( MainWindow*)data;
 	if(!mw->is_maximized)
 	{
-		gtk_window_get_size (GTK_WINDOW (widget),
-                         &mw->current_width,
-                         &mw->current_height);
-	}	
-		
-}
+	//	gtk_window_get_size (GTK_WINDOW (widget),
+    //                     &mw->current_width,
+     //                    &mw->current_height);
+	}
 
+}
+/*
 gboolean MainWindow::onWindowState_gui(GtkWidget*, GdkEventWindowState *event, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
@@ -1842,11 +1397,11 @@ gboolean MainWindow::onWindowState_gui(GtkWidget*, GdkEventWindowState *event, g
 	else if (!mw->minimized || (event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED )!= 0)
 	{
 		mw->minimized = false;
-		
+
 		if (SETTING(SettingsManager::AUTO_AWAY) && !Util::getManualAway())
 			Util::setAway(false);
 	}
-	
+
 	mw->is_maximized =
     (event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED) != 0;
 	return GDK_EVENT_PROPAGATE;
@@ -1893,156 +1448,19 @@ gboolean MainWindow::onCloseWindow_gui(GtkWidget*, GdkEvent*, gpointer data)
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		WulforManager::get()->deleteMainWindow();
 		return FALSE;
 	}
 
 	return TRUE;
 }
-
+*/
 gboolean MainWindow::onDeleteEventMagnetDialog_gui(GtkWidget *dialog, GdkEvent*, gpointer )
 {
-	gtk_widget_hide(dialog);
+	gtk_widget_set_visible (dialog , FALSE);
 	return TRUE;
 }
 
-void MainWindow::onTopToolbarToggled_gui(GtkWidget*, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-
-	GtkWidget *parent = mw->getWidget("hbox4");
-	GtkWidget *child = mw->getWidget("toolbar1");
-	
-	if (gtk_widget_get_parent(child) != GTK_WIDGET(parent))
-		return;
-		
-	g_object_ref(child);
-	gtk_container_remove(GTK_CONTAINER(parent), child);
-	parent = mw->getWidget("vbox1");
-	gtk_orientable_set_orientation(GTK_ORIENTABLE(child), GTK_ORIENTATION_HORIZONTAL);
-	gtk_box_pack_start(GTK_BOX(parent), child, FALSE, FALSE, 2);
-	gtk_box_reorder_child(GTK_BOX(parent), child, 1);
-	g_object_unref(child);
-	WSET("toolbar-position", 1);
-}
-
-void MainWindow::onLeftToolbarToggled_gui(GtkWidget*, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-
-	GtkWidget *parent = mw->getWidget("vbox1");
-	GtkWidget *child = mw->getWidget("toolbar1");
-	
-	if ( gtk_widget_get_parent(child) != GTK_WIDGET(parent))
-		return;
-		
-	g_object_ref(child);
-	gtk_container_remove(GTK_CONTAINER(parent), child);
-	parent = mw->getWidget("hbox4");
-	gtk_orientable_set_orientation(GTK_ORIENTABLE(child), GTK_ORIENTATION_VERTICAL);
-	gtk_box_pack_start(GTK_BOX(parent), child, FALSE, FALSE, 2);
-	gtk_box_reorder_child(GTK_BOX(parent), child, 0);
-	g_object_unref(child);
-	WSET("toolbar-position", 0);
-}
-
-void MainWindow::onHideToolbarToggled_gui(GtkWidget*, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-
-	gboolean bactive = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(mw->getWidget("hideToolbarItem")));
-	if (bactive)
-	{
-		gtk_widget_hide(mw->getWidget("toolbar1"));
-		mw->ToolbarStyle = WGETI("toolbar-style");
-		WSET("toolbar-style", 4);
-	}
-	else
-	{
-		gtk_widget_show(mw->getWidget("toolbar1"));
-		WSET("toolbar-style", mw->ToolbarStyle);
-	}
-}
-
-void MainWindow::onSizeToolbarToggled_gui(GtkWidget*, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-
-	gboolean bactive = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(mw->getWidget("sizeToolbarItem")));
-	GtkWidget *toolbar = mw->getWidget("toolbar1");
-	GtkIconSize size;
-	if (bactive)
-	{
-		WSET("toolbar-small", TRUE);
-		size = GTK_ICON_SIZE_SMALL_TOOLBAR;
-	}
-	else
-	{
-		WSET("toolbar-small", FALSE);
-		size = GTK_ICON_SIZE_LARGE_TOOLBAR;
-	}
-	g_object_set(G_OBJECT(toolbar), "icon-size", size, NULL);
-}
-
-gboolean MainWindow::onAddButtonClicked_gui(GtkWidget* wid, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-	#if GTK_CHECK_VERSION(3,22,0)
-	gtk_menu_popup_at_widget(GTK_MENU(mw->getWidget("toolbarMenu")),wid,GDK_GRAVITY_SOUTH_WEST,GDK_GRAVITY_NORTH_WEST,NULL);
-	#else
-	gtk_menu_popup(GTK_MENU(mw->getWidget("toolbarMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-	#endif
-	return FALSE;
-}
-
-void MainWindow::onToolToggled_gui(GtkWidget *widget, gpointer data)
-{
-	string skey = (gchar *)g_object_get_data(G_OBJECT(widget), "key");
-	GtkWidget *button = (GtkWidget*)data;
-	bool bactive = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
-	bactive ? gtk_widget_show(button) : gtk_widget_hide(button);
-	WSET(skey, bactive);
-}
-
-void MainWindow::checkToolbarMenu_gui()
-{
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("connectMenuItemBar")), WGETB("toolbar-button-connect"));
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("favHubsMenuItemBar")), WGETB("toolbar-button-fav-hubs"));
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("favUsersMenuItemBar")), WGETB("toolbar-button-fav-users"));
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("publicHubsMenuItemBar")), WGETB("toolbar-button-public-hubs"));
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("settingsMenuItemBar")), WGETB("toolbar-button-settings"));
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("hashMenuItemBar")), WGETB("toolbar-button-hash"));
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("searchMenuItemBar")), WGETB("toolbar-button-search"));
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("searchSpyMenuItemBar")), WGETB("toolbar-button-search-spy"));
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("searchADLMenuItemBar")), WGETB("toolbar-button-search-adl"));
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("queueMenuItemBar")), WGETB("toolbar-button-queue"));
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("finishedDownloadsMenuItemBar")), WGETB("toolbar-button-finished-downloads"));
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("finishedUploadsMenuItemBar")), WGETB("toolbar-button-finished-uploads"));
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("quitMenuItemBar")), WGETB("toolbar-button-quit"));
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("hideToolbarItem")), ((ToolbarStyle = WGETI("toolbar-style")) == 4) ? TRUE : FALSE);
-}
-
-gboolean MainWindow::onKeyPressed_gui(GtkWidget*, GdkEventKey *event, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-
-	if (event->state & GDK_CONTROL_MASK)
-	{
-		if (event->state & GDK_SHIFT_MASK && event->keyval == GDK_KEY_Tab)
-		{
-			mw->previousTab_gui();
-			return TRUE;
-		}
-		else if (event->keyval == GDK_KEY_Tab)
-		{
-			mw->nextTab_gui();
-			return TRUE;
-		}
-	}
-
-	return FALSE;
-}
-
+/*
 gboolean MainWindow::onButtonReleasePage_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	gint iwidth, iheight;
@@ -2061,29 +1479,7 @@ gboolean MainWindow::onButtonReleasePage_gui(GtkWidget*, GdkEventButton *event, 
 
 	return FALSE;
 }
-#ifdef USE_STATUSICON
-gboolean MainWindow::animationStatusIcon_gui(gpointer data)
-	{
-		MainWindow *mw = (MainWindow *) data;
-
-		if (mw->isActive_gui())
-		{
-			gtk_status_icon_set_from_icon_name(mw->statusIcon, g_get_prgname());
-			mw->timer = 0;
-
-			return FALSE;
-		}
-
-		gtk_status_icon_set_from_icon_name(mw->statusIcon, (mw->statusFrame *= -1) > 0 ? "bmdc" : "bmdc-normal");
-
-		return TRUE;
-}
-#endif
-void MainWindow::onRaisePage_gui(GtkMenuItem*, gpointer data)
-{
-	WulforManager::get()->getMainWindow()->raisePage_gui((GtkWidget *)data);
-}
-
+*/
 void MainWindow::onPageSwitched_gui(GtkNotebook *notebook, GtkWidget*, guint num, gpointer data)
 {
 	MainWindow* mw = (MainWindow *)data;
@@ -2092,67 +1488,78 @@ void MainWindow::onPageSwitched_gui(GtkNotebook *notebook, GtkWidget*, guint num
 
 	if (entry)
 	{
-		// Disable "activate" signal on the tab menu item since it can cause
-		// onPageSwitched_gui to be called multiple times
-		GtkWidget *item = entry->getTabMenuItem();
-		g_signal_handlers_block_by_func(item, (gpointer)onRaisePage_gui, child);
-
+		//GtkWidget *item = entry->getTabMenuItem();
 		entry->setActive_gui();
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(entry->getTabMenuItem()), TRUE);
+//		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(entry->getTabMenuItem()), TRUE);
 		mw->setTitle(entry->getLabelText()); // Update window title with selected tab label
-
-		g_signal_handlers_unblock_by_func(item, (gpointer)onRaisePage_gui, (gpointer)child);
 	}
-
 	GList *list = (GList *)g_object_get_data(G_OBJECT(notebook), "page-rotation-list");
 	list = g_list_remove(list, (gpointer)child);
 	list = g_list_prepend(list, (gpointer)child);
 	g_object_set_data(G_OBJECT(notebook), "page-rotation-list", (gpointer)list);
-
-	// Focus the tab so it will focus its children (e.g. a text entry box)
-	gtk_widget_grab_focus(child);
 }
 
-void MainWindow::onPaneRealized_gui(GtkWidget *pane, gpointer data)
+void MainWindow::onPaneRealized_gui(GtkWidget *, gpointer )
 {
-	MainWindow *mw = (MainWindow *)data;
+//	MainWindow *mw = (MainWindow *)data;
 	gint iposition = WGETI("transfer-pane-position");
 
 	if (iposition > 10)
 	{
 		// @todo: fix get window height when maximized
-		gint iheight;
-		gtk_window_get_size(mw->window, NULL, &iheight);
-		gtk_paned_set_position(GTK_PANED(pane), iheight - iposition);
+//		gint iheight;
+//		gtk_window_get_size(mw->window, NULL, &iheight);
+//		gtk_paned_set_position(GTK_PANED(pane), iheight - iposition);
 	}
 }
+
+typedef struct
+{
+	MainWindow* mw;
+	GtkWidget* entry;
+} ResponseData;
 
 void MainWindow::onConnectClicked_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
+	g_debug("clicked");
+	GtkWidget *dialog, *label, *content_area, *entry;
+ 	GtkDialogFlags flags;
 
-	gtk_editable_select_region(GTK_EDITABLE(mw->getWidget("connectEntry")), 0, -1);
-	gtk_widget_grab_focus(mw->getWidget("connectEntry"));
+ 	// Create the widgets
+ 	flags = GTK_DIALOG_DESTROY_WITH_PARENT;
+ 	dialog = gtk_dialog_new_with_buttons ("Connect to ",
+                                       GTK_WINDOW(mw->window),
+                                       flags,
+                                       _("_OK"),
+                                       GTK_RESPONSE_NONE,
+                                       NULL);
+ 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+ 	label = gtk_label_new ("Address ?");
+ 	entry = gtk_entry_new();
+ 	
+	ResponseData* dat = g_new(ResponseData ,1);
+	dat->mw = mw;
+	dat->entry = entry;
+	g_signal_connect_data(dialog ,"response" , G_CALLBACK(responseDialogOnClicked_gui), dat , NULL , (GConnectFlags)0);
+	// Add the label, and show everything we’ve added
+	gtk_box_append (GTK_BOX (content_area), label);
+	gtk_box_append (GTK_BOX (content_area), entry);
+	gtk_widget_show (dialog);
 
-	gint response = gtk_dialog_run(GTK_DIALOG(mw->getWidget("connectDialog")));
-
-	// Fix crash, if the dialog gets programmatically destroyed.
-	if (response == GTK_RESPONSE_NONE)
-		return;
-
-	gtk_widget_hide(mw->getWidget("connectDialog"));
-
-	if (response == GTK_RESPONSE_OK)
-	{
-		string saddress = gtk_entry_get_text(GTK_ENTRY(mw->getWidget("connectEntry")));
-		mw->showHub_gui(saddress);
-	}
+}
+void MainWindow::responseDialogOnClicked_gui(GtkWidget* dialog ,int , gpointer data)
+{
+	ResponseData* res = (ResponseData*)data;
+	string saddress = gtk_editable_get_text( GTK_EDITABLE(res->entry));
+	res->mw->showHub_gui(saddress);
+	gtk_window_destroy(GTK_WINDOW(dialog));
 }
 
 void MainWindow::onFavoriteHubsClicked_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	mw->showFavoriteHubs_gui();
+	mw->showBook(Entry::FAVORITE_HUBS, new FavoriteHubs());
 }
 
 void MainWindow::onFavoriteUsersClicked_gui(GtkWidget*, gpointer data)
@@ -2207,6 +1614,15 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 
+	GtkWidget* response = WulforManager::get()->openSettingsDialog_gui();
+
+	g_signal_connect(response , "response" ,G_CALLBACK(onResponse) ,mw);
+	gtk_widget_show(response);
+
+}
+void MainWindow::onResponse(GtkWidget* wid , int response ,gpointer data)
+{	
+	MainWindow* mw = (MainWindow*)data;
 	uint16_t ui16prevTCP = SETTING(TCP_PORT);
 	uint16_t ui16prevUDP = SETTING(UDP_PORT);
 	uint16_t ui16prevTLS = SETTING(TLS_PORT);
@@ -2217,11 +1633,6 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget*, gpointer data)
 	string sprevBind6 = SETTING(BIND_ADDRESS6);
 	auto prevProxy = CONNSETTING(OUTGOING_CONNECTIONS);
 
-	if (mw->bUseStatusIconBlink != WGETB("status-icon-blink-use"))
-		WSET("status-icon-blink-use", mw->bUseStatusIconBlink);
-	
-	gint response = WulforManager::get()->openSettingsDialog_gui();
-
 	if (response == GTK_RESPONSE_OK)
 	{
 		//NOTE: BMDC
@@ -2230,27 +1641,13 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget*, gpointer data)
 				SETTING(TCP_PORT) != ui16prevTCP || SETTING(UDP_PORT) != ui16prevUDP || SETTING(TLS_PORT) != ui16prevTLS ||
 				SETTING(MAPPER) != sprevMapper || SETTING(BIND_ADDRESS) != sprevBind || SETTING(BIND_ADDRESS6) != sprevBind6);
 		} catch (const Exception& e) {
-			mw->showMessageDialog_gui(e.getError(),e.getError());
+			//mw->showMessageDialog_gui(e.getError(),e.getError());
 		}
 
 		auto outConns = CONNSETTING(OUTGOING_CONNECTIONS);
 		if(outConns != prevProxy || outConns == SettingsManager::OUTGOING_SOCKS5) {
 			Socket::socksUpdated();
 		}
-		//END
-#ifdef USE_STATUSICON
-		if (SETTING(ALWAYS_TRAY))
-			gtk_status_icon_set_visible(mw->statusIcon, TRUE);
-		else
-			gtk_status_icon_set_visible(mw->statusIcon, FALSE);
-#endif
-
-		mw->setTabPosition_gui(WGETI("tab-position"));
-		mw->setToolbarStyle_gui(WGETI("toolbar-style"));
-
-		// Reload the icons only if the setting has changed
-		mw->loadIcons_gui();
-
 		// All hubs and PMs
 		for (StringIterC it = mw->EntryList.begin(); it != mw->EntryList.end(); ++it)
 		{
@@ -2272,55 +1669,50 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget*, gpointer data)
 
 		if (entry != NULL)
 			dynamic_cast<SearchSpy *>(entry)->preferences_gui();
-		}	
+		}
 		{
 		// System Log
-		BookEntry *entry = mw->findBookEntry(Entry::SYSTEML);	
-		
+		BookEntry *entry = mw->findBookEntry(Entry::SYSTEML);
+
 		if (entry != NULL)
 			dynamic_cast<SystemLog *>(entry)->preferences_gui();
 		}
-		
+
 		{
 		// CMD Log
-		BookEntry *entry = mw->findBookEntry(Entry::CMD);	
-		
+		BookEntry *entry = mw->findBookEntry(Entry::CMD);
+
 		if (entry != NULL)
 			dynamic_cast<cmddebug *>(entry)->preferences_gui();
 		}
 
-		// Status menu
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(mw->getWidget("statusIconBlinkUseItem")), WGETB("status-icon-blink-use"));
-
-		// Toolbar
-		mw->checkToolbarMenu_gui();
-
 		// Rate
-		mw->setStatRate_gui();
+		//mw->setStatRate_gui();
 	}
+	gtk_widget_hide(wid);
 }
 
 void MainWindow::onAwayClicked_gui(GtkWidget*, gpointer data)
 {
-	MainWindow *mw = (MainWindow *)data;
-	typedef Func1<MainWindow, bool> F1;
+//	MainWindow *mw = (MainWindow *)data;
+//	typedef Func1<MainWindow, bool> F1;
 
 	if(Util::getAway())
 	{
 		Util::switchAway();
 		Util::setManualAway(false);
-		mw->setMainStatus_gui(_("Away mode off"));
+//		mw->setMainStatus_gui(_("Away mode off"));
 
-		F1 *func = new F1(mw,&MainWindow::setAwayIcon, false);
-		WulforManager::get()->dispatchGuiFunc(func);
+//		F1 *func = new F1(mw,&MainWindow::setAwayIcon, false);
+//		WulforManager::get()->dispatchGuiFunc(func);
 
 	}else
-	{
+//	{
 		Util::switchAway();
 		Util::setManualAway(true);
-		mw->setMainStatus_gui(_("Away mode on"));
-		F1 *func = new F1(mw,&MainWindow::setAwayIcon, true);
-		WulforManager::get()->dispatchGuiFunc(func);
+//		mw->setMainStatus_gui(_("Away mode on"));
+		//F1 *func = new F1(mw,&MainWindow::setAwayIcon, true);
+		//WulforManager::get()->dispatchGuiFunc(func);
 	}
 }
 
@@ -2330,12 +1722,12 @@ void MainWindow::onTransferToggled_gui(GtkWidget*, gpointer data)
 	GtkWidget *transfer = mw->transfers->getContainer();
 
 	if (gtk_widget_get_visible(transfer)) {
-		gtk_widget_hide(transfer);
+		gtk_widget_set_visible (transfer, TRUE);
 		WSET("hide-transfers",TRUE);
 	} else {
-		gtk_widget_show_all(transfer);
 		WSET("hide-transfers",FALSE);
-	}	
+		gtk_widget_set_visible (transfer, FALSE);
+	}
 }
 
 void MainWindow::onHashClicked_gui(GtkWidget*, gpointer )
@@ -2350,7 +1742,7 @@ void MainWindow::onExportItemClicked_gui(GtkWidget*, gpointer data)
 	ExportDialog *h = new ExportDialog(GTK_WINDOW(mw->getContainer()));
 	h->run();
 	if(h)
-		delete h;//need?
+		delete h;
 }
 #endif
 
@@ -2364,21 +1756,18 @@ void MainWindow::onSearchSpyClicked_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	mw->showBook(Entry::SEARCH_SPY,new SearchSpy());
-	mw->setStatusOfIcons(SEARCH_SPY,true);
 }
 
 void MainWindow::onSearchADLClicked_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	mw->showBook(Entry::SEARCH_ADL,new SearchADL());
-	mw->setStatusOfIcons(SEARCH_ADL,true);
 }
 
 void MainWindow::onDownloadQueueClicked_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	mw->showBook(Entry::DOWNLOAD_QUEUE,new DownloadQueue());
-	mw->setStatusOfIcons(QUEUE,true);
 }
 
 void MainWindow::onFinishedDownloadsClicked_gui(GtkWidget*, gpointer data)
@@ -2406,30 +1795,25 @@ void MainWindow::onQuitClicked_gui(GtkWidget*, gpointer data)
 	g_signal_emit_by_name(mw->window, "delete-event", NULL, &bretVal);
 }
 
-void MainWindow::onOpenFileListClicked_gui(GtkWidget*, gpointer data)
+void MainWindow::onOpenFileListClicked_gui(GtkWidget*, gpointer )
 {
-	MainWindow *mw = (MainWindow *)data;
+/*	MainWindow *mw = (MainWindow *)data;
 
 	GtkWidget *chooser = mw->getWidget("flistDialog");
 	gtk_window_set_title(GTK_WINDOW(chooser), _("Select filelist to browse"));
 	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(chooser), GTK_FILE_CHOOSER_ACTION_OPEN);
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), Util::getListPath().c_str());
 
-	gint response = gtk_dialog_run(GTK_DIALOG(chooser));
-
-	// if the dialog gets programmatically destroyed.
-	if (response == GTK_RESPONSE_NONE)
-		return;
-
-	gtk_widget_hide(chooser);
+	gint response = gtk_widget_show(GTK_DIALOG(chooser));
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		g_autofree gchar *cptemp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
+		gchar *cptemp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
 
 		if (cptemp)
 		{
 			string spath(cptemp);
+			g_free(cptemp);
 
 			UserPtr user = DirectoryListing::getUserFromFilename(spath);
 			if (user)
@@ -2437,7 +1821,7 @@ void MainWindow::onOpenFileListClicked_gui(GtkWidget*, gpointer data)
 			else
 				mw->setMainStatus_gui(_("Unable to load file list: Invalid file list name"));
 		}
-	}
+	}*/
 }
 
 void MainWindow::onOpenOwnListClicked_gui(GtkWidget*, gpointer data)
@@ -2474,18 +1858,12 @@ void MainWindow::onReconnectClicked_gui(GtkWidget*, gpointer data)
 	}
 }
 
-void MainWindow::onCloseClicked_gui(GtkWidget*, gpointer data)
+void MainWindow::onCloseClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	GtkWidget *entryWidget = mw->currentPage_gui();
-
-	if (entryWidget)
-	{
-		BookEntry *entry = (BookEntry *)g_object_get_data(G_OBJECT(entryWidget), "entry");
-
-		if (entry)
-			mw->removeBookEntry_gui(entry);
-	}
+	int iNumber = gtk_notebook_get_current_page(GTK_NOTEBOOK(mw->note));
+	if(iNumber != -1 )
+		gtk_notebook_remove_page(GTK_NOTEBOOK(mw->note),iNumber);
 }
 
 void MainWindow::onPreviousTabClicked_gui(GtkWidget*, gpointer data)
@@ -2500,25 +1878,14 @@ void MainWindow::onNextTabClicked_gui(GtkWidget*, gpointer data)
 	mw->nextTab_gui();
 }
 
-void MainWindow::onAboutClicked_gui(GtkWidget*, gpointer data)
+void MainWindow::onAboutClicked_gui(GtkWidget*, gpointer)
 {
-	MainWindow *mw = (MainWindow *)data;
-	gint response = gtk_dialog_run(GTK_DIALOG(mw->getWidget("aboutDialog")));
-
-	// Fix crash, if the dialog gets programmatically destroyed.
-	if (response == GTK_RESPONSE_NONE)
-		return;
-
-	gtk_widget_hide(mw->getWidget("aboutDialog"));
+	
 }
 
-void MainWindow::onAboutDialogActivateLink_gui(GtkAboutDialog*, const gchar *link, gpointer data)
+void MainWindow::onAboutDialogActivateLink_gui(GtkAboutDialog*, const gchar *link, gpointer)
 {
-	MainWindow *mw =(MainWindow *)data;
-	string error = string();
-	WulforUtil::openURI(link,error);
-	if(!error.empty())
-	    mw->setMainStatus_gui(error);
+	WulforUtil::openURI(link);
 }
 
 void MainWindow::onCloseBookEntry_gui(GtkWidget*, gpointer data)
@@ -2527,73 +1894,6 @@ void MainWindow::onCloseBookEntry_gui(GtkWidget*, gpointer data)
 	WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }
 
-#ifdef USE_STATUSICON
-void MainWindow::onStatusIconActivated_gui(GtkStatusIcon*, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-	GtkCheckMenuItem *item = GTK_CHECK_MENU_ITEM(mw->getWidget("statusIconShowInterfaceItem"));
-
-	// Toggle the "Show Interface" check menu item. This will in turn invoke its callback.
-	gboolean active = gtk_check_menu_item_get_active(item);
-	gtk_check_menu_item_set_active(item, !active);
-}
-
-void MainWindow::onStatusIconPopupMenu_gui(GtkStatusIcon *statusIcon, guint button, guint time, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-	GtkMenu *menu = GTK_MENU(mw->getWidget("statusIconMenu"));
-	#if GTK_CHECK_VERSION(3,22,0)
-	gtk_menu_popup_at_pointer(menu,NULL);
-	#else
-	gtk_menu_popup(menu, NULL, NULL, gtk_status_icon_position_menu, statusIcon, button, time);
-	#endif
-}
-#endif
-
-void MainWindow::onShowInterfaceToggled_gui(GtkCheckMenuItem*, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-	GtkWindow *win = mw->window;
-	static int x, y;
-	static bool isMaximized, isIconified;
-
-	if (gtk_widget_get_visible(GTK_WIDGET(win)))
-	{
-		GdkWindowState state;
-		gtk_window_get_position(win, &x, &y);
-		state = gdk_window_get_state(gtk_widget_get_window(GTK_WIDGET(win)));
-		isMaximized = (state & GDK_WINDOW_STATE_MAXIMIZED);
-		isIconified = (state & GDK_WINDOW_STATE_ICONIFIED);
-		gtk_widget_hide(GTK_WIDGET(win));
-		
-		#ifdef HAVE_APPINDCATOR
-			app_indicator_set_status(mw->indicator,APP_INDICATOR_STATUS_PASSIVE);
-		#endif	
-	}
-	else
-	{
-		gtk_window_move(win, x, y);
-		if (isMaximized) gtk_window_maximize(win);
-		if (isIconified) gtk_window_iconify(win);
-		gtk_widget_show(GTK_WIDGET(win));
-		
-		#ifdef HAVE_APPINDCATOR
-			app_indicator_set_status(mw->indicator,APP_INDICATOR_STATUS_ACTIVE);
-		#endif
-	}
-}
-#ifdef USE_STATUSICON
-void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget*, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-	mw->removeTimerSource_gui();
-
-	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(mw->getWidget("statusIconBlinkUseItem"))))
-		mw->bUseStatusIconBlink = true;
-	else
-		mw->bUseStatusIconBlink = false;
-}
-#endif
 void MainWindow::onLinkClicked_gui(GtkWidget *widget, gpointer )
 {
 	string slink = (gchar *)g_object_get_data(G_OBJECT(widget), "link");
@@ -2674,7 +1974,7 @@ void MainWindow::refreshFileList_client()
 	}
 	catch (const ShareException&)
 	{
-		
+
 	}
 }
 
@@ -2684,7 +1984,7 @@ void MainWindow::openOwnList_client(bool useSetting)
 	string path = ShareManager::getInstance()->getOwnListFile();
 
 	typedef Func5<MainWindow, HintedUser, string, string, int64_t,bool> F5;
-	F5 *func = new F5(this, &MainWindow::showShareBrowser_gui,HintedUser(user,string()), path, "",0, useSetting);
+	F5 *func = new F5(this, &MainWindow::showShareBrowser_gui,HintedUser(user,dcpp::Util::emptyString), path, "", 0, useSetting);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
@@ -2729,7 +2029,7 @@ void MainWindow::on(LogManagerListener::Message, time_t t, const string &message
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void MainWindow::on(QueueManagerListener::Finished, QueueItem *item, const string& dir, int64_t avSpeed) throw()
+void MainWindow::on(QueueManagerListener::Finished, QueueItem *item, const string& dir, int64_t avSpeed) noexcept
 {
 	if(item->isSet(QueueItem::FLAG_TESTSUR)) return;
 
@@ -2763,7 +2063,7 @@ void MainWindow::on(QueueManagerListener::Finished, QueueItem *item, const strin
 		}
 		listQueue.s.signal();
 		}catch(...){ }
-		
+
 	}else if (!item->isSet(QueueItem::FLAG_XML_BZLIST))
 	{
 		F3 *f3 = new F3(this, &MainWindow::showNotification_gui, _("<b>file:</b> "), item->getTarget(), Notify::DOWNLOAD_FINISHED);
@@ -2773,10 +2073,6 @@ void MainWindow::on(QueueManagerListener::Finished, QueueItem *item, const strin
 
 void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 {
-	// Avoid calculating status update if it's not needed
-	if (!SETTING(ALWAYS_TRAY) && minimized)
-		return;
-
 	int64_t diff = (int64_t)((lastUpdate == 0) ? ticks - 1000 : ticks - lastUpdate);
 	int64_t downBytes = 0;
 	int64_t upBytes = 0;
@@ -2803,125 +2099,73 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 	lastUp = Socket::getTotalUp();
 	lastDown = Socket::getTotalDown();
 
-	typedef Func5<MainWindow, string, string, string, string, string> F5;
-	F5 *func = new F5(this, &MainWindow::setStats_gui, hubs, downloadSpeed, downloaded, uploadSpeed, uploaded);
-	WulforManager::get()->dispatchGuiFunc(func);
+	//typedef Func5<MainWindow, string, string, string, string, string> F5;
+	//F5 *func = new F5(this, &MainWindow::setStats_gui, hubs, downloadSpeed, downloaded, uploadSpeed, uploaded);
+	//WulforManager::get()->dispatchGuiFunc(func);
 
-#ifdef USE_STATUSICON
-	if (SETTING(ALWAYS_TRAY) && !downloadSpeed.empty() && !uploadSpeed.empty())
-	{
-		typedef Func2<MainWindow, string, string> F2;
-		F2 *f2 = new F2(this, &MainWindow::updateStatusIconTooltip_gui, downloadSpeed, uploadSpeed);
-		WulforManager::get()->dispatchGuiFunc(f2);
-	}
-#endif
 	string file;
 	uint64_t bytes = 0;
 	size_t files = 0;
 
 	HashManager::getInstance()->getStats(file, bytes, files);
 
-	typedef Func4<MainWindow, string, uint64_t, size_t, uint32_t> FX;
-	FX *funcx = new FX(this, &MainWindow::updateStats_gui, file, bytes, files, GET_TICK());
-	WulforManager::get()->dispatchGuiFunc(funcx);
+	//typedef Func4<MainWindow, string, uint64_t, size_t, uint32_t> FX;
+	//FX *funcx = new FX(this, &MainWindow::updateStats_gui, file, bytes, files, GET_TICK());
+	//WulforManager::get()->dispatchGuiFunc(funcx);
 }
 
 void MainWindow::on(dcpp::TimerManagerListener::Minute, uint64_t ) noexcept
 {
-#ifdef HAVE_XSSLIB	
-	typedef Func0<MainWindow> F0;
-	F0 *func = new F0(this,&MainWindow::onIdle);
-	WulforManager::get()->dispatchGuiFunc(func);
-#endif	
+
 }
 
-#ifdef HAVE_XSSLIB	
-void MainWindow::onIdle()
-{	
-	bool _idleDetectionPossible;
-	XScreenSaverInfo *_mit_info;
-
-	int event_base, error_base;
-	Display* display = gdk_x11_display_get_xdisplay(gdk_display_get_default());
-	if(XScreenSaverQueryExtension(display, &event_base, &error_base))
-			_idleDetectionPossible = true;
-	else
-			_idleDetectionPossible = false;
-	
-	_mit_info = XScreenSaverAllocInfo();
-			
-	XScreenSaverQueryInfo(display, DefaultRootWindow(display), _mit_info);
-			
-if(_idleDetectionPossible) {
-	//g_print("Detection Part 2");
-		long idlesecs = (_mit_info->idle/1000); // in sec
-		//NOTE: (1000 ms = 1s)
-		if (idlesecs > SETTING(AWAY_IDLE)) {
-				if(!dcpp::Util::getAway()) {//dont set away twice
-
-					dcpp::Util::setAway(true);
-					dcpp::Util::setManualAway(true);
-					setStatusOfIcons(AWAY,true);
-					setMainStatus_gui(_("Away mode on"));
-			}
-		}
-	}
-}
-#endif
-void MainWindow::onTTHFileDialog_gui(GtkWidget*, gpointer data)
+void MainWindow::onTTHFileDialog_gui(GtkWidget*, gpointer /*data*/)
 {
-	MainWindow *mw =(MainWindow *)data;
-	GtkWidget *dialog = mw->getWidget("TTHFileDialog");
-	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-	if(response == GTK_RESPONSE_NONE)
-	{ ; }
-	gtk_widget_hide(dialog);
+//	MainWindow *mw =(MainWindow *)data;
+//	GtkWidget *dialog = mw->getWidget("TTHFileDialog");
+//	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 }
 
-void MainWindow::onTTHFileButton_gui(GtkWidget* , gpointer data)
+void MainWindow::onTTHFileButton_gui(GtkWidget* , gpointer /*data*/)
 {
-	MainWindow *mw = (MainWindow *)data;
-	GtkWidget *chooser = mw->getChooserDialog_gui();
-	gtk_window_set_title(GTK_WINDOW(chooser), _("Select file to Get TTH"));
-	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(chooser), GTK_FILE_CHOOSER_ACTION_OPEN);
-	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), "/home/");
+//	MainWindow *mw = (MainWindow *)data;
+//	GtkWidget *chooser = mw->getChooserDialog_gui();
+//	gtk_window_set_title(GTK_WINDOW(chooser), _("Select file to Get TTH"));
+//	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(chooser), GTK_FILE_CHOOSER_ACTION_OPEN);
+//	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), "/home/");
 
-	gint response = gtk_dialog_run(GTK_DIALOG(chooser));
+//	gint response = gtk_widget_show(GTK_DIALOG(chooser));
 
-	// if the dialog gets programmatically destroyed.
-	if (response == GTK_RESPONSE_NONE)
-		return;
-
-	gtk_widget_hide(chooser);
-
-	if (response == GTK_RESPONSE_OK)
+//	if (response == GTK_RESPONSE_OK)
 	{
-		g_autofree gchar *cptemp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
-		gtk_widget_set_sensitive(mw->getWidget("buttonok"),FALSE);
-		TTHHash hasht;
-		if(hasht.stop)
-		{
-			hasht.stop = false;
-			Lock l(hasht.cs);
-			hasht.mw = mw;
-			hasht.filename = cptemp;
-			hasht.start();
-			hasht.s.signal();
-		}
+//		gchar *cptemp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
+//		gtk_widget_set_sensitive(mw->getWidget("buttonok"),FALSE);
+//		TTHHash hasht;
+//		if(hasht.stop)
+//		{
+//			hasht.stop = false;
+//			Lock l(hasht.cs);
+//			hasht.mw = mw;
+//			hasht.filename = cptemp;
+//			hasht.start();
+//			hasht.s.signal();
+//		}
 	}
 }
 
 void MainWindow::back(string tth, string filename, int64_t size)
 {
 	string magnetlink = "magnet:?xt=urn:tree:tiger:" + tth + "&xl=" + Util::toString(size) + "&dn=" + Util::encodeURI(Text::fromT(Util::getFileName(filename)));
-	gtk_entry_set_text(GTK_ENTRY(getWidget("entrymagnet")), magnetlink.c_str());
-	gtk_entry_set_text(GTK_ENTRY(getWidget("entrytthfileresult")), tth.c_str());
+	gtk_editable_set_text(GTK_EDITABLE(getWidget("entrymagnet")), magnetlink.c_str());
+	gtk_editable_set_text(GTK_EDITABLE(getWidget("entrytthfileresult")), tth.c_str());
 }
 
 void MainWindow::progress(bool progress)
 {
 	if(progress)
+	{
 		gtk_progress_bar_pulse (GTK_PROGRESS_BAR (getWidget("progressbar")));
+	}
 	else
 	{
 		gtk_widget_set_sensitive(getWidget("buttonok"),TRUE);
@@ -2960,7 +2204,6 @@ int MainWindow::TTHHash::run()
 				tth.finalize();
 				f.close();
 				strcpy(&sTTH[0], tth.getRoot().toBase32().c_str());
-				//TTH = tth.getRoot().toBase32();
 
 				typedef Func3<MainWindow, std::string, std::string, int64_t> F3;
 				F3 *func = new F3(mw,&MainWindow::back,sTTH,filename,sized);
@@ -2985,7 +2228,7 @@ void MainWindow::onCloseAllHub_gui(GtkWidget*, gpointer data)
 	while(!mw->Hubs.empty())
 	{
 		Hub *hub = dynamic_cast<Hub*>(mw->Hubs.back());
-		if(hub == NULL) continue;//should never hapen but :-D
+		if(!hub) continue;//should never hapen but ...
 		typedef Func1<MainWindow,BookEntry*> F1;
 		F1 *func = new F1(mw,&MainWindow::removeBookEntry_gui,hub);
 		WulforManager::get()->dispatchGuiFunc(func);
@@ -3002,7 +2245,7 @@ void MainWindow::onCloseAllPM_gui(GtkWidget*, gpointer data)
 	for(auto i= mw->privateMessage.begin(); i != mw->privateMessage.end();++i)
 	{
 		PrivateMessage *pm = dynamic_cast<PrivateMessage*>(*i);
-		if(pm == NULL) continue;
+		if(!pm) continue;
 		typedef Func1<MainWindow,BookEntry*> F1;
 		F1 *func = new F1(mw,&MainWindow::removeBookEntry_gui,pm);
 		WulforManager::get()->dispatchGuiFunc(func);
@@ -3018,7 +2261,7 @@ void MainWindow::onReconectAllHub_gui(GtkWidget*, gpointer data)
 	for(auto i= mw->Hubs.begin(); i != mw->Hubs.end();++i)
 	{
 		Hub *hub = dynamic_cast<Hub*>(*i);
-		if(hub != NULL)
+		if(hub)
 			hub->reconnect_client();
 	}
 }
@@ -3032,7 +2275,7 @@ void MainWindow::onCloseAllofPM_gui(GtkWidget*, gpointer data)
 	{
 		PrivateMessage *pm = dynamic_cast<PrivateMessage*>(*i);
 
-		if( !(pm == NULL) && pm->getIsOffline())
+		if( pm && pm->getIsOffline())
 		{
 			typedef Func1<MainWindow,BookEntry*> F1;
 			F1 *func = new F1(mw,&MainWindow::removeBookEntry_gui,pm);
@@ -3041,39 +2284,6 @@ void MainWindow::onCloseAllofPM_gui(GtkWidget*, gpointer data)
 		}else {noff.push_back(*i);}
 	}
 	mw->privateMessage = noff;
-}
-/* partial */
-void MainWindow::parsePartial(HintedUser aUser, string txt)
-{
-	const string scid = aUser.user->getCID().toBase32();
-	bool braise = !SETTING(POPUNDER_FILELIST);
-	BookEntry *entry = findBookEntry(Entry::SHARE_BROWSER, scid);
-	string spath = QueueManager::getInstance()->getListPath(aUser) + ".xml.bz2";
-
-	if(entry != NULL)
-	{
-	  dynamic_cast<ShareBrowser*>(entry)->loadXML(txt);
-	}
-	else
-	{
-		if ( (entry == NULL) && !spath.empty())
-		{
-			entry = new ShareBrowser(aUser, spath, "/", 0, false);
-			addBookEntry_gui(entry);
-			dynamic_cast<ShareBrowser*>(entry)->loadXML(txt);
-		}
-	}
-	if ((entry != NULL) && braise)
-		raisePage_gui(entry->getContainer());
-}
-
-void MainWindow::on(QueueManagerListener::PartialList, const HintedUser& aUser, const string& text) noexcept 
-{
-	
-	typedef Func2<MainWindow, HintedUser, string> F2;
-	F2 *func = new F2(this,&MainWindow::parsePartial,aUser,text);
-	WulforManager::get()->dispatchGuiFunc(func);
-	
 }
 
 void MainWindow::updateStats_gui(string file, uint64_t bytes, size_t files, uint32_t tick)
@@ -3085,7 +2295,7 @@ void MainWindow::updateStats_gui(string file, uint64_t bytes, size_t files, uint
 		startFiles = files;
 
 	double diff = tick - startTime;
-	bool bpaused = HashManager::getInstance()->isHashingPaused(); 
+	bool bpaused = HashManager::getInstance()->isHashingPaused();
 
 	if (diff < 1000 || files == 0 || bytes == 0 || bpaused)
 	{

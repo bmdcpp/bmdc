@@ -1,5 +1,6 @@
 /*
- * Copyright © 2004-2017 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2021 Jens Oknelid, paskharen@gmail.com
+ * 2021-2025 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,10 +33,9 @@ Entry::Entry(const EntryType type, const string &ui, const string &id):
 	type(type),
 	id(dcpp::Util::toString(type) + ":" + id)
 {
-	if(!ui.empty()) 
+	if(!ui.empty()) // Load the Builder XML resource, if applicable
 	{
-	// Load the Builder XML resource, if applicable
-	xml = gtk_builder_new_from_resource( (string("/org/bmdc-team/bmdc/ui/") + ui + ".ui").c_str());
+		xml = gtk_builder_new_from_resource( (string("/org/bmdc-team/bmdc/ui/") + ui + ".ui").c_str());
 	}
 }
 
@@ -68,10 +68,10 @@ string Entry::generateID()
 	return dcpp::Util::toString((long)this);
 }
 
-GtkWidget *Entry::getWidget(const string &name)
+GtkWidget* Entry::getWidget(const string& name)
 {
-	dcassert(xml && !name.empty());
-	return GTK_WIDGET(gtk_builder_get_object(xml,name.c_str()));
+	GtkWidget* wid = GTK_WIDGET(gtk_builder_get_object(xml,name.c_str()));
+	return wid;
 }
 
 void Entry::addChild(Entry *entry)
@@ -112,3 +112,4 @@ void Entry::removeChildren()
 	while (!children.empty())
 		removeChild(children.begin()->second);
 }
+

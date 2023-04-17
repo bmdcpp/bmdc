@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2017 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2018 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ class EmoticonsDialog
 
 		// GUI functions
 		void showEmotDialog_gui();
-		void buildEmotMenu_gui();
+		//void buildEmotMenu_gui();
 		std::string getCurrent(const std::string& address) { return getEmot(address)->getCurrPackName_gui();}
 		Emoticons *getEmot(const std::string &address = "");
 	private:
@@ -58,15 +58,15 @@ class EmoticonsDialog
 		void build();
 		void position();
 
-		void addPacksMenu(GtkWidget *item);
-		void addIconSizeMenu(GtkWidget *item);
-		void setCurrIconSize(const std::string &size);
+//		void addPacksMenu(GtkWidget *item);
+//		void addIconSizeMenu(GtkWidget *item);
+//		void setCurrIconSize(const std::string &size);
 
 		//GUI callback functions
-		static void onChat(GtkWidget *widget /*button*/, gpointer data /*this*/);
-		static void onCheckPacksMenu(GtkMenuItem *checkItem, gpointer data);
-		static void onCheckIconSizeMenu(GtkMenuItem *checkItem, gpointer data);
-		static gboolean event(GtkWidget *widget /*dialog*/, GdkEvent *event, gpointer data /*this*/);
+//		static void onChat(GtkWidget *widget /*button*/, gpointer data /*this*/);
+//		static void onCheckPacksMenu(GtkMenuItem *checkItem, gpointer data);
+//		static void onCheckIconSizeMenu(GtkMenuItem *checkItem, gpointer data);
+//		static gboolean event(GtkWidget *widget /*dialog*/, GdkEvent *event, gpointer data /*this*/);
 
 };
 

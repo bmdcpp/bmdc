@@ -19,40 +19,33 @@
 #ifndef DCPLUSPLUS_DCPP_FORMAT_H_
 #define DCPLUSPLUS_DCPP_FORMAT_H_
 #include <string>
-//
+
 #ifdef _WIN32
 #include <libintl.h>
 #endif
-#ifndef _WIN32
 #include <glib/gi18n.h>
-#endif
 
-//#ifdef BUILDING_DCPP
 #ifndef PACKAGE
 #define PACKAGE "libdcpp"
 #endif
+
 #define LOCALEDIR dcpp::Util::getPath(Util::PATH_LOCALE).c_str()
 #define F_(String) _(string(String).c_str())
 //#endif
-
+/*
 #ifdef _WIN32
 #define _(String) gettext(String)
 #define N_(String) gettext(String)
 #endif
-
-
+*/
 
 namespace dcpp {
-// alway use this
-// partly taken from Verlihub	
-// maybe move to util or something?
-//	#ifdef USE_CUSTOM_AUTOSPRINTF
+
 #include <stdio.h>
 #include <stdarg.h>
 std::string my_autosprintf_va(const char *format, va_list ap);
 std::string my_autosprintf(const char *format, ...);
 #define autosprintf my_autosprintf
-//#endif
 
 }
 

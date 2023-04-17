@@ -1,12 +1,10 @@
-//Implementation of ShellCommand.hh
-//Author: Irene//Modified by Mank
-// * Copyright © 2012-2017 BMDC++
+// * Copyright © 2012-2025 BMDC++
 #include <cstring>
 #include "../dcpp/stdinc.h"
 #include "../dcpp/Util.h"
 #include "ShellCommand.hh"
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 
 using namespace std;
 

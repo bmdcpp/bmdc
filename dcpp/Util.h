@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2018 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,10 +20,10 @@
 #define DCPLUSPLUS_DCPP_UTIL_H
 
 #include "compiler.h"
-//--
 //-- For locale
 #include <glib.h>
-
+#include <libintl.h>
+#include <iconv.h>
 #ifndef _WIN32
 #include <glib/gi18n.h>
 #endif
@@ -38,32 +38,24 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <sys/utsname.h>
-
-#if 0
-#include <sys/sysinfo.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #endif
 
-#endif
 #include <fcntl.h>
 #include <map>
 #include <cstring>
 #include <algorithm> 
 
 #ifdef _WIN32
-
-#define PATH_SEPARATOR '\\'
-#define PATH_SEPARATOR_STR "\\"
-
+	#define PATH_SEPARATOR '\\'
+	#define PATH_SEPARATOR_STR "\\"
 #else
-
-#define PATH_SEPARATOR '/'
-#define PATH_SEPARATOR_STR "/"
-
-#include <sys/stat.h>
-#include <unistd.h>
-#include <cstdlib>
-
+	#define PATH_SEPARATOR '/'
+	#define PATH_SEPARATOR_STR "/"
 #endif
+//#define PATH_SEPARATOR G_DIR_SEPARATOR
+//#define PATH_SEPARATOR_STR G_DIR_SEPARATOR_S
 
 #include "Text.h"
 #include "GetSet.h"
@@ -71,12 +63,13 @@
 
 namespace dcpp {
 
-using std::find_if;
-using std::map;
+	using std::find_if;
+	using std::map;
 
 template<typename T, bool flag> struct ReferenceSelector {
 	typedef T ResultType;
 };
+
 template<typename T> struct ReferenceSelector<T,true> {
 	typedef const T& ResultType;
 };

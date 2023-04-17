@@ -74,7 +74,6 @@ AdcCommand Download::getCommand(bool zlib, const string& mySID) {
 	AdcCommand cmd(AdcCommand::CMD_GET);
 	
     Transfer::Type rtype = getType();
-    //dcassert(rtype <= TYPE_FILE && rtype > TYPE_LAST);
 	cmd.addParam(Transfer::names[(int)rtype]);
 
 	if(getType() == TYPE_PARTIAL_LIST) {

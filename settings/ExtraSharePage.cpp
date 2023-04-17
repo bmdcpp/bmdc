@@ -1,7 +1,7 @@
 /**/
-#include <dcpp/SettingsManager.h>
-#include <dcpp/ShareManager.h>
-#include <linux/wulformanager.hh>
+#include "../dcpp/SettingsManager.h"
+#include "../dcpp/ShareManager.h"
+#include "../linux/wulformanager.hh"
 #include "definitons.hh"
 #include "seUtil.hh"
 #include "ExtraSharePage.hh"
@@ -44,9 +44,9 @@ void OSharingPage::show(GtkWidget *parent, GtkWidget* old)
 	gtk_grid_attach(GTK_GRID(grid),gtk_label_new("RegExp filename Skiplist: "),0,5,1,1);
 	gtk_grid_attach(GTK_GRID(grid),entry_skiplist_reg,1,5,1,1);
 
-	gtk_entry_set_text(GTK_ENTRY(entry_skiplist_ext),SETTING(SHARING_SKIPLIST_EXTENSIONS).c_str());
-	gtk_entry_set_text(GTK_ENTRY(entry_skiplist_path),SETTING(SHARING_SKIPLIST_PATHS).c_str());
-	gtk_entry_set_text(GTK_ENTRY(entry_skiplist_reg),SETTING(SHARING_SKIPLIST_REGEX).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_skiplist_ext),SETTING(SHARING_SKIPLIST_EXTENSIONS).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_skiplist_path),SETTING(SHARING_SKIPLIST_PATHS).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_skiplist_reg),SETTING(SHARING_SKIPLIST_REGEX).c_str());
 
 	spin_size_low = gtk_spin_button_new_with_range (0, 9999, 1);
 	spin_size_high = gtk_spin_button_new_with_range (0, 9999, 1);
@@ -85,14 +85,14 @@ void OSharingPage::write()
 {
 	SettingsManager *sm = SettingsManager::getInstance();
 
-	const gchar* s_paths =	gtk_entry_get_text(GTK_ENTRY(entry_skiplist_path));
+	const gchar* s_paths =	gtk_editable_get_text(GTK_EDITABLE(entry_skiplist_path));
 	if(s_paths)
 		sm->set(SettingsManager::SHARING_SKIPLIST_PATHS, s_paths);
 
-	const gchar* s_ext = gtk_entry_get_text(GTK_ENTRY(entry_skiplist_ext));
+	const gchar* s_ext = gtk_editable_get_text(GTK_EDITABLE(entry_skiplist_ext));
 	if(s_ext)
 		sm->set(SettingsManager::SHARING_SKIPLIST_EXTENSIONS, s_ext);
-	const gchar* s_reg = gtk_entry_get_text(GTK_ENTRY(entry_skiplist_reg));	
+	const gchar* s_reg = gtk_editable_get_text(GTK_EDITABLE(entry_skiplist_reg));	
 	if(s_reg)
 		sm->set(SettingsManager::SHARING_SKIPLIST_REGEX ,s_reg);
 

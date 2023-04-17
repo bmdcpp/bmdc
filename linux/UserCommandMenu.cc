@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2017 BMDC
+ * Copyright © 2010-2025 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,16 +25,23 @@
 #include "../dcpp/UserCommand.h"
 #include "../dcpp/ClientManager.h"
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 
 using namespace std;
 using namespace dcpp;
 
-UserCommandMenu::UserCommandMenu(GtkWidget *userCommandMenu, int ctx):
-	Entry(Entry::USER_COMMAND_MENU, "", generateID()),
+static const GActionEntry UserCommandMenu::uc[]
+{{"send",onUserCommandClick_gui,NULL,NULL,NULL}};
+
+UserCommandMenu::UserCommandMenu(GMenu *userCommandMenu,GtkWidget* parent , int ctx):
 	userCommandMenu(userCommandMenu),
 	ctx(ctx)
 {
+	//@TODO: non-deprecated things
+	GSimpleActionGroup* simple = g_simple_action_group_new ();
+	g_simple_action_group_add_entries(simple, uc, G_N_ELEMENTS (uc), (gpointer)this);
+	gtk_widget_insert_action_group(parent,"uc" ,G_ACTION_GROUP(simple));
+	
 }
 
 void UserCommandMenu::addHub(const string hub)
@@ -79,18 +86,17 @@ void UserCommandMenu::addFile(const string cid, const string name,
 
 void UserCommandMenu::cleanMenu_gui()
 {
-	gtk_container_foreach(GTK_CONTAINER(userCommandMenu), (GtkCallback)gtk_widget_destroy, NULL);
 	hubs.clear();
 	ucParams.clear();
-	ips.clear();//should?
+	ips.clear();
 }
 
 void UserCommandMenu::buildMenu_gui()
 {
 	UserCommand::List userCommandList = FavoriteManager::getInstance()->getUserCommands(ctx, hubs);
 
-	GtkWidget *menuItem;
-	GtkWidget *menu = userCommandMenu;
+	GMenuItem *menuItem;
+	GMenu *menu = userCommandMenu;
 	bool separator = false; // tracks whether last menu item was a separator
 
 	for (UserCommand::List::iterator i = userCommandList.begin(); i != userCommandList.end(); ++i)
@@ -98,77 +104,73 @@ void UserCommandMenu::buildMenu_gui()
 		UserCommand& uc = *i;
 
 		// Add line separator only if it's not a duplicate
-		if (uc.getType() == UserCommand::TYPE_SEPARATOR && !separator)
+		/*if (uc.getType() == UserCommand::TYPE_SEPARATOR && !separator)
 		{
 			menuItem = gtk_separator_menu_item_new();
 			gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuItem);
 			separator = true;
 		}
-		else if (uc.getType() == UserCommand::TYPE_RAW || uc.getType() == UserCommand::TYPE_RAW_ONCE)
+		else*/ if (uc.getType() == UserCommand::TYPE_RAW || uc.getType() == UserCommand::TYPE_RAW_ONCE)
 		{
 			string command = uc.getName();
 			separator = false;
 			menu = userCommandMenu;
 
-			createSubMenu_gui(menu, command);
-
 			// Append the user command to the sub menu
-			menuItem = gtk_menu_item_new_with_label(command.c_str());
-			g_signal_connect(menuItem, "activate", GCallback(onUserCommandClick_gui), (gpointer)this);
+			menuItem = g_menu_item_new(command.c_str() , "uc.send");
+			createSubMenu_gui(menuItem, command);
 			g_object_set_data_full(G_OBJECT(menuItem), "name", g_strdup(uc.getName().c_str()), g_free);
 			g_object_set_data_full(G_OBJECT(menuItem), "command", g_strdup(uc.getCommand().c_str()), g_free);
 			g_object_set_data_full(G_OBJECT(menuItem), "hub", g_strdup(uc.getHub().c_str()), g_free);
-			gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuItem);
+			g_menu_append_item(menu , menuItem);
 		}
 	}
 }
 
-void UserCommandMenu::createSubMenu_gui(GtkWidget *&menu, string &command)
+void UserCommandMenu::createSubMenu_gui(GMenuItem *&menu, string &command)
 {
 	string::size_type i = 0;
-	GtkWidget *menuItem;
+	GMenuItem *menuItem;
 
 	// Create subfolders based on path separators in the command
 	while ((i = command.find('/')) != string::npos)
 	{
 		bool createSubmenu = true;
-		GList *menuItems = gtk_container_get_children(GTK_CONTAINER(menu));
+//		GList *menuItems = gtk_container_get_children(GTK_CONTAINER(menu));
 
 		// Search for the sub menu to append the command to
-		for (GList *iter = menuItems; iter; iter = iter->next)
-		{
-			GtkMenuItem *item = (GtkMenuItem *)iter->data;
-			if (gtk_menu_item_get_submenu(item) && WulforUtil::getTextFromMenu(item) == command.substr(0, i))
-			{
-				menu = gtk_menu_item_get_submenu(item);
-				createSubmenu = false;
-				break;
-			}
-		}
-		g_list_free(menuItems);
+//		for (GList *iter = menuItems; iter; iter = iter->next)
+//		{
+//			GtkMenuItem *item = (GtkMenuItem *)iter->data;
+//			if (gtk_menu_item_get_submenu(item) && WulforUtil::getTextFromMenu(item) == command.substr(0, i))
+//			{
+//				menu = gtk_menu_item_get_submenu(item);
+//				createSubmenu = false;
+//				break;
+//			}
+//		}
+//		g_list_free(menuItems);
 
 		// Couldn't find existing sub menu, so we create one
 		if (createSubmenu)
 		{
-			GtkWidget *subMenu = gtk_menu_new();
-			menuItem = gtk_menu_item_new_with_label(command.substr(0, i).c_str());
-			gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuItem);
-			gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuItem), subMenu);
-			menu = subMenu;
+			GMenu *subMenu = g_menu_new();
+			menuItem = g_menu_item_new(command.substr(0, i).c_str() ,NULL);
+			g_menu_append_item(subMenu , menuItem);
+			g_menu_item_set_submenu(menu,G_MENU_MODEL(subMenu));
+			
 		}
 
 		command = command.substr(++i);
 	}
 }
 
-void UserCommandMenu::onUserCommandClick_gui(GtkMenuItem *item, gpointer data)
+void UserCommandMenu::onUserCommandClick_gui(GMenu *item,GVariant*, gpointer data)
 {
 	UserCommandMenu *ucm = reinterpret_cast<UserCommandMenu *>(data);
 	string command = (gchar *)g_object_get_data(G_OBJECT(item), "command");
 	ParamMap params;
-	typedef Func4<UserCommandMenu, string, string, string, ParamMap> F4;
-
-	if (MainWindow::getUserCommandLines_gui(command/*uc*/, params))
+//	if (MainWindow::getUserCommandLines_gui(command/*uc*//*, params))
 	{
 		string commandName = (gchar *)g_object_get_data(G_OBJECT(item), "name");
 		string hub = (gchar *)g_object_get_data(G_OBJECT(item), "hub");
@@ -189,18 +191,16 @@ void UserCommandMenu::onUserCommandClick_gui(GtkMenuItem *item, gpointer data)
 	 			params["tth"] = params["fileTR"];
 			}
 
-			F4 *func = new F4(ucm, &UserCommandMenu::sendUserCommand_client,
+			ucm->sendUserCommand_client(
 				i->cid, commandName, hub, params);
-			WulforManager::get()->dispatchClientFunc(func);
 		}
 
 		for(auto i= ucm->ips.begin(); i!= ucm->ips.end(); ++i)
 		{
 			string cid = ClientManager::getInstance()->getMe()->getCID().toBase32();
 			params["cmdIP"] = *i;
-			F4 *func = new F4(ucm, &UserCommandMenu::sendUserCommand_client,
+			ucm->sendUserCommand_client(
 				cid, commandName, hub, params);
-			WulforManager::get()->dispatchClientFunc(func);
 		}
 	}
 }

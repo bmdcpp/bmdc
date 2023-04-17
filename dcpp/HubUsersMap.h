@@ -364,8 +364,4 @@ private:
 
 } // namespace dcpp
 #endif // HUB_USERS_MAP
-/** 
- * Partialy edited by Mank
- * @file
- * $Id: HubUsersMap.h 141 2011-08-10 00:06:13Z adrian_007 $
- */
+

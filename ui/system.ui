@@ -1,79 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="2.24"/>
-  <!-- interface-naming-policy toplevel-contextual -->
-  <object class="GtkVBox" id="mainBox">
-    <property name="visible">True</property>
-    <property name="can_focus">True</property>
-    <property name="border_width">4</property>
-    <property name="spacing">4</property>
+  <requires lib="gtk" version="4.0"/>
+  <object class="GtkBox" id="mainBox">
+    <property name="visible">1</property>
+	<property name="orientation">GTK_ORIENTATION_VERTICAL</property>
     <child>
-      <object class="GtkScrolledWindow" id="sysscroll">
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="hscrollbar_policy">automatic</property>
-        <property name="vscrollbar_policy">automatic</property>
-        <property name="shadow_type">in</property>
+      <object class="GtkBox" id="other">
+        <property name="visible">1</property>
+		<property name="orientation">GTK_ORIENTATION_VERTICAL</property>
         <child>
-          <object class="GtkTextView" id="systextview">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="editable">False</property>
-            <property name="wrap_mode">word-char</property>
+          <object class="GtkScrolledWindow" id="sysscroll">
+            <property name="hexpand">1</property>
+            <property name="vexpand">True</property>
+            <property name="hscrollbar-policy">never</property>
+            <property name="child">
+              <object class="GtkTextView" id="systextview">
+                <property name="visible">1</property>
+              </object>
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox" id="hbox1">
+            <property name="hexpand">0</property>
+            <property name="vexpand">0</property>
+            <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <object class="GtkButton" id="buttonClear">
+                <property name="label" translatable="yes">Clear</property>
+				<property name="valign">GTK_ALIGN_START</property>
+                <property name="hexpand">0</property>
+                <property name="vexpand">0</property>
+              </object>
+            </child>
           </object>
         </child>
       </object>
-      <packing>
-        <property name="expand">True</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkHBox" id="hbox1">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <object class="GtkButton" id="buttonClear">
-            <property name="label" translatable="yes">Clear</property>
-            <property name="use_action_appearance">False</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">7</property>
-          </packing>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">False</property>
-        <property name="position">1</property>
-      </packing>
     </child>
   </object>
 </interface>

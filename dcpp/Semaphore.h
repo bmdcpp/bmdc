@@ -18,6 +18,7 @@
 
 #pragma once
 
+#define APPLE
 #ifndef _WIN32
     #ifdef APPLE
         #include "CriticalSection.h"
@@ -27,6 +28,13 @@
     #endif
 #include <sys/time.h>
 #endif
+
+#ifdef _WIN32
+
+#include <Windows.h>
+
+#endif // _WIN32
+
 
 #include "noexcept.h"
 

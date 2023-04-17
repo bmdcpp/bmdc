@@ -1,21 +1,18 @@
-[![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.png?v=103)](https://opensource.org/licenses/GPL-3.0/) 
-[![CodeQL](https://github.com/bmdcpp/bmdc/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/bmdcpp/bmdc/actions/workflows/codeql.yml)
-![Maintenance](https://img.shields.io/maintenance/yes/2023)
+# BMDC++ &ndash; file sharing using DC and ADC protocols
 
-# BMDC++ &ndash; file sharing program using Direct Connect protocols
+## Introduction
 
-Website: https://bmdcpp.github.io/<br/>
-Sources: https://github.com/bmdcpp/bmdc
-
-## Description
-
-BMDC++ is a cross-platform program that uses the [Direct Connect](https://en.wikipedia.org/wiki/Direct_Connect_\(protocol\)) and [Advanced Direct Connect](https://en.wikipedia.org/wiki/Advanced_Direct_Connect) protocols. It is compatible with DC++, AirDC++, EiskaltDC++, FlylinkDC++ and other [DC clients](https://en.wikipedia.org/wiki/Comparison_of_ADC_software#Client_software). BMDC++ also interoperates with all common DC hub software.
-
-BMDC++ client was based on FreeDC++ code base. Program was ported to GTK+ 3.x, Ignore Users and other useful features were added. See [BMDC-Changelog.txt](./BMDC-Changelog.txt) for detailed info.
+BMDC++ &ndash; DC++ client based on FreeDC++ with Ignore Users and other changes.<br/>
+See [BMDC-Changelog.txt](https://github.com/bmdcpp/bmdc/blob/master/BMDC-Changelog.txt) for detailed info.
 
 ## License
 
-GNU GPL v2.0 or later. See [License.txt](./License.txt) for details.
+GNU GPL v2.0 or later. See [License.txt](https://github.com/bmdcpp/bmdc/blob/master/License.txt) for details.
+
+## Links
+
+- Website: https://bmdcpp.github.io/bmdc
+- Sources: https://github.com/bmdcpp/bmdc
 
 ## Dependencies
 
@@ -23,24 +20,26 @@ GNU GPL v2.0 or later. See [License.txt](./License.txt) for details.
 - pkg-config
 - g++ >= 4.7
 - glib >= 2.32
-- gtk+-3.0 >= 3.6
+- gtk+ >= 4.0
 - pthread
 - zlib
 - libbz2
 - libssl
-- libGeoIP >= 1.4.7
+- libmaxminddb
+- gettext
+- pcre
 
 ### Optional dependencies
 
-- libXss (Note: for idle detection)
 - libtar (Note: For Backup/Restore options )
 - libnotify >= 0.4.1 ( Note: For popups notifications )
-- libappindicator3 ( Note: For appindicators)
 - xattr ( Note: for storing hashes beside files to not always re-hash )
 - Runtime-deps is also glib-networking ( or similar) for open URI
 - also python2-dbus and qdbus for Media Spam (/kaff and /vlc)
 
+
 ## Compiling and installing
+=======
 
 ### Compiling
 
@@ -82,8 +81,13 @@ or if you used scons to install into the file system then use the same scons com
 # scons -c install
 ```
 
+=======
+
+## License
+
+GNU GPL Version 2 or later
+See License.txt for details.
+
 ## Contact
-[@Mank16](https://www.github.com/Mank16)
-
-
+[@bmdcpp](https://www.github.com/@bmdcpp)
 

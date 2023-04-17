@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2017 BMDC
+ * Copyright © 2010-2025 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,20 +41,10 @@
 #include "message.hh"
 #include "notify.hh"
 #include "SearchEntry.hh"
+#include "settingsmanager.hh"
 
 #include <queue>
 #include <vector>
-
-#ifdef HAVE_APPINDCATOR
-	#include <libappindicator/app-indicator.h>
-#endif
-#ifdef HAVE_XSSLIB
-//Note Idle detection
-//lib64x11-static-devel
-#include <X11/extensions/scrnsaver.h>
-#include <gdk/gdkx.h>
-#endif
-
 
 class BookEntry;
 class SearchEntry;
@@ -73,11 +63,13 @@ class MainWindow:
 		using dcpp::QueueManagerListener::on;
 		using dcpp::TimerManagerListener::on;
 	public:
-		MainWindow();
+		MainWindow(GtkWidget* window = NULL);
 		virtual ~MainWindow();
 
 		// Inherited from Entry
 		GtkWidget *getContainer();
+
+		static void onResponse(GtkWidget* wid , int response , gpointer data);
 
 		// GUI functions
 		void show();
@@ -97,7 +89,7 @@ class MainWindow:
 		void showFavoriteUsers_gui();
 		void showFinishedDownloads_gui();
 		void showFinishedUploads_gui();
-		void showHub_gui(std::string address, std::string encoding = "");
+		void showHub_gui(std::string address, std::string encoding = WGETS("default-charset") );
 		void showSearchSpy_gui();
 		void showSearchADL_gui();
 		void showDetection_gui();
@@ -122,98 +114,36 @@ class MainWindow:
 
 		// Client functions
 		void openOwnList_client(bool useSetting);
-		void updateFavoriteHubMenu_client(const dcpp::FavoriteHubEntryList &fh);
-		/*----*/
-		typedef enum {
-			QUICKCON = 0,
-			FAVORITE_HUBS,
-			FAVORITE_USERS,
-			PUBLIC_HUBS,
-			SEARCH_ADL,
-			SEARCH_SPY,
-			QUEUE,
-			FDOWNLOADS,
-			FUPLOADS,
-			NOTEPAD,
-			SYSTEM,
-			AWAY,
-			LIMITING,
-			END
-		} IconsToolbar;
 
-		#define gtbs(w,i) gtk_tool_button_set_icon_name(w,i)
-		void setStatusOfIcons(IconsToolbar type, bool isClicked)
-		{
-			if(isClicked)
-				gtbs(GTK_TOOL_BUTTON(getWidget(icons[type][1])),std::string("bmdc-"+icons[type][0]+"-on").c_str());
-			else
-				gtbs(GTK_TOOL_BUTTON(getWidget(icons[type][1])),std::string("bmdc-"+icons[type][0]).c_str());
-		}
-		
-		void setLimitingIcon(bool Limited);
-
-		void setAwayIcon(bool isAway)
-		{
-			setStatusOfIcons(AWAY,isAway);
-		}
-		 
 		SearchEntry *getSearchEntry () { return dynamic_cast<SearchEntry*>(findBookEntry(Entry::SEARCHS));}
 
 	private:
 		typedef std::pair<std::string, std::string> ParamPair;
 		typedef std::vector<ParamPair> ListParamPair;
-		static std::string icons[(MainWindow::IconsToolbar)END][2];
 		// GUI functions
-#ifdef HAVE_XSSLIB			
-		void onIdle();
-#endif		
-		void loadIcons_gui();
 		void showTransfersPane_gui();
 		void autoOpen_gui();
-		void addTabMenuItem_gui(GtkWidget* menuItem, GtkWidget* page);
+		void addTabMenuItem_gui(GMenu* menuItem, GtkWidget* page);
 		void removeTabMenuItem_gui(GtkWidget *menuItem);
 		void addBookEntry_gui(BookEntry *entry);
 		void previousTab_gui();
 		void nextTab_gui();
 		BookEntry *findBookEntry(const EntryType type, const std::string &id = "");
-#ifdef USE_STATUSICON
-		void createStatusIcon_gui();
-		void updateStatusIconTooltip_gui(std::string download, std::string upload);
-#endif
 
-#ifdef HAVE_APPINDCATOR
-		void createAppIndicator();
-		::AppIndicator * indicator;
-#endif		
 		void setStats_gui(std::string hubs, std::string downloadSpeed,
 			std::string downloaded, std::string uploadSpeed, std::string uploaded);
-		void setToolbarButton_gui();
 		void setTabPosition_gui(int position);
-		void setToolbarStyle_gui(int style);
-#ifdef USE_STATUSICON
-		void removeTimerSource_gui();
-#endif
-		
+
 		void setChooseMagnetDialog_gui();
 		void showMagnetDialog_gui(const std::string &magnet, const std::string &name, const int64_t size,
 			const std::string &tth);
 		void setStatRate_gui();
-		void setToolbarMenu_gui(const std::string &item_key, const std::string &button_key, const std::string &key);
-		void updateFavoriteHubMenu_gui(ListParamPair list);
-		void checkToolbarMenu_gui();
-
 		// GUI Callbacks
-		static gboolean onWindowState_gui(GtkWidget *widget, GdkEventWindowState *event, gpointer data);
+//		static gboolean onWindowState_gui(GtkWidget *widget, GdkEventWindowState *event, gpointer data);
 		static void onSizeWindowState_gui(GtkWidget* widget,GtkAllocation *allocation,gpointer data);
-		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
-		static gboolean onCloseWindow_gui(GtkWidget *widget, GdkEvent *event, gpointer data);
-		static gboolean onKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-		static gboolean onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-
-#ifdef USE_STATUSICON
-		static gboolean animationStatusIcon_gui(gpointer data);
-#endif
-		static void onRaisePage_gui(GtkMenuItem *item, gpointer data);
+//		static gboolean onCloseWindow_gui(GtkWidget *widget, GdkEvent *event, gpointer data);
+//		static gboolean onKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+//		static void onRaisePage_gui(GtkMenuItem *item, gpointer data);
 		static void onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *page, guint num, gpointer data);
 		static void onPaneRealized_gui(GtkWidget *pane, gpointer data);
 		static void onConnectClicked_gui(GtkWidget *widget, gpointer data);
@@ -233,18 +163,12 @@ class MainWindow:
 		static void onOpenOwnListClicked_gui(GtkWidget *widget, gpointer data);
 		static void onRefreshFileListClicked_gui(GtkWidget *widget, gpointer data);
 		static void onReconnectClicked_gui(GtkWidget *widget, gpointer data);
-		static void onCloseClicked_gui(GtkWidget *widget, gpointer data);
+		static void onCloseClicked_gui(GtkWidget *widget,GVariant* v, gpointer data);
 		static void onPreviousTabClicked_gui(GtkWidget* widget, gpointer data);
 		static void onNextTabClicked_gui(GtkWidget* widget, gpointer data);
 		static void onAboutClicked_gui(GtkWidget *widget, gpointer data);
 		static void onAboutDialogActivateLink_gui(GtkAboutDialog *dialog, const gchar *link, gpointer data);
 		static void onCloseBookEntry_gui(GtkWidget *widget, gpointer data);
-#ifdef USE_STATUSICON
-		static void onStatusIconActivated_gui(GtkStatusIcon *statusIcon, gpointer data);
-		static void onStatusIconPopupMenu_gui(GtkStatusIcon *statusIcon, guint button, guint time, gpointer data);
-		static void onStatusIconBlinkUseToggled_gui(GtkWidget *widget, gpointer data);
-#endif		
-		static void onShowInterfaceToggled_gui(GtkCheckMenuItem *item, gpointer data);
 		static void onLinkClicked_gui(GtkWidget *widget, gpointer data);
 		static void onTransferToggled_gui(GtkWidget *widget, gpointer data);
 		static void onBrowseMagnetButton_gui(GtkWidget *widget, gpointer data);
@@ -255,14 +179,8 @@ class MainWindow:
 		static gboolean onDeleteEventMagnetDialog_gui(GtkWidget *dialog, GdkEvent *event, gpointer data);
 		static gboolean onMenuButtonClicked_gui(GtkWidget *widget, gpointer data);
 		static gboolean onAddButtonClicked_gui(GtkWidget *widget, gpointer data);
-		static void menuPosition_gui(GtkMenu *menu, gint *x, gint *y, gboolean *push, gpointer data);
-		static void onToolToggled_gui(GtkWidget *widget, gpointer data);
-		static void onTopToolbarToggled_gui(GtkWidget *widget, gpointer data);
-		static void onLeftToolbarToggled_gui(GtkWidget *widget, gpointer data);
-		static void onHideToolbarToggled_gui(GtkWidget *widget, gpointer data);
-		static void onSizeToolbarToggled_gui(GtkWidget *widget, gpointer data);
 		static void onHubClicked_gui(GtkWidget *widget, gpointer data);
-		/**/
+
 		static void onCmdDebugClicked_gui( GtkWidget *widget, gpointer data);
 		static void onSystemLogClicked_gui(GtkWidget *widget, gpointer data);
 		static void onNotepadClicked_gui(GtkWidget *widget, gpointer data);
@@ -270,58 +188,47 @@ class MainWindow:
 		static void onDetectionClicked_gui(GtkWidget *widget, gpointer data);
 		static void onRecentHubClicked_gui(GtkWidget *widget, gpointer data);
 		static void onAwayClicked_gui(GtkWidget *widget, gpointer data);
-		static void onLimitingMenuItem_gui(GtkWidget *widget, gpointer data);
-		static void onLimitingDisable(GtkWidget *widget, gpointer data);
+		static void onLimitingMenuItem_gui(GtkRange *widget, gpointer data);
 		static void onTTHFileDialog_gui(GtkWidget *widget, gpointer data);
 		static void onTTHFileButton_gui(GtkWidget *widget, gpointer data);
-		/**/
+
 		static void onCloseAllHub_gui(GtkWidget *widget, gpointer data);
 		static void onCloseAllPM_gui(GtkWidget *widget, gpointer data);
 		static void onCloseAllofPM_gui(GtkWidget *widget, gpointer data);
 		static void onReconectAllHub_gui(GtkWidget *widget, gpointer data);
-		
+
 		static void onShortcutsWin(GtkWidget* widget, gpointer data);
-		/**/
+
 		static void onAboutConfigClicked_gui(GtkWidget *widget, gpointer data);
 		#ifdef HAVE_LIBTAR
 		static void onExportItemClicked_gui(GtkWidget *widget, gpointer data);
 		#endif
+        static void onPopupPopover(GtkWidget* widget , gpointer data);
 		// Client functions
 		void autoConnect_client();
 		void startSocket_client();
 		void refreshFileList_client();
 		void addFileDownloadQueue_client(std::string name, int64_t size, std::string tth);
-
 		void removeItemFromList(Entry::EntryType type, std::string id);
-		//[BMDC++
 		void setInitThrotles();
-		void parsePartial(dcpp::HintedUser aUser, std::string txt);
-		//]
 
 		// Client callbacks
 		virtual void on(dcpp::LogManagerListener::Message, time_t t, const std::string &m,int sev) noexcept;
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) noexcept;
 		virtual void on(dcpp::TimerManagerListener::Second, uint64_t ticks) noexcept;
-		
-		
 		virtual void on(dcpp::TimerManagerListener::Minute, uint64_t ticks) noexcept;
-		
-		//Partial filelist
-		virtual void on(dcpp::QueueManagerListener::PartialList, const dcpp::HintedUser& aUser, const std::string& text) noexcept;
+		static void onButtonPressed_gui(GtkGestureClick* self, gint n_press, gdouble x, gdouble y, gpointer user_data);
+		static void responseDialogOnClicked_gui(GtkWidget* dialog ,int, gpointer data);
 
-		GtkWindow *window;
+		GtkWidget *window;
 		int current_width,current_height;
 		gboolean is_maximized;
 		Transfers* transfers;
 		bool minimized;
-#ifdef USE_STATUSICON
-		GtkStatusIcon *statusIcon;
-		guint timer;
-#endif
+
 		int64_t lastUpdate, lastUp, lastDown;
 		dcpp::StringList EntryList;
 		int statusFrame;
-		bool bUseStatusIconBlink;
 		bool onQuit;
 		int ToolbarStyle;
 
@@ -388,11 +295,15 @@ class MainWindow:
 		FileListQueue listQueue;
 
 		std::queue<std::string> statustext;
-		//Hash statusbar :p
+		//Hash statusbar
 		uint64_t startBytes;
 		size_t startFiles;
 		uint32_t startTime;
 		void updateStats_gui(std::string file, uint64_t bytes, size_t files, uint32_t tick);
+
+		GtkWidget *statusBar,*note;
+		bool bText;
+		static const GActionEntry win_entries[] ;
 
 };
 

@@ -19,7 +19,7 @@
 #include "NotifyPage.hh"
 #include "definitons.hh"
 #include <dcpp/Text.h>
-#include <linux/WulforUtil.hh>
+#include <linux/GuiUtil.hh>
 #include <linux/notify.hh>
 #include "seUtil.hh"
 
@@ -258,7 +258,7 @@ void NotifyPage::onNotifyIconFileBrowseClicked_gui(GtkWidget *widget, gpointer d
 		}
 	}
 }
-
+/*
 void NotifyPage::onNotifyKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	NotifyPage *s = (NotifyPage *)data;
@@ -290,7 +290,7 @@ void NotifyPage::onNotifyButtonReleased_gui(GtkWidget *widget, GdkEventButton *e
 		}
 	}
 }
-
+*/
 void NotifyPage::onNotifyOKClicked_gui(GtkWidget *widget, gpointer data)
 {
 	NotifyPage *s = (NotifyPage *)data;

@@ -60,6 +60,7 @@ class PreviewApp
 class WulforSettingsManager : public dcpp::Singleton<WulforSettingsManager>
 {
 	public:
+		//GSettings* ss;
 		typedef std::map<std::string, int> IntMap;
 		typedef std::map<std::string, std::string> StringMap;
 

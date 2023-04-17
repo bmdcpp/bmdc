@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2017 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2018 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,10 +24,15 @@
 #include "../dcpp/Text.h"
 #include "../dcpp/ClientManager.h"
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 
 using namespace std;
 using namespace dcpp;
+
+const GActionEntry FinishedTransfers::win_entries[] = {
+	{ "delete",onRemoveItems_gui, NULL, NULL, NULL },
+	{ "open",onOpen_gui, NULL, NULL, NULL }
+};
 
 FinishedTransfers* FinishedTransfers::createFinishedDownloads()
 {
@@ -47,9 +52,11 @@ FinishedTransfers::FinishedTransfers(const EntryType type, const string title, b
 	totalBytes(0),
 	totalTime(0)
 {
-	// menu
-	g_object_ref_sink(getWidget("menu"));
-
+	GSimpleActionGroup *group;
+	group = g_simple_action_group_new ();
+	g_action_map_add_action_entries (G_ACTION_MAP (group), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	gtk_widget_insert_action_group(getContainer(),"finishedtransfers" ,G_ACTION_GROUP(group));
+	
 	// Initialize transfer treeview
 	fileView.setView(GTK_TREE_VIEW(getWidget("fileView")), true, "finished");
 	fileView.insertColumn(_("Time"), G_TYPE_STRING, TreeView::STRING, 150);
@@ -89,34 +96,71 @@ FinishedTransfers::FinishedTransfers(const EntryType type, const string title, b
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(userStore), userView.col(_("Time")), GTK_SORT_ASCENDING);
 	gtk_tree_selection_set_mode(gtk_tree_view_get_selection(userView.get()), GTK_SELECTION_MULTIPLE);
 
+	GtkGesture *gesture;
+	gesture = gtk_gesture_click_new ();
+	gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
+	g_signal_connect (gesture, "pressed",
+					  G_CALLBACK (on_right_btn_pressed), (gpointer)this);
+	g_signal_connect (gesture, "released",
+					  G_CALLBACK (on_right_btn_released), (gpointer)this);
+	gtk_widget_add_controller (GTK_WIDGET(fileView.get()), GTK_EVENT_CONTROLLER (gesture));
+	
 	// Initialize the preview menu
-	appsPreviewMenu = new PreviewMenu(getWidget("appsPreviewMenu"));
+	//appsPreviewMenu = new PreviewMenu(getWidget("appsPreviewMenu"));
 
 	// Connect the signals to their callback functions.
-	g_signal_connect(getWidget("openFolderItem"), "activate", G_CALLBACK(onOpenFolder_gui), (gpointer)this);
-	g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveItems_gui), (gpointer)this);
+	/*
 	g_signal_connect(getWidget("removeAllItem"), "activate", G_CALLBACK(onRemoveAll_gui), (gpointer)this);
-	g_signal_connect(fileView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
-	g_signal_connect(fileView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 	g_signal_connect(fileView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
-	g_signal_connect(userView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
-	g_signal_connect(userView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 	g_signal_connect(userView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 	g_signal_connect_after(getWidget("finishedbook"), "switch-page", G_CALLBACK(onPageSwitched_gui), (gpointer)this);
-
+*/
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("showOnlyFullFilesCheckButton")), SETTING(FINISHED_DL_ONLY_FULL));
 
-	if (type == Entry::FINISHED_DOWNLOADS)
-		g_signal_connect(getWidget("showOnlyFullFilesCheckButton"), "toggled", G_CALLBACK(onShowOnlyFullFilesToggled_gui), (gpointer)this);
-	else
-		gtk_widget_hide(getWidget("showOnlyFullFilesCheckButton"));
+//	if (type == Entry::FINISHED_DOWNLOADS)
+		//g_signal_connect(getWidget("showOnlyFullFilesCheckButton"), "toggled", G_CALLBACK(onShowOnlyFullFilesToggled_gui), (gpointer)this);
+//	else
+//		gtk_widget_hide(getWidget("showOnlyFullFilesCheckButton"));
+}
+
+
+void FinishedTransfers::on_right_btn_pressed (GtkGestureClick* /*gesture*/,
+								   int                /*n_press*/,
+								   double             x,
+								   double             y,
+								   gpointer         *data)
+{
+	FinishedTransfers *FT = (FinishedTransfers*)data;
+
+	GMenu *menu = g_menu_new ();
+	GMenuItem *menu_item_add = g_menu_item_new ("Open file", "finishedtransfers.open");
+	g_menu_append_item (menu, menu_item_add);
+	g_object_unref (menu_item_add);
+
+	GMenuItem* menu_item_edit = g_menu_item_new ("Delete Item", "finishedtransfers.delete");
+	g_menu_append_item (menu, menu_item_edit);
+	g_object_unref (menu_item_edit);
+
+	GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
+	gtk_widget_set_parent(pop, FT->getContainer());
+	gtk_popover_set_pointing_to(GTK_POPOVER(pop), &(const GdkRectangle){x,y,1,1});
+	gtk_popover_popup (GTK_POPOVER(pop));
+
+}
+
+void FinishedTransfers::on_right_btn_released (GtkGestureClick *gesture,
+									int             /* n_press*/,
+									double          /* x*/,
+									double           /*y*/,
+									gpointer*       /*widget*/)
+{
+	gtk_gesture_set_state (GTK_GESTURE (gesture),
+						   GTK_EVENT_SEQUENCE_CLAIMED);
 }
 
 FinishedTransfers::~FinishedTransfers()
 {
 	FinishedManager::getInstance()->removeListener(this);
-	g_object_unref(getWidget("menu"));
-	delete appsPreviewMenu;
 	int active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("showOnlyFullFilesCheckButton")));
 	SettingsManager::getInstance()->set(SettingsManager::FINISHED_DL_ONLY_FULL, active);
 }
@@ -271,7 +315,7 @@ void FinishedTransfers::updateStatus_gui()
 	gtk_statusbar_push(GTK_STATUSBAR(getWidget("totalSize")), 0, size.c_str());
 	gtk_statusbar_push(GTK_STATUSBAR(getWidget("averageSpeed")), 0, speed.c_str());
 }
-
+/*
 gboolean FinishedTransfers::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	FinishedTransfers *ft = (FinishedTransfers *)data;
@@ -356,11 +400,7 @@ gboolean FinishedTransfers::onButtonReleased_gui(GtkWidget*, GdkEventButton *eve
 		}
 
 		gtk_widget_show_all(ft->getWidget("menu"));
-		#if GTK_CHECK_VERSION(3,22,0)
-				gtk_menu_popup_at_pointer(GTK_MENU(ft->getWidget("menu")),NULL);
-		#else
-		gtk_menu_popup(GTK_MENU(ft->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-		#endif
+		gtk_menu_popup_at_pointer(GTK_MENU(ft->getWidget("menu")),NULL);
 	}
 
 	return FALSE;
@@ -425,11 +465,7 @@ gboolean FinishedTransfers::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gp
 			}
 
 			gtk_widget_show_all(ft->getWidget("menu"));
-			#if GTK_CHECK_VERSION(3,22,0)
-				gtk_menu_popup_at_pointer(GTK_MENU(ft->getWidget("menu")),NULL);
-			#else
-			gtk_menu_popup(GTK_MENU(ft->getWidget("menu")), NULL, NULL, NULL, NULL, 1, event->time);
-			#endif
+			gtk_menu_popup_at_pointer(GTK_MENU(ft->getWidget("menu")),NULL);
 		}
 	}
 
@@ -454,8 +490,8 @@ void FinishedTransfers::onShowOnlyFullFilesToggled_gui(GtkWidget*, gpointer data
 	}
 
 }
-
-void FinishedTransfers::onOpen_gui(GtkMenuItem*, gpointer data)
+*/
+void FinishedTransfers::onOpen_gui(GtkWidget*,GVariant* var, gpointer data)
 {
 	FinishedTransfers *ft = (FinishedTransfers *)data;
 	int count = gtk_tree_selection_count_selected_rows(ft->fileSelection);
@@ -480,7 +516,7 @@ void FinishedTransfers::onOpen_gui(GtkMenuItem*, gpointer data)
 	g_list_free(list);
 
 }
-
+/*
 void FinishedTransfers::onPageSwitched_gui(GtkNotebook*, GtkWidget*, guint, gpointer data)
 {
 	((FinishedTransfers*)data)->updateStatus_gui(); // Switch the total count between users and files
@@ -511,8 +547,8 @@ void FinishedTransfers::onOpenFolder_gui(GtkMenuItem*, gpointer data)
 	}
 	g_list_free(list);
 }
-
-void FinishedTransfers::onRemoveItems_gui(GtkMenuItem*, gpointer data)
+*/
+void FinishedTransfers::onRemoveItems_gui(GtkWidget*,GVariant* var, gpointer data)
 {
 	FinishedTransfers *ft = (FinishedTransfers *)data;
 	GtkTreeSelection *selection;
@@ -605,7 +641,7 @@ void FinishedTransfers::removeFile_gui(string target)
 		valid = gtk_tree_model_iter_next(m, &iter);
 	}
 }
-
+/*
 void FinishedTransfers::onRemoveAll_gui(GtkMenuItem*, gpointer data)
 {
 	FinishedTransfers *ft = (FinishedTransfers *)data;
@@ -622,7 +658,7 @@ void FinishedTransfers::onRemoveAll_gui(GtkMenuItem*, gpointer data)
 	F0 *func = new F0(ft, &FinishedTransfers::removeAll_client);
 	WulforManager::get()->dispatchClientFunc(func);
 }
-
+*/
 void FinishedTransfers::initializeList_client()
 {
 	StringMap params;

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2017 Leliksan Floyd <leliksan@Quadrafon2>
+ * Copyright © 2009-2018 Leliksan Floyd <leliksan@Quadrafon2>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,27 +19,9 @@
  * using OpenSSL with this program is allowed.
  */
 
-/* patch changelog:
- * [05.11.09] модификация исходного кода, убрал лишний код.
- * [05.11.09] масштабирование изображения иконки.
- * [06.11.09] исправлена ошибка, "забивание" экрана уведомлениями, когда период сообщений меньше периода уведомления.
- * [07.11.09] установка уровня уведомления в зависимости от типа сообщения (critical-ошибки, normal-все остальные).
- * [08.11.09] исправлена ошибка, после выхода не закрывалось уведомление.
- * [08.11.09] исправлена ошибка, не обновлялась иконка.
- *
- * Copyright © 2009-2012, author patch: troll, freedcpp, http://code.google.com/p/freedcpp
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- */
 
 #ifndef NOTIFY_HH
 #define NOTIFY_HH
-#ifdef HAVE_NOTIFY
-#include <libnotify/notify.h>
-#endif
 class Notify
 {
 	public:
@@ -54,41 +36,26 @@ class Notify
 			FAVORITE_USER_QUIT,
 			HIGHLITING,
 			HUB_CHAT,
-			PLUGINS,
 			NONE
 		};
-
 		static Notify* get();
 		static void start();
 		static void stop();
 
-		Notify() : icon_width(0), icon_height(0), currIconSize(32) ,bAction(false) { init(); }
+		Notify() : bAction(false) { init(); }
 		~Notify() { finalize(); }
 
 		void showNotify(const std::string head, const std::string body, TypeNotify notify);
-		#ifdef HAVE_NOTIFY
 		void showNotify(const std::string title, const std::string head, const std::string body,
-			const std::string icon, const int iconSize, NotifyUrgency urgency);
-		#endif
+			const std::string icon, const int iconSize, GNotificationPriority urgency);
 	private:
 		static Notify *notify;
-		enum { x16, x22, x24, x32, x36, x48, x64, DEFAULT };
-
 		void init();
 		void finalize() ;
-		void setCurrIconSize(const int size);
-
-		int icon_width;
-		int icon_height;
-		int currIconSize;
-		#ifdef HAVE_NOTIFY
-		NotifyNotification *notification;
-		#endif
+        GApplication* application;//todo?
 		bool bAction;
-		#ifdef HAVE_NOTIFY
 		//GUI callback functions
-		static void onAction(NotifyNotification *notify, const char *action, gpointer data);
-		#endif
+		static void onAction(GSimpleAction*, GVariant*, gpointer);
 };
 
 #else

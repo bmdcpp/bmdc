@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2017 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2018 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
 #include "../dcpp/stdinc.h"
 #include "../dcpp/DCPlusPlus.h"
 #include "../dcpp/FavoriteManager.h"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "bookentry.hh"
 #include "treeview.hh"
 
@@ -52,19 +52,28 @@ class FavoriteUsers:
 		void setStatus_gui(const std::string text);
 
 		// GUI callbacks
-		static void onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onMatchQueueItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onSendPMItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onGrantSlotItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onConnectItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onRemoveFromQueueItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onDescriptionItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onAutoGrantSlotToggled_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
-		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static void onIgnoreSetUserClicked_gui(GtkWidget *widget, gpointer data);
+		static void on_right_btn_pressed (GtkGestureClick *gesture, int       n_press,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data);
+
+		static void on_right_btn_released (GtkGestureClick *gesture,int       n_press,
+                                    double           x,
+                                    double           y,
+                                    gpointer       *data);
+		//static void onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data);
+		//static void onMatchQueueItemClicked_gui(GtkMenuItem *item, gpointer data);
+		//static void onSendPMItemClicked_gui(GtkMenuItem *item, gpointer data);
+		static void onGrantSlotItemClicked_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
+		//static void onConnectItemClicked_gui(GtkMenuItem *item, gpointer data);
+		//static void onRemoveFromQueueItemClicked_gui(GtkMenuItem *item, gpointer data);
+		//static void onDescriptionItemClicked_gui(GtkMenuItem *item, gpointer data);
+		static void onRemoveItemClicked_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
+		//static void onAutoGrantSlotToggled_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
+		//static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+		//static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		//static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		//static void onIgnoreSetUserClicked_gui(GtkWidget *widget, gpointer data);
 
 		// Client functions
 		void getFileList_client(const std::string cid, const std::string hubUrl, bool match);
@@ -93,6 +102,7 @@ class FavoriteUsers:
 		TreeView favoriteUserView;
 		GtkListStore *favoriteUserStore;
 		GtkTreeSelection *favoriteUserSelection;
+		static const GActionEntry FavoriteUsers::win_entries[];
 };
 
 #else

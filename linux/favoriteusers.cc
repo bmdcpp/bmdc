@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2017 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2018 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,8 +17,6 @@
  *
  * In addition, as a special exception, compiling, linking, and/or
  * using OpenSSL with this program is allowed.
- * Changelog @BMDC:
- * Added Indepent Favorites
  * 
  */
 #include "favoriteusers.hh"
@@ -26,17 +24,26 @@
 #include "../dcpp/ClientManager.h"
 #include "settingsmanager.hh"
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "message.hh"
 
 using namespace std;
 using namespace dcpp;
 
+const GActionEntry FavoriteUsers::win_entries[] = {
+//    { "add", onAddEntry_gui, NULL, NULL, NULL },
+    { "delete", onRemoveItemClicked_gui, NULL, NULL, NULL },
+    { "grant-slot",onGrantSlotItemClicked_gui, NULL, NULL, NULL }
+};
+
 FavoriteUsers::FavoriteUsers():
 	BookEntry(Entry::FAVORITE_USERS, _("Favorite Users"), "favoriteusers")
 {
-	// menu
-	g_object_ref_sink(getWidget("menu"));
+
+	GSimpleActionGroup *group;
+	group = g_simple_action_group_new ();
+	g_action_map_add_action_entries (G_ACTION_MAP (group), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	gtk_widget_insert_action_group(getContainer(),"favu" ,G_ACTION_GROUP(group));
 
 	// Initialize favorite users list treeview
 	favoriteUserView.setView(GTK_TREE_VIEW(getWidget("favoriteUserView")), TRUE, "favoriteusers");
@@ -63,28 +70,73 @@ FavoriteUsers::FavoriteUsers():
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(favoriteUserStore), favoriteUserView.col(_("Nick")), GTK_SORT_ASCENDING);
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(favoriteUserView.get(), favoriteUserView.col(_("Nick"))), TRUE);
 
-	g_signal_connect(favoriteUserView.getCellRenderOf(_("Auto grant slot")), "toggled", G_CALLBACK(onAutoGrantSlotToggled_gui), (gpointer)this);
+	/* Register for mouse right button click "pressed" and "released" events on  widget*/
+	GtkGesture *gesture;
+	gesture = gtk_gesture_click_new ();
+	gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
+	g_signal_connect (gesture, "pressed",
+                    G_CALLBACK (on_right_btn_pressed), (gpointer)this);
+	g_signal_connect (gesture, "released",
+                    G_CALLBACK (on_right_btn_released), (gpointer)this);
+	gtk_widget_add_controller (GTK_WIDGET(favoriteUserView.get()), GTK_EVENT_CONTROLLER (gesture));
 
-	g_signal_connect(getWidget("browseItem"), "activate", G_CALLBACK(onBrowseItemClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("matchQueueItem"), "activate", G_CALLBACK(onMatchQueueItemClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("sendPMItem"), "activate", G_CALLBACK(onSendPMItemClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("grantSlotItem"), "activate", G_CALLBACK(onGrantSlotItemClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("connectItem"), "activate", G_CALLBACK(onConnectItemClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("removeFromQueueItem"), "activate", G_CALLBACK(onRemoveFromQueueItemClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("descriptionItem"), "activate", G_CALLBACK(onDescriptionItemClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveItemClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("ignoreItem"), "activate", G_CALLBACK(onIgnoreSetUserClicked_gui), (gpointer)this);
-	g_signal_connect(favoriteUserView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
-	g_signal_connect(favoriteUserView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
-	g_signal_connect(favoriteUserView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
+//	g_signal_connect(favoriteUserView.getCellRenderOf(_("Auto grant slot")), "toggled", G_CALLBACK(onAutoGrantSlotToggled_gui), (gpointer)this);
+
+//	g_signal_connect(getWidget("browseItem"), "activate", G_CALLBACK(onBrowseItemClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("matchQueueItem"), "activate", G_CALLBACK(onMatchQueueItemClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("sendPMItem"), "activate", G_CALLBACK(onSendPMItemClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("grantSlotItem"), "activate", G_CALLBACK(onGrantSlotItemClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("connectItem"), "activate", G_CALLBACK(onConnectItemClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("removeFromQueueItem"), "activate", G_CALLBACK(onRemoveFromQueueItemClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("descriptionItem"), "activate", G_CALLBACK(onDescriptionItemClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveItemClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("ignoreItem"), "activate", G_CALLBACK(onIgnoreSetUserClicked_gui), (gpointer)this);
+
+//	g_signal_connect(favoriteUserView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
+}
+
+
+void FavoriteUsers::on_right_btn_pressed (GtkGestureClick* /*gesture*/,
+                                   int                /*n_press*/,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data)
+{
+	FavoriteUsers *FU = (FavoriteUsers*)data;
+
+	GMenu *menu = g_menu_new ();
+//	GMenuItem *menu_item_add = g_menu_item_new ("Add", "favu.add");
+//	g_menu_append_item (menu, menu_item_add);
+//	g_object_unref (menu_item_add);
+
+	GMenuItem* menu_item_edit = g_menu_item_new ("Delete", "favu.delete");
+	g_menu_append_item (menu, menu_item_edit);
+	g_object_unref (menu_item_edit);
+
+	GMenuItem* menu_item_conn = g_menu_item_new ("Grant Slot", "favu.grant-slot");
+	g_menu_append_item (menu, menu_item_conn);
+	g_object_unref (menu_item_conn);
+
+	GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
+	gtk_widget_set_parent(pop, FU->getContainer());
+	gtk_popover_set_pointing_to(GTK_POPOVER(pop), &(const GdkRectangle){x,y,1,1});
+	gtk_popover_popup (GTK_POPOVER(pop));
+
+}
+
+void FavoriteUsers::on_right_btn_released (GtkGestureClick *gesture,
+                                    int             /* n_press*/,
+                                    double          /* x*/,
+                                    double           /*y*/,
+                                    gpointer*       /*widget*/)
+{
+  gtk_gesture_set_state (GTK_GESTURE (gesture),
+                         GTK_EVENT_SEQUENCE_CLAIMED);
 }
 
 FavoriteUsers::~FavoriteUsers()
 {
 	FavoriteManager::getInstance()->removeListener(this);
-
-	gtk_widget_destroy(getWidget("DescriptionDialog"));
-	g_object_unref(getWidget("menu"));
 }
 
 void FavoriteUsers::show()
@@ -172,7 +224,7 @@ void FavoriteUsers::show()
 	}
 	FavoriteManager::getInstance()->addListener(this);
 }
-
+/*
 gboolean FavoriteUsers::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
@@ -195,7 +247,7 @@ gboolean FavoriteUsers::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpoint
 
 	return FALSE;
 }
-
+/*
 gboolean FavoriteUsers::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
@@ -216,16 +268,16 @@ gboolean FavoriteUsers::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, g
 	}
 	return FALSE;
 }
-
+/*
 gboolean FavoriteUsers::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
 
 	if (gtk_tree_selection_count_selected_rows(fu->favoriteUserSelection) > 0)
 	{
-		if (event->button == 1 && fu->previous == GDK_2BUTTON_PRESS)
+		/*if (event->button == 1 && fu->previous == GDK_2BUTTON_PRESS)
 		{
-			fu->clickAction(data);
+		//	fu->clickAction(data);
 		}
 		else if (event->button == 2 && event->type == GDK_BUTTON_RELEASE)
 		{
@@ -243,8 +295,8 @@ gboolean FavoriteUsers::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, 
 
 	return FALSE;
 }
-
-
+*/
+/*
 void FavoriteUsers::clickAction(gpointer data)
 {
 	//TODO:maybe..some other & UI & fav?
@@ -270,8 +322,8 @@ void FavoriteUsers::clickAction(gpointer data)
 			break;
 		default: break;
 	}
-}
-
+}*/
+/*
 void FavoriteUsers::onBrowseItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
@@ -317,7 +369,7 @@ void FavoriteUsers::onBrowseItemClicked_gui(GtkMenuItem*, gpointer data)
 		g_list_free(list);
 	}
 }
-
+/*
 void FavoriteUsers::onMatchQueueItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
@@ -362,7 +414,7 @@ void FavoriteUsers::onMatchQueueItemClicked_gui(GtkMenuItem*, gpointer data)
 		g_list_free(list);
 	}
 }
-
+/*
 void FavoriteUsers::onSendPMItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
@@ -392,9 +444,9 @@ void FavoriteUsers::onSendPMItemClicked_gui(GtkMenuItem*, gpointer data)
 		}
 		g_list_free(list);
 	}
-}
+}*/
 
-void FavoriteUsers::onGrantSlotItemClicked_gui(GtkMenuItem*, gpointer data)
+void FavoriteUsers::onGrantSlotItemClicked_gui(GtkWidget *widget,GVariant  *parameter, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
 
@@ -433,7 +485,7 @@ void FavoriteUsers::onGrantSlotItemClicked_gui(GtkMenuItem*, gpointer data)
 		g_list_free(list);
 	}
 }
-
+/*
 void FavoriteUsers::onConnectItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
@@ -462,7 +514,7 @@ void FavoriteUsers::onConnectItemClicked_gui(GtkMenuItem*, gpointer data)
 		g_list_free(list);
 	}
 }
-
+/*
 void FavoriteUsers::onRemoveFromQueueItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
@@ -493,7 +545,7 @@ void FavoriteUsers::onRemoveFromQueueItemClicked_gui(GtkMenuItem*, gpointer data
 		g_list_free(list);
 	}
 }
-
+/*
 void FavoriteUsers::onDescriptionItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
@@ -520,7 +572,7 @@ void FavoriteUsers::onDescriptionItemClicked_gui(GtkMenuItem*, gpointer data)
 
 			gtk_window_set_title(GTK_WINDOW(fu->getWidget("DescriptionDialog")), nick.c_str());
 			gtk_entry_set_text(GTK_ENTRY(fu->getWidget("descriptionEntry")), description.c_str());
-			gint response = gtk_dialog_run(GTK_DIALOG(fu->getWidget("DescriptionDialog")));
+		//	gint response = gtk_dialog_run(GTK_DIALOG(fu->getWidget("DescriptionDialog")));
 
 			// Fix crash, if the dialog gets programmatically destroyed.
 			if (response == GTK_RESPONSE_NONE)
@@ -537,7 +589,7 @@ void FavoriteUsers::onDescriptionItemClicked_gui(GtkMenuItem*, gpointer data)
 
 			if(type == "nick") 
 			{
-				description = gtk_entry_get_text(GTK_ENTRY(fu->getWidget("descriptionEntry")));
+				//description = gtk_entry_get_text(GTK_ENTRY(fu->getWidget("descriptionEntry")));
 				gtk_list_store_set(fu->favoriteUserStore, &iter, fu->favoriteUserView.col(_("Description")), description.c_str(), -1);
 				typedef Func2<FavoriteUsers, string, string> F2;
 				F2 *func = new F2(fu, &FavoriteUsers::setDesc_client,nick,description);
@@ -547,7 +599,7 @@ void FavoriteUsers::onDescriptionItemClicked_gui(GtkMenuItem*, gpointer data)
 
 			if (fu->findUser_gui(cid, &iter))
 			{
-				description = gtk_entry_get_text(GTK_ENTRY(fu->getWidget("descriptionEntry")));
+				//description = gtk_entry_get_text(GTK_ENTRY(fu->getWidget("descriptionEntry")));
 				gtk_list_store_set(fu->favoriteUserStore, &iter, fu->favoriteUserView.col(_("Description")), description.c_str(), -1);
 				typedef Func2<FavoriteUsers, string, string> F2;
 				F2 *func = new F2(fu, &FavoriteUsers::setUserDescription_client, cid, description);
@@ -556,8 +608,8 @@ void FavoriteUsers::onDescriptionItemClicked_gui(GtkMenuItem*, gpointer data)
 		}
 	}
 }
-
-void FavoriteUsers::onRemoveItemClicked_gui(GtkMenuItem*, gpointer data)
+*/
+void FavoriteUsers::onRemoveItemClicked_gui(GtkWidget *widget,GVariant  *parameter, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
 
@@ -595,25 +647,22 @@ void FavoriteUsers::onRemoveItemClicked_gui(GtkMenuItem*, gpointer data)
 		g_list_free(list);
 
 		if (SETTING(CONFIRM_USER_REMOVAL))
-		{
+		{/*
 			
 			GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 				GTK_DIALOG_DESTROY_WITH_PARENT,
 				GTK_MESSAGE_QUESTION,
 				GTK_BUTTONS_NONE,
 				_("Are you sure you want to delete favorite user(s)?"));
-			gtk_dialog_add_buttons(GTK_DIALOG(dialog), BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE,
+			gtk_dialog_add_buttons(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL, "YES",
 				GTK_RESPONSE_YES, NULL);
 
-			gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-			// Widget failed if the dialog gets programmatically destroyed.
-			if (response == GTK_RESPONSE_NONE)
-				return;
+//			gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 
-			gtk_widget_hide(dialog);
+			//gtk_widget_hide(dialog);
 
 			if (response != GTK_RESPONSE_YES)
-				return;
+				return;*/
 		}
 
 		for (vector<string>::const_iterator it = remove.begin(); it != remove.end(); ++it)
@@ -623,7 +672,7 @@ void FavoriteUsers::onRemoveItemClicked_gui(GtkMenuItem*, gpointer data)
 		}
 	}
 }
-
+/*
 void FavoriteUsers::onAutoGrantSlotToggled_gui(GtkCellRendererToggle*, gchar *path, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
@@ -653,7 +702,7 @@ void FavoriteUsers::onAutoGrantSlotToggled_gui(GtkCellRendererToggle*, gchar *pa
 		WulforManager::get()->dispatchClientFunc(func);
 	}
 }
-
+*/
 void FavoriteUsers::getFileList_client(const string cid, const string hubUrl, bool match)
 {
 	try
@@ -769,10 +818,10 @@ bool FavoriteUsers::findUser_gui(const string &cid, GtkTreeIter *iter)
 		if (iter)
 			*iter = it->second;
 
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 bool FavoriteUsers::findNicks_gui(const string &nick, GtkTreeIter *iter)
@@ -941,7 +990,7 @@ void FavoriteUsers::on(FavoriteManagerListener::FavoriteIUpdate, const string &n
 	Func1<FavoriteUsers, ParamMap> *func = new Func1<FavoriteUsers, ParamMap>(this, &FavoriteUsers::updateFavoriteNicks_gui, params);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
-
+/*
 void FavoriteUsers::onIgnoreSetUserClicked_gui(GtkWidget*, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
@@ -971,7 +1020,7 @@ void FavoriteUsers::onIgnoreSetUserClicked_gui(GtkWidget*, gpointer data)
 		g_list_free(list);
 	}
 }
-
+*/
 void FavoriteUsers::setIgnore(const string cid, bool ignore)
 {
 	UserPtr uptr = ClientManager::getInstance()->findUser(CID(cid));
@@ -1004,3 +1053,4 @@ void FavoriteUsers::setIgnore(const string cid, bool ignore)
 
 	}
 }
+

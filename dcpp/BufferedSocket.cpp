@@ -46,7 +46,7 @@ disconnecting(false),filterIn(NULL)
 	++sockets;
 }
 
-atomic<long> BufferedSocket::sockets(0);
+std::atomic_long BufferedSocket::sockets(0);
 
 BufferedSocket::~BufferedSocket() {
 	--sockets;
@@ -98,10 +98,10 @@ void BufferedSocket::accept(const Socket& srv, bool secure, bool allowUntrusted,
 }
 
 void BufferedSocket::connect(const string& aAddress, const uint16_t& aPort, bool secure, bool allowUntrusted, bool proxy, const string& expKP) {
-	connect(aAddress, aPort, Util::emptyString, NAT_NONE, secure, allowUntrusted, proxy, expKP);
+	connect(aAddress, aPort, 0, NAT_NONE, secure, allowUntrusted, proxy, expKP);
 }
 
-void BufferedSocket::connect(const string& aAddress, const uint16_t& aPort, const string& localPort, NatRoles natRole, bool secure, bool allowUntrusted, bool proxy, const string& expKP) {
+void BufferedSocket::connect(const string& aAddress, const uint16_t& aPort, const uint16_t& localPort, NatRoles natRole, bool secure, bool allowUntrusted, bool proxy, const string& expKP) {
 	dcdebug("BufferedSocket::connect() %p\n", (void*)this);
 	unique_ptr<Socket> s(secure ? new SSLSocket(natRole == NAT_SERVER ? CryptoManager::SSL_SERVER : CryptoManager::SSL_CLIENT, allowUntrusted, expKP) : new Socket(Socket::TYPE_TCP));
 
@@ -111,11 +111,12 @@ void BufferedSocket::connect(const string& aAddress, const uint16_t& aPort, cons
 	setSocket(move(s));
 
 	Lock l(cs);
-	addTask(CONNECT, new ConnectInfo(aAddress, aPort, Util::toInt(localPort), natRole, proxy ));
+	addTask(CONNECT, new ConnectInfo(aAddress, aPort, localPort, natRole, proxy ));
 }
 
 #define LONG_TIMEOUT 30000
 #define SHORT_TIMEOUT 1000
+
 void BufferedSocket::threadConnect(const string& aAddr, const uint16_t& aPort, const uint16_t& localPort, NatRoles natRole, bool proxy) {
 	dcassert(state == STARTING);
 
@@ -174,7 +175,7 @@ void BufferedSocket::threadAccept() {
 		if(disconnecting)
 			return;
 
-		if((startTime + 30000) < GET_TICK()) {
+		if((startTime + LONG_TIMEOUT) < GET_TICK()) {
 			throw SocketException(_("Connection timeout"));
 		}
 	}
@@ -250,7 +251,6 @@ void BufferedSocket::threadRead() {
 					line = l;
 					if(deleted == false)
 						delete [] buffer;
-					break;
 				}
 				break;
 			}	
@@ -304,9 +304,8 @@ void BufferedSocket::threadRead() {
 						}
 					}
 				}
-				break;
 			}
-			default:continue;
+			default: ;
 		}
 	}
 

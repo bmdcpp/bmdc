@@ -18,7 +18,7 @@
 #define _PREVIEW_PAGE_
 #include <gtk/gtk.h>
 #include "SettingsPage.hh"
-#include <linux/treeview.hh>
+#include "../linux/treeview.hh"
 
 /*-----------------------------------------------------------------------------*/
 class PreviewPage: public SettingsPage
@@ -38,8 +38,8 @@ class PreviewPage: public SettingsPage
 		static void onPreviewAdd_gui(GtkWidget *widget, gpointer data);
 		static void onPreviewRemove_gui(GtkWidget *widget, gpointer data);
 		static void onPreviewApply_gui(GtkWidget *widget, gpointer data);
-		static void onPreviewKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-		static void onPreviewButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+//		static void onPreviewKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+//		static void onPreviewButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		void showErrorDialog(const char* info)
 		{
 			gtk_label_set_text(GTK_LABEL(infoLabel),info);

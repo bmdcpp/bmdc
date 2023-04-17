@@ -165,9 +165,9 @@ string Identity::getConnection() const {
 	return get("CO");
 }
 
-const string& Identity::getCountry() const {
-	bool v6 = !getIp6().empty();
-	return GeoManager::getInstance()->getCountry(v6 ? getIp6() : getIp4(), v6 ? GeoManager::V6 : GeoManager::V4);
+const string Identity::getCountry() const {
+//	bool v6 = !getIp6().empty();
+	return GeoManager::getInstance()->getCountry(getIp());
 }
 
 string Identity::get(const char* name) const {
@@ -226,7 +226,7 @@ string Identity::setCheat(const Client&, const string& aCheatDescription, bool f
 	ParamMap ucParams;
 	getParams(ucParams, "user", true);
 	string sCheat = Util::formatParams(aCheatDescription, ucParams);
-	string sNewCheat = string();
+	string sNewCheat = Util::emptyString;
 
 	string currentCS = get("CS");
 	StringTokenizer<string> st(currentCS, ';');
@@ -248,7 +248,7 @@ string Identity::setCheat(const Client&, const string& aCheatDescription, bool f
 	if(SETTING(DISPLAY_CHEATS_IN_MAIN_CHAT) && fDisplayCheat) {
 		return string("*** *** " +  getNick() + " - " + sNewCheat);
 	}
-	return string();
+	return Util::emptyString;
 }
 
 string Identity::getPkVersion() const {
@@ -256,7 +256,7 @@ string Identity::getPkVersion() const {
 	if(pk.find("DCPLUSPLUS") != string::npos && pk.find("ABCABC") != string::npos) {
 		return pk.substr(10, pk.length() - 16);
 	}
-	return string();
+	return Util::emptyString;
 }
 
 string Identity::getFilelistGeneratorVer() const {
@@ -268,7 +268,7 @@ string Identity::getFilelistGeneratorVer() const {
 		}
 		return sGenVer;
 	} else {
-		return string();
+		return Util::emptyString;
 	}
 }
 
@@ -316,7 +316,7 @@ string Identity::checkFilelistGenerator(OnlineUser& ou)
 		}
 	}
 
-	return string();
+	return Util::emptyString;
 }
 
 string Identity::myInfoDetect(OnlineUser& ou) {
@@ -374,7 +374,7 @@ string Identity::myInfoDetect(OnlineUser& ou) {
 		ClientManager::getInstance()->sendAction(ou, entry.rawToSend);
 		return sReport;
 	}
-	return string();
+	return Util::emptyString;
 }
 
 string Identity::updateClientType(OnlineUser& ou) {
@@ -433,7 +433,7 @@ string Identity::updateClientType(OnlineUser& ou) {
 			return ou.setCheat(entry.cheat + " Version mis-match", true, false, ou.getClient().isActionActive(SETTING(VERSION_MISMATCH_RAW)));
 		}
 
-		string sReport = string();
+		string sReport = Util::emptyString;
 		if(!entry.cheat.empty()) {
 			sReport = ou.setCheat(entry.cheat, true, false, ou.getClient().isActionActive(entry.rawToSend));
 		}
@@ -444,7 +444,7 @@ string Identity::updateClientType(OnlineUser& ou) {
 
 	logDetection(false);
 	setClientType("Unknown");
-	return string();
+	return Util::emptyString;
 }
 
 void Identity::getDetectionParams(ParamMap& p) {
@@ -580,8 +580,8 @@ map<string, string> Identity::getReport() const
 				reportSet.insert(make_pair(name, value));
 		}
 		//hack to show port
-		reportSet.insert(make_pair("U4",Util::toString(getUdp4Port())));
-		reportSet.insert(make_pair("U6",Util::toString(getUdp6Port())));
+		//reportSet.insert(make_pair("UP",Util::toString((int16_t)getUdpPort())));
+		//reportSet.insert(make_pair("U6",Util::toString(getUdp6Port())));
 	}
 	return reportSet;
 }
@@ -620,9 +620,7 @@ bool OnlineUser::isCheckable(uint32_t delay /* = 0*/)
 		return true;
 	return (GET_TICK() - identity.getLoggedIn()) > delay;
 }
-
 //checking stuff
-// From RSX or Zion?
 bool OnlineUser::getChecked(bool bFilelist/* = false*/, bool bCheckComplete/* = true*/) {
 	if(!identity.isTcpActive() && !getClient().isActive()) {
 		identity.setClientType("[Passive]");
@@ -677,18 +675,5 @@ bool Identity::isProtectedUser(const Client& c, bool bOpBotHubCheck) const {
 	}
 	return ret;
 }
-#if 0
-UserData* OnlineUser::getPluginObject() noexcept {
-	resetEntity();
 
-	pod.nick = pluginString(getIdentity().getNick());
-	pod.hubHint = pluginString(getClient().getHubUrl());
-	pod.cid = pluginString(getUser()->getCID().toBase32());
-	pod.sid = getIdentity().getSID();
-	pod.protocol = getUser()->isNMDC() ? PROTOCOL_NMDC : PROTOCOL_ADC;
-	pod.isOp = getIdentity().isOp() ? True : False;
-
-	return &pod;
-}
-#endif
 } // namespace dcpp

@@ -18,7 +18,8 @@
 #include "definitons.hh"
 #include "seUtil.hh"
 
-#include <dcpp/SettingsManager.h>
+#include "../dcpp/SettingsManager.h"
+
 using namespace std;
 using namespace dcpp;	
 /*----------------------------------------------------------------------*/
@@ -28,9 +29,8 @@ void ConnectionPage::show(GtkWidget *parent, GtkWidget* old)
 {
 	box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
 	GtkWidget* frame = gtk_frame_new (_("Settings Incoming Connection"));
-
 	GtkWidget* table = gtk_grid_new();
-	gtk_container_add (GTK_CONTAINER(frame),table);
+	
 	//@:todo: small sized
 	entry_tcp = gen;
 	entry_tls = gen;
@@ -39,11 +39,10 @@ void ConnectionPage::show(GtkWidget *parent, GtkWidget* old)
 	entry_ip = gen;
 	entry_ip6 = gen;
 	
-	radio_direct = gtk_radio_button_new_with_label(NULL,
-                                 _("Direct Connection"));
-    radio_upnp = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON(radio_direct), _("Use uPnP"));
-	radio_manual = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON(radio_direct), _("Manual Forward"));
-    radio_pasive = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON(radio_direct), _("Pasive"));
+	radio_direct = gtk_toggle_button_new_with_label(_("Direct Connection"));
+    radio_upnp = gtk_toggle_button_new_with_label (_("Use uPnP"));
+	radio_manual = gtk_toggle_button_new_with_label (_("Manual Forward"));
+    radio_pasive = gtk_toggle_button_new_with_label (_("Pasive"));
 
 	gtk_grid_attach(GTK_GRID(table),radio_direct,0,0,1,1);
 	gtk_grid_attach(GTK_GRID(table),radio_upnp,0,1,1,1);
@@ -77,12 +76,12 @@ void ConnectionPage::show(GtkWidget *parent, GtkWidget* old)
 	gtk_grid_attach(GTK_GRID(table),overide_button,0,6,1,1);
 	gtk_grid_attach(GTK_GRID(table),gtk_label_new(_("Don't Override by Hub/UPnP")),1,6,1,1);
 				
-	gtk_entry_set_text(GTK_ENTRY(entry_ip), SETTING(EXTERNAL_IP).c_str());
-	gtk_entry_set_text(GTK_ENTRY(entry_ip6), SETTING(EXTERNAL_IP6).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_ip), SETTING(EXTERNAL_IP).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_ip6), SETTING(EXTERNAL_IP6).c_str());
 
-	gtk_entry_set_text(GTK_ENTRY(entry_tcp), Util::toString(SETTING(TCP_PORT)).c_str());
-	gtk_entry_set_text(GTK_ENTRY(entry_udp), Util::toString(SETTING(UDP_PORT)).c_str());
-	gtk_entry_set_text(GTK_ENTRY(entry_tls), Util::toString(SETTING(TLS_PORT)).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_tcp), Util::toString(SETTING(TCP_PORT)).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_udp), Util::toString(SETTING(UDP_PORT)).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_tls), Util::toString(SETTING(TLS_PORT)).c_str());
 	gtk_switch_set_active(GTK_SWITCH(overide_button), SETTING(NO_IP_OVERRIDE));
 
 	switch (SETTING(INCOMING_CONNECTIONS))
@@ -101,14 +100,14 @@ void ConnectionPage::show(GtkWidget *parent, GtkWidget* old)
 			onInPassive_gui(NULL,(gpointer)this);
 			break;
 	}
-	gtk_box_pack_start(GTK_BOX(box),frame,TRUE,TRUE,0);
+	gtk_box_append(GTK_BOX(box),table);
 	
 	frame = gtk_frame_new(_("Settings Outgoing Connection"));
 
 	table = gtk_grid_new();
-	gtk_container_add (GTK_CONTAINER(frame),table);
-	radio_direct_out = gtk_radio_button_new_with_label(NULL,_("Direct"));
-	radio_sock = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON(radio_direct_out),_("Sock5"));	
+	gtk_frame_set_child  (GTK_FRAME(frame),table);
+	radio_direct_out = gtk_toggle_button_new_with_label(_("Direct"));
+	radio_sock = gtk_toggle_button_new_with_label(_("Sock5"));	
 	gtk_grid_attach(GTK_GRID(table),radio_direct_out,0,0,1,1);
 	gtk_grid_attach(GTK_GRID(table),radio_sock,0,1,1,1);
 	label_ip_out = gtk_label_new(_("Address: "));
@@ -135,7 +134,7 @@ void ConnectionPage::show(GtkWidget *parent, GtkWidget* old)
 	gtk_grid_attach(GTK_GRID(table),check_hostname,0,7,1,1);
 	gtk_grid_attach(GTK_GRID(table),gtk_label_new(_("Use also for resolving hostname")),1,7,1,1);
 
-	gtk_box_pack_start(GTK_BOX(box),frame,TRUE,TRUE,0);
+	gtk_box_append(GTK_BOX(box),table);
 
 	/*@Add to parent*/
 	SEUtil::reAddItemCo(parent,old,box);
@@ -148,10 +147,10 @@ void ConnectionPage::show(GtkWidget *parent, GtkWidget* old)
 	// Outgoing
 	g_signal_connect(radio_direct_out, "toggled", G_CALLBACK(onOutDirect_gui), (gpointer)this);
 	g_signal_connect(radio_sock, "toggled", G_CALLBACK(onSocks5_gui), (gpointer)this);
-	gtk_entry_set_text(GTK_ENTRY(entry_ip_sock), SETTING(SOCKS_SERVER).c_str());
-	gtk_entry_set_text(GTK_ENTRY(entry_username), SETTING(SOCKS_USER).c_str());
-	gtk_entry_set_text(GTK_ENTRY(entry_sport), Util::toString(SETTING(SOCKS_PORT)).c_str());
-	gtk_entry_set_text(GTK_ENTRY(entry_password), SETTING(SOCKS_PASSWORD).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_ip_sock), SETTING(SOCKS_SERVER).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_username), SETTING(SOCKS_USER).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_sport), Util::toString(SETTING(SOCKS_PORT)).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_password), SETTING(SOCKS_PASSWORD).c_str());
 	
 	gtk_switch_set_active(GTK_SWITCH(check_hostname), SETTING(SOCKS_RESOLVE));
 
@@ -235,12 +234,12 @@ void ConnectionPage::write()
 		*s_pass = NULL, *s_user = NULL;
 		
 		if(GTK_IS_ENTRY(entry_ip))
-			ipv4 = gtk_entry_get_text(GTK_ENTRY(entry_ip));
+			ipv4 = gtk_editable_get_text(GTK_EDITABLE(entry_ip));
 		
 		if(ipv4 != NULL)
 			sm->set(SettingsManager::EXTERNAL_IP, ipv4);
 		if(GTK_IS_ENTRY(entry_ip6))
-			ipv6 = gtk_entry_get_text(GTK_ENTRY(entry_ip6));
+			ipv6 = gtk_editable_get_text(GTK_EDITABLE(entry_ip6));
 		
 		if(ipv6 != NULL)
 			sm->set(SettingsManager::EXTERNAL_IP6, ipv6 );
@@ -248,7 +247,7 @@ void ConnectionPage::write()
 		sm->set(SettingsManager::NO_IP_OVERRIDE,  gtk_switch_get_active(GTK_SWITCH((overide_button))));
 
 		if(GTK_IS_ENTRY(entry_tcp))
-			s_port = gtk_entry_get_text(GTK_ENTRY(entry_tcp));
+			s_port = gtk_editable_get_text(GTK_EDITABLE(entry_tcp));
 		int port = 0;
 		if(s_port != NULL) {
 			port = Util::toInt(s_port);
@@ -257,7 +256,7 @@ void ConnectionPage::write()
 			sm->set(SettingsManager::TCP_PORT, port);
 		
 		if(GTK_IS_ENTRY(entry_udp))
-			s_uport = gtk_entry_get_text(GTK_ENTRY(entry_udp));
+			s_uport = gtk_editable_get_text(GTK_EDITABLE(entry_udp));
 		int uport = 0;
 		if(s_uport != NULL) {
 			uport = Util::toInt(s_uport);
@@ -266,7 +265,7 @@ void ConnectionPage::write()
 			sm->set(SettingsManager::UDP_PORT, uport);
 		int sport = 0;
 		if(GTK_IS_ENTRY(entry_tls))
-			s_sport = gtk_entry_get_text(GTK_ENTRY(entry_tls));
+			s_sport = gtk_editable_get_text(GTK_EDITABLE(entry_tls));
 		if(s_sport != NULL) {
 			sport = Util::toInt(s_sport);
 		}	
@@ -281,18 +280,18 @@ void ConnectionPage::write()
 			sm->set(SettingsManager::OUTGOING_CONNECTIONS, SettingsManager::OUTGOING_SOCKS5);
 		
 		if(GTK_IS_ENTRY(entry_ip_sock))
-			s_server = gtk_entry_get_text(GTK_ENTRY(entry_ip_sock)); 
+			s_server = gtk_editable_get_text(GTK_EDITABLE(entry_ip_sock)); 
 		if(s_server !=  NULL)
 			sm->set(SettingsManager::SOCKS_SERVER, s_server );
 		
 		if(GTK_IS_ENTRY(entry_username))
-			s_user = gtk_entry_get_text(GTK_ENTRY(entry_username));
+			s_user = gtk_editable_get_text(GTK_EDITABLE(entry_username));
 		
 		if(s_user != NULL)
 		sm->set(SettingsManager::SOCKS_USER, s_user);
 
 		if(GTK_IS_ENTRY(entry_password))
-			s_pass = gtk_entry_get_text(GTK_ENTRY(entry_password));
+			s_pass = gtk_editable_get_text(GTK_EDITABLE(entry_password));
 		if(s_pass != NULL)
 			sm->set(SettingsManager::SOCKS_PASSWORD, s_pass);
 
@@ -300,7 +299,7 @@ void ConnectionPage::write()
 		
 		s_sport = 0;
 		if(GTK_IS_ENTRY(entry_sport))
-			s_sport = gtk_entry_get_text(GTK_ENTRY(entry_sport));
+			s_sport = gtk_editable_get_text(GTK_EDITABLE(entry_sport));
 		
 		if(s_sport != NULL) {
 			int port = Util::toInt(s_sport);

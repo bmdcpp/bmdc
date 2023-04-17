@@ -59,7 +59,7 @@ FavoriteHubEntry::FavAction::FavAction(bool _enabled, string _raw /*= Util::empt
 
 FavoriteManager::FavoriteManager() : lastId(0), useHttp(false), running(false), c(NULL), lastServer(0), listType(TYPE_NORMAL), dontSave(false) {
 	SettingsManager::getInstance()->addListener(this);
-	ClientManager::getInstance()->addListener(this);
+	UsersManager::getInstance()->addListener(this);
 
 	File::ensureDirectory(Util::getHubListsPath());
 
@@ -77,7 +77,7 @@ FavoriteManager::FavoriteManager() : lastId(0), useHttp(false), running(false), 
 }
 
 FavoriteManager::~FavoriteManager() {
-	ClientManager::getInstance()->removeListener(this);
+	UsersManager::getInstance()->removeListener(this);
 	SettingsManager::getInstance()->removeListener(this);
 	if(c) {
 		c->removeListener(this);
@@ -965,11 +965,14 @@ void FavoriteManager::refresh(bool forceDownload /* = false */) {
 		return;
 	}
 	publicListServer = sl[(lastServer) % sl.size()];
-	if(Util::strnicmp(publicListServer.c_str(), "http://", 7) != 0) {
-		lastServer++;
-		fire(FavoriteManagerListener::DownloadFailed(), string(F_("Invalid URL: ") + Util::addBrackets(publicListServer)));
-		return;
-	}
+	//if( (Util::strnicmp(publicListServer.c_str(), "http://", 7) != 0)
+	//	|| (Util::strnicmp(publicListServer.c_str(), "https://", 8) != 0)
+	//)
+	 //{
+	//	lastServer++;
+	//	fire(FavoriteManagerListener::DownloadFailed(), string(F_("Invalid URL: ") + Util::addBrackets(publicListServer)));
+	//	return;
+	//}
 
 	if(!forceDownload) {
 		string path = Util::getHubListsPath() + Util::validateFileName(publicListServer);
@@ -1035,17 +1038,13 @@ UserCommand::List FavoriteManager::getUserCommands(int ctx, const StringList& hu
 
 		for(size_t j = 0; j < hubs.size(); ++j) {
 			const string& hub = hubs[j];
-			bool hubAdc = Util::isAdc(hub);//hub.compare(0, 6, "adc://") == 0 || hub.compare(0, 7, "adcs://") == 0;
-			bool commandAdc = Util::isAdc(uc.getHub());//uc.adc();
-			//uc.getHub().compare(0, 6, "adc://") == 0 || uc.getHub().compare(0, 7, "adcs://") == 0;
+			bool hubAdc = Util::isAdc(hub);
+			bool commandAdc = Util::isAdc(uc.getHub());
 			if(hubAdc && commandAdc) {//its already know is it adc's no reason check again
-				//if((uc.getHub() == "adc://" || uc.getHub() == "adcs://") ||
-				//	((uc.getHub() == "adc://op" || uc.getHub() == "adcs://op") && isOp[j]) ||
-				//	(uc.getHub() == hub) )
-				{
+			{
 					lst.push_back(*i);
 					break;
-				}
+			}
 			} else if((!hubAdc && !commandAdc) || uc.isChat()) {
 				if((uc.getHub().length() == 0) ||
 					(uc.getHub() == "op" && isOp[j]) ||

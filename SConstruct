@@ -25,16 +25,10 @@ LIB_HAVE_XATTR = False
 # For Idle Detection, Enabled by defualt
 LIB_HAVE_XSS = False
 NEW_SETTING = False
-# , '-Werror' ,'-Wfatal-errors'
-#'-fno-stack-protector',
-# #,'-fpermissive' ],
-#,'-Weffc++'
-#'-L/usr/local/lib','-L/usr/lib',
-#'-ldl',
-# http://stackoverflow.com/questions/1564937/gcc-warning-will-be-initialized-after
+
 BUILD_FLAGS = {#'-Wno-unused-parameter','-Wno-unused-value',
-	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT','-pipe','-DUSE_STACKTRACE' ,'-fpermissive','-DUSE_WIN32_CODE=0'],#temp
-	'debug'   : ['-O1','-g', '-ggdb','-W', '-Wall','-Wextra','-D_DEBUG' ,'-DUSE_ADDR2LINE','-Wno-reorder'],#'-fpermissive' ,'-Wpadded'
+	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT','-pipe','-DUSE_STACKTRACE=1' ,'-fpermissive'],#temp,'-DUSE_WIN32_CODE'
+	'debug'   : ['-O1','-g', '-ggdb','-W', '-Wall','-Wextra','-D_DEBUG' ,'-DUSE_ADDR2LINE','-Wno-reorder','-DGDK_DISABLE_DEPRECATED','-DGTK_DISABLE_DEPRECATED','-Wno-unused-parameter','-Wno-unused-value','-Wno-format','-Wfatal-errors'],#'-fpermissive' ,'-Wpadded'
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }
 
@@ -100,23 +94,6 @@ def generate_message_catalogs(env):
 
 	return None
 
-
-def check_bzr_revision(context,env):
-	context.Message("Checking bzr revision...")
-	revision = ''
-
-	try:
-		b = branch.Branch.open('.')
-		revision = str(b.revno())
-	except:
-		print ("failed")
-
-	context.env['BZR_REVISION'] = revision
-	env.Append( CPPDEFINES = ('-DBZR_REVISION=') + revision)
-	env.Append( CPPDEFINES = ('-DBZR_REVISION_STRING=\'"') + revision+('\"\''))
-	context.Result(revision)
-	return revision
-
 def replaceAll(env,file,searchExp,replaceExp):
 	for line in fileinput.input(file, inplace=1):
 		if searchExp in line:
@@ -139,11 +116,9 @@ vars.AddVariables(
 	BoolVariable('profile', 'Compile the program with profiling information', 0),
 	BoolVariable('libnotify', 'Enable notifications through libnotify', 1),
 	BoolVariable('libtar', 'Enable Backup&Export with libtar', 1),
-	BoolVariable('libappindicator', 'Enable AppIndicator Support', 0),
 	BoolVariable('libxattr', 'Enable xattr support for storing calculated Hash in extended attributes of file',1),
 	BoolVariable('libXss', 'Enable libxss support for AutoAway on idle feat',1),
 	BoolVariable('newSettings', 'Use new Settings dialog UI',0),
-	BoolVariable('useStatusIcon', 'Use Status Icon',1),
 	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local/', PathVariable.PathIsDir),
 	('FAKE_ROOT', 'Make scons install the program under a fake root', '')
 )
@@ -192,7 +167,7 @@ vars.Save('build/sconf/scache.conf', env)
 Help(vars.GenerateHelpText(env))
 
 pot_args = ['xgettext', '--default-domain=$PACKAGE', '--package-name=$PACKAGE',
-		'--msgid-bugs-address=https://sourceforge.net/projects/freedcppmv/',
+		'--msgid-bugs-address=https://github.com/bmdcpp/bmdc',
 		'--copyright-holder=BMDC++ Team', '--add-comments=TRANSLATORS',
 		'--keyword=_', '--keyword=N_', '--keyword=C_:1c,2', '--keyword=F_',
 		'--keyword=P_:1,2', '--from-code=UTF-8', '--foreign-user',
@@ -220,7 +195,6 @@ conf = env.Configure(
 		'CheckPKGConfig' : check_pkg_config,
 		'CheckPKG' : check_pkg,
 		'CheckCXXVersion' : check_cxx_version,
-		'CheckBZRRevision' : check_bzr_revision
 	},
 	conf_dir = 'build/sconf',
 	log_file = 'build/sconf/config.log')
@@ -245,8 +219,8 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		print ('\tpkg-config not found.')
 		Exit(1)
 
-	if not conf.CheckPKG('gtk+-3.0 > 3.00'):
-		print ('\tgtk+ >= 3.14 not found.')
+	if not conf.CheckPKG('gtk4 > 4.00'):
+		print ('\tgtk+ >= 4.00 not found.')
 		print ('\tNote: You might have the lib but not the headers')
 		Exit(1)
 
@@ -269,7 +243,8 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		print ('\tNote: You might have the lib but not the headers')
 		Exit(1)
 
-	if not conf.CheckLibWithHeader('bz2', 'bzlib.h', 'c'):
+#	if not conf.CheckLibWithHeader('bzip2', 'bzlib.h', 'c'):
+	if not conf.CheckPKG('bzip2') :
 		print ('\tbz2 library (bz2 compression) not found')
 		print ('\tNote: You might have the lib but not the headers')
 		Exit(1)
@@ -290,6 +265,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		conf.env.Append(CPPDEFINES = ('DHAVE_EC_CRYPTO'))
 
 	if not conf.CheckHeader('iconv.h'):
+		print ('\t No Iconv found you may have lib but not headers')
 		Exit(1)
 	elif conf.CheckLibWithHeader('iconv', 'iconv.h', 'c', 'iconv(0, (const char **)0, 0, (char**)0, 0);'):
 		conf.env.Append(CPPDEFINES = ('ICONV_CONST', 'const'))
@@ -313,15 +289,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 				if conf.CheckPKG('libnotify >= 0.7'):
 					conf.env.Append(CPPDEFINES = 'HAVE_LIBNOTIFY_0_7')
 
-	# Sound
-	#conf.env['HAVE_CANBERRA_LIB'] = 0
-	#if not conf.CheckPKG('libcanberra'):
-	#	print ('\tlibcanberra not found.')
-	#	print ('\tNote: You might have the lib but not the headers')
-	#	Exit(1)
-	#else:
-	#	conf.env['HAVE_CANBERRA_LIB'] = 1
-
 	# Check for MiniUPnPc
 	if not conf.CheckLib('libminiupnpc'):
 		LIB_IS_UPNP = False
@@ -330,7 +297,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		LIB_IS_NATPMP = False
 
 	# GeoIp
-	if conf.CheckHeader('GeoIP.h'):
+	if conf.CheckHeader('maxminddb.h'):
 		print ('Found GeoIP headers')
 		conf.env.Append(CPPDEFINES = 'HAVE_GEOIPLIB')
 		LIB_IS_GEO = True
@@ -348,34 +315,17 @@ if not 'install' in COMMAND_LINE_TARGETS:
 			print ('Dont Found libtar headers')
 			LIB_IS_TAR = False
 
-	# Support of appindicator # Very Experimental!
-	if conf.env.get('libappindicator'):
-		if conf.CheckPKG('appindicator3-0.1'):
-			print ('Found appindicator3')
-			conf.env.Append(CPPDEFINES = 'HAVE_APPINDCATOR')
-			conf.env.ParseConfig('pkg-config --libs --cflags appindicator3-0.1')
-
-	if conf.env.get('libXss'):
-		if conf.CheckLibWithHeader('libXss','X11/extensions/scrnsaver.h' ,'c'):
-			print ('Found Xss')
-			conf.env.Append(CPPDEFINES = 'HAVE_XSSLIB')
-			LIB_HAVE_XSS = True
-
 	if conf.env.get('newSettings'):
 		conf.env.Append(CPPDEFINES = 'USE_NEW_SETTINGS')
 		NEW_SETTING = True
 
-	if conf.env.get('useStatusIcon'	):
-		conf.env.Append(CPPDEFINES = 'USE_STATUSICON')
-
-	conf.CheckBZRRevision(env)
 	#os.system('sh linux/gen.sh')
 	env = conf.Finish()
 
 # ----------------------------------------------------------------------
 # Compile and link flags
 # ----------------------------------------------------------------------
-#	_platform = 'win32'#flag for cross enable compile
+	#_platform = 'win32'#flag for cross enable compile
 	env.MergeFlags(BUILD_FLAGS['common'])
 	env.MergeFlags(BUILD_FLAGS[env['mode']])
 
@@ -385,6 +335,9 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	#temp
 	env.Append(LIBS = ['maxminddb'])
 	env.Append(LINKFLAGS = ['-lmaxminddb'])
+
+	env.Append( CPPPATH ='/ucrt64/include/')
+
 
 
 	env.Append(CPPDEFINES = ['STATICLIB'])
@@ -401,7 +354,11 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		env.Append(LIBS='Xss')
 		env.Append(LINKFLAGS='-lXss')
 
-	env.ParseConfig('pkg-config --libs gtk+-3.0')
+	env.ParseConfig('pkg-config --libs gtk4')
+	env.ParseConfig('pkg-config --libs bzip2')
+	
+	env.ParseConfig('pkg-config --cflags glib-2.0')
+	env.ParseConfig('pkg-config --libs glib-2.0')
 
 	env.Append(LIBPATH = env['build_path'] + CORE_PACKAGE)
 	env.Prepend(LIBS = 'dcpp')
@@ -423,9 +380,11 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		env.Append(LIBS = ['socket', 'nsl'])
 
 	if _platform == 'win32':
-		env.Append(LIBS = ['wsock32','iphlpapi','ws2_32'])
-		#env.Append(LINKFLAGS= '-Wl,-subsystem ')
-		#env.Append(LDFLAGS = '-L/usr/i686-w64-mingw32/lib/')
+		env.Append(LIBS = ['wsock32','iphlpapi','ws2_32' ,'Winmm' ,'ole32'])
+		env.Append(LINKFLAGS= '-Wl,-subsystem,windows')
+		#env.Append(CPPDEFINES = '_WIN32')
+		env.Append(LDFLAGS = '-L/usr/ucrt64/lib/')
+		env.Append(LDFLAGS = '-L/usr/msys64/usr/lib/')
 
 	if LIB_IS_GEO:
 		env.Append(LINKFLAGS = '-lGeoIP')
@@ -469,8 +428,8 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	# Build the GUI
 	ui_env = env.Clone()
 	glade_pot_file = SConscript(dirs = 'ui', variant_dir = env['build_path'] + 'ui', duplicate = 0, exports = {'env': ui_env})
-	if NEW_SETTING:
-		settings_files = SConscript(dirs = 'settings', variant_dir = env['build_path']+'settings', duplicate = 0, exports = { 'env': ui_env})
+	#if NEW_SETTING:
+	settings_files = SConscript(dirs = 'settings', variant_dir = env['build_path']+'settings', duplicate = 0, exports = { 'env': ui_env})
 	(linux_pot_file, obj_files) = SConscript(dirs = 'linux', variant_dir = env['build_path'] + 'gui', duplicate = 0, exports = {'env': ui_env})
 
 	# Create the executable
@@ -491,7 +450,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	elif not NEW_SETTING:
 		env.Program(target = PACKAGE, source = [libdcpp,obj_files])
 	else:
-		env.Program(target = PACKAGE, source = [libdcpp,obj_files])
+		env.Program(target = PACKAGE, source = [libdcpp,obj_files ,settings_files  ])
 
 	# i18n
 	env.MergePotFiles(source = [glade_pot_file, linux_pot_file], target = 'po/%s.pot' % PACKAGE)

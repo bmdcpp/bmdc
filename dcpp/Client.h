@@ -29,9 +29,6 @@
 #include "ClientListener.h"
 #include "OnlineUser.h"
 #include "CommandQueue.h"
-#if 0
-#include "PluginEntity.h"
-#endif
 #include "HubSettings.h"
 
 namespace dcpp {
@@ -39,9 +36,6 @@ namespace dcpp {
 using std::atomic;
 /** Yes, this should probably be called a Hub */
 class Client :
-#if 0
-	public PluginEntity<HubData>,
-#endif	
 	public Speaker<ClientListener>,
 	public BufferedSocketListener,
 	protected TimerManagerListener,
@@ -122,9 +116,7 @@ public:
 	bool isActiveV4() const;
 	bool isActiveV6() const; 
 	void putDetectors() { stopMyInfoCheck(); stopChecking();  }
-#if 0
-	HubData* getPluginObject() noexcept;
-#endif
+
 	GETSET(Identity, myIdentity, MyIdentity);
 	GETSET(Identity, hubIdentity, HubIdentity);
 
@@ -141,9 +133,9 @@ public:
 	GETSET(bool, checkClients, CheckClients);
 	GETSET(bool, checkFilelists, CheckFilelists);
 
-	GETSET(bool,ipv6,isipv6);
+	GETSET(bool, ipv6,isipv6);
 
-	mutable CriticalSection cs; //BMDC++//RSX++
+	mutable CriticalSection cs; //BMDC++
 protected:
 	friend class ClientManager;
 	Client(const string& hubURL, char separator, bool secure_);

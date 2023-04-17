@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2017 BMDC
+ * Copyright © 2010-2025 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@
 #include "sound.hh"
 #include "notify.hh"
 #include "message.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include <queue>
 #include <map>
 #include "ignoremenu.hh"
@@ -54,11 +54,11 @@ class Hub:
 	private:
 		using dcpp::ClientListener::on;
 		using dcpp::FavoriteManagerListener::on;
-		using dcpp::QueueManagerListener::on;	
+		using dcpp::QueueManagerListener::on;
 		typedef enum
 		{
-			BOT,OPERATOR,FAVORITE,IGNORED,PROTECTED,PASIVE,NORMAL	
-		} UserType;		
+			BOT = 0,OPERATOR,FAVORITE,IGNORED,PROTECTED,PASIVE,NORMAL
+		} UserType;
 	public:
 		Hub(const std::string &address, const std::string &encoding);
 		virtual ~Hub();
@@ -70,7 +70,7 @@ class Hub:
 		// GUI functions
 		void preferences_gui();
 
-		GtkWidget *createmenu() override;
+		GMenu *createmenu() override;
 
 		bool findNick_gui_p(std::string &word)
 		{
@@ -81,8 +81,6 @@ class Hub:
 	private:
 		dcpp::FavoriteHubEntry* getFavoriteHubEntry();
 		typedef std::unordered_map<std::string, std::string> UserMap;
-		typedef std::unordered_map<GtkWidget*, std::string> ImageList;
-		typedef std::pair<std::string, GtkWidget*> ImageLoad;
 
 		// GUI functions
 		void setStatus_gui(std::string statusBar, std::string text);
@@ -104,11 +102,10 @@ class Hub:
 public:
 		void addStatusMessage_gui(std::string message, Msg::TypeMsg typemsg, Sound::TypeSound sound);
 		void addStatusMessage_gui(std::string message, Msg::TypeMsg typemsg, Sound::TypeSound sound, Notify::TypeNotify notify);
+private:
 		void nickToChat_gui(const std::string &nick);
-private:		
 		void addFavoriteUser_gui(dcpp::StringMap params);
 		void removeFavoriteUser_gui(dcpp::StringMap params);
-		//BMDC++
 		void addProtected_gui(dcpp::StringMap params);
 
 		void addPrivateMessage_gui(Msg::TypeMsg typemsg, std::string nick, std::string cid, std::string url, std::string message, bool useSetting);
@@ -116,85 +113,87 @@ private:
 		void loadImage_gui(std::string target, std::string tth);
 		void openImage_gui(std::string target);
 		void insertBBcodeEntry_gui(std::string ch);
-		//BMDC++
 		void set_Header_tooltip_gui();
 		void columnHeader(int num, std::string name);
 
 		// GUI callbacks
 		static void onSizeWindowState_gui(GtkWidget* widget,GdkRectangle *allocation,gpointer data);
-		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
-		static gboolean onNickListButtonPress_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onNickListButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onNickListKeyRelease_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-		static gboolean onEntryKeyPress_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-		static gboolean onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
-		static gboolean onLinkTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
-		static gboolean onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
-		static gboolean onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
-		static gboolean onChatPointerMoved_gui(GtkWidget *widget, GdkEventMotion *event, gpointer data);
-		static gboolean onChatVisibilityChanged_gui(GtkWidget *widget, GdkEventVisibility *event, gpointer data);
-		static gboolean onEmotButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+//		static gboolean onNickListKeyRelease_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+//		static gboolean onEntryKeyPress_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+
+//		static gboolean onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
+//		static gboolean onLinkTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
+//		static gboolean onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
+//		static gboolean onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
+//		static gboolean onChatPointerMoved_gui(GtkWidget *widget, GdkEventMotion *event, gpointer data);
+//		static gboolean onChatVisibilityChanged_gui(GtkWidget *widget, GdkEventVisibility *event, gpointer data);
+//		static gboolean onEmotButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static void onChatScroll_gui(GtkAdjustment *adjustment, gpointer data);
 		static void onChatResize_gui(GtkAdjustment *adjustment, gpointer data);
 		static void onSendMessage_gui(GtkEntry *entry, gpointer data);
-		static void onNickToChat_gui(GtkMenuItem *item, gpointer data);
-		static void onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onMatchItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onMsgItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onGrantItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onRemoveUserItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onCopyURIClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onOpenLinkClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onOpenHubClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onSearchMagnetClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onMagnetPropertiesClicked_gui(GtkMenuItem *item, gpointer data);
+
+		static void onNickToChat_gui(GtkWidget *item,GVariant*, gpointer data);
+		static void onBrowseItemClicked_gui(GtkWidget *item,GVariant*, gpointer data);
+		static void onMatchItemClicked_gui(GtkWidget *item,GVariant*, gpointer data);
+		static void onMsgItemClicked_gui(GtkWidget *item,GVariant*, gpointer data);
+		static void onGrantItemClicked_gui(GtkWidget *item,GVariant*, gpointer data);
+		static void onRemoveUserItemClicked_gui(GtkWidget *item,GVariant* v, gpointer data);
+//		static void onCopyURIClicked_gui(GtkWidget *item,GVariant* vg, gpointer data);
+//		static void onOpenLinkClicked_gui(GtkWidget *item, GVariant* v, gpointer data);
+//		static void onOpenHubClicked_gui(GtkWidget*,GVariant* v, gpointer data);
+//		static void onSearchMagnetClicked_gui(GtkWidget*,GVariant* v, gpointer data);
+//		static void onMagnetPropertiesClicked_gui(GtkWidget*,GVariant* v, gpointer data);
 		static void onUserListToggled_gui(GtkWidget *widget, gpointer data);
-		static void onAddFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onRemoveFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data);
+		static void onAddFavoriteUserClicked_gui(GtkWidget*item,GVariant* v, gpointer data);
+		static void onRemoveFavoriteUserClicked_gui(GtkWidget *item,GVariant* v, gpointer data);
 		static void onPasswordDialog(GtkWidget *dialog, gint response, gpointer data);
-		static void onDownloadToClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onDownloadClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onDownloadToClicked_gui(GtkWidget*,GVariant* v, gpointer data);
+//		static void onDownloadClicked_gui(GtkWidget*,GVariant* v, gpointer data);
 		static void onCommandClicked_gui(GtkWidget *widget, gpointer data);
-		static gboolean onChatCommandButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static void onUseEmoticons_gui(GtkWidget *widget, gpointer data);
-		static void onImageDestroy_gui(GtkWidget *widget, gpointer data);
-		static void onDownloadImageClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onRemoveImageClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onOpenImageClicked_gui(GtkMenuItem *item, gpointer data);
-		static gboolean onImageEvent_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static void onItalicButtonClicked_gui(GtkWidget *widget, gpointer data);
-		static void onBoldButtonClicked_gui(GtkWidget *widget, gpointer data);
-		static void onUnderlineButtonClicked_gui(GtkWidget *widget, gpointer data);
-		//[BMDC++
-		static void onPartialFileListOpen_gui(GtkMenuItem *item, gpointer data);
-		static void onCloseItem(gpointer data);
-		static void onCopyHubUrl(gpointer data);
-		static void onAddFavItem(gpointer data);
-		static void onRemoveFavHub(gpointer data);
-		static void onSetTabText(gpointer data);
-		static void onShareView(gpointer data);
-		static void onReconnectItemTab(gpointer data);
-		static void onRefreshShare(gpointer data);
-		
-		static void onAddIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onRemoveIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onShowReportClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onItalicButtonClicked_gui(GtkWidget *widget, gpointer data);
+//		static void onBoldButtonClicked_gui(GtkWidget *widget, gpointer data);
+//		static void onUnderlineButtonClicked_gui(GtkWidget *widget, gpointer data);
+		static void onCloseItem(GtkWidget* ,GVariant*, gpointer data);
+		static void onCopyHubUrl(GtkWidget* ,GVariant*, gpointer data);
+		static void onAddFavItem(GtkWidget* ,GVariant*, gpointer data);
+		static void onRemoveFavHub(GtkWidget* ,GVariant*, gpointer data);
+		static void onSetTabText(GtkWidget* ,GVariant*, gpointer data);
+		static void onShareView(GtkWidget* ,GVariant*, gpointer data);
+		static void onReconnectItemTab(GtkWidget* ,GVariant*, gpointer data);
+		static void onRefreshShare(GtkWidget* ,GVariant*, gpointer data);
+//		static void onAddIgnoreUserItemClicked_gui(GtkWidget*,GVariant* v, gpointer data);
+//		static void onRemoveIgnoreUserItemClicked_gui(GtkWidget*,GVariant* v, gpointer data);
+//		static void onShowReportClicked_gui(GtkWidget*,GVariant* v, gpointer data);
 		static void selection_changed_userlist_gui(GtkTreeSelection *selection, GtkWidget *tree_view);
 		static gboolean onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data);
 		static gboolean onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event , GtkTextIter *iter, gpointer data);
 		static void onCopyIpItem_gui(GtkWidget *wid, gpointer data);
 		static void onRipeDbItem_gui(GtkWidget *wid, gpointer data);
-		static void onTestSURItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onCheckFLItemClicked_gui(GtkMenuItem *item , gpointer data);
-		static void onUnProtectUserClicked_gui(GtkMenuItem *item , gpointer data);
-		static void onProtectUserClicked_gui(GtkMenuItem *item , gpointer data);
+//		static void onTestSURItemClicked_gui(GtkWidget*,GVariant* v, gpointer data);
+//		static void onCheckFLItemClicked_gui(GtkWidget*,GVariant* v, gpointer data);
+//		static void onUnProtectUserClicked_gui(GtkWidget*,GVariant* v, gpointer data);
+//		static void onProtectUserClicked_gui(GtkWidget*,GVariant* v, gpointer data);
 		static void onRefreshUserListClicked_gui(GtkWidget *wid, gpointer data);
-
 		static void on_setImage_tab(GtkButton *widget, gpointer data);
 		static void onToglleButtonIcon(GtkToggleButton *button, gpointer data);
 		//[colorize userlist
 		static void makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data);
 		static gint sort_iter_compare_func_nick(GtkTreeModel *model, GtkTreeIter  *a,GtkTreeIter  *b,  gpointer  data);
+
+		static gboolean key_pressed_gui ( GtkEventControllerKey* self,	guint keyval,
+  							guint keycode,	GdkModifierType state,	gpointer user_data	);
+		static void key_released_gui (  GtkEventControllerKey* self,  guint keyval,
+  							guint keycode,  GdkModifierType state,  gpointer user_data  );
+		static void on_right_btn_pressed (GtkGestureClick *gesture, int       n_press,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data);
+
+		static void on_right_btn_released (GtkGestureClick *gesture,int       n_press,
+                                    double           x,
+                                    double           y,
+                                    GtkWidget       *widget);
 
 		// Client functions
 		void addFavoriteUser_client(const std::string& cid);
@@ -211,10 +210,7 @@ private:
 		void removeAsFavorite_client();
 
 		void getParams_client(dcpp::StringMap &user, dcpp::Identity &id);
-		void download_client(std::string target, int64_t size, std::string tth, std::string cid);
 		std::string realFile_client(std::string tth);
-		void openImage_client(std::string tth);
-		//BMDC++
 		std::string formatAdditionalInfo(const std::string& aIp, bool sIp, bool sCC);
 		std::string getIcons(const dcpp::Identity& id);
 
@@ -224,6 +220,7 @@ private:
 
 		void setColorRow(const std::string cell);
 		void setColorsRows();
+		
 		void clickAction(gpointer data);
 
 		// Favorite callbacks
@@ -248,11 +245,7 @@ private:
 		virtual void on(dcpp::ClientListener::SearchFlood, dcpp::Client *, const std::string &message) noexcept;
 		virtual void on(dcpp::ClientListener::CheatMessage, dcpp::Client *, const std::string &msg) noexcept;
 		virtual void on(dcpp::ClientListener::HubTopic, dcpp::Client *, const std::string &top) noexcept;
-		#if 0
-		virtual void on(dcpp::ClientListener::ClientLine, dcpp::Client* , const std::string &mess, int type) noexcept;
-		#endif
-		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) noexcept;
-		
+
 		UserMap userMap;
 		UnMapIter userIters;
 		UserMap userFavoriteMap;
@@ -285,9 +278,8 @@ private:
 		GtkWidget *m_menu;
 		Tag::TypeTag tagMsg;
 		unsigned int historyIndex;
-		static const int maxLines = 500;//1000
+		static const int maxLines = 500;
 		int64_t totalShared;
-		int ImgLimit;
 		int width;
 		gint totalEmoticons;
 		gint oldType;
@@ -296,7 +288,8 @@ private:
 		bool WaitingPassword;
 		bool useEmoticons;
 		bool notCreated;
-		bool isFavBool; 
+		bool isFavBool;
+		static const GActionEntry hub_entries[];
 
 };
 #else

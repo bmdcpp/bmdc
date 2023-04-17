@@ -28,8 +28,6 @@
 #include <openssl/err.h>
 #include <openssl/rand.h>
 
-//#include <openssl/x509_vfy.h>
-
 #ifndef DHAVE_EC_CRYPTO
 	#include <openssl/ec.h>
 #endif 
@@ -73,9 +71,12 @@ CryptoManager::CryptoManager()
 			tmpKeysMap[i] = getTmpRSA(getKeyLength(static_cast<TLSTmpKeys>(i)));
 
 		const char ciphersuites[] = "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:DHE-RSA-AES128-SHA:AES128-SHA";
-		SSL_CTX_set_options(clientContext, SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3 | SSL_OP_NO_COMPRESSION);
+		//SSL_CTX_set_options(clientContext, SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3 | SSL_OP_NO_COMPRESSION);
+		SSL_CTX_set_security_level(clientContext, 2);
 		SSL_CTX_set_cipher_list(clientContext, ciphersuites);
-		SSL_CTX_set_options(serverContext, SSL_OP_SINGLE_DH_USE | SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3 | SSL_OP_NO_COMPRESSION);
+		//SSL_CTX_set_options(serverContext, SSL_OP_SINGLE_DH_USE | SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3 | SSL_OP_NO_COMPRESSION);
+		SSL_CTX_set_security_level(serverContext, 2);
+		SSL_CTX_set_options(serverContext, SSL_OP_SINGLE_DH_USE);
 		SSL_CTX_set_cipher_list(serverContext, ciphersuites);
 
 		EC_KEY* tmp_ecdh;
@@ -99,9 +100,9 @@ CryptoManager::~CryptoManager() {
 	delete[] cs;
 
 	/* thread-local cleanup */
-	#if OPENSSL_API_COMPAT < 0x10100000L 
-	ERR_remove_thread_state(NULL);
-	#endif
+//	#if OPENSSL_API_COMPAT < 0x10100000L 
+//	ERR_remove_thread_state(NULL);
+//	#endif
 
 	clientContext.reset();
 	serverContext.reset();
@@ -209,7 +210,7 @@ void CryptoManager::generateCertificate() {
 void CryptoManager::sslRandCheck() {
 	if(!RAND_status()) {
 #ifdef _WIN32
-		RAND_screen();
+		RAND_poll();
 #endif
 	}
 }

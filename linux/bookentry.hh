@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2017 BMDC
+ * Copyright © 2010-2025 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,14 +24,14 @@
 #define _BMDC_BOOK_ENTRY_HH
 
 #include "entry.hh"
-
 #include <gtk/gtk.h>
+
 class BookEntry : public Entry
 {
 	public:
 		BookEntry(): eventBox(NULL), labelBox(NULL), tabMenuItem(NULL),	closeButton(NULL),
 				label(NULL), bCreated(true),bold(false), urgent(false), labelSize(20), icon(NULL) , popTabMenuItem(NULL), type((EntryType)0), bIsCloseButton(true)  { }
-		BookEntry(const EntryType type, const std::string &text, const std::string &glade, const std::string &id = std::string());
+		BookEntry(const EntryType type, const std::string &text, const std::string &glade, const std::string &id = dcpp::Util::emptyString  );
 		virtual ~BookEntry()
 		{
 
@@ -40,7 +40,7 @@ class BookEntry : public Entry
 		GtkWidget *getContainer(); //@ return Main Container of Book
 		GtkWidget *getLabelBox() { return labelBox; }
 		GtkWidget *getCloseButton() { return closeButton; }
-		GtkWidget *getTabMenuItem() { return tabMenuItem; }
+		GMenu *getTabMenuItem() { return tabMenuItem; }
 		void setIcon_gui(const EntryType type);
 		void setBackForeGround(const EntryType type); //@ Setting BackGround and ForeGround of BookEntry
 		void setIcon_gui(const std::string stock);
@@ -52,7 +52,7 @@ class BookEntry : public Entry
 		void setActive_gui();
 		bool isActive_gui();
 		virtual void show() = 0;
-		virtual GtkWidget *createmenu();
+		virtual GMenu *createmenu();
 
 		void setSearchButtons(bool s) { bIsCloseButton = s;}
 		void setName(const std::string& name)
@@ -67,22 +67,30 @@ class BookEntry : public Entry
 		{
 			gtk_widget_set_state_flags (labelBox,GTK_STATE_FLAG_NORMAL,TRUE);
 		}
-		int getPositionTab() { return (-1);};
+		int getPositionTab() { return (-1);}
 	protected:
-		GtkWidget *createItemFirstMenu();
+		GMenuItem *createItemFirstMenu();
 	private:
 		void updateLabel_gui();
-		static void onCloseItem(gpointer data);
+		static void onCloseItem(GtkWidget*,GVariant* ,gpointer data);
 		void removeBooK_GUI();
 		std::string getName();//@NOTE: For CSS
-		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		static void onButtonPressed_gui(GtkGestureClick *gesture,
+                                   int                n_press,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data);
+		static void onButtonReleased_gui(GtkGestureClick *gesture,
+                                    int              n_press,
+                                    double           x,
+                                    double           y,
+                                    GtkWidget       *widget);
 		std::string labelText;
 		std::string truncatedLabelText;
 		std::string h_name;
 		GtkWidget *eventBox;
 		GtkWidget *labelBox;
-		GtkWidget *tabMenuItem;
+		GMenu *tabMenuItem;
 		GtkWidget *closeButton;
 		GtkLabel *label;
 		bool bCreated; //@ if menu created
@@ -95,6 +103,7 @@ class BookEntry : public Entry
 		GtkWidget *popTabMenuItem;
 		const EntryType type;
 		bool bIsCloseButton;
+		static const GActionEntry win_entries[];
 };
 
 #else

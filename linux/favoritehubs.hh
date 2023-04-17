@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2014 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2017 BMDC
+ * Copyright © 2011-2025 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 #include "../dcpp/DCPlusPlus.h"
 #include "../dcpp/FavoriteManager.h"
 #include "../dcpp/ClientManager.h"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "bookentry.hh"
 #include "treeview.hh"
 
@@ -36,7 +36,6 @@ class FavoriteHubs:
 	public dcpp::FavoriteManagerListener,
 	public dcpp::ClientManagerListener
 {
-	//this is from clang
 	private:
 		using dcpp::FavoriteManagerListener::on;
 		using dcpp::ClientManagerListener::on;
@@ -44,7 +43,6 @@ class FavoriteHubs:
 		FavoriteHubs();
 		virtual ~FavoriteHubs();
 		virtual void show();
-
 	private:
 		// GUI functions
 		void addEntry_gui(dcpp::FavoriteHubEntry* entry);
@@ -60,32 +58,61 @@ class FavoriteHubs:
 		void initFavHubGroupsDialog_gui();
 
 		// GUI callbacks
-		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEvent *event, gpointer data);
+		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEvent *event, gpointer data);
 		static void onAddEntry_gui(GtkWidget *widget, gpointer data);
-		static void onEditEntry_gui(GtkWidget *widget, gpointer data);
-		static void onRemoveEntry_gui(GtkWidget *widget, gpointer data);
-		static void onConnect_gui(GtkButton *widget, gpointer data);
-		static void onCopyAddress(GtkWidget *item, gpointer data);
-		static void onAdvancedSettings(GtkWidget* item , gpointer data);
+		
+		static void onEditEntry_gui_b(GtkWidget *widget,gpointer data)
+		{ 
+			onEditEntry_gui(widget , NULL , data);
+		}
+		static void onEditEntry_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
+		
+		static void onRemoveEntry_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
+		static void onRemoveEntry_gui_b(GtkWidget *widget, gpointer data)
+		{
+			onRemoveEntry_gui(widget, NULL,data);
+		}
+		
+		static void onConnect_gui(GtkButton *widget,GVariant  *parameter,  gpointer data);
+		static void onConnect_gui_b(GtkButton *widget, gpointer data)
+		{ 
+			onConnect_gui(widget, NULL, data);
+		}
+		static void onCopyAddress(GtkWidget *item,GVariant  *parameter,gpointer data);
+		static void onAdvancedSettings(GtkWidget* item , GVariant  *parameter,gpointer data);
 		static void onAddGroupClicked_gui(GtkWidget *widget, gpointer data);
 		static void onRemoveGroupClicked_gui(GtkWidget *widget, gpointer data);
 		static void onUpdateGroupClicked_gui(GtkWidget *widget, gpointer data);
 		static void onManageGroupsClicked_gui(GtkWidget *widget, gpointer data);
-		static gboolean onGroupsButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onGroupsKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+		static void on_right_btn_pressed (GtkGestureClick *gesture, int       n_press,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data);
+
+		static void on_right_btn_released (GtkGestureClick *gesture,int       n_press,
+                                    double           x,
+                                    double           y,
+                                    gpointer       *data);
+		
+		static gboolean key_pressed_gui ( GtkEventControllerKey* self,	guint keyval,
+  							guint keycode,	GdkModifierType state,	gpointer data	);
+		static void key_released_gui (  GtkEventControllerKey* self,  guint keyval,
+  							guint keycode,  GdkModifierType state,  gpointer data  );
+
+
+//		static gboolean onGroupsButtonReleased_gui(GtkWidget *widget, GdkEvent *event, gpointer data);
+//		static gboolean onGroupsKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 
 		// Client functions
 		void initializeList_client();
-		void addEntry_client(dcpp::FavoriteHubEntry& entry);
 		void editEntry_client(dcpp::FavoriteHubEntry* entry);
 		void removeEntry_client(std::string address);
 
 		// Client callbacks
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteAdded, const dcpp::FavoriteHubEntryPtr entry) noexcept;
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteRemoved, const dcpp::FavoriteHubEntryPtr entry) noexcept;
-		
+
 		// ClientManagerListener
 		virtual void on(dcpp::ClientManagerListener::ClientConnected, dcpp::Client*) noexcept;
 		virtual void on(dcpp::ClientManagerListener::ClientDisconnected, dcpp::Client*) noexcept;
@@ -97,7 +124,10 @@ class FavoriteHubs:
 		UnMapIter GroupsIter;
 		UnMapIter HubsIter;
 		void edit_online_status(const std::string url,bool online);
+		
 		bool checkAddys(const std::string url);//@True if not find in FavList
+
+		static const GActionEntry fav_tab_entries[];
 
 };
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2018 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -70,7 +70,8 @@ public:
 	string getField(const CID& cid, const string& hintUrl, const char* field) const;
 
 	StringList getNicks(const HintedUser& user) { return getNicks(user.user->getCID(), user.hint); }
-	StringList getHubNames(const HintedUser& user) { return UsersManager::getInstance()->getHubNames(user.user->getCID(), user.hint); }
+	
+    StringList getHubNames(const HintedUser& user) { return UsersManager::getInstance()->getHubNames(user.user->getCID(), user.hint); }
 	StringList getHubs(const HintedUser& user) { return UsersManager::getInstance()->getHubs(user.user->getCID(), user.hint); }
 
 	vector<Identity> getIdentities(const UserPtr &u) const;
@@ -221,9 +222,10 @@ private:
 
 	// ClientListener
 	virtual void on(Connected, Client* c) noexcept;
-	virtual void on(UserUpdated, Client*, const OnlineUser& user) noexcept;
-	virtual void on(UsersUpdated, Client* c, const OnlineUserList&) noexcept;
-	virtual void on(Failed, Client*, const string&) noexcept;
+    
+	//virtual void on(UserUpdated, Client*, const OnlineUser& user) noexcept;
+	
+    virtual void on(Failed, Client*, const string&) noexcept;
 	virtual void on(HubUpdated, Client* c) noexcept;
 	virtual void on(HubUserCommand, Client*, int, int, const string&, const string&) noexcept;
 	virtual void on(NmdcSearch, Client* aClient, const string& aSeeker, int aSearchType, int64_t aSize,

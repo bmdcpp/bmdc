@@ -33,17 +33,12 @@
 #include "Segment.h"
 #include "Util.h"
 #include "HintedUser.h"
-#if 0
-#include "PluginEntity.h"
-#endif
+
 namespace dcpp {
 
 class QueueManager;
 class QueueItem : public Flags
-#if 0
-, public PluginEntity<QueueData>
-#endif
- {
+{
 public:
 	typedef unordered_map<string*, QueueItemPtr, noCaseStringHash, noCaseStringEq> StringMap;
 
@@ -192,9 +187,7 @@ public:
 
 	const string getTempTarget();
 	void setTempTarget(const string& aTempTarget) { tempTarget = aTempTarget; }
-#if 0
-	QueueData* getPluginObject() noexcept;
-#endif
+
 	GETSET(SegmentSet, done, Done);
 	GETSET(DownloadList, downloads, Downloads);
 	GETSET(string, target, Target);

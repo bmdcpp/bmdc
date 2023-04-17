@@ -24,16 +24,20 @@ using namespace std;
 using namespace dcpp;
 
 IgnoreTempManager::IgnoreTempManager()
-{}
+{
+
+}
 
 IgnoreTempManager::~IgnoreTempManager()
-{}
+{
+	
+}
 
-void IgnoreTempManager::addNickIgnored(string nick, uint64_t time)
+void IgnoreTempManager::addNickIgnored(string nick, uint64_t uitime)
 {
 	Lock l(cs);
-	uint64_t tick = GET_TIME();	
-	nickIgnore.insert(make_pair(nick,make_pair(tick,time)));
+	uint64_t uitick = GET_TIME()+time_t(uitime*60);	//now+time in seconds
+	nickIgnore.insert(make_pair(nick,uitick));
 	
 }
 void IgnoreTempManager::addIpIgnored(string ip,uint64_t time)
@@ -61,23 +65,22 @@ void IgnoreTempManager::removeCid(string cid){Lock l(cs); cidIgnore.erase(cid);}
 
 void IgnoreTempManager::on(dcpp::TimerManagerListener::Minute, uint64_t aTick) noexcept
 {
-		//lastTick = aTick;
-		time_t time = GET_TIME();
+		time_t t_time = GET_TIME();//now
 		Lock l(cs);
-		if(nickIgnore.size() >= 1)
+		if(!nickIgnore.empty())
 		{
 			vector<string> temp;
 			for(auto i = nickIgnore.begin(); i!= nickIgnore.end();++i)
 			{
-				auto s = i->second;
-				time_t timeRem = s.first + s.second;
-				if(difftime(time,timeRem) == 0)
+				time_t timeRem = i->second;
+				if(difftime(t_time,timeRem) > 0)
 					temp.push_back(i->first);
 			}
 			for(auto ix:temp) {
 				removeNick(ix);
 			}	
 		}
+		/*this need check*/
 		if(ipIgnore.size() >= 1)
 		{
 			

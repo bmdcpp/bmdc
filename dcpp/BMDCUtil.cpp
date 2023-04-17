@@ -31,11 +31,7 @@ const string defaultTestSURName = "TestSUR";
 void bmUtil::init() {
 	generateTestSURString();
 }
-/*
-void bmUtil::uinit() {
-	//...
-}
-*/
+
 bool bmUtil::checkVersion(const string& tag) {
 	const char* aTag = tag.c_str();
 	if(strncmp(aTag, "<++ V:0.69", 10) == 0) {
@@ -46,10 +42,6 @@ bool bmUtil::checkVersion(const string& tag) {
 	return false;
 }
 
-/*
-string RsxUtil::toIP(const uint32_t ipnum) {
-	return Util::toString((ipnum / 16777216) % 256) + '.' + Util::toString((ipnum / 65536) % 256) + '.' + Util::toString((ipnum / 256) % 256) + '.' + Util::toString(ipnum % 256);
-}*/
 uint32_t bmUtil::toIpNumber(const string& aIp) {
 	// you must supply a valid ip!!
 	string::size_type a = aIp.find('.');
@@ -71,16 +63,8 @@ bool bmUtil::isIpInRange(const string& aIp, const string& aRange) {
 	if(lower <= ip && ip <= upper)
 		return true;
 	return false;
-}/*
-uint32_t RsxUtil::getUpperRange(const string& aRange) {
-	string::size_type j = aRange.find('-') + 1;
-	return toIpNumber(aRange.substr(j, aRange.size() - j));
 }
 
-uint32_t RsxUtil::getLowerRange(const string& aRange) {
-	return toIpNumber(aRange.substr(0, aRange.find('-')));
-}
-*/
 void bmUtil::generateTestSURString() {
 	string tmp;
 	tmp.reserve(3);

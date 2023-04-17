@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2017 BMDC++
+ * Copyright © 2010-2025 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,13 +30,13 @@
 #include "dialogentry.hh"
 #include "func.hh"
 #include "mainwindow.hh"
-// @because GtkFactory -> GtkIconTheme and stock -> icon_name
+
 #include "gtk-fixies.hh"
 
 class WulforManager
 {
 	public:
-		static void start(int argc, char **argv);
+		static int start(int argc, char **argv);
 		static void stop();
 		static WulforManager *get();
 
@@ -56,18 +56,24 @@ class WulforManager
 
 		// DialogEntry functions
 		gint openHashDialog_gui();
-		gint openSettingsDialog_gui();
+		GtkWidget* openSettingsDialog_gui();
+		
 		DialogEntry *getHashDialog_gui();
+		
 		DialogEntry *getSettingsDialog_gui();
 
 		void onReceived_gui(const std::string& link);
-
+        GApplication* getApplication() { return G_APPLICATION(application);}
 	private:
 		// argv[1] from main
 		static std::string argv1;
 
 		// MainWindow-related functions
-		void createMainWindow();
+		int createMainWindow();
+		static void activate(GtkApplication* app,
+          gpointer        user_data);
+		static void shutdown(GtkApplication* app,
+          gpointer        user_data);
 
 		// Entry functions
 		DialogEntry *getDialogEntry_gui(const std::string &id);
@@ -77,6 +83,9 @@ class WulforManager
 		std::string path;
 		std::unordered_map<std::string, Entry *> entries;
 		GRWLock entryMutex;
+        GtkApplication *application;
+        static int argc;
+        static char** argv;
 
 };
 

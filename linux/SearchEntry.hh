@@ -1,5 +1,5 @@
 /*
- * Copyright © 2012-2017 BMDC++
+ * Copyright © 2012-2025 BMDC
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -67,9 +67,9 @@ class SearchEntry: public BookEntry
 	private:
 		void raisePage_gui(GtkWidget *page);
 		static void onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *page, guint num , gpointer data);
-		static gboolean onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+//		static gboolean onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static void onCloseBookEntry_gui(GtkWidget *widget, gpointer data);
-		BookEntry* findBookEntry(const std::string& id = std::string());
+		BookEntry* findBookEntry(const std::string& id = dcpp::Util::emptyString);
 		
 		std::vector<BookEntry*> books;
 };

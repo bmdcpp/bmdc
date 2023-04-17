@@ -38,7 +38,7 @@ class ShareBrowser:
 		ShareBrowser(dcpp::HintedUser user, const std::string &file, const std::string &initialDirectory, int64_t speed, bool full = true);
 		virtual ~ShareBrowser();
 		virtual void show();
-		virtual GtkWidget* createmenu();
+		virtual GMenu* createmenu();
 		void loadXML(std::string txt);
 	private:
 		static void onCloseItem(gpointer data);
@@ -54,13 +54,15 @@ class ShareBrowser:
 		void fileViewSelected_gui();
 		void downloadSelectedFiles_gui(const std::string &target);
 		void downloadSelectedDirs_gui(const std::string &target);
+		
 		void popupFileMenu_gui();
 		void popupDirMenu_gui();
+		
 		void find_gui();
 		void load(std::string xml);
 
 		// GUI callbacks
-		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		/*static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onFileButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onFileKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static gboolean onDirButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
@@ -68,6 +70,7 @@ class ShareBrowser:
 		static void onMatchButtonClicked_gui(GtkWidget *widget, gpointer data);
 		static void onFindButtonClicked_gui(GtkWidget *widget, gpointer);
 		static void onNextButtonClicked_gui(GtkWidget *widget, gpointer);
+		
 		static void onDownloadClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onDownloadToClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onDownloadFavoriteClicked_gui(GtkMenuItem *item, gpointer data);
@@ -80,7 +83,31 @@ class ShareBrowser:
 		static void onClickedPartial(GtkWidget *widget, gpointer data);
 		
 		static gpointer threadLoad_list(gpointer data);
+*/
+		// GUI callbacks
+		static void on_widget_right_btn_pressed (GtkGestureClick *gesture, int       n_press,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data){
+			g_debug("CLICK");
+			ShareBrowser* dq = (ShareBrowser*)data;
+			GtkTreeIter iter;
+			dq->fileViewSelected_gui();
+			if ( gtk_tree_selection_get_selected(dq->dirSelection, NULL, &iter) )
+			{	
+				auto pzt= dq->dirView.getString(&iter, "Dir");
+				dq->openDir_gui(pzt);
 
+			}	
+		};
+
+		static void on_widget_right_btn_released (GtkGestureClick *gesture,int       n_press,
+                                    double           x,
+                                    double           y,
+                                    GtkWidget       *widget){
+			g_debug("de-click");
+
+		};
 		// Client functions
 		void downloadFile_client(dcpp::DirectoryListing::File *file, std::string target);
 		void downloadDir_client(dcpp::DirectoryListing::Directory *dir, std::string target);

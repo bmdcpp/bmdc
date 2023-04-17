@@ -1,5 +1,5 @@
 //
-//		Copyright (C) 2011 - 2017 - BMDC++
+//		Copyright (C) 2011 - 2025 - BMDC
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
 //      the Free Software Foundation; either version 2 of the License, or
@@ -18,7 +18,7 @@
 #include "../dcpp/stdinc.h"
 #include "../dcpp/SettingsManager.h"
 #include "AboutConfigFav.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "settingsmanager.hh"
 #include "treeview.hh"
 
@@ -27,10 +27,20 @@ using namespace dcpp;
 
 bool AboutConfigFav::isOk[SettingsManager::SETTINGS_LAST-1];
 
+const GActionEntry AboutConfigFav::win_entries[] = {
+    { "edit", onPropertiesClicked_gui, NULL, NULL, NULL },
+    { "def", onSetDefault, NULL, NULL, NULL },
+  };
+
 AboutConfigFav::AboutConfigFav(FavoriteHubEntry* entry):
-BookEntry(Entry::ABOUT_CONFIG_FAV, _("About:config for ")+entry->getName(), "config"),
+BookEntry(Entry::ABOUT_CONFIG_FAV, _("About:config for ") + entry->getName(), "config"),
 p_entry(entry)
 {
+
+	GSimpleActionGroup* simple = g_simple_action_group_new ();
+	g_action_map_add_action_entries (G_ACTION_MAP (simple), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	gtk_widget_insert_action_group(getContainer(),"abcf" ,G_ACTION_GROUP(simple));
+
 	aboutView.setView(GTK_TREE_VIEW(getWidget("aboutTree")));
 	aboutView.insertColumn(_("Name"), G_TYPE_STRING, TreeView::STRING, 120, "Color");
 	aboutView.insertColumn(_("Status"), G_TYPE_STRING, TreeView::STRING, 100);
@@ -48,16 +58,11 @@ p_entry(entry)
 	g_object_unref(aboutStore);
 
 	aboutSelection = gtk_tree_view_get_selection(aboutView.get());
-
-	g_signal_connect(aboutView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
-	g_signal_connect(aboutView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
-	g_signal_connect(aboutView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
-	g_signal_connect(getWidget("propteriesItem"), "activate", G_CALLBACK(onPropertiesClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("DefaultItem"), "activate", G_CALLBACK(onSetDefault), (gpointer)this);
+	//g_signal_connect(aboutView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 
 	if(SETTING(AC_DISCLAIM) == false) {
 			gtk_widget_set_sensitive(getWidget("scrolledwindow"),FALSE);
-			gtk_dialog_run(GTK_DIALOG(getWidget("infobar")));//@we need show this dialog
+//			gtk_dialog_run(GTK_DIALOG(getWidget("infobar")));//@we need show this dialog
 	}
 	if(SETTING(AC_DISCLAIM) == true) {// we already confrim editing and so on
 		gtk_widget_set_sensitive(getWidget("scrolledwindow"),TRUE);
@@ -68,6 +73,16 @@ p_entry(entry)
                             "response",
                             G_CALLBACK (onInfoResponse),
                             (gpointer)this);
+
+	/* Register for mouse right button click "pressed" and "released" events on  widget*/
+	GtkGesture *gesture;
+  gesture = gtk_gesture_click_new ();
+  gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
+  g_signal_connect (gesture, "pressed",
+                    G_CALLBACK (on_right_btn_pressed), (gpointer)this);
+  g_signal_connect (gesture, "released",
+                    G_CALLBACK (on_right_btn_released), (gpointer)this);
+  gtk_widget_add_controller (GTK_WIDGET(aboutView.get()), GTK_EVENT_CONTROLLER (gesture));
 
 	for(int i = 0;i < SettingsManager::SETTINGS_LAST-1;i++)
 	{
@@ -110,6 +125,42 @@ p_entry(entry)
 	setColorsRows();
 }
 
+
+void AboutConfigFav::on_right_btn_pressed (GtkGestureClick *gesture,
+                                   int                n_press,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data)
+{
+	AboutConfigFav *FH = (AboutConfigFav*)data;
+
+    GMenu *menu = g_menu_new ();
+    GMenuItem *menu_item_add = g_menu_item_new ("Edit", "abcf.edit");
+    g_menu_append_item (menu, menu_item_add);
+    g_object_unref (menu_item_add);
+
+    GMenuItem* menu_item_edit = g_menu_item_new ("Default", "abcf.def");
+    g_menu_append_item (menu, menu_item_edit);
+    g_object_unref (menu_item_edit);
+
+    GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
+    gtk_widget_set_parent(pop, FH->getContainer());
+    gtk_popover_set_pointing_to(GTK_POPOVER(pop), &(const GdkRectangle){x,y,1,1});
+    gtk_popover_popup (GTK_POPOVER(pop));
+
+}
+
+void AboutConfigFav::on_right_btn_released (GtkGestureClick *gesture,
+                                    int              n_press,
+                                    double           x,
+                                    double           y,
+                                    GtkWidget       *widget)
+{
+
+    gtk_gesture_set_state (GTK_GESTURE (gesture),
+                         GTK_EVENT_SEQUENCE_CLAIMED);
+}
+
 AboutConfigFav::~AboutConfigFav()
 {
 
@@ -135,13 +186,15 @@ if(aboutView.getCellRenderOf(cell) != NULL)
 
 }
 
-void AboutConfigFav::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
+void AboutConfigFav::makeColor(GtkTreeViewColumn*,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
 {
-	AboutConfigFav* f = (AboutConfigFav*)data;
-	if(f == NULL) return;if(model == NULL) return;if(iter == NULL)return;
-	if(column == NULL)return;if(cell == NULL) return;
-	string fcolor = f->aboutView.getString(iter,"ForeColor",model);
-	g_object_set(cell,"foreground-set",TRUE,"foreground",fcolor.c_str(),NULL);
+	AboutConfigFav* acf = (AboutConfigFav*)data;
+	if(!acf){return;}
+	if(model == NULL) {return;}
+	if(iter == NULL){return;}
+	if(cell == NULL) {return;}
+	string sColor = acf->aboutView.getString(iter,"ForeColor",model);
+	g_object_set(cell,"foreground-set",TRUE,"foreground",sColor.c_str(),NULL);
 
 }
 
@@ -278,39 +331,7 @@ void AboutConfigFav::setStatus(const string msg)
 	gtk_statusbar_pop(GTK_STATUSBAR(getWidget("status")), 0);
 	gtk_statusbar_push(GTK_STATUSBAR(getWidget("status")), 0, msg.c_str());
 }
-
-gboolean AboutConfigFav::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
-{
-	AboutConfigFav *s = (AboutConfigFav *)data;
-	s->previous = event->type;
-	return FALSE;
-}
-
-gboolean AboutConfigFav::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
-{
-	AboutConfigFav *s = (AboutConfigFav *)data;
-
-	if (gtk_tree_selection_get_selected(s->aboutSelection, NULL, NULL))
-	{
-		if (event->button == 1 && s->previous == GDK_2BUTTON_PRESS)
-		{
-			// show dialog
-			onPropertiesClicked_gui(NULL, data);
-		}
-		else if (event->button == 3 && event->type == GDK_BUTTON_RELEASE)
-		{
-			// show menu
-			#if GTK_CHECK_VERSION(3,22,0)
-			gtk_menu_popup_at_pointer(GTK_MENU(s->getWidget("menu")),NULL);
-			#else
-			gtk_menu_popup(GTK_MENU(s->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-			#endif
-		}
-	}
-
-	return FALSE;
-}
-
+/*
 gboolean AboutConfigFav::onKeyReleased_gui(GtkWidget* , GdkEventKey *event, gpointer data)
 {
 	AboutConfigFav *s = (AboutConfigFav *)data;
@@ -319,17 +340,12 @@ gboolean AboutConfigFav::onKeyReleased_gui(GtkWidget* , GdkEventKey *event, gpoi
 	{
 		if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
-			#if GTK_CHECK_VERSION(3,22,0)
 			gtk_menu_popup_at_pointer(GTK_MENU(s->getWidget("menu")),NULL);
-			#else
-			gtk_menu_popup(GTK_MENU(s->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-			#endif
 		}
 	}
-
 	return FALSE;
 }
-
+*/
 void AboutConfigFav::onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointer data)
 {
 	AboutConfigFav *s = (AboutConfigFav *)data;
@@ -361,7 +377,7 @@ void AboutConfigFav::onInfoResponse(GtkWidget *info_bar, gint response_id,  gpoi
 
 }
 
-void AboutConfigFav::onPropertiesClicked_gui(GtkWidget*, gpointer data)
+void AboutConfigFav::onPropertiesClicked_gui(GtkWidget*,GVariant  *parameter, gpointer data)
 {
 	AboutConfigFav *s = (AboutConfigFav *)data;
 
@@ -400,7 +416,7 @@ void AboutConfigFav::onPropertiesClicked_gui(GtkWidget*, gpointer data)
 	}
 }
 
-void AboutConfigFav::onSetDefault(GtkWidget*, gpointer data)
+void AboutConfigFav::onSetDefault(GtkWidget*,GVariant  *parameter, gpointer data)
 {
 	AboutConfigFav *s = (AboutConfigFav *)data;
 
@@ -446,23 +462,18 @@ void AboutConfigFav::onSetDefault(GtkWidget*, gpointer data)
 	}
 }
 
+///
 bool AboutConfigFav::getDialog(const string sName, string& sValue , gpointer data)
 {
 	AboutConfigFav *ps = (AboutConfigFav *)data;
 	gtk_label_set_text(GTK_LABEL(ps->getWidget("label")), sName.c_str());
-	gtk_entry_set_text(GTK_ENTRY(ps->getWidget("entry")), sValue.c_str());
-	gint response = gtk_dialog_run(GTK_DIALOG(ps->getWidget("dialog")));
+	gtk_editable_set_text(GTK_EDITABLE(ps->getWidget("entry")), sValue.c_str());
 
-	// Fix crash, if the dialog gets programmatically destroyed.
-	if (response == GTK_RESPONSE_NONE)
-		return false;
-
-	gtk_widget_hide(ps->getWidget("dialog"));
-
-	if (response == GTK_RESPONSE_OK)
+	gtk_widget_show(ps->getWidget("dialog"));
 	{
-		sValue = gtk_entry_get_text(GTK_ENTRY(getWidget("entry")));
+		sValue = gtk_editable_get_text(GTK_EDITABLE(getWidget("entry")));
 		return true;
 	}
 	return false;
 }
+

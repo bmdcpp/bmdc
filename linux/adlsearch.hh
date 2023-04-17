@@ -1,6 +1,6 @@
 /*
  * Copyright © 2009-2012 freedcpp, http://code.google.com/p/freedcpp
- * Copyright © 2011-2017 of Parts (CMD supports) of Code BMDC++ , https://launchpad.net/bmdc++
+ * Copyright © 2018 of Parts (CMD supports) BMDC 2018-2025
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ class SearchADL:
 		virtual ~SearchADL();
 		virtual void show();
 	private:
-		typedef dcpp::ADLSearchManager::SearchCollection::size_type SearchType;
+		//typedef std::vector<ADLSearch>::size_type SearchType;
 
 		// GUI functions
 		void setSearch_gui(dcpp::ADLSearch &search, GtkTreeIter *iter);
@@ -51,9 +51,9 @@ class SearchADL:
 		static void onMoveDownClicked_gui(GtkWidget *widget, gpointer data);
 		static void onRemoveClicked_gui(GtkWidget *widget, gpointer data);
 		static void onActiveToggled_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
-		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+//		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+//		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+//		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static bool showPropertiesDialog_gui(dcpp::ADLSearch &search, bool edit, SearchADL *s);
 		static void onToggleOveride(GtkWidget *widget,gpointer data);
 		static void onToggleActions(GtkWidget *widget, gpointer data);

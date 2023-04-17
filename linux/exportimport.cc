@@ -1,5 +1,5 @@
 /*
- * Copyright © 2010-2017 BMDC
+ * Copyright © 2010-2025 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ using namespace std;
 using namespace dcpp;
 
 ExportDialog::ExportDialog(GtkWindow *parent):
-DialogEntry(Entry::EXPORT_DIALOG,"export",parent),
+DialogEntry(Entry::EXPORT_DIALOG,"export", parent),
 exportStore(NULL), exportSelection(NULL)
 {
 	

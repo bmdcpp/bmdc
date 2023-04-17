@@ -20,8 +20,8 @@
 #include <gtk/gtk.h>
 #include <string>
 #include "SettingsPage.hh"
-#include <linux/treeview.hh>
-#include <linux/settingsmanager.hh>
+#include "../linux/treeview.hh"
+#include "../linux/settingsmanager.hh"
 /*-----------------------------------------------------------------------------*/
 class SoundPage: public SettingsPage
 {

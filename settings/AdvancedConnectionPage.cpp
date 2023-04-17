@@ -14,7 +14,7 @@
 // MA 02110-1301, USA.
 // 
 
-#include <dcpp/SettingsManager.h>
+#include "../dcpp/SettingsManager.h"
 #include "definitons.hh"
 #include "seUtil.hh"
 #include "AdvancedConnectionPage.hh"
@@ -44,9 +44,9 @@ void AdvancedConnectionPage::show(GtkWidget *parent, GtkWidget* old)
 	gtk_grid_attach(GTK_GRID(box_grid),http_proxy,1,3,1,1);
 
 //set values
-	gtk_entry_set_text(GTK_ENTRY(http_proxy), SETTING(HTTP_PROXY).c_str());
-	gtk_entry_set_text(GTK_ENTRY(entry_bind), SETTING(BIND_ADDRESS).c_str());
-	gtk_entry_set_text(GTK_ENTRY(entry_bind6), SETTING(BIND_ADDRESS6).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(http_proxy), SETTING(HTTP_PROXY).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_bind), SETTING(BIND_ADDRESS).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_bind6), SETTING(BIND_ADDRESS6).c_str());
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin_recon), SETTING(TIME_RECCON));
 
 	/*@Add to parent*/
@@ -58,15 +58,15 @@ void AdvancedConnectionPage::write()
 	SettingsManager *sm = SettingsManager::getInstance();
 	
 	sm->set(SettingsManager::TIME_RECCON, gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spin_recon)));
-	const gchar* bind =gtk_entry_get_text(GTK_ENTRY(entry_bind));
+	const gchar* bind =gtk_editable_get_text(GTK_EDITABLE(entry_bind));
 	if(bind)
 		sm->set(SettingsManager::BIND_ADDRESS, bind);
 
-	const gchar* bind6 = gtk_entry_get_text(GTK_ENTRY(entry_bind6));
+	const gchar* bind6 = gtk_editable_get_text(GTK_EDITABLE(entry_bind6));
 	if(bind6)
 		sm->set(SettingsManager::BIND_ADDRESS6,bind6);
 	
-	const gchar* s_proxy = gtk_entry_get_text(GTK_ENTRY(http_proxy));
+	const gchar* s_proxy = gtk_editable_get_text(GTK_EDITABLE(http_proxy));
 	if(s_proxy)
 		sm->set(SettingsManager::HTTP_PROXY, s_proxy);	
 }

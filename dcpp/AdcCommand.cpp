@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -154,19 +154,19 @@ void AdcCommand::parse(const string aLine, bool nmdc /* = false */) {
 	if(!cur.empty()) {
 		string::size_type clen = cur.length();
 		if((type == TYPE_BROADCAST || type == TYPE_DIRECT || type == TYPE_ECHO || type == TYPE_FEATURE) && !fromSet) {
-			if(/*cur.length()*/clen != 4) {
+			if(clen != 4) {
 				throw ParseException("Invalid SID length");
 			}
 			from = toSID(cur);
 			fromSet = true;
 		} else if((type == TYPE_DIRECT || type == TYPE_ECHO) && !toSet) {
-			if(/*cur.length()*/clen != 4) {
+			if(clen != 4) {
 				throw ParseException("Invalid SID length");
 			}
 			to = toSID(cur);
 			toSet = true;
 		} else if(type == TYPE_FEATURE && !featureSet) {
-			if(/*cur.length()*/ clen % 5 != 0) {
+			if( (clen % 5 ) != 0) {//check this?
 				throw ParseException("Invalid feature length");
 			}
             // Skip...

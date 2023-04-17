@@ -17,10 +17,10 @@
 #include "DownloadToPage.hh"
 #include "definitons.hh"
 #include "seUtil.hh"
-#include <dcpp/FavoriteManager.h>
-#include <dcpp/typedefs.h>
-#include <dcpp/Text.h>
-#include <dcpp/FavoriteManager.h>
+#include "../dcpp/FavoriteManager.h"
+#include "../dcpp/typedefs.h"
+#include "../dcpp/Text.h"
+#include "../dcpp/FavoriteManager.h"
 
 using namespace std;
 using namespace dcpp;
@@ -31,7 +31,7 @@ void DownloadToPage::show(GtkWidget *parent, GtkWidget* old)
 {
 		GtkTreeIter iter;
 		box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
-		GtkWidget *scrolled = gtk_scrolled_window_new(NULL,NULL);
+		//GtkWidget *scrolled = gtk_scrolled_window_new(NULL,NULL);
 		buttonAdd = gtk_button_new_with_label("Add");
 		buttonRem = gtk_button_new_with_label("Remove");
 		downloadToView = TreeView();
@@ -44,13 +44,13 @@ void DownloadToPage::show(GtkWidget *parent, GtkWidget* old)
 		downloadToStore = gtk_list_store_newv(downloadToView.getColCount(), downloadToView.getGTypes());
 		gtk_tree_view_set_model(downloadToView.get(), GTK_TREE_MODEL(downloadToStore));
 
-		g_signal_connect(downloadToView.get(), "button-release-event", G_CALLBACK(onFavoriteButtonReleased_gui), (gpointer)this);
-		gtk_container_add(GTK_CONTAINER(scrolled),GTK_WIDGET(downloadToView.get()));
-		gtk_box_pack_start(GTK_BOX(box),scrolled,TRUE,TRUE,0);
+		//g_signal_connect(downloadToView.get(), "button-release-event", G_CALLBACK(onFavoriteButtonReleased_gui), (gpointer)this);
+		gtk_box_append(GTK_BOX(box),GTK_WIDGET(downloadToView.get()));
+		//gtk_box_pack_start(GTK_BOX(box),scrolled,TRUE,TRUE,0);
 		grid = gtk_grid_new();
 		gtk_grid_attach(GTK_GRID(grid),buttonAdd,0,0,1,1);
 		gtk_grid_attach(GTK_GRID(grid),buttonRem,1,0,1,1);
-		gtk_box_pack_start(GTK_BOX(box),grid,TRUE,TRUE,0);
+		gtk_box_append(GTK_BOX(box),grid);
 
 		SEUtil::reAddItemCo(parent,old,box);
 		gtk_widget_set_sensitive(buttonRem, FALSE);
@@ -72,16 +72,16 @@ void DownloadToPage::onAddFavorite_gui(GtkWidget *widget, gpointer data)
 	DownloadToPage *s = (DownloadToPage *)data;
 	GtkWidget* fileDialog = b_file_dialog_widget("Open Directory");
 
-	gint response = gtk_dialog_run(GTK_DIALOG(fileDialog));
-	gtk_widget_hide(fileDialog);
+	gint response = -1;//gtk_dialog_run(GTK_DIALOG(fileDialog));
+	//gtk_widget_hide(fileDialog);
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		gchar *temp = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(fileDialog));
+		gchar *temp = nullptr;// = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(fileDialog));
 		if (temp)
 		{
 			string path = Text::toUtf8(temp);
-			g_free(temp);
+			//g_free(temp);
 			GtkWidget* dialog = gtk_dialog_new_with_buttons ("Favorite name",
                                       NULL,
                                      (GtkDialogFlags)(GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT),
@@ -94,18 +94,18 @@ void DownloadToPage::onAddFavorite_gui(GtkWidget *widget, gpointer data)
 			GtkWidget *box = gtk_dialog_get_content_area (GTK_DIALOG(dialog));
 			GtkWidget *entry = gtk_entry_new();
 			GtkWidget *label = gtk_label_new("");
-			gtk_box_pack_start(GTK_BOX(box),label,TRUE,TRUE,0);
-			gtk_box_pack_start(GTK_BOX(box),entry,TRUE,TRUE,0);
+			gtk_box_append(GTK_BOX(box),label);
+			gtk_box_append(GTK_BOX(box),entry);
 			gtk_window_set_title(GTK_WINDOW(dialog), _("Favorite name"));
-			gtk_entry_set_text(GTK_ENTRY(entry), "");
+			gtk_editable_set_text(GTK_EDITABLE(entry), "");
 			gtk_label_set_markup(GTK_LABEL(label), _("<b>Under what name you see the directory</b>"));
-			gtk_widget_show_all(box);
-			response = gtk_dialog_run(GTK_DIALOG(dialog));
-			gtk_widget_hide(dialog);
+//			gtk_widget_show_all(box);
+			response = -1;//gtk_dialog_run(GTK_DIALOG(dialog));
+//			gtk_widget_hide(dialog);
 
 			if (response == GTK_RESPONSE_OK)
 			{
-				string name = gtk_entry_get_text(GTK_ENTRY(entry));
+				string name = gtk_editable_get_text(GTK_EDITABLE(entry));
 				if (path[path.length() - 1] != PATH_SEPARATOR)
 					path += PATH_SEPARATOR;
 
@@ -143,7 +143,7 @@ void DownloadToPage::onRemoveFavorite_gui(GtkWidget *widget, gpointer data)
 		}
 	}
 }
-
+/*
 gboolean DownloadToPage::onFavoriteButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
 	DownloadToPage *s = (DownloadToPage *)data;
@@ -157,3 +157,4 @@ gboolean DownloadToPage::onFavoriteButtonReleased_gui(GtkWidget *widget, GdkEven
 
 	return FALSE;
 }
+*/

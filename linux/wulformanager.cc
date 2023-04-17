@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2017 BMDC++
+ * Copyright © 2010-2025 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,11 +19,13 @@
  * In addition, as a special exception, compiling, linking, and/or
  * using OpenSSL with this program is allowed.
  */
-
+#define USE_NEW_SETTINGS 1
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 
 #include <iostream>
+#include <vector>
+#include <string>
 #include <glib/gi18n.h>
 #include "hashdialog.hh"
 
@@ -38,18 +40,24 @@ using namespace dcpp;
 
 WulforManager *WulforManager::manager = NULL;
 string WulforManager::argv1;
+char** WulforManager::argv;
+int WulforManager::argc;
 
-void WulforManager::start(int argc, char **argv)
+int WulforManager::start(int _argc, char **_argv)
 {
+	argc = _argc;
+	argv = _argv;
 	if (argc > 1)
 	{
-		argv1 = argv[1];
+		argv1 = _argv[1];
 	}
 
+	int status;
 	// Create WulforManager
 	dcassert(!manager);
 	manager = new WulforManager();
-	manager->createMainWindow();
+	status = manager->createMainWindow();
+	return status;
 }
 
 void WulforManager::stop()
@@ -71,32 +79,54 @@ mainWin(NULL)
 	// Initialize sempahore variables
 	g_rw_lock_init(&entryMutex);
 	// Determine path to data files
-	path = string(_DATADIR) + G_DIR_SEPARATOR_S + g_get_prgname();
-	if (!g_file_test(path.c_str(), G_FILE_TEST_EXISTS))
-	{
-		cerr << path << " is inaccessible, falling back to current directory instead.\n";
-		path = ".";
-	}
 
-	// Set the custom icon search path so GTK+ can find our icons
-	const string iconPath = path + G_DIR_SEPARATOR_S + "icons";
-	const string themes = path + G_DIR_SEPARATOR_S + "themes";
-	GtkIconTheme *iconTheme = gtk_icon_theme_get_default();
-	gtk_icon_theme_append_search_path(iconTheme, iconPath.c_str());
-	gtk_icon_theme_append_search_path(iconTheme, themes.c_str());
+//	const gchar* const* g_path = g_get_system_data_dirs();
+//path = string(_DATADIR) + "bmdc" + G_DIR_SEPARATOR_S;
+	path = ".";
+
+   	// Set the custom icon search path so GTK+ can find our icons
+   const string iconPath = path + G_DIR_SEPARATOR_S + "icons";
+   const string themes = path + G_DIR_SEPARATOR_S + "themes";
+
+	GtkIconTheme* icon_theme = gtk_icon_theme_get_for_display (gdk_display_get_default());
+   gtk_icon_theme_add_search_path(icon_theme , iconPath.c_str());
 }
 
 WulforManager::~WulforManager()
 {
 	g_rw_lock_clear(&entryMutex);
+   
 }
 
-void WulforManager::createMainWindow()
+int WulforManager::createMainWindow()
 {
-	dcassert(!mainWin);
-	mainWin = new MainWindow();
-	WulforManager::insertEntry_gui(mainWin);
-	mainWin->show();
+	int status;
+
+    application = gtk_application_new ("org.bmdcteam.bmdc", G_APPLICATION_DEFAULT_FLAGS);
+    g_signal_connect (application, "activate", G_CALLBACK (activate), (gpointer)this);
+    g_signal_connect (application, "shutdown", G_CALLBACK (shutdown), (gpointer)this);
+	status = g_application_run (G_APPLICATION (application), argc, argv);
+	return status;
+}
+
+void WulforManager::shutdown(GtkApplication* app,
+          gpointer        user_data)
+{
+	WulforSettingsManager::deleteInstance();
+	std::cout << _("Shutting down dcpp client...") << std::endl;
+	try{
+	dcpp::shutdown();
+}catch(...){ }
+	std::cout << _("Quit...") << std::endl;
+}          
+
+void WulforManager::activate(GtkApplication* app,
+          gpointer        user_data)
+{
+	GtkWidget* window = gtk_application_window_new (app);
+	WulforManager* w = (WulforManager*)user_data;
+	w->mainWin = new MainWindow(window);
+	w->mainWin->show();
 }
 
 void WulforManager::deleteMainWindow()
@@ -110,7 +140,7 @@ void WulforManager::deleteMainWindow()
 	{
 		gtk_dialog_response(GTK_DIALOG(hashDialogEntry->getContainer()), GTK_RESPONSE_OK);
 	}
-#ifndef USE_NEW_SETTINGS	
+#ifndef USE_NEW_SETTINGS
 	if (settingsDialogEntry != NULL)
 	{
 		dynamic_cast<Settings*>(settingsDialogEntry)->response_gui();
@@ -118,7 +148,6 @@ void WulforManager::deleteMainWindow()
 #endif
 	mainWin->remove();
 	mainWin = NULL;
-	gtk_main_quit();
 }
 void WulforManager::dispatchGuiFunc(FuncBase *func)
 {
@@ -211,17 +240,15 @@ gint WulforManager::openHashDialog_gui()
 	return response;
 }
 
-gint WulforManager::openSettingsDialog_gui()
+GtkWidget* WulforManager::openSettingsDialog_gui()
 {
-#ifdef USE_NEW_SETTINGS
+//#ifdef USE_NEW_SETTINGS
 	SettingsDialog *s = new SettingsDialog();
-	s->run();
-	return 1;
-#else	
-	Settings *s = new Settings();
-	gint response = s->run();
-	return response;
-#endif	
+	return s->getContainer();
+//#else
+//	Settings *s = new Settings(nullptr);
+//	return s->getContainer();
+//#endif
 }
 
 DialogEntry *WulforManager::getHashDialog_gui()

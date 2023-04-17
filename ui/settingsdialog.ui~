@@ -1,0 +1,991 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="gtk" version="4.0"/>
+  <object class="GtkDialog" id="ExtensionsDialog">
+    <property name="width-request">300</property>
+    <property name="height-request">250</property>
+    <property name="resizable">0</property>
+    <property name="window-position">center-on-parent</property>
+    <property name="type-hint">dialog</property>
+    <child internal-child="content_area">
+      <object class="GtkBox">
+        <property name="visible">0</property>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-6">cancelbutton4</action-widget>
+      <action-widget response="-5">okbutton7</action-widget>
+    </action-widgets>
+    <child internal-child="action_area">
+      <object class="GtkButtonBox" id="dialog-action_area11">
+        <property name="halign">center</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="layout-style">end</property>
+        <child>
+          <object class="GtkButton" id="cancelbutton4">
+            <property name="visible">0</property>
+            <property name="label">gtk-cancel</property>
+            <property name="can-default">True</property>
+            <property name="use-stock">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="okbutton7">
+            <property name="visible">0</property>
+            <property name="label">gtk-ok</property>
+            <property name="can-default">True</property>
+            <property name="has-default">1</property>
+            <property name="use-stock">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkDialog" id="HighlightingDialog">
+    <property name="border-width">5</property>
+    <property name="type-hint">dialog</property>
+    <child internal-child="content_area">
+      <object class="GtkBox">
+        <property name="visible">0</property>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-6">button10</action-widget>
+      <action-widget response="-5">button20</action-widget>
+    </action-widgets>
+    <child internal-child="action_area">
+      <object class="GtkButtonBox" id="dialog-action_area10">
+        <property name="halign">center</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="layout-style">end</property>
+        <child>
+          <object class="GtkButton" id="button10">
+            <property name="visible">0</property>
+            <property name="label">gtk-cancel</property>
+            <property name="receives-default">1</property>
+            <property name="use-stock">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button20">
+            <property name="visible">0</property>
+            <property name="label">gtk-ok</property>
+            <property name="receives-default">1</property>
+            <property name="use-stock">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="upper">10000</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment10">
+    <property name="upper">100</property>
+    <property name="value">1</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment11">
+    <property name="upper">100</property>
+    <property name="value">1</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment12">
+    <property name="upper">100</property>
+    <property name="value">1</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment13">
+    <property name="upper">102400</property>
+    <property name="value">1</property>
+    <property name="step-increment">100</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment14">
+    <property name="upper">256</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment15">
+    <property name="upper">100</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment16">
+    <property name="upper">255</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment17">
+    <property name="lower">10</property>
+    <property name="upper">256</property>
+    <property name="value">50</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment18">
+    <property name="lower">1</property>
+    <property name="upper">300</property>
+    <property name="value">40</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment19">
+    <property name="lower">2</property>
+    <property name="upper">100</property>
+    <property name="value">2</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment2">
+    <property name="upper">10000</property>
+    <property name="value">1</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment20">
+    <property name="upper">102400</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">64</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment21">
+    <property name="upper">100</property>
+    <property name="value">10</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment22">
+    <property name="upper">10240</property>
+    <property name="value">64</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment23">
+    <property name="upper">10000</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment24">
+    <property name="upper">1024</property>
+    <property name="step-increment">64</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment25">
+    <property name="upper">100</property>
+    <property name="value">10</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment26">
+    <property name="upper">102400</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">64</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment27">
+    <property name="upper">102400</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">64</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment28">
+    <property name="upper">5000</property>
+    <property name="value">1</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment29">
+    <property name="upper">100</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment3">
+    <property name="upper">1000</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment30">
+    <property name="upper">10240</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment31">
+    <property name="upper">10240</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment32">
+    <property name="upper">10240</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment33">
+    <property name="upper">10240</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment34">
+    <property name="upper">64</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment4">
+    <property name="upper">10240</property>
+    <property name="value">1</property>
+    <property name="step-increment">10</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment5">
+    <property name="upper">102400</property>
+    <property name="value">1</property>
+    <property name="step-increment">10</property>
+    <property name="page-increment">100</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment6">
+    <property name="upper">102400</property>
+    <property name="value">1</property>
+    <property name="step-increment">10</property>
+    <property name="page-increment">100</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment7">
+    <property name="upper">102400</property>
+    <property name="value">1</property>
+    <property name="step-increment">10</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment8">
+    <property name="upper">100</property>
+    <property name="value">1</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment9">
+    <property name="upper">100</property>
+    <property name="value">1</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkColorSelectionDialog" id="colorSelectionDialog">
+    <property name="can-focus">False</property>
+    <property name="border-width">5</property>
+    <property name="type-hint">dialog</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="colorselectiondialog-vbox1">
+        <property name="visible">0</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="colorselectiondialog-action_area1">
+            <property name="halign">center</property>
+            <property name="can-focus">False</property>
+            <child internal-child="cancel_button">
+              <object class="GtkButton" id="colorsel-cancel_button2">
+                <property name="visible">0</property>
+                <property name="can-default">True</property>
+                <property name="receives-default">1</property>
+                <property name="use-underline">1</property>
+                <property name="use-stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack-type">end</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child internal-child="ok_button">
+              <object class="GtkButton" id="colorsel-ok_button2">
+                <property name="visible">0</property>
+                <property name="can-default">True</property>
+                <property name="receives-default">1</property>
+                <property name="use-underline">1</property>
+                <property name="use-stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack-type">end</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child internal-child="help_button">
+              <object class="GtkButton" id="colorsel-help_button2">
+                <property name="visible">0</property>
+                <property name="can-default">True</property>
+                <property name="receives-default">1</property>
+                <property name="use-underline">1</property>
+                <property name="use-stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack-type">end</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+        <child internal-child="color_selection">
+          <object class="GtkColorSelection" id="colorsel-color_selection2">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="border-width">5</property>
+            <property name="current-color">#ffffffffffff</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="0">colorsel-cancel_button2</action-widget>
+      <action-widget response="0">colorsel-ok_button2</action-widget>
+      <action-widget response="0">colorsel-help_button2</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkDialog" id="commandDialog">
+    <property name="title" translatable="yes">Modify User Command</property>
+    <property name="resizable">0</property>
+    <property name="modal">1</property>
+    <property name="type-hint">dialog</property>
+    <child internal-child="content_area">
+      <object class="GtkBox">
+        <property name="visible">0</property>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-6">cancelbutton6</action-widget>
+      <action-widget response="-5">okbutton6</action-widget>
+    </action-widgets>
+    <child internal-child="action_area">
+      <object class="GtkButtonBox" id="dialog-action_area6">
+        <property name="halign">center</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="layout-style">end</property>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <object class="GtkButton" id="cancelbutton6">
+            <property name="visible">0</property>
+            <property name="label">gtk-cancel</property>
+            <property name="can-default">True</property>
+            <property name="use-stock">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="okbutton6">
+            <property name="visible">0</property>
+            <property name="label">gtk-ok</property>
+            <property name="can-default">True</property>
+            <property name="has-default">1</property>
+            <property name="use-stock">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkDialog" id="dialog">
+    <property name="title" translatable="yes">Preferences</property>
+    <property name="resizable">0</property>
+    <property name="modal">1</property>
+    <property name="type-hint">dialog</property>
+    <child internal-child="content_area">
+      <object class="GtkBox">
+        <property name="visible">0</property>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-6">cancelbutton1</action-widget>
+      <action-widget response="-5">okbutton1</action-widget>
+    </action-widgets>
+    <child internal-child="action_area">
+      <object class="GtkButtonBox" id="di55alog-action_area1">
+        <property name="halign">center</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="layout-style">end</property>
+        <child>
+          <object class="GtkButton" id="cancelbutton1">
+            <property name="visible">0</property>
+            <property name="label">gtk-cancel</property>
+            <property name="can-default">True</property>
+            <property name="use-stock">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="okbutton1">
+            <property name="visible">0</property>
+            <property name="label">gtk-ok</property>
+            <property name="can-default">True</property>
+            <property name="has-default">1</property>
+            <property name="use-stock">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkFileChooserDialog" id="dirChooserDialog">
+    <property name="title" translatable="yes">Choose a directory</property>
+    <property name="modal">1</property>
+    <property name="type-hint">dialog</property>
+    <property name="action">select-folder</property>
+    <property name="local-only">False</property>
+    <property name="show-hidden">True</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="dialog-vb55ox1">
+        <property name="visible">0</property>
+        <property name="spacing">24</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="dialog-action_areaxxx">
+            <property name="halign">center</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="layout-style">end</property>
+            <child>
+              <object class="GtkButton" id="button1">
+                <property name="visible">0</property>
+                <property name="label">gtk-cancel</property>
+                <property name="can-default">True</property>
+                <property name="use-stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button2">
+                <property name="visible">0</property>
+                <property name="label">gtk-open</property>
+                <property name="can-default">True</property>
+                <property name="has-default">1</property>
+                <property name="use-stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-6">button1</action-widget>
+      <action-widget response="-5">button2</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkFileChooserDialog" id="fileChooserDialog">
+    <property name="border-width">5</property>
+    <property name="title" translatable="yes">Choose a File</property>
+    <property name="modal">1</property>
+    <property name="type-hint">dialog</property>
+    <property name="local-only">False</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="dialog-vbox9">
+        <property name="visible">0</property>
+        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="dialog-action_ar5ea9">
+            <property name="halign">center</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK</property>
+            <property name="layout-style">end</property>
+            <child>
+              <object class="GtkButton" id="button4">
+                <property name="visible">0</property>
+                <property name="label">gtk-cancel</property>
+                <property name="use-stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button3">
+                <property name="visible">0</property>
+                <property name="label">gtk-open</property>
+                <property name="can-default">True</property>
+                <property name="has-default">1</property>
+                <property name="use-stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-6">button4</action-widget>
+      <action-widget response="-5">button3</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkFontSelectionDialog" id="fontSelectionDialog">
+    <property name="can-focus">False</property>
+    <property name="border-width">5</property>
+    <property name="title" translatable="yes">Font select</property>
+    <property name="window-position">center-on-parent</property>
+    <property name="type-hint">dialog</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="fontselectiondialog-vbox1">
+        <property name="visible">0</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="fontselectiondialog-action_area1">
+            <property name="halign">center</property>
+            <property name="can-focus">False</property>
+            <child internal-child="cancel_button">
+              <object class="GtkButton" id="fontsel-cancel_button">
+                <property name="visible">0</property>
+                <property name="label">gtk-cancel</property>
+                <property name="can-default">True</property>
+                <property name="receives-default">1</property>
+                <property name="use-stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack-type">end</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child internal-child="apply_button">
+              <object class="GtkButton" id="fontsel-apply_button">
+                <property name="visible">0</property>
+                <property name="label">gtk-apply</property>
+                <property name="can-default">True</property>
+                <property name="receives-default">1</property>
+                <property name="use-stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack-type">end</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child internal-child="ok_button">
+              <object class="GtkButton" id="fontsel-ok_button">
+                <property name="visible">0</property>
+                <property name="label">gtk-ok</property>
+                <property name="can-default">True</property>
+                <property name="has-default">1</property>
+                <property name="receives-default">1</property>
+                <property name="use-stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack-type">end</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+        <child internal-child="font_selection">
+          <object class="GtkFontSelection" id="fontsel-font_selection">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="hexpand">1</property>
+            <property name="border-width">5</property>
+            <property name="spacing">12</property>
+            <property name="font-name">Sans 12</property>
+            <property name="preview-text">абвгде АБВГДЕ abcde ABCDE</property>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="0">fontsel-cancel_button</action-widget>
+      <action-widget response="0">fontsel-apply_button</action-widget>
+      <action-widget response="0">fontsel-ok_button</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkListStore" id="model1">
+    <columns>
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Top</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Left</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Right</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Bottom</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="model2">
+    <columns>
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Icons</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Text</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Both</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Both horizontal</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Hidden</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">System default</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="model3">
+    <columns>
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">16x16</col>
+      </row>
+      <row>
+        <col id="0">22x22</col>
+      </row>
+      <row>
+        <col id="0">24x24</col>
+      </row>
+      <row>
+        <col id="0">32x32</col>
+      </row>
+      <row>
+        <col id="0">36x36</col>
+      </row>
+      <row>
+        <col id="0">48x48</col>
+      </row>
+      <row>
+        <col id="0">64x64</col>
+      </row>
+      <row>
+        <col id="0">default</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="model4">
+    <columns>
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Midnight</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">1AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">2AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">3AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">4AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">5AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">6AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">7AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">8AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">9AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">10AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">11AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Noon</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">1PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">2PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">3PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">4PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">5PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">6PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">7PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">8PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">9PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">10PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">11PM</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="model5">
+    <columns>
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Midnight</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">1AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">2AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">3AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">4AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">5AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">6AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">7AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">8AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">9AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">10AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">11AM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Noon</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">1PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">2PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">3PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">4PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">5PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">6PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">7PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">8PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">9PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">10PM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">11PM</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkDialog" id="nameDialog">
+    <property name="title" translatable="yes">Favorite name</property>
+    <property name="resizable">0</property>
+    <property name="type-hint">dialog</property>
+    <child internal-child="content_area">
+      <object class="GtkBox">
+        <property name="visible">0</property>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-6">cancelbutton3</action-widget>
+      <action-widget response="-5">okbutton3</action-widget>
+    </action-widgets>
+    <child internal-child="action_area">
+      <object class="GtkButtonBox" id="dialog-action_area3">
+        <property name="halign">center</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="layout-style">end</property>
+        <child>
+          <object class="GtkButton" id="cancelbutton3">
+            <property name="visible">0</property>
+            <property name="label">gtk-cancel</property>
+            <property name="can-default">True</property>
+            <property name="use-stock">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="okbutton3">
+            <property name="visible">0</property>
+            <property name="label">gtk-ok</property>
+            <property name="can-default">True</property>
+            <property name="has-default">1</property>
+            <property name="use-stock">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkDialog" id="publicHubsDialog">
+    <property name="width-request">500</property>
+    <property name="height-request">250</property>
+    <property name="title" translatable="yes">Configure hub lists</property>
+    <property name="type-hint">dialog</property>
+    <child internal-child="content_area">
+      <object class="GtkBox">
+        <property name="visible">0</property>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-5">okbutton100</action-widget>
+    </action-widgets>
+    <child internal-child="action_area">
+      <object class="GtkButtonBox" id="dialog-action_area1">
+        <property name="halign">center</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="layout-style">end</property>
+        <child>
+          <object class="GtkButton" id="okbutton100">
+            <property name="visible">0</property>
+            <property name="label">gtk-ok</property>
+            <property name="can-default">True</property>
+            <property name="has-default">1</property>
+            <property name="use-stock">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

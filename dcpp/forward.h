@@ -114,8 +114,6 @@ class UserCommand;
 class UserConnection;
 typedef UserConnection* UserConnectionPtr;
 
-class WindowInfo;
-
 class RecentHubEntry;
 
 class ColorSettings;

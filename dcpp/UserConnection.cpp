@@ -57,10 +57,7 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 
 	if(aLine[0] == '$')
 		setFlag(FLAG_NMDC);
-#if 0
-	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_CONN_IN, this, aLine))
-		return;
-#endif
+
 	if(aLine[0] == 'C' && !isSet(FLAG_NMDC)) {
 		if(!Text::validateUtf8(aLine)) {
 			fire(UserConnectionListener::ProtocolError(), this, _("Non-UTF-8 data in an ADC connection"));
@@ -158,7 +155,7 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 	}
 }
 
-void UserConnection::connect(const string& aServer, const uint16_t& aPort, const string& localPort, BufferedSocket::NatRoles natRole) {
+void UserConnection::connect(const string& aServer, const uint16_t& aPort, const uint16_t& localPort, BufferedSocket::NatRoles natRole) {
 	dcassert(!socket);
 
 	socket = BufferedSocket::getSocket(0);
@@ -280,27 +277,10 @@ void UserConnection::updateChunkSize(int64_t leafSize, int64_t lastChunk, uint64
 
 	chunkSize = targetSize;
 }
-#if 0
-ConnectionData* UserConnection::getPluginObject() noexcept {
-	resetEntity();
 
-	pod.ip = pluginString(getRemoteIp());
-	pod.object = this;
-	pod.port = Util::toInt(getPort());
-	pod.protocol = isSet(UserConnection::FLAG_NMDC) ? PROTOCOL_NMDC : PROTOCOL_ADC;
-	pod.isOp = isSet(UserConnection::FLAG_OP) ? True : False;
-	pod.isSecure = isSecure() ? True : False;
-
-	return &pod;
-}
-#endif
 void UserConnection::send(const string& aString) {
 	lastActivity = GET_TICK();
 	COMMAND_DEBUG(aString,TYPE_CLIENT,OUTGOING,getRemoteIp());
-#if 0
-	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_CONN_OUT, this, aString))
-		return;
-#endif		
 	socket->write(aString);
 }
 

@@ -1,4 +1,4 @@
-//      Copyright 2011 - 2017 Mank <freedcpp at seznam dot cz>
+//      Copyright BMDC 2022-2025
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 
 #include "notepad.hh"
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 
 using namespace std;
 using namespace dcpp;
@@ -25,8 +25,8 @@ using namespace dcpp;
 Notepad::Notepad():
 BookEntry(Entry::NOTEPAD, _("Notepad"), "notepad")
 {
-	WulforUtil::setTextDeufaults(getWidget("textview1"),SETTING(BACKGROUND_CHAT_COLOR),string(),false,string(),"Notepad");
-	WulforUtil::setTextColor(string("black"),string("Notepad"));
+	WulforUtil::setTextDeufaults(getWidget("textview1"),SETTING(BACKGROUND_CHAT_COLOR),dcpp::Util::emptyString,false,dcpp::Util::emptyString,"Notepad");
+	WulforUtil::setTextColor(string("black"),string("Notepad"),getWidget("textview1"));
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("textview1")));
 }
 
@@ -35,7 +35,7 @@ Notepad::~Notepad()
 	GtkTextIter start;
 	GtkTextIter end;
 
-	gchar *text = NULL;
+	g_autofree gchar *text = NULL;
 	/* Obtain iters for the start and end of points of the buffer */
 	gtk_text_buffer_get_start_iter (buffer, &start);
 	gtk_text_buffer_get_end_iter (buffer, &end);
@@ -53,7 +53,6 @@ Notepad::~Notepad()
 	}
 	catch (const Exception &e)
 	{ }
-	g_free (text);
 
 }
 

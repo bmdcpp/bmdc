@@ -17,9 +17,9 @@
 #include "PreviewPage.hh"
 #include "definitons.hh"
 #include "seUtil.hh"
-#include <dcpp/format.h>
-#include <linux/treeview.hh>
-#include <linux/settingsmanager.hh>
+#include "../dcpp/format.h"
+#include "../linux/treeview.hh"
+#include "../linux/settingsmanager.hh"
 
 using namespace std;
 
@@ -28,7 +28,7 @@ const char* PreviewPage::page_name = "→ Preview";
 void PreviewPage::show(GtkWidget *parent, GtkWidget* old)
 {
 	box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
-	GtkWidget* scroll = gtk_scrolled_window_new(NULL,NULL);
+	GtkWidget* scroll = gtk_scrolled_window_new();
 
 	previewAppView = TreeView();
 	previewAppView.setView(GTK_TREE_VIEW(gtk_tree_view_new()));
@@ -39,8 +39,8 @@ void PreviewPage::show(GtkWidget *parent, GtkWidget* old)
 	previewAppToStore = gtk_list_store_newv(previewAppView.getColCount(), previewAppView.getGTypes());
 	gtk_tree_view_set_model(previewAppView.get(), GTK_TREE_MODEL(previewAppToStore));
 		
-	gtk_container_add(GTK_CONTAINER(scroll),GTK_WIDGET(previewAppView.get()));
-	gtk_box_pack_start(GTK_BOX(box),scroll,TRUE,TRUE,0);
+//	gtk_container_add(GTK_CONTAINER(scroll),GTK_WIDGET(previewAppView.get()));
+	gtk_box_append(GTK_BOX(box),scroll);
 	grid = gtk_grid_new();
 	GtkWidget *addButton = gtk_button_new_with_label("Add");
 	gtk_grid_attach(GTK_GRID(grid),addButton,0,0,1,1);
@@ -52,10 +52,10 @@ void PreviewPage::show(GtkWidget *parent, GtkWidget* old)
 	g_signal_connect(addButton, "clicked", G_CALLBACK(onPreviewAdd_gui), (gpointer)this);
 	g_signal_connect(remButton, "clicked", G_CALLBACK(onPreviewRemove_gui), (gpointer)this);
 	g_signal_connect(upButton, "clicked", G_CALLBACK(onPreviewApply_gui), (gpointer)this);
-	g_signal_connect(previewAppView.get(), "key-release-event", G_CALLBACK(onPreviewKeyReleased_gui), (gpointer)this);
-	g_signal_connect(previewAppView.get(), "button-release-event", G_CALLBACK(onPreviewButtonReleased_gui), (gpointer)this);
+//	g_signal_connect(previewAppView.get(), "key-release-event", G_CALLBACK(onPreviewKeyReleased_gui), (gpointer)this);
+//	g_signal_connect(previewAppView.get(), "button-release-event", G_CALLBACK(onPreviewButtonReleased_gui), (gpointer)this);
 
-	gtk_box_pack_start(GTK_BOX(box),grid,TRUE,TRUE,0);
+	gtk_box_append(GTK_BOX(box),grid);
 
 	gtk_widget_set_sensitive(addButton, TRUE);
 	gtk_widget_set_sensitive(remButton, TRUE);
@@ -75,10 +75,10 @@ void PreviewPage::show(GtkWidget *parent, GtkWidget* old)
 
 	gtk_grid_attach(GTK_GRID(grid2),gtk_label_new("Types"),0,2,1,1);
 	gtk_grid_attach(GTK_GRID(grid2),entry_type,1,2,1,1);
-	gtk_container_add(GTK_CONTAINER(frame),grid2);
-	gtk_box_pack_start(GTK_BOX(box),frame,TRUE,TRUE,0);
+	//gtk_container_add(GTK_CONTAINER(frame),grid2);
+	gtk_box_append(GTK_BOX(box),frame);
 	infoLabel = gtk_label_new("");
-	gtk_box_pack_start(GTK_BOX(box),infoLabel,TRUE,TRUE,0);
+	gtk_box_append(GTK_BOX(box),infoLabel);
 		
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 	const PreviewApp::List &Apps = wsm->getPreviewApps();
@@ -114,9 +114,9 @@ void PreviewPage::onPreviewAdd_gui(GtkWidget *widget, gpointer data)
 {
 	PreviewPage *s = (PreviewPage*)data;
 
-	string name = gtk_entry_get_text(GTK_ENTRY(s->entry_name));
-	string app = gtk_entry_get_text(GTK_ENTRY(s->entry_app));
-	string ext = gtk_entry_get_text(GTK_ENTRY(s->entry_type));
+	string name = gtk_editable_get_text(GTK_EDITABLE(s->entry_name));
+	string app = gtk_editable_get_text(GTK_EDITABLE(s->entry_app));
+	string ext = gtk_editable_get_text(GTK_EDITABLE(s->entry_type));
 
 	if (name.empty() || app.empty() || ext.empty())
 	{
@@ -160,7 +160,7 @@ void PreviewPage::onPreviewRemove_gui(GtkWidget *widget, gpointer data)
 			gtk_list_store_remove(s->previewAppToStore, &iter);
 	}
 }
-
+/*
 void PreviewPage::onPreviewKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	PreviewPage *s = (PreviewPage *)data;
@@ -178,7 +178,7 @@ void PreviewPage::onPreviewKeyReleased_gui(GtkWidget *widget, GdkEventKey *event
 		}
 	}
 }
-
+/*
 void PreviewPage::onPreviewButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
 	PreviewPage *s = (PreviewPage *)data;
@@ -196,14 +196,14 @@ void PreviewPage::onPreviewButtonReleased_gui(GtkWidget *widget, GdkEventButton 
 		}
 	}
 }
-
+*/
 void PreviewPage::onPreviewApply_gui(GtkWidget *widget, gpointer data)
 {
 	PreviewPage *s = (PreviewPage *)data;
 
-	string name = gtk_entry_get_text(GTK_ENTRY(s->entry_name));
-	string app = gtk_entry_get_text(GTK_ENTRY(s->entry_app));
-	string ext = gtk_entry_get_text(GTK_ENTRY(s->entry_type));
+	string name = gtk_editable_get_text(GTK_EDITABLE(s->entry_name));
+	string app = gtk_editable_get_text(GTK_EDITABLE(s->entry_app));
+	string ext = gtk_editable_get_text(GTK_EDITABLE(s->entry_type));
 
 	if (name.empty() || app.empty() || ext.empty())
 	{

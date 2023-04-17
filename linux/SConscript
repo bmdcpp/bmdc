@@ -7,7 +7,8 @@ header_files = env.Glob('*.hh')
 gui_files = env.Glob('*.cc')
 obj_files = []
 
-env.ParseConfig('pkg-config --cflags --libs gtk+-3.0')
+env.ParseConfig('pkg-config --cflags --libs gtk4')
+
 env.Append(CPPDEFINES='PACKAGE=\'\"%s\"\'' % env['package'])
 
 # Build the gui_files

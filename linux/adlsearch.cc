@@ -1,6 +1,6 @@
 /*
  * Copyright © 2009-2012 freedcpp, http://code.google.com/p/freedcpp
- * Copyright © 2011-2017 Parts (CMD supports) of Code BMDC++ , https://launchpad.net/bmdc++
+ * Copyright © Parts (CMD supports) BMDC 2018-2025
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  */
 
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "adlsearch.hh"
 
 using namespace std;
@@ -32,8 +32,6 @@ SearchADL::SearchADL():
 	sens(TRUE),	acts(TRUE),
 	bForbid(TRUE)
 {
-	g_object_ref_sink(getWidget("menu"));
-
 	// Fill drop down actions
 	auto action = WulforUtil::getActions();
 	WulforUtil::drop_combo(getWidget("comboboxAction"),action);
@@ -88,9 +86,7 @@ SearchADL::SearchADL():
 	g_signal_connect(getWidget("moveDownButton"), "clicked", G_CALLBACK(onMoveDownClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("removeButton"), "clicked", G_CALLBACK(onRemoveClicked_gui), (gpointer)this);
 
-	g_signal_connect(searchADLView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
-	g_signal_connect(searchADLView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
-	g_signal_connect(searchADLView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
+//	g_signal_connect(searchADLView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 
 	g_signal_connect(getWidget("checkoveride1"), "toggled", G_CALLBACK(onToggleOveride), (gpointer)this);
 	g_signal_connect(getWidget("checkFromFav"), "toggled", G_CALLBACK(onToggleActions), (gpointer)this);
@@ -111,17 +107,15 @@ SearchADL::SearchADL():
 SearchADL::~SearchADL()
 {
 	ADLSearchManager::getInstance()->save();
-	gtk_widget_destroy(getWidget("ADLSearchDialog"));
-	g_object_unref(getWidget("menu"));
 }
 
 void SearchADL::show()
 {
 	// initialize searches list
 	string minSize, maxSize;
-	ADLSearchManager::SearchCollection &collection = ADLSearchManager::getInstance()->collection;
+	vector<ADLSearch> &collection = ADLSearchManager::getInstance()->collection;
 
-	for (ADLSearchManager::SearchCollection::iterator i = collection.begin(); i != collection.end(); ++i)
+	for (vector<ADLSearch>::iterator i = collection.begin(); i != collection.end(); ++i)
 	{
 		GtkTreeIter iter;
 		ADLSearch &search = *i;
@@ -163,10 +157,10 @@ void SearchADL::onRemoveClicked_gui(GtkWidget*, gpointer data)
 	if (gtk_tree_selection_get_selected(s->searchADLSelection, NULL, &iter))
 	{
 		gchar *p = gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(s->searchADLStore), &iter);
-		SearchType i = (SearchType)Util::toInt(p);
+		size_t i = Util::toInt(p);
 		g_free(p);
 
-		ADLSearchManager::SearchCollection &collection = ADLSearchManager::getInstance()->collection;
+		vector<ADLSearch> &collection = ADLSearchManager::getInstance()->collection;
 		if (i < collection.size())
 		{
 			collection.erase(collection.begin() + i);
@@ -184,12 +178,12 @@ void SearchADL::onAddClicked_gui(GtkWidget*, gpointer data)
 	if (showPropertiesDialog_gui(search, false, s))
 	{
 		GtkTreeIter iter;
-		ADLSearchManager::SearchCollection &collection = ADLSearchManager::getInstance()->collection;
+		vector<ADLSearch> &collection = ADLSearchManager::getInstance()->collection;
 
 		if (gtk_tree_selection_get_selected(s->searchADLSelection, NULL, &iter))
 		{
 			gchar *p = gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(s->searchADLStore), &iter);
-			SearchType i = (SearchType)Util::toInt(p);
+			size_t i = Util::toInt(p);
 			g_free(p);
 
 			if (i < collection.size())
@@ -222,9 +216,9 @@ void SearchADL::onPropertiesClicked_gui(GtkWidget*, gpointer data)
 		if (showPropertiesDialog_gui(search, true, s))
 		{
 			g_autofree gchar *p = gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(s->searchADLStore), &iter);
-			SearchType i = (SearchType)Util::toInt(p);
+			size_t i = Util::toInt(p);
 
-			ADLSearchManager::SearchCollection &collection = ADLSearchManager::getInstance()->collection;
+			vector<ADLSearch> &collection = ADLSearchManager::getInstance()->collection;
 			if (i < collection.size())
 			{
 				collection[i] = search;
@@ -299,8 +293,8 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 		overide = s->searchADLView.getValue<gboolean>(&iter, "OverRideP");
 
 		// set text
-		gtk_entry_set_text(GTK_ENTRY(s->getWidget("searchStringEntry")), searchString.c_str());
-		gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")), destDir.c_str());
+		gtk_editable_set_text(GTK_EDITABLE(s->getWidget("searchStringEntry")), searchString.c_str());
+		gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")), destDir.c_str());
 
 		// set size
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(s->getWidget("minFileSizeSpinButton")), minSize);
@@ -317,13 +311,13 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 		//Forbiden
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkForbiden")), (isForbid == _("1")) ? TRUE : FALSE);
 		//Comment
-		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryComment")), commentStr.c_str());
+		gtk_editable_set_text(GTK_EDITABLE(s->getWidget("entryComment")), commentStr.c_str());
 		//raw
 		gtk_combo_box_set_active(GTK_COMBO_BOX(s->getWidget("comboboxAction")), (gint)(s->find_rawInt(raw)) );
 		//FromFav
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkFromFav")), isFav);
 		//KickSTr
-		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryKick")), kickStr.c_str());
+		gtk_editable_set_text(GTK_EDITABLE(s->getWidget("entryKick")), kickStr.c_str());
 		//Points
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(s->getWidget("spinbuttonPoints")),(gint)point);
 		//Overide
@@ -333,8 +327,8 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 	else
 	{
 		// set text default
-		gtk_entry_set_text(GTK_ENTRY(s->getWidget("searchStringEntry")), search.searchString.c_str());
-		gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")), search.destDir.c_str());
+		gtk_editable_set_text(GTK_EDITABLE(s->getWidget("searchStringEntry")), search.searchString.c_str());
+		gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")), search.destDir.c_str());
 
 		// set size default
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(s->getWidget("minFileSizeSpinButton")), search.minFileSize);
@@ -349,15 +343,15 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("downloadMatchesCheckButton")), search.isAutoQueue);
 		///CMD
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkForbiden")), FALSE);
-		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryComment")), "");
+		gtk_editable_set_text(GTK_EDITABLE(s->getWidget("entryComment")), "");
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkFromFav")), FALSE);
-		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryKick")), "");
+		gtk_editable_set_text(GTK_EDITABLE(s->getWidget("entryKick")), "");
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(s->getWidget("spinbuttonPoints")),(gint)0);
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkoveride1")),false);
 	}
 
 	GtkWidget *dialog = s->getWidget("ADLSearchDialog");
-	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
+	gint response = -1;//gtk_dialog_run(GTK_DIALOG(dialog));
 
 	// Fix crash, if the dialog gets programmatically destroyed.
 	if (response == GTK_RESPONSE_NONE)
@@ -371,8 +365,8 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 	// set search
 	enabledCheck = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("enabledCheckButton")));
 	matchesCheck = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("downloadMatchesCheckButton")));
-	searchString = gtk_entry_get_text(GTK_ENTRY(s->getWidget("searchStringEntry")));
-	destDir = gtk_entry_get_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")));
+	searchString = gtk_editable_get_text(GTK_EDITABLE(s->getWidget("searchStringEntry")));
+	destDir = gtk_editable_get_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")));
 	minSize = gtk_spin_button_get_value(GTK_SPIN_BUTTON(s->getWidget("minFileSizeSpinButton")));
 	maxSize = gtk_spin_button_get_value(GTK_SPIN_BUTTON(s->getWidget("maxFileSizeSpinButton")));
 	sizeType = gtk_combo_box_get_active(GTK_COMBO_BOX(s->getWidget("sizeTypeComboBox")));
@@ -384,7 +378,7 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 	}
 	g_free(tmp);
 	isFavs = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkFromFav")));
-	kickStr = gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryKick")));
+	kickStr = gtk_editable_get_text(GTK_EDITABLE(s->getWidget("entryKick")));
 	point = (int)gtk_spin_button_get_value (GTK_SPIN_BUTTON(s->getWidget("spinbuttonPoints")));
 
 	if(gtk_widget_is_sensitive(s->getWidget("checkoveride1")))
@@ -400,7 +394,7 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 	search.typeFileSize = (ADLSearch::SizeType)sizeType;
 	///CMD
 	search.isForbidden = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkForbiden"))) ? true : false;
-	search.adlsComment = gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryComment")));
+	search.adlsComment = gtk_editable_get_text(GTK_EDITABLE(s->getWidget("entryComment")));
 	search.adlsRaw = raw;
 	search.fromFavs = isFavs;
 	search.kickString = kickStr;
@@ -421,9 +415,9 @@ void SearchADL::onMoveUpClicked_gui(GtkWidget*, gpointer data)
 	if (gtk_tree_selection_get_selected(sel, NULL, &current))
 	{
 		g_autofree gchar *p = gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(s->searchADLStore), &current);
-		SearchType i = (SearchType)Util::toInt(p);
+		size_t i = Util::toInt(p);
 
-		ADLSearchManager::SearchCollection &collection = ADLSearchManager::getInstance()->collection;
+		vector<ADLSearch> &collection = ADLSearchManager::getInstance()->collection;
 		if (i == 0 || !(i < collection.size()))
 			return;
 
@@ -451,9 +445,9 @@ void SearchADL::onMoveDownClicked_gui(GtkWidget*, gpointer data)
 	if (gtk_tree_selection_get_selected(sel, NULL, &current))
 	{
 		g_autofree gchar *p = gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(s->searchADLStore), &current);
-		SearchType i = (SearchType)Util::toInt(p);
+		size_t i = Util::toInt(p);
 
-		ADLSearchManager::SearchCollection &collection = ADLSearchManager::getInstance()->collection;
+		vector<ADLSearch> &collection = ADLSearchManager::getInstance()->collection;
 		if (collection.empty() || !(i < collection.size() - 1))
 			return;
 
@@ -478,9 +472,9 @@ void SearchADL::onActiveToggled_gui(GtkCellRendererToggle* , gchar *path, gpoint
 	if (gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(s->searchADLStore), &iter, path))
 	{
 		g_autofree gchar *p = gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(s->searchADLStore), &iter);
-		SearchType i = (SearchType)Util::toInt(p);
+		size_t i = Util::toInt(p);
 
-		ADLSearchManager::SearchCollection &collection = ADLSearchManager::getInstance()->collection;
+		vector<ADLSearch> &collection = ADLSearchManager::getInstance()->collection;
 		if (i < collection.size())
 		{
 			gboolean active = s->searchADLView.getValue<gboolean>(&iter, _("Enabled"));
@@ -493,7 +487,7 @@ void SearchADL::onActiveToggled_gui(GtkCellRendererToggle* , gchar *path, gpoint
 		}
 	}
 }
-
+/*
 gboolean SearchADL::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
@@ -513,8 +507,8 @@ gboolean SearchADL::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpoin
 		}
 	}
 	return FALSE;
-}
-
+}*/
+/*
 gboolean SearchADL::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
@@ -538,30 +532,30 @@ gboolean SearchADL::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpoi
 	}
 
 	return FALSE;
-}
-
+}*/
+/*
 gboolean SearchADL::onKeyReleased_gui(GtkWidget* , GdkEventKey *event, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
 	if (gtk_tree_selection_get_selected(s->searchADLSelection, NULL, NULL))
 	{
-		if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_BackSpace)
+		//if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_BackSpace)
 		{
 			s->onRemoveClicked_gui(NULL, data);
 		}
 		else if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
-			#if GTK_CHECK_VERSION(3,22,0)
-			gtk_menu_popup_at_pointer(GTK_MENU(s->getWidget("menu")),NULL);
-			#else
-			gtk_menu_popup(GTK_MENU(s->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-			#endif
+		//	#if GTK_CHECK_VERSION(3,22,0)
+		//	gtk_menu_popup_at_pointer(GTK_MENU(s->getWidget("menu")),NULL);
+		//	#else
+		//	gtk_menu_popup(GTK_MENU(s->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+		//	#endif
 		}
 	}
 
 	return FALSE;
-}
+}*/
 /* Util funtions */
 int SearchADL::find_raw(const string rawString)
 {
@@ -627,16 +621,16 @@ void SearchADL::onChangeCombo(GtkWidget *widget, gpointer data)
 
 		switch(type) {
     case 0:
-        gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden Files");
+        gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")),"Forbidden Files");
         break;
     case 1:
-         gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden Directories");
+        gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")),"Forbidden Directories");
          break;
     case 2:
-        gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden Full Paths");
+        gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")),"Forbidden Full Paths");
         break;
     case 3:
-        gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden TTHS");
+        gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")),"Forbidden TTHS");
         break;
     default: return;
 	}
@@ -648,7 +642,7 @@ void SearchADL::onChangeCombo(GtkWidget *widget, gpointer data)
 void SearchADL::onToggleForb(GtkWidget*, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
-	//string tmp;
+	string tmp;
 	gint type;
 
 	gtk_widget_set_sensitive(s->getWidget("checkcasesensitive"), s->bForbid);
@@ -656,26 +650,26 @@ void SearchADL::onToggleForb(GtkWidget*, gpointer data)
 	gtk_widget_set_sensitive(s->getWidget("spinbuttonPoints"), s->bForbid);
 
     //@this probaly not need?
-	//tmp = string(gtk_entry_get_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry"))));
-	//if( (tmp != "Forbidden Files") || (tmp != "Forbidden TTHS") || (tmp != "Forbidden Directories"))
+	tmp = string(gtk_editable_get_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry"))));
+	if( (tmp != "Forbidden Files") || (tmp != "Forbidden TTHS") || (tmp != "Forbidden Directories"))
 	{
         type = gtk_combo_box_get_active(GTK_COMBO_BOX(s->getWidget("sourceTypeComboBox")));
         switch(type)
         {
         case 0:
-           gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")), "Forbidden Files");
+           gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")), "Forbidden Files");
            gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->bForbid);
            break;
         case 1:
-           gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")), "Forbidden Directories");
+           gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")), "Forbidden Directories");
            gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->bForbid);
            break;
         case 2:
-           gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden Full Paths");
+           gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")),"Forbidden Full Paths");
            gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->bForbid);
            break;
         case 3:
-           gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")), "Forbidden TTHS");
+           gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")), "Forbidden TTHS");
            gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->bForbid);
            break;
         default: gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->bForbid);;

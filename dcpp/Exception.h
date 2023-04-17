@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2021 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,21 +25,21 @@
 
 namespace dcpp {
 
-using std::string;
+	using std::string;
 
-class Exception : public std::exception
-{
-public:
-	Exception() { }
-	Exception(const string& aError) : error(aError) { dcdrun(if(error.size()>0)) dcdebug("Thrown: %s\n", error.c_str()); }
+	class Exception : public std::exception
+	{
+	public:
+		Exception() { }
+		Exception(const string& aError) : error(aError) { if(!error.empty()) dcdebug("Thrown: %s\n", error.c_str()); }
 
-	virtual const char* what() const throw() { return getError().c_str(); }
+		virtual const char* what() const throw() { return getError().c_str(); }
 
-	virtual ~Exception() throw() { }
-	virtual const string& getError() const { return error; }
-protected:
-	string error;
-};
+		virtual ~Exception() throw() { }
+		virtual const string& getError() const { return error; }
+	protected:
+		string error;
+	};
 
 #ifdef _DEBUG
 
@@ -47,6 +47,13 @@ protected:
 public:\
 	name() : Exception(#name) { } \
 	name(const string& aError) : Exception(#name ": " + aError) { } \
+	virtual ~name() throw() { } \
+}
+
+#define EXTEND_EXCEPTION(name, parent) class name : public parent { \
+public:\
+	name() : parent(#name) { } \
+	name(const string& aError) : parent(#name ": " + aError) { } \
 	virtual ~name() throw() { } \
 }
 
@@ -58,6 +65,14 @@ public:\
 	name(const string& aError) : Exception(aError) { } \
 	virtual ~name() throw() { } \
 }
+
+#define EXTEND_EXCEPTION(name, parent) class name : public parent { \
+public:\
+	name() : parent() { } \
+	name(const string& aError) : parent(aError) { } \
+	virtual ~name() throw() { } \
+}
+
 #endif
 
 } // namespace dcpp

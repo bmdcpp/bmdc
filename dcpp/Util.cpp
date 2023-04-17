@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@
 #include "version.h"
 
 #ifndef _WIN32
+	#include <ifaddrs.h>
 	#include <sys/socket.h>
 	#include <netinet/in.h>
 	#include <arpa/inet.h>
@@ -159,14 +160,14 @@ void Util::initialize(PathsMap pathOverrides) {
 	paths[PATH_LOCALE] = Text::fromT(buf);
 
 #else
-	string home = g_get_home_dir ();//glib
+	string home = g_get_home_dir ();
 	#ifndef _DEBUG
-	paths[PATH_GLOBAL_CONFIG] = paths[PATH_USER_CONFIG] = home + "/.bmdc++-s/";
+	paths[PATH_GLOBAL_CONFIG] = paths[PATH_USER_CONFIG] = home + "/.bmdc++/";
 	#else
 	paths[PATH_GLOBAL_CONFIG] = paths[PATH_USER_CONFIG] = home + "/.bmdc++-debug/";
 	#endif
 	#ifdef _WIN32
-	loadBootConfig();
+        loadBootConfig();
 	#endif
 	if(!File::isAbsolute(paths[PATH_USER_CONFIG])) {
 		paths[PATH_USER_CONFIG] = paths[PATH_GLOBAL_CONFIG] + paths[PATH_USER_CONFIG];
@@ -563,54 +564,39 @@ string Util::formatExactSize(const int64_t aBytes) {
 		return string(buf);
 #endif
 }
+//todo win code?
 
 string Util::getLocalIp(bool IsIPv6) {
-	struct addrinfo hints;
-	memset(&hints, 0, sizeof(addrinfo));
-	hints.ai_family = AF_UNSPEC;
-	addrinfo *result;
-
-	int ret = ::getaddrinfo("localhost",NULL,&hints,&result);
-	if( ret == 0)
-	{
-		struct addrinfo *res;
-		char buf[INET6_ADDRSTRLEN + 1];
-		for(res = result; res != NULL; res = res->ai_next)
+#ifndef _WIN32
+		struct ifaddrs *ifaddr= NULL,*ifa = NULL;
+		void *tmp = NULL;
+		string mAddrIP = string() , mAddrIP6 = string();
+		getifaddrs(&ifaddr);
+		for(ifa = ifaddr;ifa!= NULL;ifa = ifa->ifa_next)
 		{
-			if ( res->ai_family == AF_INET )
-			{
-				#ifdef _WIN32
-				Socket::inet_ntop(&((struct sockaddr_in *)res->ai_addr)->sin_addr,buf,sizeof(buf));
-				#else
-				inet_ntop(AF_INET,&((struct sockaddr_in *)res->ai_addr)->sin_addr,buf,sizeof(buf));
-				#endif
+			if(!ifa->ifa_addr)
+				continue;
 				
-				if(Util::isPrivateIp(buf) || strncmp(buf, "169.254", 7) == 0)
-				{
-					//local ip can be private ip or 169.254.x? or that wich is set as bindaddr....
-					const string& bindAddr = CONNSETTING(BIND_ADDRESS);
-					if(!bindAddr.empty() && bindAddr != SettingsManager::getInstance()->getDefault(SettingsManager::BIND_ADDRESS)) {
-						return bindAddr;
-					}
-					
-					break;
-				}
-			}
-			else if(IsIPv6)
+			if(ifa->ifa_addr->sa_family == AF_INET)
 			{
-				#ifdef _WIN32
-				Socket::inet_ntop(&((struct sockaddr_in *)res->ai_addr)->sin_addr,buf,sizeof(buf));
-				#else
-				inet_ntop(AF_INET6, &((struct sockaddr_in6 *)res->ai_addr)->sin6_addr, buf, sizeof(buf));
-				#endif
-				//local ip is fe80 for IPv6
-				if(strncmp(buf,"fe80",4) == 0) break;
-
+				tmp = &((struct sockaddr_in*)ifa->ifa_addr)->sin_addr;
+				char address[INET_ADDRSTRLEN];
+				inet_ntop(AF_INET,tmp,address, INET_ADDRSTRLEN);
+				mAddrIP = address;
 			}
+			else if(ifa->ifa_addr->sa_family == AF_INET6)
+			{
+				tmp = &((struct sockaddr_in6*)ifa->ifa_addr)->sin6_addr;
+				char address[INET_ADDRSTRLEN];
+				inet_ntop(AF_INET6,tmp,address, INET_ADDRSTRLEN);
+				mAddrIP6 = address;
+			}
+			
+			
 		}
-		return buf;
-	}
-	return string();
+		if(IsIPv6)
+				mAddrIP = mAddrIP6;
+		return mAddrIP;
 /*	
 	char buf[256];
 	gethostname(buf, 255);
@@ -633,7 +619,9 @@ string Util::getLocalIp(bool IsIPv6) {
 			i++;
 		}
 	}*/
-	
+#else
+return string();
+#endif	
 }
 
 bool Util::isPrivateIp(string const& ip) {
@@ -946,8 +934,8 @@ string Util::formatTime(const string &msg, const time_t t) {
 		}*/
 		if(!g_utf8_validate(buf.c_str(),-1,NULL))
 			return string();
-		gsize oread,owrite;
-		buf = g_filename_to_utf8(buf.c_str(),-1,&oread,&owrite,NULL);
+		//gsize oread,owrite;
+		buf = g_filename_to_utf8(buf.c_str(),-1,NULL,NULL,NULL);
 
 		return buf;
 	}
@@ -1233,7 +1221,7 @@ string Util::convertCEscapes(string tmp)
 
 string Util::getIETFLang() {
 #ifdef _WIN32
-	auto lang = SETTING(LANGUAGE);
+	string lang = SETTING(LANGUAGE);
 	/*if(lang.empty()) {
 		string lang = _nl_locale_name_default();
 	}*/

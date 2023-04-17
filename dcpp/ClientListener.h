@@ -49,9 +49,7 @@ public:
 	//...
 	typedef X<19> CheatMessage;
 	typedef X<20> HubTopic;
-	#if 0
-	typedef X<21> ClientLine;
-	#endif
+
 	enum StatusFlags {
 		FLAG_NORMAL = 0x00,
 		FLAG_IS_SPAM = 0x01,
@@ -77,9 +75,7 @@ public:
 	virtual void on(AdcSearch, Client*, const AdcCommand&, const CID&) noexcept { }
 	virtual void on(CheatMessage, Client*, const string&) noexcept { }
 	virtual void on(HubTopic, Client*, const string&) noexcept { }
-	#if 0
-	virtual void on(ClientLine, Client*, const string&, int) noexcept { }//NOTE: Plugins
-	#endif
+
 };
 
 } // namespace dcpp

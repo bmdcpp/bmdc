@@ -14,12 +14,12 @@
 // MA 02110-1301, USA.
 //
 
-#include <dcpp/stdinc.h>
-#include <dcpp/GetSet.h>
-#include <dcpp/Util.h>
-#include <dcpp/ColorSettings.h>
-#include <linux/entry.hh>
-#include <linux/WulforUtil.hh>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/GetSet.h"
+#include "../dcpp/Util.h"
+#include "../dcpp/ColorSettings.h"
+#include "../linux/entry.hh"
+#include "../linux/GuiUtil.hh"
 #include "HigDialog.hh"
 #include "definitons.hh"
 
@@ -44,12 +44,12 @@ init(add),cs(_cs)
 
 	mainBox = gtk_dialog_get_content_area ( GTK_DIALOG(dialogWin) );
 	GtkWidget* grid = gtk_grid_new();
-	gtk_container_add(GTK_CONTAINER(mainBox),grid);
+	gtk_box_append(GTK_BOX(mainBox),grid);
 
 	gtk_grid_attach(GTK_GRID(grid),gtk_label_new(_("Name: ")),0,0,1,1);
 	entryName = gen;
 	if(cs->getMatch().empty() == false)
-		gtk_entry_set_text(GTK_ENTRY(entryName),cs->getMatch().c_str());
+		gtk_editable_set_text(GTK_EDITABLE(entryName),cs->getMatch().c_str());
 	gtk_grid_attach(GTK_GRID(grid), entryName,0,1,1,1);
 
 
@@ -90,7 +90,7 @@ init(add),cs(_cs)
 	gtk_grid_attach(GTK_GRID(grid),gtk_label_new(_("Foreground color ")),0,7,1,1);
 	gtk_grid_attach(GTK_GRID(grid), colorFgButton,1,7,1,1);
 
-	gtk_widget_show_all(grid);
+	//gtk_widget_show_all(grid);
 	GtkWidget* okButton = gtk_button_new_with_label(_("Ok"));
 	GtkWidget* cancelButton = 	gtk_button_new_with_label(_("Cancel"));
 
@@ -100,20 +100,17 @@ init(add),cs(_cs)
 	gtk_dialog_add_action_widget (GTK_DIALOG(dialogWin),
 							cancelButton,
 							-6);
-	gtk_widget_show(cancelButton);
-	gtk_widget_show(okButton);
+	//gtk_widget_show(cancelButton);
+	//gtk_widget_show(okButton);
 
 }
 
 bool HigDialog::run() {
-	gint res = gtk_dialog_run(GTK_DIALOG(dialogWin));
-	// Fix crash, if the dialog gets programmatically destroyed.
-	if (res == GTK_RESPONSE_NONE)
-		return FALSE;
+	gint res = -1;
 
 	while (res == GTK_RESPONSE_OK)
 	{
-		cs->setMatch(gtk_entry_get_text(GTK_ENTRY(entryName)));
+		cs->setMatch(gtk_editable_get_text(GTK_EDITABLE(entryName)));
 		cs->setBold(gtk_switch_get_active(GTK_SWITCH(sBold)));
 		cs->setItalic(gtk_switch_get_active(GTK_SWITCH(sItalic)));
 		cs->setUnderline(gtk_switch_get_active(GTK_SWITCH(sUnderline)));

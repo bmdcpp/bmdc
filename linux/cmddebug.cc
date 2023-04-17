@@ -1,5 +1,5 @@
 /*
- * Copyright © 2010-2017 BMDC
+ * Copyright © 2010-2025 BMDC
  * Copyright © 2010-2011 Eugene Petrov <dhamp@ya.ru>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 
 #include "cmddebug.hh"
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "settingsmanager.hh"
 #include "../dcpp/DebugManager.h"
 
@@ -33,7 +33,7 @@ cmddebug::cmddebug():
 BookEntry(Entry::CMD,_("CMD"),"cmddebug"),
 stop(false)
 {
-	WulforUtil::setTextDeufaults(getWidget("cmdtextview"),SETTING(BACKGROUND_CHAT_COLOR),string(),false,string(),"CmdLog");
+	WulforUtil::setTextDeufaults(getWidget("cmdtextview"),SETTING(BACKGROUND_CHAT_COLOR),dcpp::Util::emptyString,false,dcpp::Util::emptyString,"CmdLog");
 	WulforUtil::setTextColor(WGETS("text-cmd-fore-color"),string("CmdLog"));
 
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("cmdtextview")));

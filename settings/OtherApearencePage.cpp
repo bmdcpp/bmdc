@@ -16,9 +16,9 @@
 
 #include "OtherApearencePage.hh"
 #include "definitons.hh"
-#include <dcpp/SettingsManager.h>
-#include <linux/settingsmanager.hh>
-#include <linux/message.hh>
+#include "../dcpp/SettingsManager.h"
+#include "../linux/settingsmanager.hh"
+#include "../linux/message.hh"
 #include "seUtil.hh"
 
 using namespace std;
@@ -66,17 +66,17 @@ void OApearencePage::show(GtkWidget *parent, GtkWidget* old)
 	gtk_grid_attach(GTK_GRID(grid), gtk_label_new(_("Extra Chat Info")),0,5,1,1);
 	gtk_grid_attach(GTK_GRID(grid), entry_chat_info,1,5,1,1);
 	
-	gtk_entry_set_text(GTK_ENTRY(entry_chat_info), SETTING(CHAT_EXTRA_INFO).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_chat_info), SETTING(CHAT_EXTRA_INFO).c_str());
 	
-	gtk_entry_set_text(GTK_ENTRY(entry_ratio), SETTING(RATIO_TEMPLATE).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_ratio), SETTING(RATIO_TEMPLATE).c_str());
 
-	gtk_entry_set_text(GTK_ENTRY(entry_ripe),SETTING(RIPE_DB).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_ripe),SETTING(RIPE_DB).c_str());
 
-	gtk_entry_set_text(GTK_ENTRY(entry_timestamp),SETTING(TIME_STAMPS_FORMAT).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_timestamp),SETTING(TIME_STAMPS_FORMAT).c_str());
 
-	gtk_entry_set_text(GTK_ENTRY(entry_country),SETTING(COUNTRY_FORMAT).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_country),SETTING(COUNTRY_FORMAT).c_str());
 
-	gtk_entry_set_text(GTK_ENTRY(entry_away),SETTING(DEFAULT_AWAY_MESSAGE).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_away),SETTING(DEFAULT_AWAY_MESSAGE).c_str());
 
 	actionUL = GTK_COMBO_BOX_TEXT(gtk_combo_box_text_new());
 	gtk_grid_attach(GTK_GRID(grid),gtk_label_new(_("Action on Userlist")),0,6,1,1);
@@ -119,25 +119,25 @@ void OApearencePage::write()
 {
 	SettingsManager *sm  = SettingsManager::getInstance();
 	
-	const gchar* s_info = gtk_entry_get_text(GTK_ENTRY(entry_chat_info));
+	const gchar* s_info = gtk_editable_get_text(GTK_EDITABLE(entry_chat_info));
 	if(s_info)
 		sm->set(SettingsManager::CHAT_EXTRA_INFO, s_info);
 	
-	const gchar* s_ratio = gtk_entry_get_text(GTK_ENTRY(entry_ratio));
+	const gchar* s_ratio = gtk_editable_get_text(GTK_EDITABLE(entry_ratio));
 	if(s_ratio)
 		sm->set(SettingsManager::RATIO_TEMPLATE, s_ratio);
 	
-	const gchar* s_ripedb = gtk_entry_get_text(GTK_ENTRY(entry_ripe));
+	const gchar* s_ripedb = gtk_editable_get_text(GTK_EDITABLE(entry_ripe));
 	if(s_ripedb)
 		sm->set(SettingsManager::RIPE_DB,s_ripedb);
-	const gchar* s_away = gtk_entry_get_text(GTK_ENTRY(entry_away));
+	const gchar* s_away = gtk_editable_get_text(GTK_EDITABLE(entry_away));
 	if(s_away)
 		sm->set(SettingsManager::DEFAULT_AWAY_MESSAGE ,s_away);
-	const gchar* s_timestamp = gtk_entry_get_text(GTK_ENTRY(entry_timestamp));
+	const gchar* s_timestamp = gtk_editable_get_text(GTK_EDITABLE(entry_timestamp));
 	if(s_timestamp)
 		sm->set(SettingsManager::TIME_STAMPS_FORMAT, s_timestamp);
 
-	sm->set(SettingsManager::COUNTRY_FORMAT, gtk_entry_get_text(GTK_ENTRY(entry_country)));
+	sm->set(SettingsManager::COUNTRY_FORMAT, gtk_editable_get_text(GTK_EDITABLE(entry_country)));
 
 	WSET("double-click-action", gtk_combo_box_get_active(GTK_COMBO_BOX(actionUL)));
 

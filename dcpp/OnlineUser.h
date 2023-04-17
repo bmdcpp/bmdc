@@ -24,7 +24,6 @@
 #include "Flags.h"
 #include "Util.h"
 #include "User.h"
-#include "PluginEntity.h"
 #include "TimerManager.h"
 #include "GetSet.h"
 
@@ -82,7 +81,7 @@ public:
 	string getTag() const;
 	string getApplication() const;
 	string getConnection() const;
-	const string& getCountry() const;
+	const string getCountry() const;
 	bool supports(const string& name) const;
 	bool isHub() const { return isClientType(CT_HUB) || isSet("HU"); }
 	bool isOp() const { return isClientType(CT_OP) || isClientType(CT_SU) || isClientType(CT_OWNER) || isSet("OP"); }
@@ -140,9 +139,6 @@ private:
 };
 
 class OnlineUser 
-#if 0 
-: public PluginEntity<UserData> 
-#endif
 {
 public:
 	typedef vector<OnlineUser*> List;
@@ -187,9 +183,6 @@ public:
 	}
 
 	bool getChecked(bool filelist = false, bool checkComplete = true);
-#if 0
-	UserData* getPluginObject() noexcept;
-#endif	
 	GETSET(Identity, identity, Identity);
 private:
 

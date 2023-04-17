@@ -27,18 +27,19 @@
 #include "GetSet.h"
 
 namespace dcpp {
+	using namespace std;
 	
 struct Raw {
 	
 	Raw() : name(), raw(),id(0),time(0), enabled(false) { }
 	
-	Raw(int _id, const std::string& _name, const std::string& _raw, int _time, bool _enabled)
+	Raw(int _id, const string& _name, const string& _raw, uint64_t _time, bool _enabled)
 		: name(_name), raw(_raw),id(_id), time(_time), enabled(_enabled) { }
 	
-	GETSET(std::string, name, Name);
-	GETSET(std::string, raw, Raw);
+	GETSET(string, name, Name);
+	GETSET(string, raw, Raw);
 	GETSET(int, id, Id);
-	GETSET(int64_t, time, Time);
+	GETSET(uint64_t, time, Time);
 	GETSET(bool, enabled, Enabled);
 
 };
@@ -48,10 +49,10 @@ struct Action {
 	typedef std::vector<Action*> ActionList;
 
 	Action() : name(),id(0), enabled(false) { }
-	Action(int _id, const std::string& _name, bool _enabled): name(_name),id(_id), enabled(_enabled) { }
+	Action(int _id, const string& _name, bool _enabled): name(_name), id(_id), enabled(_enabled) { }
 	~Action() { raw.clear(); }
 
-	GETSET(std::string, name, Name);
+	GETSET(string, name, Name);
 	GETSET(int, id, Id);
 	GETSET(bool, enabled, Enabled);
 

@@ -76,7 +76,7 @@ public:
 
 	void accept(const Socket& srv, bool secure, bool allowUntrusted, const string& expKP = "");
 	void connect(const string& aAddress, const uint16_t& aPort, bool secure, bool allowUntrusted, bool proxy = false, const string& expKP = "");
-	void connect(const string& aAddress, const uint16_t& aPort, const string& localPort, NatRoles natRole, bool secure, bool allowUntrusted, bool proxy = false, const string& expKP = "");
+	void connect(const string& aAddress, const uint16_t& aPort, const uint16_t& localPort, NatRoles natRole, bool secure, bool allowUntrusted, bool proxy = false, const string& expKP = "");
 
 	/** Sets data mode for aBytes bytes. Must be called within onLine. */
 	void setDataMode(int64_t aBytes = -1) { mode = MODE_DATA; dataBytes = aBytes; }
@@ -156,7 +156,7 @@ private:
 	deque<pair<Tasks, unique_ptr<TaskData> > > tasks;
 	CriticalSection cs;
 	Semaphore taskSem;
-	static atomic<long> sockets;
+	static std::atomic_long sockets;
 	UnZFilter* filterIn;
 	ByteVector inbuf;
 	ByteVector writeBuf;
@@ -171,7 +171,7 @@ private:
 public:	
 	GETSET(char, separator, Separator)
 private:	
-	bool disconnecting;
+	std::atomic_bool disconnecting;
 
 	virtual int run();
 

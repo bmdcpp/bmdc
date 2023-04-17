@@ -20,7 +20,7 @@
 #ifndef _QUENE_PAGE_
 #define _QUENE_PAGE_
 #include <gtk/gtk.h>
-#include <linux/treeview.hh>
+#include "../linux/treeview.hh"
 #include "SettingsPage.hh"
 class QuenePage: public SettingsPage
 {

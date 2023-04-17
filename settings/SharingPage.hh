@@ -17,7 +17,7 @@
 #define _SHARING_PAGE_
 #include <gtk/gtk.h>
 #include "SettingsPage.hh"
-#include <linux/treeview.hh>
+#include "../linux/treeview.hh"
 
 /*-------------------------------------------------------------------------*/
 class SharingPage: public SettingsPage
@@ -37,7 +37,7 @@ class SharingPage: public SettingsPage
 		GtkWidget*	button_add,*button_rem,*button_edit,
 		*labelShareSize,*grid,*box;
 		static	void onAddShare_gui(GtkWidget *widget, gpointer data);
-		static gboolean onShareButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+//		static gboolean onShareButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static void onRemoveShare_gui(GtkWidget *widget, gpointer data);
 		
 

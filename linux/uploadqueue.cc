@@ -1,5 +1,5 @@
 //
-//      Copyright 2011 - 2017 BMDC
+//      Copyright 2011 - 2025 BMDC
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -16,7 +16,6 @@
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
 //
-//
 
 #include "uploadqueue.hh"
 
@@ -28,15 +27,27 @@
 #include "../dcpp/UploadManager.h"
 
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 
 using namespace std;
 using namespace dcpp;
+
+const GActionEntry UploadQueue::win_entries[] = {
+    { "grant-slot", onGrantSlotItemClicked_gui, NULL, NULL, NULL , 0 },
+    { "favorite-user", onFavoriteUserAddItemClicked_gui , NULL, NULL, NULL, 0 },
+    { "remove-item",  onRemoveItem_gui , NULL, NULL, NULL , 0 },
+    { "pm-item", onSendPMItemClicked_gui , NULL, NULL, NULL, 0 },
+    { "browse-item", onBrowseItemClicked_gui , NULL, NULL, NULL , 0 },
+};
 
 UploadQueue::UploadQueue():
 BookEntry(Entry::UPLOADQUEUE, _("Upload Queue"), "uploadqueue"),
 selection(NULL)
 {
+
+	GSimpleActionGroup* simple = g_simple_action_group_new ();
+	g_action_map_add_action_entries (G_ACTION_MAP (simple), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	gtk_widget_insert_action_group(getWidget("viewUsers"), "UploadQueue" ,G_ACTION_GROUP(simple));
 
 	users.setView(GTK_TREE_VIEW(getWidget("viewUsers")));
 	users.insertColumn("User", G_TYPE_STRING, TreeView::ICON_STRING, 100, "Icon");
@@ -51,23 +62,72 @@ selection(NULL)
 	g_object_unref(store);
 
 	selection = gtk_tree_view_get_selection(users.get());
-
-	g_signal_connect(getWidget("GranSlotItem"), "activate", G_CALLBACK(onGrantSlotItemClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveItem_gui), (gpointer)this);
-	g_signal_connect(getWidget("pmItem"), "activate", G_CALLBACK(onSendPMItemClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("BrowseItem"), "activate", G_CALLBACK(onBrowseItemClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("favoriteItem"), "activate", G_CALLBACK(onFavoriteUserAddItemClicked_gui), (gpointer)this);
-
-	g_signal_connect(users.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
-	g_signal_connect(users.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
+	/*
 	g_signal_connect(users.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
+	*/
+	GtkGesture *gesture;
+	gesture = gtk_gesture_click_new ();
+	gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
+	g_signal_connect (gesture, "pressed",
+                    G_CALLBACK (onWidgetPressed), (gpointer)this);
+	g_signal_connect (gesture, "released",
+                    G_CALLBACK (on_right_btn_released), (gpointer)this);
+	gtk_widget_add_controller (GTK_WIDGET(users.get()), GTK_EVENT_CONTROLLER (gesture));
 
 }
+
+void UploadQueue::onWidgetPressed (GtkGestureClick* /*gesture*/,
+                                   int                /*n_press*/,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data)
+{
+	
+	UploadQueue *UQ = (UploadQueue*)data;
+
+	GMenu *menu = g_menu_new ();
+	GMenuItem *menu_item_add = g_menu_item_new ("Grant Slot", "UploadQueue.grant-slot");
+	g_menu_append_item (menu, menu_item_add);
+	g_object_unref (menu_item_add);
+
+	GMenuItem* menu_item_edit = g_menu_item_new ("Browse Filelist", "UploadQueue.browse-fl");
+	g_menu_append_item (menu, menu_item_edit);
+	g_object_unref (menu_item_edit);
+
+	GMenuItem* menu_item_conn = g_menu_item_new ("Add Favorite User", "UploadQueue.favorite-user");
+	g_menu_append_item (menu, menu_item_conn);
+	g_object_unref (menu_item_conn);
+
+	GMenuItem* menu_item_copy = g_menu_item_new ("Remove Item", "UploadQueue.remove-item");
+	g_menu_append_item (menu, menu_item_copy);
+	g_object_unref (menu_item_copy);
+
+	GMenuItem* menu_item_rem = g_menu_item_new ("Send Private Message", "UploadQueue.pm-item");
+	g_menu_append_item (menu, menu_item_rem);
+	g_object_unref (menu_item_rem);
+
+	GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
+	gtk_widget_set_parent(pop, UQ->getContainer());
+	gtk_popover_set_pointing_to(GTK_POPOVER(pop), &(const GdkRectangle){x,y,1,1});
+	gtk_popover_popup (GTK_POPOVER(pop));
+
+}
+
+void UploadQueue::on_right_btn_released (GtkGestureClick *gesture,
+                                    int             /* n_press*/,
+                                    double          /* x*/,
+                                    double           /*y*/,
+                                    GtkWidget*       /*widget*/)
+{
+
+  gtk_gesture_set_state (GTK_GESTURE (gesture),
+                         GTK_EVENT_SEQUENCE_CLAIMED);
+}
+
 UploadQueue::~UploadQueue()
 {
 	UploadManager::getInstance()->removeListener(this);
 	gtk_list_store_clear(store);
-	g_object_unref(store);
 }
 
 void UploadQueue::show()
@@ -149,7 +209,7 @@ void UploadQueue::removeUser(const string &cid)
 	}
 }
 
-void UploadQueue::onGrantSlotItemClicked_gui(GtkMenuItem*, gpointer data)
+void UploadQueue::onGrantSlotItemClicked_gui(GtkWidget *widget,GVariant  *, gpointer data)
 {
 	UploadQueue *qp = (UploadQueue *)data;
 
@@ -176,7 +236,7 @@ void UploadQueue::onGrantSlotItemClicked_gui(GtkMenuItem*, gpointer data)
 	}
 }
 
-void UploadQueue::onRemoveItem_gui(GtkMenuItem*, gpointer data)
+void UploadQueue::onRemoveItem_gui(GtkWidget *widget,GVariant  *, gpointer data)
 {
 	UploadQueue *qp = (UploadQueue *)data;
 
@@ -203,7 +263,7 @@ void UploadQueue::onRemoveItem_gui(GtkMenuItem*, gpointer data)
 	}
 }
 
-void UploadQueue::onSendPMItemClicked_gui(GtkMenuItem*, gpointer data)
+void UploadQueue::onSendPMItemClicked_gui(GtkWidget *widget,GVariant  *, gpointer data)
 {
 	UploadQueue *qp = (UploadQueue *)data;
 
@@ -228,7 +288,7 @@ void UploadQueue::onSendPMItemClicked_gui(GtkMenuItem*, gpointer data)
 	}
 }
 
-void UploadQueue::onBrowseItemClicked_gui(GtkMenuItem*, gpointer data)
+void UploadQueue::onBrowseItemClicked_gui(GtkWidget *widget,GVariant  *, gpointer data)
 {
 	UploadQueue *qp = (UploadQueue *)data;
 
@@ -255,7 +315,7 @@ void UploadQueue::onBrowseItemClicked_gui(GtkMenuItem*, gpointer data)
 	}
 }
 
-void UploadQueue::onFavoriteUserAddItemClicked_gui(GtkMenuItem*, gpointer data)
+void UploadQueue::onFavoriteUserAddItemClicked_gui(GtkWidget *widget,GVariant*, gpointer data)
 {
 	UploadQueue *qp = (UploadQueue *)data;
 
@@ -281,7 +341,7 @@ void UploadQueue::onFavoriteUserAddItemClicked_gui(GtkMenuItem*, gpointer data)
 		g_list_free(list);
 	}
 }
-
+/*
 gboolean UploadQueue::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
 	UploadQueue *qp = (UploadQueue *)data;
@@ -290,63 +350,19 @@ gboolean UploadQueue::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer
 	{
 		if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
-			#if GTK_CHECK_VERSION(3,22,0)
 		     gtk_menu_popup_at_pointer(GTK_MENU(qp->getWidget("menu")),NULL);
-	        #else
-			gtk_menu_popup(GTK_MENU(qp->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-			#endif
 		}
 	}
 
 	return FALSE;
 }
-
-gboolean UploadQueue::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
-{
-	UploadQueue *qp = (UploadQueue *)data;
-	qp->previous = event->type;
-
-	if (event->button == 3)
-	{
-		GtkTreePath *path = NULL;
-
-		if (gtk_tree_view_get_path_at_pos(qp->users.get(), (gint)event->x, (gint)event->y, &path, NULL, NULL, NULL))
-		{
-			bool selected = gtk_tree_selection_path_is_selected(qp->selection, path);
-			gtk_tree_path_free(path);
-
-			if (selected)
-				return TRUE;
-		}
-	}
-	return FALSE;
-}
-
-gboolean UploadQueue::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
-{
-	UploadQueue *qp = (UploadQueue *)data;
-
-	if (gtk_tree_selection_count_selected_rows(qp->selection) > 0)
-	{
-		if (event->button == 3 && event->type == GDK_BUTTON_RELEASE)
-		{
-			#if GTK_CHECK_VERSION(3,22,0)
-		gtk_menu_popup_at_pointer(GTK_MENU(qp->getWidget("menu")),NULL);
-	#else
-			gtk_menu_popup(GTK_MENU(qp->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-			#endif
-		}
-	}
-
-	return FALSE;
-}
-
+*/
 void UploadQueue::grantSlot_client(const string &cid)
 {
 	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 	if (user)
 	{
-		UploadManager::getInstance()->reserveSlot(HintedUser(user, string()));
+		UploadManager::getInstance()->reserveSlot(HintedUser(user, dcpp::Util::emptyString));
 	}
 }
 
@@ -365,7 +381,7 @@ void UploadQueue::getFileList_client(const string &cid)
 		UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 		if(user)
 		{
-			HintedUser hintedUser(user, string());
+			HintedUser hintedUser(user, dcpp::Util::emptyString);
 			QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);
 		}
 	}catch(...)

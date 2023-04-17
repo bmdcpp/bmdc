@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2014 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2014-2017 BMDC++
+ * Copyright © 2014-2025 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,11 +28,7 @@
 #include "../dcpp/SettingsManager.h"
 #include "../dcpp/UserCommand.h"
 #include "../dcpp/HighlightManager.h"
-#include "../dcpp/PluginDefs.h"
-#if 0
-#include "../dcpp/PluginManager.h"
-#endif
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "dialogentry.hh"
 #include "treeview.hh"
 
@@ -46,7 +42,6 @@ class Settings:
 		~Settings();
 
 		void response_gui();
-
 	private:
 		// GUI functions
 		void addOption_gui(GtkListStore *store, const std::string &name, dcpp::SettingsManager::IntSetting setting);
@@ -80,12 +75,10 @@ class Settings:
 		void initAppearance_gui();
 		void initLog_gui();
 		void initAdvanced_gui();
-		void initBandwidthLimiting_gui();//NOTE: core 0.762
-		void initSearchTypes_gui();//NOTE: core 0.770
-		void initHighlighting_gui();//NOTE: BMDC++
-		#if 0
-		void initPlugins_gui();//NOTE: BMDC++
-		#endif
+		void initBandwidthLimiting_gui();
+		void initSearchTypes_gui();
+		void initHighlighting_gui();
+
 		void addShare_gui(std::string path, std::string name);
 		void selectTextColor_gui(const int select);
 		void selectTextStyle_gui(const int select);
@@ -94,12 +87,12 @@ class Settings:
 		void updateUserCommandTextSent_gui();
 		bool validateUserCommandInput(const std::string &oldName = "");
 		void showErrorDialog(const std::string error);
-		void updateShares_gui();//NOTE: core 0.762
-		void addSearchType_gui();//NOTE: core 0.770
-		void modSearchType_gui();//NOTE: core 0.770
-		void addExtension_gui(const std::string ext);//NOTE: core 0.770
-		void showExtensionDialog_gui(bool add);//NOTE: core 0.770
-		void setBgColorUserList();//NOTE: BMDC++
+		void updateShares_gui();
+		void addSearchType_gui();
+		void modSearchType_gui();
+		void addExtension_gui(const std::string ext);
+		void showExtensionDialog_gui(bool add);
+		void setBgColorUserList();
 
 		// GUI callbacks
 		static void onOptionsViewToggled_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
@@ -120,10 +113,10 @@ class Settings:
 		static void onPublicRemove_gui(GtkWidget *widget, gpointer data);
 		static void onAddFavorite_gui(GtkWidget *widget, gpointer data);
 		static void onRemoveFavorite_gui(GtkWidget *widget, gpointer data);
-		static gboolean onFavoriteButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		//static gboolean onFavoriteButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static void onAddShare_gui(GtkWidget *widget, gpointer data);
 		static void onRemoveShare_gui(GtkWidget *widget, gpointer data);
-		static gboolean onShareButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		//static gboolean onShareButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onShareHiddenPressed_gui(GtkToggleButton *button, gpointer data);
 
 		static void onLogBrowseClicked_gui(GtkWidget *widget, gpointer data);
@@ -141,7 +134,7 @@ class Settings:
 		static void onUserCommandTypeChat_gui(GtkWidget *widget, gpointer data);
 		static void onUserCommandTypePM_gui(GtkWidget *widget, gpointer data);
 
-		static gboolean onUserCommandKeyPress_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+		//static gboolean onUserCommandKeyPress_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static void onCertificatesPrivateBrowseClicked_gui(GtkWidget *widget, gpointer data);
 		static void onCertificatesFileBrowseClicked_gui(GtkWidget *widget, gpointer data);
 		static void onCertificatesPathBrowseClicked_gui(GtkWidget *widget, gpointer data);
@@ -149,8 +142,8 @@ class Settings:
 		static void onPreviewAdd_gui(GtkWidget *widget, gpointer data);
 		static void onPreviewRemove_gui(GtkWidget *widget, gpointer data);
 		static void onPreviewApply_gui(GtkWidget *widget, gpointer data);
-		static void onPreviewKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-		static void onPreviewButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		//static void onPreviewKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+		//static void onPreviewButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static void onSoundFileBrowseClicked_gui(GtkWidget *widget, gpointer data);
 		static void onSoundPlayButton_gui(GtkWidget *widget, gpointer data);
 		static void onTextColorForeClicked_gui(GtkWidget *widget, gpointer data);
@@ -160,8 +153,8 @@ class Settings:
 		static void onTextStyleDefaultClicked_gui(GtkWidget *widget, gpointer data);
 		static void onNotifyTestButton_gui(GtkWidget *widget, gpointer data);
 		static void onNotifyIconFileBrowseClicked_gui(GtkWidget *widget, gpointer data);
-		static void onNotifyKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-		static void onNotifyButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		//static void onNotifyKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+		//static void onNotifyButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static void onNotifyOKClicked_gui(GtkWidget *widget, gpointer data);
 		static void onNotifyIconNoneButton_gui(GtkWidget *widget, gpointer data);
 		static void onNotifyDefaultButton_gui(GtkWidget *widget, gpointer data);
@@ -172,19 +165,19 @@ class Settings:
 		static void onDefaultThemeButton_gui(GtkWidget *widget, gpointer data);
 		static void onDefaultColorsSPButton_gui(GtkWidget *widget, gpointer data);
 		static void onDefaultFrameSPButton_gui(GtkWidget *widget, gpointer data);
-		static void onLimitSecondToggled_gui(GtkWidget *widget, gpointer data);//NOTE: core 0.762
-		static void onAddSTButton_gui(GtkWidget *widget, gpointer data);//NOTE: core 0.770
-		static void onModifySTButton_gui(GtkWidget *widget, gpointer data);//NOTE: core 0.770
-		static void onRenameSTButton_gui(GtkWidget *widget, gpointer data);//NOTE: core 0.770
-		static void onRemoveSTButton_gui(GtkWidget *widget, gpointer data);//NOTE: core 0.770
-		static void onDefaultSTButton_gui(GtkWidget *widget, gpointer data);//NOTE: core 0.770
-		static void onAddExtensionButton_gui(GtkWidget *widget, gpointer data);//NOTE: core 0.770
-		static void onEditExtensionButton_gui(GtkWidget *widget, gpointer data);//NOTE: core 0.770
-		static void onRemoveExtensionButton_gui(GtkWidget *widget, gpointer data);//NOTE: core 0.770
-		static void onUpExtensionButton_gui(GtkWidget *widget, gpointer data);//NOTE: core 0.770
-		static void onDownExtensionButton_gui(GtkWidget *widget, gpointer data);//NOTE: core 0.770
-		static void onSTKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);//NOTE: core 0.770
-		static void onSTButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);//NOTE: core 0.770
+		static void onLimitSecondToggled_gui(GtkWidget *widget, gpointer data);
+		static void onAddSTButton_gui(GtkWidget *widget, gpointer data);
+		static void onModifySTButton_gui(GtkWidget *widget, gpointer data);
+		static void onRenameSTButton_gui(GtkWidget *widget, gpointer data);
+		static void onRemoveSTButton_gui(GtkWidget *widget, gpointer data);
+		static void onDefaultSTButton_gui(GtkWidget *widget, gpointer data);
+		static void onAddExtensionButton_gui(GtkWidget *widget, gpointer data);
+		static void onEditExtensionButton_gui(GtkWidget *widget, gpointer data);
+		static void onRemoveExtensionButton_gui(GtkWidget *widget, gpointer data);
+		static void onUpExtensionButton_gui(GtkWidget *widget, gpointer data);
+		static void onDownExtensionButton_gui(GtkWidget *widget, gpointer data);
+		//static void onSTKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+		//static void onSTButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static void onPictureShare_gui(GtkWidget *widget, gpointer data);
 		//BMDC++
 		static void onTextColorForeULClicked_gui(GtkWidget *widget, gpointer data);
@@ -202,13 +195,6 @@ class Settings:
 		static void onToggledHGColor_gui(GtkWidget *widget, gpointer data);
 		static void onToggledHGNotify_gui(GtkWidget *widget, gpointer data);
 		static void onRawsClicked_gui(GtkToggleButton *button, gpointer data );
-		//Plugins
-		#if 0
-		static void onAddPluginTo_gui(GtkWidget *widget, gpointer data);
-		static void onRemPluginFrom_gui(GtkWidget *widget, gpointer data);
-		static void onConfigurePlugin_gui(GtkWidget *widget, gpointer data);
-		static void onAboutPlugin_gui(GtkWidget *widget, gpointer data);
-		#endif
 		//BMDC
 		static void onForeColorChooserTab(GtkWidget *button, gpointer data) ;
 		static void onBackColorChooserTab(GtkWidget *button, gpointer data) ;
@@ -216,7 +202,6 @@ class Settings:
 		static void onBackColorChooserTab_unread(GtkWidget *button, gpointer data) ;
 		static void onChangeTabSelections(GtkTreeSelection *selection, gpointer data);
 		void changeTab(GtkTreeSelection *selection);
-		//BMDC
 		static void makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data);
 		// Client functions
 		void saveSettings_client();
@@ -225,23 +210,17 @@ class Settings:
 		void removeUserCommand_client(std::string name, std::string hub);
 		void moveUserCommand_client(std::string name, std::string hub, int pos);
 		void generateCertificates_client();
-		void setColorUL();//BMDC++
-		void setDefaultColor(std::string color, std::string name, GtkTreeIter *iter);//BMDC++
-		void saveHighlighting(dcpp::StringMap &params, bool add, const std::string &name = "");//BMDC++
-		void addHighlighting_to_gui(dcpp::ColorSettings &cs, bool add);//BMDC++
-		//Plugins
-		#if 0
-		void addToGuiPlg();
-		void RemovePlg_client(std::string sel);
-		static void onToggledPluginsClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
-		#endif
+		void setColorUL(); 
+		void setDefaultColor(std::string color, std::string name, GtkTreeIter *iter);
+		void saveHighlighting(dcpp::StringMap &params, bool add, const std::string &name = "");
+		void addHighlighting_to_gui(dcpp::ColorSettings &cs, bool add);
 
 		GtkComboBoxText *connectionSpeedComboBox;
 		GtkListStore *downloadToStore, *publicListStore, *queueStore,
 			*shareStore, *appearanceStore, *tabStore, *windowStore1,
 			*windowStore2, *windowStore3, *advancedStore, *certificatesStore, *userCommandStore,
 			*previewAppToStore, *soundStore, *textStyleStore, *notifyStore, *themeIconsStore,
-			*toolbarStore, *extensionStore, *searchTypeStore, *userListStore1, *userListStore2, *hStore, *plStore;
+			*toolbarStore, *extensionStore, *searchTypeStore, *userListStore1, *userListStore2, *hStore;
 		GtkListStore *tabColorStore;	
 		TreeView downloadToView, publicListView, queueView, shareView,
 			appearanceView, tabView, windowView1, windowView2,
@@ -250,7 +229,7 @@ class Settings:
 			toolbarView, extensionView, searchTypeView, userListNames, userListPreview, hView, plView;
 		TreeView tabsColors;	
 		GtkTextBuffer *textStyleBuffer;
-		GtkTreeSelection *selection, *plselection, *tabSelections;
+		GtkTreeSelection *selection, *tabSelections;
 
 		typedef std::map<std::string, int> IntMap;
 		typedef std::map<std::string, std::string> StringMap;
@@ -265,12 +244,12 @@ class Settings:
 		void saveFileTheme(const std::string &file);
 		void saveTheme();
 		void setTheme();
-		int getIntTheme(const std::string &key, bool useDefault = FALSE);
-		std::string getStringTheme(const std::string &key, bool useDefault = FALSE);
+		int getIntTheme(const std::string &key, bool useDefault = false);
+		std::string getStringTheme(const std::string &key, bool useDefault = false);
 		void set(const std::string &key, int value);
 		void set(const std::string &key, const std::string &value);
-		void applyIconsTheme(bool useDefault = FALSE);
-		void applyTextTheme(bool useDefault = FALSE);
+		void applyIconsTheme(bool useDefault = false);
+		void applyTextTheme(bool useDefault = false);
 
 		dcpp::ColorList pList;
 		gboolean isSensitiveHG[4];

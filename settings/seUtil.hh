@@ -15,18 +15,20 @@
 // 
 
 #include <string>
-#include <dcpp/SettingsManager.h>
-#include <linux/settingsmanager.hh>
-#include <linux/treeview.hh>
+#include "../dcpp/SettingsManager.h"
+#include "../dcpp/format.h"
+#include "../linux/settingsmanager.hh"
+#include "../linux/treeview.hh"
 
 class SEUtil
 {
 	public:
 	static void reAddItemCo(GtkWidget* parent,GtkWidget* old,GtkWidget* box)
 	{
-		if((GTK_IS_WIDGET(old) == TRUE) && (gtk_widget_get_realized (old) == TRUE))
-				gtk_container_remove(GTK_CONTAINER(parent), old );
-		gtk_container_add(GTK_CONTAINER(parent),box);
+		//if((GTK_IS_WIDGET(old) == TRUE) && (gtk_widget_get_realized (old) == TRUE))
+		//		gtk_container_remove(GTK_CONTAINER(parent), old );
+		//gtk_box_append(GTK_BOX(parent),box);
+		 gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(parent), box);
 	}
 	
 /* Creates a generic checkbox-based options GtkTreeView */	

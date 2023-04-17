@@ -18,9 +18,9 @@
 #define _CHAT_SETTINGS_PAGE_
 #include <gtk/gtk.h>
 #include <string>
-#include <linux/settingsmanager.hh>
+#include "../linux/settingsmanager.hh"
 #include "SettingsPage.hh"
-#include <linux/treeview.hh>
+#include "../linux/treeview.hh"
 /*-----------------------------------------------------------------------------*/
 class ChatPage: public SettingsPage
 {

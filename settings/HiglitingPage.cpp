@@ -18,9 +18,8 @@
 #include "definitons.hh"
 #include "HigDialog.hh"
 #include "seUtil.hh"
-#include <dcpp/format.h>
-#include <dcpp/HighlightManager.h>
-#include <dcpp/ColorSettings.h>
+#include "../dcpp/HighlightManager.h"
+#include "../dcpp/ColorSettings.h"
 
 using namespace std;
 using namespace dcpp;
@@ -42,17 +41,17 @@ void HigPage::show(GtkWidget* parent, GtkWidget* old)
 	gtk_tree_view_set_model(higTree.get(), GTK_TREE_MODEL(higStore));
 
 
-	gtk_container_add(GTK_CONTAINER(sw),GTK_WIDGET(higTree.get()));
+	gtk_box_append(GTK_BOX(box),GTK_WIDGET(higTree.get()));
 
 	gtk_grid_attach(GTK_GRID(box),sw,0,0,1,1);
 
-	GtkWidget* bbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
+	GtkWidget* bbox = gtk_grid_new();
 	GtkWidget* addButton = gtk_button_new_with_label(_("Add"));
-	gtk_box_pack_start(GTK_BOX(bbox),addButton,TRUE,TRUE,0);
+	gtk_box_append(GTK_BOX(bbox),addButton);
 	GtkWidget* editButton = gtk_button_new_with_label(_("Edit"));
-	gtk_box_pack_start(GTK_BOX(bbox),editButton,TRUE,TRUE,0);
+	gtk_box_append(GTK_BOX(bbox),editButton);
 	GtkWidget* remButton = gtk_button_new_with_label(_("Remove"));
-	gtk_box_pack_start(GTK_BOX(bbox),remButton,TRUE,TRUE,0);
+	gtk_box_append(GTK_BOX(bbox),remButton);
 
 	gtk_grid_attach(GTK_GRID(box),bbox,0,1,1,1);
 /*@Add to parent*/

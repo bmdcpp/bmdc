@@ -16,7 +16,7 @@
 
 #include "QuenePage.hh"
 #include "seUtil.hh"
-#include <dcpp/SettingsManager.h>
+#include "../dcpp/SettingsManager.h"
 
 using namespace dcpp;
 
@@ -29,7 +29,7 @@ void QuenePage::show(GtkWidget *parent, GtkWidget* old)
 	GtkWidget *frame = gtk_frame_new("Priority");
 	gtk_grid_attach(GTK_GRID(table),frame,0,0,1,1);
 	GtkWidget *box = gtk_grid_new();
-	gtk_container_add(GTK_CONTAINER(frame),box);
+	//gtk_container_add(GTK_CONTAINER(frame),box);
 
 	spin_low = gtk_spin_button_new_with_range(0,100000000000,1);
 	spin_normal = gtk_spin_button_new_with_range(0,100000000000,1);
@@ -64,7 +64,7 @@ void QuenePage::show(GtkWidget *parent, GtkWidget* old)
 	GtkWidget *frame2 = gtk_frame_new("Auto-Drop");
 	gtk_grid_attach(GTK_GRID(table),frame2,0,1,1,1);
 	GtkWidget *box2 = gtk_grid_new();
-	gtk_container_add(GTK_CONTAINER(frame2),box2);
+	//gtk_container_add(GTK_CONTAINER(frame2),box2);
 
 	GtkWidget* label_speed = gtk_label_new("B/s");
 
@@ -104,11 +104,11 @@ void QuenePage::show(GtkWidget *parent, GtkWidget* old)
 	gtk_grid_attach(GTK_GRID(box2),label_size,0,5,1,1);
 	gtk_grid_attach(GTK_GRID(box2),spinSizeDrop,1,5,1,1);
 	gtk_grid_attach(GTK_GRID(box2),gtk_label_new("KiB"),2,5,1,1);
-	GtkWidget *box3 = gtk_scrolled_window_new(NULL,NULL);
+	GtkWidget *box3 = gtk_scrolled_window_new();
 
 	qView = TreeView();//workaround for if selected double time
 	SEUtil::createOptionsView_gui(qView,queueStore);
-	gtk_container_add(GTK_CONTAINER(box3),GTK_WIDGET(qView.get()));
+	//gtk_container_add(GTK_CONTAINER(box3),GTK_WIDGET(qView.get()));
 	gtk_grid_attach(GTK_GRID(table),box3,0,6,10,8);
 
 	gtk_grid_set_column_homogeneous (GTK_GRID(table),TRUE);

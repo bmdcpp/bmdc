@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,6 +41,8 @@
 #include "ADLSearch.h"
 #include "ActionRaw.h"
 #include "CalcADLAction.h"
+
+#include <vector>
 
 namespace dcpp {
 
@@ -102,7 +104,9 @@ ADLSearch::SizeType ADLSearch::StringToSizeType(const string& s) {
 		return SizeMebiBytes;
 	} else if(Util::stricmp(s.c_str(), "GiB") == 0) {
 		return SizeGibiBytes;
-	} else {
+	} else if(Util::stricmp(s.c_str(), "TiB") == 0) {
+		return SizeTibiBytes;
+	} else {	
 		return SizeBytes;
 	}
 }
@@ -114,6 +118,7 @@ string ADLSearch::SizeTypeToString(SizeType t) {
 	case SizeKibiBytes:	return "KiB";
 	case SizeMebiBytes:	return "MiB";
 	case SizeGibiBytes:	return "GiB";
+	case SizeTibiBytes:	return "TiB";
 	}
 }
 
@@ -124,6 +129,7 @@ int64_t ADLSearch::GetSizeBase() {
 	case SizeKibiBytes:	return (int64_t)1024;
 	case SizeMebiBytes:	return (int64_t)1024 * (int64_t)1024;
 	case SizeGibiBytes:	return (int64_t)1024 * (int64_t)1024 * (int64_t)1024;
+	case SizeTibiBytes:	return (int64_t)1024 * (int64_t)1024 * (int64_t)1024 * (int64_t)1024;
 	}
 }
 
@@ -240,11 +246,15 @@ void ADLSearchManager::load() {
 						search.isAutoQueue = (Util::toInt(xml.getChildData()) != 0);
 					}
 					if(xml.findChild("IsForbidden")) {
-						search.isForbidden = (Util::toInt(xml.getChildData()) != 0);
+						//search.isForbidden = ((xml.getChildData()) != 0);
+						if( !(xml.getChildData()).empty())
+							search.setFlag(ADLSearch::D_FORBIDEN);
 					}
 					//BMDC++/RSX++
 					if(xml.findChild("OverRidePoints")) {
-						search.overRidePoints = (Util::toInt(xml.getChildData()) != 0);
+						//search.overRidePoints = (Util::toInt(xml.getChildData()) != 0);
+						if(!xml.getChildData().empty())
+							search.setFlag(ADLSearch::D_OVERIDE);
 					}
 					if(xml.findChild("AdlsRaw")) {
 						search.adlsRaw = RawManager::getInstance()->getValidAction(Util::toInt(xml.getChildData()));
@@ -253,7 +263,9 @@ void ADLSearchManager::load() {
 						search.kickString = xml.getChildData();
 					}
 					if(xml.findChild("FromFavs")) {
-						search.fromFavs = (Util::toInt(xml.getChildData()) != 0);
+						//search.fromFavs = (Util::toInt(xml.getChildData()) != 0);
+						if(!xml.getChildData().empty())
+							search.setFlag(ADLSearch::D_FAV);
 					}
 					if(xml.findChild("AdlsPoints")) {
 						search.adlsPoints = Util::toInt(xml.getChildData());
@@ -289,7 +301,7 @@ void ADLSearchManager::save() {
 		xml.stepIn();
 
 		// Save all	searches
-		for(SearchCollection::iterator i = collection.begin(); i != collection.end(); ++i) {
+		for(vector<ADLSearch>::iterator i = collection.begin(); i != collection.end(); ++i) {
 			ADLSearch& search = *i;
 			if(search.searchString.empty()) {
 				continue;
@@ -308,20 +320,16 @@ void ADLSearchManager::save() {
 			xml.addTag("IsAutoQueue", search.isAutoQueue);
 			//BMDC++ //RSX++alike
 			string type = "type";
-			xml.addTag("IsForbidden", search.isForbidden);
-			xml.addChildAttrib(type, string("int"));
+			xml.addTag("IsForbidden", search.isSet(ADLSearch::D_FORBIDEN));
 
-			xml.addTag("OverRidePoints", search.overRidePoints);
-			xml.addChildAttrib(type, string("int"));
+			xml.addTag("OverRidePoints", search.isSet(ADLSearch::D_OVERIDE));
 
 			xml.addTag("AdlsRaw", RawManager::getInstance()->getValidAction(search.adlsRaw));
-			xml.addChildAttrib(type, string("int"));
 
 			xml.addTag("KickString", search.kickString);
 			xml.addChildAttrib(type, string("string"));
 
-			xml.addTag("FromFavs", search.fromFavs);
-			xml.addChildAttrib(type, string("int"));
+			xml.addTag("FromFavs", search.isSet(ADLSearch::D_FAV));
 
 			xml.addTag("AdlsPoints", search.adlsPoints);
 			xml.addChildAttrib(type, string("int"));
@@ -374,10 +382,13 @@ void ADLSearchManager::matchesFile(DestDirList& destDirVector, DirectoryListing:
 			if(is->isForbidden) {
 				copyFile->setPoints(is->adlsPoints);
 				copyFile->setAdlsComment(is->adlsComment);
-				copyFile->setOverRidePoints(is->overRidePoints);
+
+				copyFile->setOverRidePoints(is->isSet(ADLSearch::D_OVERIDE));
+
 				copyFile->setAdlsRaw(is->adlsRaw);
 				copyFile->setKickString(is->kickString);
-				copyFile->setFromFavs(is->fromFavs);
+
+				copyFile->setFromFavs(is->isSet(ADLSearch::D_FAV));
 			}
 
 			if(is->isAutoQueue){
@@ -426,10 +437,10 @@ void ADLSearchManager::matchesDirectory(DestDirList& destDirVector, DirectoryLis
 			if(is->isForbidden) {
 				destDirVector[is->ddIndex].subdir->setPoints(is->adlsPoints);
 				destDirVector[is->ddIndex].subdir->setAdlsComment(is->adlsComment);
-				destDirVector[is->ddIndex].subdir->setOverRidePoints(is->overRidePoints);
+				destDirVector[is->ddIndex].subdir->setOverRidePoints(is->isSet(ADLSearch::D_OVERIDE));
 				destDirVector[is->ddIndex].subdir->setAdlsRaw(is->adlsRaw);
 				destDirVector[is->ddIndex].subdir->setKickString(is->kickString);
-				destDirVector[is->ddIndex].subdir->setFromFavs(is->fromFavs);
+				destDirVector[is->ddIndex].subdir->setFromFavs(is->isSet(ADLSearch::D_FAV));
 			}
 			//END
 

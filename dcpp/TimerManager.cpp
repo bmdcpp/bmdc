@@ -43,7 +43,7 @@ TimerManager::TimerManager() {
 }
 
 TimerManager::~TimerManager() throw() {
-	dcassert(listeners.empty());
+	//dcassert(listeners.empty());
 	shutdown();
 }
 

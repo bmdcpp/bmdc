@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C)  Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,6 @@
 #include <string>
 #include "OnlineUser.h"
 
-
 namespace dcpp {
 
 using std::string;
@@ -36,7 +35,8 @@ struct ChatMessage {
 	replyTo(replyTo ? replyTo->getUser() : nullptr),
 	text(_text),
 	timestamp(time(0)),
-	messageTimestamp(_messageTimestamp),thirdPerson(_thirdPerson) 
+	messageTimestamp(_messageTimestamp),
+	thirdPerson(_thirdPerson) 
 	{ 
 
 	}

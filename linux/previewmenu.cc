@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2017 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2018 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  */
 
 #include "settingsmanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include <glib/gi18n.h>
 #include "../dcpp/Util.h"
 #include "previewmenu.hh"
@@ -30,7 +30,7 @@ using namespace dcpp;
 
 void PreviewMenu::cleanMenu_gui()
 {
-	gtk_container_foreach(GTK_CONTAINER(appsPreviewMenu), (GtkCallback)gtk_widget_destroy, NULL);
+
 }
 
 bool PreviewMenu::buildMenu_gui(const string &target)
@@ -70,11 +70,11 @@ bool PreviewMenu::buildMenu_gui(const string &target)
 
 		if (appExtensions.find(ext) != string::npos)
 		{
-			itemApp = gtk_menu_item_new_with_label(((*item)->name).c_str());
+			//itemApp = gtk_menu_item_new_with_label(((*item)->name).c_str());
 
-			gtk_menu_shell_append(GTK_MENU_SHELL(appsPreviewMenu), itemApp);
+			//gtk_menu_shell_append(GTK_MENU_SHELL(appsPreviewMenu), itemApp);
 
-			g_signal_connect(itemApp, "activate", G_CALLBACK(onPreviewAppClicked_gui), (gpointer) this);
+			//g_signal_connect(itemApp, "activate", G_CALLBACK(onPreviewAppClicked_gui), (gpointer) this);
 
 			g_object_set_data_full(G_OBJECT(itemApp), "command", g_strdup("application"), g_free);
 			g_object_set_data_full(G_OBJECT(itemApp), "application", g_strdup(((*item)->app).c_str()), g_free);
@@ -82,21 +82,21 @@ bool PreviewMenu::buildMenu_gui(const string &target)
 		}
 	}
 
-	itemApp = gtk_separator_menu_item_new();
-	gtk_menu_shell_append(GTK_MENU_SHELL(appsPreviewMenu), itemApp);
+//	itemApp = gtk_separator_menu_item_new();
+//	gtk_menu_shell_append(GTK_MENU_SHELL(appsPreviewMenu), itemApp);
 
-	itemApp = gtk_menu_item_new_with_label(_("Default"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(appsPreviewMenu), itemApp);
+//	itemApp = gtk_menu_item_new_with_label(_("Default"));
+//	gtk_menu_shell_append(GTK_MENU_SHELL(appsPreviewMenu), itemApp);
 
-	g_signal_connect(itemApp, "activate", G_CALLBACK(onPreviewAppClicked_gui), (gpointer) this);
+//	g_signal_connect(itemApp, "activate", G_CALLBACK(onPreviewAppClicked_gui), (gpointer) this);
 
-	g_object_set_data_full(G_OBJECT(itemApp), "command", g_strdup("default"), g_free);
-	g_object_set_data_full(G_OBJECT(itemApp), "application", g_strdup(""), g_free);
-	g_object_set_data_full(G_OBJECT(itemApp), "target", g_strdup(target.c_str()), g_free);
+//	g_object_set_data_full(G_OBJECT(itemApp), "command", g_strdup("default"), g_free);
+//	g_object_set_data_full(G_OBJECT(itemApp), "application", g_strdup(""), g_free);
+//	g_object_set_data_full(G_OBJECT(itemApp), "target", g_strdup(target.c_str()), g_free);
 
 	return TRUE;
 }
-
+/*
 void PreviewMenu::onPreviewAppClicked_gui(GtkMenuItem *menuItem, gpointer )
 {
 	string command = (gchar *) g_object_get_data(G_OBJECT(menuItem), "command");
@@ -110,3 +110,4 @@ void PreviewMenu::onPreviewAppClicked_gui(GtkMenuItem *menuItem, gpointer )
 		WulforUtil::openURItoApp(cmd);
 	}
 }
+*/
