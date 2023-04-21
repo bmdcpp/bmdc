@@ -20,7 +20,7 @@
                         "sha256": "24475e38d39c19683bc88054524df018fe6949d70fbd4c69e298d39a0269f173"
                     }],   
             "build-commands": [
-                 python3 setup.py install --prefix="${FLATPAK_DEST}";
+                 python3 setup.py install --prefix="/deps/scons/";
                         ],
             "cleanup": ['*']
         } ,   
