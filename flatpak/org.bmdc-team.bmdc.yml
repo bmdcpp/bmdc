@@ -11,6 +11,7 @@
         "--socket=wayland"
     ],
     "modules" : [
+        - scons.yaml
         {
             "name" : "bmdc",
             "buildsystem" : "simple",
