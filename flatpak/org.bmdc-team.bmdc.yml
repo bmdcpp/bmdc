@@ -22,7 +22,6 @@
             "build-commands": [
                  python3 setup.py install --prefix="/deps/scons/";
                         ],
-            "cleanup": ['*']
         } ,   
         {
             "name" : "bmdc",
