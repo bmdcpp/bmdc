@@ -11,13 +11,13 @@
         "--socket=wayland"
     ],
     "modules" : [
-        - scons.yaml
+        - scons.yaml ,
         {
             "name" : "bmdc",
             "buildsystem" : "simple",
             "build-commands": [ 
                             "scons"
                            ],
-        }
+        },
      ]       
 }
