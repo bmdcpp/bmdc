@@ -1,5 +1,6 @@
 {
     "app-id" : "org.bmdc-team.bmdc",
+    "sdk" : "org.gnome.Sdk",
     "runtime-version" : "master",
     "command" : "org.bmdc-team.bmdc",
     "finish-args" : [
