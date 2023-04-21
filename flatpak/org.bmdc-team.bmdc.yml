@@ -14,7 +14,9 @@
         {
             "name" : "bmdc",
             "buildsystem" : "simple",
-            "build-commands" : "scons" 
+            "build-commands": [ 
+                            "scons"
+                           ],
         }
      ]       
 }
