@@ -14,16 +14,7 @@
         {
             "name" : "bmdc",
             "buildsystem" : "simple",
-            "build-commands" : "scons" ,
-            "sources" : [
-                {
-                    "name" : "bmdc",
-                    "buildsystem" : "simple",
-                    "build-commands" : "scons",
-                    "type" : "dir",
-                    "path" : "../"
-                }
-            ]
+            "build-commands" : "scons" 
         }
-    ]
+     ]       
 }
