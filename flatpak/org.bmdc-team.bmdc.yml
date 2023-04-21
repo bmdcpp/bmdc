@@ -1,8 +1,6 @@
 {
     "app-id" : "org.bmdc-team.bmdc",
-    "runtime" : "org.gnome.Platform",
     "runtime-version" : "master",
-    "sdk" : "org.gnome.Sdk",
     "command" : "org.bmdc-team.bmdc",
     "finish-args" : [
         "--share=ipc",
