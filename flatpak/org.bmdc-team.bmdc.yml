@@ -16,7 +16,7 @@
                     "buildsystem": "simple",
                     "build-commands": [
                         "tar -xf scons-local-3.1.2.tar.gz",
-                        "cd ..",
+                        "pwd",
                         "python3 ../scons.py PREFIX=/app",
                         "python3 ../scons.py install"
                     ],
@@ -25,6 +25,10 @@
                             "type": "file",
                             "url": "http://prdownloads.sourceforge.net/scons/scons-local-3.1.2.tar.gz",
                             "sha256": "642e90860b746fa18fac08c7a22de6bfa86110ae7c56d7f136f7e5fb0d8f4f44"
+                        },
+                        {
+                            "type": "git",
+                            "url": "https://github.com/bmdcpp/bmdc.git"
                         },
                    ]
             }    
