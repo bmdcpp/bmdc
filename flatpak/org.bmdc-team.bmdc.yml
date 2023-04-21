@@ -1,9 +1,9 @@
 {
     "app-id" : "org.bmdc-team.bmdc",
     "runtime": "org.freedesktop.Platform",
-    "runtime-version" : "master",
+	"runtime-version": "20.08",
     "sdk": "org.freedesktop.Sdk",
-    "command" : "org.bmdc-team.bmdc",
+    "command" : "bmdc",
     "finish-args" : [
         "--share=ipc",
         "--device=dri",
@@ -13,14 +13,13 @@
     "modules" : [
         {
             "name" : "bmdc",
-            "buildsystem" : "scons",
-            "config-opts" : [
-                "PREFIX=/app",
-            ],
+            "buildsystem" : "simple",
+            "build-commands" : "scons" ,
             "sources" : [
                 {
                     "name" : "bmdc",
-                    "buildsystem" : "scons",
+                    "buildsystem" : "simple",
+                    "build-commands" : "scons",
                     "type" : "dir",
                     "path" : "../"
                 }
