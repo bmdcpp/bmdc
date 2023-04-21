@@ -28,6 +28,7 @@
                         },
                         {
                             "type": "git",
+                            "branch": "main", 
                             "url": "https://github.com/bmdcpp/bmdc.git"
                         },
                    ]
