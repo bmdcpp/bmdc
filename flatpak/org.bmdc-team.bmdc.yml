@@ -1,1 +1,30 @@
-
+{
+    "app-id" : "org.bmdc-team.bmdc",
+    "runtime" : "org.gnome.Platform",
+    "runtime-version" : "master",
+    "sdk" : "org.gnome.Sdk",
+    "command" : "org.bmdc-team.bmdc",
+    "finish-args" : [
+        "--share=ipc",
+        "--device=dri",
+        "--socket=fallback-x11",
+        "--socket=wayland"
+    ],
+    "modules" : [
+        {
+            "name" : "bmdc",
+            "buildsystem" : "scons",
+            "config-opts" : [
+                "PREFIX=/app",
+            ],
+            "sources" : [
+                {
+                    "name" : "bmdc",
+                    "buildsystem" : "scons",
+                    "type" : "dir",
+                    "path" : "../"
+                }
+            ]
+        }
+    ]
+}
