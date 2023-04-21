@@ -14,7 +14,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Install deps
       run: |
-            sudo apt install build-essential g++ gcc scons python3 libgtk-4-dev scons libmaxminddb-dev libnatpmp-dev libminiupnpc-dev gettext libasprintf-dev libbz2-dev
+            dnf -y install g++ gcc scons python3 libgtk-4-dev scons libmaxminddb-dev libnatpmp-dev libminiupnpc-dev gettext libasprintf-dev libbz2-dev
     - uses: flatpak/flatpak-github-actions/flatpak-builder@v6.1
       with:
         bundle: bmdc-team.bmdc.flatpak
