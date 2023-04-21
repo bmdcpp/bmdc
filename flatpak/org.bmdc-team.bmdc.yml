@@ -1,7 +1,8 @@
 {
     "app-id" : "org.bmdc-team.bmdc",
-    "sdk" : "org.gnome.Sdk",
+    "runtime": "org.freedesktop.Platform",
     "runtime-version" : "master",
+    "sdk": "org.freedesktop.Sdk",
     "command" : "org.bmdc-team.bmdc",
     "finish-args" : [
         "--share=ipc",
