@@ -18,5 +18,5 @@ jobs:
     - uses: flatpak/flatpak-github-actions/flatpak-builder@v6.1
       with:
         bundle: bmdc-team.bmdc.flatpak
-        manifest-path: org.bmdc-team.bmdc.yml
+        manifest-path: flatpak/org.bmdc-team.bmdc.yml
         cache-key: flatpak-builder-${{ github.sha }}
