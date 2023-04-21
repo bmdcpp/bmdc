@@ -1,8 +1,11 @@
 {
     "app-id" : "org.bmdcteam.bmdc",
-    "runtime": "org.freedesktop.Platform",
-    "runtime-version": "22.08",
-    "sdk": "org.freedesktop.Sdk",
+    "runtime" : "org.gnome.Platform",
+    "runtime-version" : "master",
+    "sdk" : "org.gnome.Sdk",
+#    "runtime": "org.freedesktop.Platform",
+#    "runtime-version": "22.08",
+#    "sdk": "org.freedesktop.Sdk",
     "command" : "bmdc",
     "finish-args" : [
         "--share=ipc",
