@@ -28,7 +28,7 @@
             "name" : "bmdc",
             "buildsystem" : "simple",
             "build-commands": [ 
-                            "scons"
+                            /deps/scons/bin/scons
                            ],
         },
      ]       
