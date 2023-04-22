@@ -1,7 +1,7 @@
 {
     "app-id" : "org.bmdcteam.bmdc",
-    "runtime" : "org.gnome.Platform",
-    "runtime-version" : "master",
+    "runtime" : "org.gnome.Sdk",
+    "runtime-version" : "44",
     "sdk" : "org.gnome.Sdk",
 #    "runtime": "org.freedesktop.Platform",
 #    "runtime-version": "22.08",
