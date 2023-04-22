@@ -14,7 +14,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Install deps
       run: |
-            dnf -y install g++ gcc scons python3 gtk4-devel scons libmaxminddb-devel libnatpmp-devel miniupnpc-devel gettext bzip2-devel
+            dnf -y install g++ gcc autotools scons python3 gtk4-devel scons libmaxminddb-devel libnatpmp-devel miniupnpc-devel gettext bzip2-devel
     - uses: flatpak/flatpak-github-actions/flatpak-builder@v6.1
       with:
         bundle: bmdc-team.bmdc.flatpak
