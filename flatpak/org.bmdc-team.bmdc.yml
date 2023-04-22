@@ -17,18 +17,12 @@
     "modules" : [
         {
                     "name": "libmaxminddb",
-                    "buildsystem": "cmake",
-#                    "build-commands": [
-#                                 "mkdir build && cd build",
-#                                 "cmake ..",
-#                                 "cmake --build .",
-#                                 "cmake --build . --target install"
- #                   ],
-                        "sources": {
+                    "sources": {
                             "type": "git",
                             "url": "https://github.com/maxmind/libmaxminddb.git",
                             "branch": "main",
                         },
+                    "buildsystem": "cmake"    
         },    
         {
                     "name": "bmdc",
