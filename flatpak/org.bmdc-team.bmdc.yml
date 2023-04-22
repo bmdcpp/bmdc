@@ -19,6 +19,8 @@
                     "name": "libmaxminddb",
                     "buildsystem": "simple",
                     "build-commands": [
+                                "pwd",
+                                "ls -la",
                                 "autoreconf --install",
                                 "sh ./configure --prefix=/app",
                                  "make",
