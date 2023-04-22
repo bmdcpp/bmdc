@@ -19,13 +19,10 @@
                     "name": "libmaxminddb",
                     "buildsystem": "simple",
                     "build-commands": [
-                                "pwd",
-                                "ls -la",
-                                "autoreconf --install",
-                                "sh ./configure --prefix=/app",
-                                 "make",
-                                 "make install",
-                                 "ldconfig"
+                                 "mkdir build && cd build",
+                                 "cmake ..",
+                                 "cmake --build .",
+                                 "cmake --build . --target install"
                     ],
                         "sources": {
                             "type": "git",
