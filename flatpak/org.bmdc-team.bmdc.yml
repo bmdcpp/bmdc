@@ -19,7 +19,7 @@
                     "name": "libmaxminddb",
                     "buildsystem": "simple",
                     "build-commands": [
-                                "autoconf"
+                                "autoconf",
                                 "sh configure --prefix=/app",
                                  "make",
                                  "make install",
