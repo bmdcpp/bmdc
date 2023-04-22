@@ -17,13 +17,13 @@
     "modules" : [
         {
                     "name": "libmaxminddb",
-                    "buildsystem": "simple",
-                    "build-commands": [
-                                 "mkdir build && cd build",
-                                 "cmake ..",
-                                 "cmake --build .",
-                                 "cmake --build . --target install"
-                    ],
+                    "buildsystem": "cmake",
+#                    "build-commands": [
+#                                 "mkdir build && cd build",
+#                                 "cmake ..",
+#                                 "cmake --build .",
+#                                 "cmake --build . --target install"
+ #                   ],
                         "sources": {
                             "type": "git",
                             "url": "https://github.com/maxmind/libmaxminddb.git",
