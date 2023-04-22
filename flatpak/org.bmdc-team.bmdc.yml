@@ -19,7 +19,7 @@
                     "name": "libmaxminddb",
                     "buildsystem": "simple",
                     "build-commands": [
-#                                "./configure --prefix=/app",
+                                "configure --prefix=/app",
                                  "make",
                                  "make install",
                                  "ldconfig"
