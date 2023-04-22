@@ -16,6 +16,21 @@
     ],
     "modules" : [
         {
+                    "name": "libmaxminddb",
+                    "buildsystem": "simple",
+                    "build-commands": [
+                                "./configure --prefix=/app",
+                                 "make",
+                                 "make install",
+                                 "ldconfig"
+                    ],
+                        "sources": {
+                            "type": "git",
+                            "url": "https://github.com/maxmind/libmaxminddb.git",
+                            "branch": "main",
+                        },
+        },    
+        {
                     "name": "bmdc",
                     "buildsystem": "simple",
                     "build-commands": [
