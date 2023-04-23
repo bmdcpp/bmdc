@@ -5,14 +5,28 @@ from sys import platform as _platform
 #_platform = 'win32'
 
 env = env.Clone()
-files = env.Glob('*.c')
+#files = env.Glob('*.c')
+files =  ( [
+'connecthostport.c',
+'igd_desc_parse.c',
+'minisoap.c',
+'minissdpc.c',
+'miniupnpc.c',
+'miniwget.c',
+'minixml.c',
+'portlistingparse.c',
+'receivedata.c',
+'upnpcommands.c',
+'upnpdev.c',
+'upnperrors.c',
+'upnpreplyparse.c',
+])
+
 env.Append(CPPFLAGS = '-Wno-unused-parameter')
 env.Append(CPPDEFINES = ['STATICLIB'])
 
 if _platform == "win32":
 	env.Append(LIBS = ['wsock32','iphlpapi','ws2_32'])
-	#env.Append(LINKFLAGS= ['-lwsock32','-lws2_32'])
-	#env.Append(LINKFLAGS='-lwsock32 -liphlpapi')		
 
 
 ret = env.StaticLibrary(target = 'miniupnpc', source = files)
