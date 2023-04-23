@@ -35,7 +35,7 @@ void NotifyPage::show(GtkWidget *parent, GtkWidget* old){
 	
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 	box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
-	GtkWidget *scroll = gtk_scrolled_window_new(NULL,NULL);
+	GtkWidget *scroll = gtk_scrolled_window_new();
 	
 	notifyView = TreeView();
 	notifyView.setView(GTK_TREE_VIEW(gtk_tree_view_new()));
@@ -232,7 +232,7 @@ void NotifyPage::onNotifyIconFileBrowseClicked_gui(GtkWidget *widget, gpointer d
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		gchar *path = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileDialog));
+		gchar *path ="."; // gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileDialog));
 
 		if (path)
 		{
