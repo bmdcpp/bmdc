@@ -291,9 +291,14 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	# Check for MiniUPnPc
 	if not conf.CheckLib('libminiupnpc'):
 		LIB_IS_UPNP = False
+	if not conf.CheckLib('miniupnpc'):
+		LIB_IS_UPNP = False	
 	# Check for natpmp
 	if not conf.CheckLib('libnatpmp'):
 		LIB_IS_NATPMP = False
+	# Check for natpmp
+	if not conf.CheckLib('natpmp'):
+		LIB_IS_NATPMP = False	
 
 	# GeoIp
 	if conf.CheckHeader('maxminddb.h'):
@@ -302,7 +307,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		LIB_IS_GEO = True
 	else:
 		print ('Dont Found GeoIP headers or libs')
-		Exit(1)
 
 	# libtar for Backup/Restore man...
 	if conf.env.get('libtar'):

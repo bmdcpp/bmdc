@@ -1,0 +1,52 @@
+{
+    "app-id" : "org.bmdcteam.bmdc",
+    "runtime" : "org.gnome.Sdk",
+    "runtime-version" : "44",
+    "sdk" : "org.gnome.Sdk",
+#    "runtime": "org.freedesktop.Platform",
+#    "runtime-version": "22.08",
+#    "sdk": "org.freedesktop.Sdk",
+    "command" : "bmdc",
+    "finish-args" : [
+        "--share=ipc",
+        "--device=dri",
+        "--socket=fallback-x11",
+        "--socket=wayland",
+        "--share=network"
+    ],
+    "modules" : [
+        {
+                    "name": "libmaxminddb",
+                    "builddir": true,
+                    "sources": [ {
+                            "type": "archive",
+                            "url": "https://github.com/maxmind/libmaxminddb/releases/download/1.7.1/libmaxminddb-1.7.1.tar.gz",
+                            "sha256": "e8414f0dedcecbc1f6c31cb65cd81650952ab0677a4d8c49cab603b3b8fb083e",
+                        },
+                       ] ,
+                    "buildsystem": "cmake-ninja"    
+        },    
+        {
+                    "name": "bmdc",
+                    "buildsystem": "simple",
+                    "build-commands": [
+                        "tar -xf scons-local-3.1.2.tar.gz",
+                        "python3 scons.py PREFIX=/app",
+                        "python3 scons.py install"
+                    ],
+                    "sources": [
+                        {
+                            "type": "file",
+                            "url": "http://prdownloads.sourceforge.net/scons/scons-local-3.1.2.tar.gz",
+                            "sha256": "642e90860b746fa18fac08c7a22de6bfa86110ae7c56d7f136f7e5fb0d8f4f44"
+                        },
+                        {
+                            "type": "git",
+                            "branch": "main", 
+                            "url": "https://github.com/bmdcpp/bmdc.git"
+                        },
+                   ]
+            }    
+        
+     ]       
+}
