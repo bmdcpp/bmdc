@@ -54,7 +54,7 @@ void NotifyPage::show(GtkWidget *parent, GtkWidget* old){
 	gtk_tree_view_set_model(notifyView.get(), GTK_TREE_MODEL(notifyStore));
 	g_object_unref(notifyStore);
 
-	gtk_container_add(GTK_CONTAINER(scroll), GTK_WIDGET(notifyView.get()));
+//	gtk_container_add(GTK_CONTAINER(scroll), GTK_WIDGET(notifyView.get()));
 	gtk_box_pack_start(GTK_BOX(box),scroll,TRUE,TRUE,0);
 
 	SEUtil::reAddItemCo(parent,old,box);
