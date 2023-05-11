@@ -246,9 +246,6 @@ GtkWidget* WulforManager::openSettingsDialog_gui()
 	SettingsDialog *s = new SettingsDialog();
 	return s->getContainer();
 //#else
-//	Settings *s = new Settings(nullptr);
-//	return s->getContainer();
-//#endif
 }
 
 DialogEntry *WulforManager::getHashDialog_gui()

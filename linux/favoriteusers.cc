@@ -30,7 +30,7 @@
 using namespace std;
 using namespace dcpp;
 
-const GActionEntry FavoriteUsers::win_entries[] = {
+const GActionEntry FavoriteUsers::fuser_entries[] = {
 //    { "add", onAddEntry_gui, NULL, NULL, NULL },
     { "delete", onRemoveItemClicked_gui, NULL, NULL, NULL },
     { "grant-slot",onGrantSlotItemClicked_gui, NULL, NULL, NULL }
@@ -42,7 +42,7 @@ FavoriteUsers::FavoriteUsers():
 
 	GSimpleActionGroup *group;
 	group = g_simple_action_group_new ();
-	g_action_map_add_action_entries (G_ACTION_MAP (group), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	g_action_map_add_action_entries (G_ACTION_MAP (group), fuser_entries, G_N_ELEMENTS (fuser_entries), (gpointer)this);
 	gtk_widget_insert_action_group(getContainer(),"favu" ,G_ACTION_GROUP(group));
 
 	// Initialize favorite users list treeview
@@ -79,8 +79,6 @@ FavoriteUsers::FavoriteUsers():
 	g_signal_connect (gesture, "released",
                     G_CALLBACK (on_right_btn_released), (gpointer)this);
 	gtk_widget_add_controller (GTK_WIDGET(favoriteUserView.get()), GTK_EVENT_CONTROLLER (gesture));
-
-//	g_signal_connect(favoriteUserView.getCellRenderOf(_("Auto grant slot")), "toggled", G_CALLBACK(onAutoGrantSlotToggled_gui), (gpointer)this);
 
 //	g_signal_connect(getWidget("browseItem"), "activate", G_CALLBACK(onBrowseItemClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("matchQueueItem"), "activate", G_CALLBACK(onMatchQueueItemClicked_gui), (gpointer)this);

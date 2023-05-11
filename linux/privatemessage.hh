@@ -95,11 +95,7 @@ class PrivateMessage:
 		static gboolean onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
 		static gboolean onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
 		static gboolean onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event , GtkTextIter *iter, gpointer data);//BMDC
-		static gboolean onChatPointerMoved_gui(GtkWidget *widget, GdkEventMotion *event, gpointer data);
-		static gboolean onChatVisibilityChanged_gui(GtkWidget* widget, GdkEventVisibility* event, gpointer data);
 		static gboolean onEmotButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);*/
-		/*static void onChatScroll_gui(GtkAdjustment *adjustment, gpointer data);
-		static void onChatResize_gui(GtkAdjustment *adjustment, gpointer data);*/
 		static void onSendMessage_gui(GtkEntry *entry, gpointer data);
 		/*static void onCopyURIClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onOpenLinkClicked_gui(GtkMenuItem *item, gpointer data);
@@ -110,7 +106,6 @@ class PrivateMessage:
 		static void onDownloadClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onCommandClicked_gui(GtkWidget *widget, gpointer data);
 		static void onUseEmoticons_gui(GtkWidget *widget, gpointer data);
-		static gboolean onChatCommandButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 
 		static void onCopyIpItem_gui(GtkWidget *wid, gpointer data);
 		static void onRipeDbItem_gui(GtkWidget *wid, gpointer data);

@@ -98,7 +98,7 @@ class FinishedTransfers:
 		int totalUsers;
 		int64_t totalBytes, totalTime;
 		PreviewMenu *appsPreviewMenu;
-		static const GActionEntry win_entries[];
+		static const GActionEntry finished_entries[];
 };
 
 #else

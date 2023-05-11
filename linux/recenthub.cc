@@ -49,7 +49,6 @@ BookEntry(Entry::RECENT,_("Recent Hubs"),"recenthub")
 //		g_signal_connect(getWidget("removeALLItem"), "activate", G_CALLBACK(onDeleteAll_gui), (gpointer)this);
 		
 //		g_signal_connect(recentView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
-//		g_signal_connect(recentView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 //		g_signal_connect(recentView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 
 }

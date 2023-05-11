@@ -28,7 +28,7 @@
 using namespace std;
 using namespace dcpp;
 
-const GActionEntry PublicHubs::win_entries[] = {
+const GActionEntry PublicHubs::pub_entries[] = {
     { "connect", onConnect_gui_click, NULL, NULL, NULL }};
 
 PublicHubs::PublicHubs():
@@ -37,7 +37,7 @@ PublicHubs::PublicHubs():
 {
 	//@TODO: non-deprecated things
 	GSimpleActionGroup* simple = g_simple_action_group_new ();
-	g_simple_action_group_add_entries(simple, win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	g_simple_action_group_add_entries(simple, pub_entries, G_N_ELEMENTS (pub_entries), (gpointer)this);
 	gtk_widget_insert_action_group(getContainer(),"pub" ,G_ACTION_GROUP(simple));
 	// Initialize public hub list treeview
 	hubView.setView(GTK_TREE_VIEW(getWidget("hubView")), true, "publichubs");
@@ -74,10 +74,8 @@ PublicHubs::PublicHubs():
 	// Initialize the hub lists combo box
 	gtk_combo_box_set_model(GTK_COMBO_BOX(getWidget("hubListBox")), GTK_TREE_MODEL(listsStore));
 	// Connect the signals to their callback functions.
-/*	g_signal_connect(getContainer(), "focus-in-event", G_CALLBACK(onFocusIn_gui), (gpointer)this);
-	g_signal_connect(getWidget("filterEntry"), "key-release-event", G_CALLBACK(onFilterHubs_gui), (gpointer)this);*/
+/*	g_signal_connect(getWidget("filterEntry"), "key-release-event", G_CALLBACK(onFilterHubs_gui), (gpointer)this);*/
 	g_signal_connect(getWidget("connectButton"), "clicked", G_CALLBACK(onConnect_gui), (gpointer)this);
-/*	g_signal_connect(getWidget("connectMenuItem"), "activate", G_CALLBACK(onConnect_gui), (gpointer)this);*/
 	g_signal_connect(getWidget("refreshButton"), "clicked", G_CALLBACK(onRefresh_gui), (gpointer)this);
 	g_signal_connect(getWidget("hubListBox"), "changed", G_CALLBACK(onRefresh_gui), (gpointer)this);
 	g_signal_connect(getWidget("configureButton"), "clicked", G_CALLBACK(onConfigure_gui), (gpointer)this);
@@ -85,8 +83,6 @@ PublicHubs::PublicHubs():
 	g_signal_connect(getWidget("downButton"), "clicked", G_CALLBACK(onMoveDown_gui), (gpointer)this);
 	g_signal_connect(getWidget("addButton"), "clicked", G_CALLBACK(onAdd_gui), (gpointer)this);
 	g_signal_connect(getWidget("removeButton"), "clicked", G_CALLBACK(onRemove_gui), (gpointer)this);
-//	g_signal_connect(listsView.getCellRenderOf("List"), "edited", G_CALLBACK(onCellEdited_gui), (gpointer)this);
-//	g_signal_connect(hubView.get(), "key-release-event", G_CALLBACK(onKeyRelease_gui), (gpointer)this);
 //	g_signal_connect(getWidget("favMenuItem"), "activate", G_CALLBACK(onAddFav_gui), (gpointer)this);*/
 
 /* Register for mouse right button click "pressed" and "released" events on  widget*/
@@ -216,16 +212,7 @@ void PublicHubs::setStatus_gui(string statusBar, string text)
 	gtk_statusbar_pop(GTK_STATUSBAR(getWidget(statusBar)), 0);
 	gtk_statusbar_push(GTK_STATUSBAR(getWidget(statusBar)), 0, text.c_str());
 }
-/*
-gboolean PublicHubs::onFocusIn_gui(GtkWidget *, GdkEventFocus *, gpointer data)
-{
-	PublicHubs *ph = (PublicHubs *)data;
 
-	gtk_widget_grab_focus(ph->getWidget("filterEntry"));
-
-	return TRUE;
-}
-*/
 /*
 gboolean PublicHubs::onKeyRelease_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
@@ -339,10 +326,6 @@ void PublicHubs::onConfigure_gui(GtkWidget*, gpointer data)
 		g_free(temp);
 	}
 //	gint response = gtk_dialog_run(GTK_DIALOG(ph->getWidget("configureDialog")));
-
-	// Fix crash, if the dialog gets programmatically destroyed.
-//	if (response == GTK_RESPONSE_NONE)
-//		return;
 
 	gtk_widget_hide(ph->getWidget("configureDialog"));
 

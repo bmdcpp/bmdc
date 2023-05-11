@@ -29,7 +29,7 @@
 using namespace std;
 using namespace dcpp;
 
-const GActionEntry FinishedTransfers::win_entries[] = {
+const GActionEntry FinishedTransfers::finished_entries[] = {
 	{ "delete",onRemoveItems_gui, NULL, NULL, NULL },
 	{ "open",onOpen_gui, NULL, NULL, NULL }
 };
@@ -54,7 +54,7 @@ FinishedTransfers::FinishedTransfers(const EntryType type, const string title, b
 {
 	GSimpleActionGroup *group;
 	group = g_simple_action_group_new ();
-	g_action_map_add_action_entries (G_ACTION_MAP (group), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	g_action_map_add_action_entries (G_ACTION_MAP (group), finished_entries, G_N_ELEMENTS (finished_entries), (gpointer)this);
 	gtk_widget_insert_action_group(getContainer(),"finishedtransfers" ,G_ACTION_GROUP(group));
 	
 	// Initialize transfer treeview

@@ -71,8 +71,6 @@ class FavoriteUsers:
 		static void onRemoveItemClicked_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
 		//static void onAutoGrantSlotToggled_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
 		//static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-		//static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		//static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		//static void onIgnoreSetUserClicked_gui(GtkWidget *widget, gpointer data);
 
 		// Client functions
@@ -102,7 +100,7 @@ class FavoriteUsers:
 		TreeView favoriteUserView;
 		GtkListStore *favoriteUserStore;
 		GtkTreeSelection *favoriteUserSelection;
-		static const GActionEntry win_entries[];
+		static const GActionEntry fuser_entries[];
 };
 
 #else

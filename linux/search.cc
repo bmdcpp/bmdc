@@ -48,7 +48,6 @@ Search::Search(const string& str):
 {
 	setSearchButtons(true);
 
-	//gtk_widget_grab_focus(getWidget("SearchEntry"));
 	/* set up completion */
 	//completion = gtk_entry_completion_new();
 	//gtk_entry_completion_set_text_column(completion, EN_STRING);
@@ -170,13 +169,11 @@ Search::Search(const string& str):
 	gtk_combo_box_set_active(combo_box, 0);
 
 	// Connect the signals to their callback functions.
-//	g_signal_connect(getContainer(), "focus-in-event", G_CALLBACK(onFocusIn_gui), (gpointer)this);
 	g_signal_connect(getWidget("checkbuttonFilter"), "toggled", G_CALLBACK(onFilterButtonToggled_gui), (gpointer)this);
 	g_signal_connect(getWidget("checkbuttonSlots"), "toggled", G_CALLBACK(onSlotsButtonToggled_gui), (gpointer)this);
 	g_signal_connect(getWidget("checkbuttonShared"), "toggled", G_CALLBACK(onSharedButtonToggled_gui), (gpointer)this);
 	g_signal_connect(hubView.getCellRenderOf("Search"), "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
 //	g_signal_connect(resultView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
-//	g_signal_connect(resultView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 //	g_signal_connect(resultView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 	//g_signal_connect(getWidget("SearchEntry"), "key-press-event", G_CALLBACK(onSearchEntryKeyPressed_gui), (gpointer)this);
 	//g_signal_connect(getWidget("SearchEntry"), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
@@ -197,7 +194,6 @@ Search::Search(const string& str):
 	g_signal_connect(getWidget("comboboxUnit"), "changed", G_CALLBACK(onComboBoxChanged_gui), (gpointer)this);
 	g_signal_connect(getWidget("comboboxFile"), "changed", G_CALLBACK(onComboBoxChanged_gui), (gpointer)this);
 	g_signal_connect(getWidget("comboboxGroupBy"), "changed", G_CALLBACK(onGroupByComboBoxChanged_gui), (gpointer)this);
-
 	g_signal_connect(getWidget("checkop"), "toggled", G_CALLBACK(onCheckOp_gui), (gpointer)this);
 }
 

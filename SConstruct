@@ -385,10 +385,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		env.Append(LDFLAGS = '-L/usr/ucrt64/lib/')
 		env.Append(LDFLAGS = '-L/usr/msys64/usr/lib/')
 
-	#if LIB_IS_GEO:
-	#	env.Append(LINKFLAGS = '-lGeoIP')
-	#	env.Append(LIBS = 'GeoIP')
-
 	if LIB_IS_TAR:
 		env.Append(LINKFLAGS = '-ltar')
 		env.Append(LIBS = 'tar')

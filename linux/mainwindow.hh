@@ -139,11 +139,7 @@ class MainWindow:
 			const std::string &tth);
 		void setStatRate_gui();
 		// GUI Callbacks
-//		static gboolean onWindowState_gui(GtkWidget *widget, GdkEventWindowState *event, gpointer data);
 		static void onSizeWindowState_gui(GtkWidget* widget,GtkAllocation *allocation,gpointer data);
-//		static gboolean onCloseWindow_gui(GtkWidget *widget, GdkEvent *event, gpointer data);
-//		static gboolean onKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-//		static void onRaisePage_gui(GtkMenuItem *item, gpointer data);
 		static void onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *page, guint num, gpointer data);
 		static void onPaneRealized_gui(GtkWidget *pane, gpointer data);
 		static void onConnectClicked_gui(GtkWidget *widget, gpointer data);

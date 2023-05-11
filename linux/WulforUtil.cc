@@ -246,18 +246,7 @@ StringList WulforUtil::getHubAddress(const UserPtr& user, const string& hintUrl)
 {
 	return getHubAddress(user->getCID(), hintUrl);
 }
-/*
-string WulforUtil::getTextFromMenu(GtkMenuItem *item)
-{
-	string text;
-	GtkWidget *child = gtk_bin_get_child(GTK_BIN(item));
 
-	if (child && GTK_IS_LABEL(child))
-		text = gtk_label_get_text(GTK_LABEL(child));
-
-	return text;
-}
-*/
 vector<string>& WulforUtil::getCharsets()
 {
 	if (charsets.empty())

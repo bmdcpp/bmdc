@@ -2,10 +2,9 @@
 # -*- coding: utf-8 -*-
 Import('env')
 from sys import platform as _platform
-#_platform = 'win32'
 
 env = env.Clone()
-#files = env.Glob('*.c')
+
 files =  ( [
 'connecthostport.c',
 'igd_desc_parse.c',

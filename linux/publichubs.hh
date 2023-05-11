@@ -47,9 +47,7 @@ class PublicHubs:
 		void setStatus_gui(std::string statusBar, std::string text);
 
 		// GUI callbacks
-/*		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);*/
-/*		static gboolean onKeyRelease_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-		static gboolean onFilterHubs_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);*/
+/*		static gboolean onFilterHubs_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);*/
 		static void onConnect_gui_click(GtkWidget* wid, GVariant* , gpointer data)
 		{ onConnect_gui(wid , data);}
 		static void onConnect_gui(GtkWidget *widget, gpointer data);
@@ -90,7 +88,7 @@ class PublicHubs:
 		guint oldButton, oldType;
 		GtkWidget* mmenu;
 
-		static const GActionEntry win_entries[];
+		static const GActionEntry pub_entries[];
 };
 
 #else

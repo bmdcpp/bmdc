@@ -194,22 +194,11 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 
     statusBar = gtk_statusbar_new();
     gtk_box_append(GTK_BOX(bBox) , statusBar);
-
-	// magnet dialog
-	//setChooseMagnetDialog_gui();
-	//g_signal_connect(getWidget("MagnetDialog"), "response", G_CALLBACK(onResponseMagnetDialog_gui), (gpointer) this);
-	//g_signal_connect(getWidget("MagnetDialog"), "delete-event", G_CALLBACK(onDeleteEventMagnetDialog_gui), (gpointer) this);
-	// About dialog
 	// Set all windows to the default icon
 	gtk_window_set_default_icon_name(g_get_prgname());
 	// All notebooks created in glade need one page.
 	// In our case, this is just a placeholder, so we remove it.
-//	gtk_notebook_remove_page(GTK_NOTEBOOK(note), -1);
-//	g_object_set_data(G_OBJECT(note), "page-rotation-list", NULL);
-//  Connect the signals to their callback functions.
-//	g_signal_connect(window, "delete-event", G_CALLBACK(onCloseWindow_gui), (gpointer)this);
-//	g_signal_connect(window, "window-state-event", G_CALLBACK(onWindowState_gui), (gpointer)this);
-//	g_signal_connect(window, "size-allocate", G_CALLBACK(onSizeWindowState_gui), (gpointer)this);
+	//  Connect the signals to their callback functions.
 	g_signal_connect(note, "switch-page", G_CALLBACK(onPageSwitched_gui), (gpointer)this);
 	g_signal_connect(favHub, "clicked", G_CALLBACK(onFavoriteHubsClicked_gui), (gpointer)this);
 	g_signal_connect(favuser, "clicked", G_CALLBACK(onFavoriteUsersClicked_gui), (gpointer)this);
@@ -231,16 +220,6 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	g_signal_connect(cmd, "clicked", G_CALLBACK(onCmdDebugClicked_gui), (gpointer)this);
 	g_signal_connect(uq, "clicked", G_CALLBACK(onUploadQueueClicked_gui), (gpointer)this);
 	g_signal_connect(recHub, "clicked", G_CALLBACK(onRecentHubClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("tthitem"), "activate", G_CALLBACK(onTTHFileDialog_gui), (gpointer)this);
-//	g_signal_connect(getWidget("buttonfile"), "clicked", G_CALLBACK(onTTHFileButton_gui), (gpointer)this);
-//	#ifdef HAVE_LIBTAR
-//		g_signal_connect(getWidget("exportitem"), "activate", G_CALLBACK(onExportItemClicked_gui), (gpointer)this);
-//	#else
-//		gtk_widget_set_sensitive(getWidget("exportitem"), FALSE);
-//	#endif
-//	g_signal_connect(getWidget("transferCheckButton"), "toggled", G_CALLBACK(onTransferToggled_gui), (gpointer)this);
-//	g_signal_connect(getWidget("browseButton"), "clicked", G_CALLBACK(onBrowseMagnetButton_gui), (gpointer)this);
-//	g_signal_connect(getWidget("setMagnetChoiceItem"), "activate", G_CALLBACK(onSetMagnetChoiceDialog_gui), (gpointer)this);
 	g_signal_connect(ac, "clicked", G_CALLBACK(onAboutConfigClicked_gui), (gpointer)this);
 	onQuit = false;
 	// colourstuff
@@ -267,7 +246,6 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	// (seems we have rather poor standards for cool?)
 	gtk_widget_show(GTK_WIDGET(window));
 
-//	setInitThrotles();
 	Sound::start();
 	Notify::start();
 }
@@ -284,9 +262,6 @@ MainWindow::~MainWindow()
 	LogManager::getInstance()->removeListener(this);
 
 	listQueue.shutdown();
-
-	//GList *list = (GList *)g_object_get_data(G_OBJECT(getWidget("book")), "page-rotation-list");
-	//g_list_free(list);
 
 	// Save window state and position
 	gint posX = 0 , posY = 0, transferPanePosition = 0;
@@ -449,20 +424,16 @@ void MainWindow::setInitThrotles()
 	bool benabled = SETTING(THROTTLE_ENABLE);
 //@:Enabled
 	if(benabled && (iup > 0) ) {
-	//	setLimitingIcon(true);
 		return;
 	}
 	if(benabled && (idown > 0)) {
-	//	setLimitingIcon(true);
 		return;
 	}
 //@:disabled
 	if(!benabled && (iup == 0)) {
-	//	setLimitingIcon(false);
 		return;
 	}
 	if(!benabled && (idown == 0)) {
-	//	setLimitingIcon(false);
 		return;
 	}
 }
@@ -547,8 +518,6 @@ void MainWindow::removeBookEntry_gui(BookEntry *entry)
 			}
 		}
 		gtk_notebook_remove_page(book, inum);
-
-//		removeTabMenuItem_gui(menuItem);
 
 		if (gtk_notebook_get_n_pages(book) == 0)
 		{
@@ -651,9 +620,7 @@ void MainWindow::removeTabMenuItem_gui(GtkWidget *menuItem)
 	GtkNotebook *book = GTK_NOTEBOOK(note);
 
 	if (gtk_notebook_get_n_pages(book) == 0)
-	{
-//
-	}
+	{ ;	}
 }
 
 void MainWindow::setMainStatus_gui(string text, time_t t)
@@ -1187,7 +1154,6 @@ void MainWindow::showMagnetDialog_gui(const string &magnet, const string &name, 
 	GtkWidget *chooser = getWidget("flistDialog");
 	gtk_window_set_title(GTK_WINDOW(chooser), _("Choose a directory"));
 	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(chooser), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
-//	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), WGETS("magnet-choose-dir").c_str());
 	// choose
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("choiceCheckButton")), FALSE);
 	setChooseMagnetDialog_gui();
@@ -1460,26 +1426,6 @@ gboolean MainWindow::onDeleteEventMagnetDialog_gui(GtkWidget *dialog, GdkEvent*,
 	return TRUE;
 }
 
-/*
-gboolean MainWindow::onButtonReleasePage_gui(GtkWidget*, GdkEventButton *event, gpointer data)
-{
-	gint iwidth, iheight;
-	iheight = gdk_window_get_height(event->window);
-	iwidth = gdk_window_get_width(event->window);
-
-	// If middle mouse button was released when hovering over tab label
-	// with setting to it
-	if ( (!WGETB("book-three-button-disable")) &&  (event->button == 2 && event->x >= 0 && event->y >= 0
-		&& event->x < iwidth && event->y < iheight))
-	{
-		BookEntry *entry = (BookEntry *)data;
-		WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
-		return TRUE;
-	}
-
-	return FALSE;
-}
-*/
 void MainWindow::onPageSwitched_gui(GtkNotebook *notebook, GtkWidget*, guint num, gpointer data)
 {
 	MainWindow* mw = (MainWindow *)data;
@@ -1488,9 +1434,7 @@ void MainWindow::onPageSwitched_gui(GtkNotebook *notebook, GtkWidget*, guint num
 
 	if (entry)
 	{
-		//GtkWidget *item = entry->getTabMenuItem();
 		entry->setActive_gui();
-//		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(entry->getTabMenuItem()), TRUE);
 		mw->setTitle(entry->getLabelText()); // Update window title with selected tab label
 	}
 	GList *list = (GList *)g_object_get_data(G_OBJECT(notebook), "page-rotation-list");
@@ -1522,7 +1466,6 @@ typedef struct
 void MainWindow::onConnectClicked_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	g_debug("clicked");
 	GtkWidget *dialog, *label, *content_area, *entry;
  	GtkDialogFlags flags;
 
@@ -1686,33 +1629,21 @@ void MainWindow::onResponse(GtkWidget* wid , int response ,gpointer data)
 			dynamic_cast<cmddebug *>(entry)->preferences_gui();
 		}
 
-		// Rate
-		//mw->setStatRate_gui();
 	}
 	gtk_widget_hide(wid);
 }
 
 void MainWindow::onAwayClicked_gui(GtkWidget*, gpointer data)
 {
-//	MainWindow *mw = (MainWindow *)data;
-//	typedef Func1<MainWindow, bool> F1;
-
 	if(Util::getAway())
 	{
 		Util::switchAway();
 		Util::setManualAway(false);
-//		mw->setMainStatus_gui(_("Away mode off"));
-
-//		F1 *func = new F1(mw,&MainWindow::setAwayIcon, false);
-//		WulforManager::get()->dispatchGuiFunc(func);
 
 	}else
 	{
 		Util::switchAway();
 		Util::setManualAway(true);
-//		mw->setMainStatus_gui(_("Away mode on"));
-		//F1 *func = new F1(mw,&MainWindow::setAwayIcon, true);
-		//WulforManager::get()->dispatchGuiFunc(func);
 	}
 }
 
