@@ -479,13 +479,8 @@ void Search::popupMenu_gui()
 	
 	// Build user command menu
 //	userCommandMenu->buildMenu_gui();
-
-//	#if GTK_CHECK_VERSION(3,22,0)
-//	gtk_menu_popup_at_pointer(GTK_MENU(getWidget("mainMenu")),NULL);
-//	#else
 //	gtk_menu_popup(GTK_MENU(getWidget("mainMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-//	#endif
-//	gtk_widget_show_all(getWidget("mainMenu"));
+
 }
 
 void Search::setStatus_gui(string statusBar, string text)
@@ -499,7 +494,7 @@ void Search::search_gui()
 	StringList clients;
 	GtkTreeIter iter;
 
-	string text ;// gtk_entry_get_text(GTK_ENTRY(getWidget("SearchEntry")));
+	string text  gtk_editable_get_text(GTK_EDITABLE(getWidget("SearchEntry")));
 	if (text.empty())
 		return;
 
