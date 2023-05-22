@@ -494,7 +494,7 @@ void Search::search_gui()
 	StringList clients;
 	GtkTreeIter iter;
 
-	string text  gtk_editable_get_text(GTK_EDITABLE(getWidget("SearchEntry")));
+	string text = gtk_editable_get_text(GTK_EDITABLE(getWidget("SearchEntry")));
 	if (text.empty())
 		return;
 
