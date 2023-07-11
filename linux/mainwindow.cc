@@ -196,8 +196,6 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
     gtk_box_append(GTK_BOX(bBox) , statusBar);
 	// Set all windows to the default icon
 	gtk_window_set_default_icon_name(g_get_prgname());
-	// All notebooks created in glade need one page.
-	// In our case, this is just a placeholder, so we remove it.
 	//  Connect the signals to their callback functions.
 	g_signal_connect(note, "switch-page", G_CALLBACK(onPageSwitched_gui), (gpointer)this);
 	g_signal_connect(favHub, "clicked", G_CALLBACK(onFavoriteHubsClicked_gui), (gpointer)this);

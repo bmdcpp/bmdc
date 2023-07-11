@@ -242,10 +242,8 @@ gint WulforManager::openHashDialog_gui()
 
 GtkWidget* WulforManager::openSettingsDialog_gui()
 {
-//#ifdef USE_NEW_SETTINGS
 	SettingsDialog *s = new SettingsDialog();
 	return s->getContainer();
-//#else
 }
 
 DialogEntry *WulforManager::getHashDialog_gui()

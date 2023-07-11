@@ -169,7 +169,7 @@ class TreeView
 		SortedColMap sortedColumns;
 		ColMap hiddenColumns;
 		SortedColMap sortedHiddenColumns;
-		//BMDC++
+
 		GtkTreeSelection *sel;
 };
 
