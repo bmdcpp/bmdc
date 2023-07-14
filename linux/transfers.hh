@@ -135,7 +135,7 @@ class Transfers:
 		UserCommandMenu* userCommandMenu;
 		PreviewMenu *appsPreviewMenu;
 
-		static const GActionEntry win_entries[];
+		static const GActionEntry t_entries[];
 };
 
 #endif // BMDC_TRANSFERS_HH

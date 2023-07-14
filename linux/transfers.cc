@@ -45,7 +45,7 @@
 using namespace std;
 using namespace dcpp;
 
-const GActionEntry Transfers::win_entries[] = {
+const GActionEntry Transfers::t_entries[] = {
     { "grant-slot", onGrantExtraSlotClicked_gui, NULL, NULL, NULL,0 },
     { "get-fl", onGetFileListClicked_gui, NULL, NULL, NULL,0 },
     { "match-queue", onMatchQueueClicked_gui, NULL, NULL, NULL,0 },
@@ -62,7 +62,7 @@ Transfers::Transfers() :
 	transferStore(NULL), transferSelection(NULL),  appsPreviewMenu(NULL)
 {
 	GSimpleActionGroup* simple = g_simple_action_group_new ();
-	g_action_map_add_action_entries (G_ACTION_MAP (simple), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	g_action_map_add_action_entries (G_ACTION_MAP (simple), t_entries, G_N_ELEMENTS (t_entries), (gpointer)this);
 	gtk_widget_insert_action_group(getWidget("transfers"), "transfers" ,G_ACTION_GROUP(simple));
 	// Initialize the user command menu
 //	userCommandMenu = new UserCommandMenu(getWidget("userCommandMenu"), ::UserCommand::CONTEXT_USER);
