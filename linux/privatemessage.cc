@@ -75,7 +75,7 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	// menu
 //	userCommandMenu = new UserCommandMenu(gtk_menu_new(), ::UserCommand::CONTEXT_USER);
 	// Emoticons dialog
-//	emotdialog = new EmoticonsDialog(getWidget("entry"), getWidget("emotButton"), getWidget("emotMenu"));
+	emotdialog = new EmoticonsDialog(getWidget("entry"), getWidget("emotButton"), getWidget("emotMenu"));
 //	if (!SETTING(USE_EMOTS))
 //		gtk_widget_set_sensitive(getWidget("emotButton"), FALSE);
 
@@ -155,7 +155,7 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 		if(user->getIdentity().isBot())
 			setFlag(BOT);
 		
-		string country = GeoManager::getInstance()->getCountryAbbrevation(user->getIdentity().getIp());
+		//string country = GeoManager::getInstance()->getCountryAbbrevation(user->getIdentity().getIp());
 		//setImageButton(country);
 	}
 		
