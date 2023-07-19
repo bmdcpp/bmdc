@@ -1129,8 +1129,11 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg, strin
 
 	if( client && client->get(SettingsManager::TIME_STAMPS, SETTING(TIME_STAMPS)))
 			line += string(g_filename_to_utf8( string("[" + Util::getShortTimeString() + "] ").c_str(),-1,NULL,NULL,NULL));
-
-	line += string(g_filename_to_utf8(message.c_str(),-1,NULL,NULL,NULL));
+	#ifdef _WIN32
+		line += string(g_filename_to_utf8(message.c_str(),-1,NULL,NULL,NULL));
+	#else
+		line += message;
+	#endif
 
 	gtk_text_buffer_get_end_iter(chatBuffer, &iter);
 	gtk_text_buffer_insert(chatBuffer, &iter, line.c_str(), line.size());
