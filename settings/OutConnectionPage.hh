@@ -1,5 +1,5 @@
 /**/
-/*
+
 #ifndef _OUT_CONN_SETTINGS_
 #define _OUT_CONN_SETTINGS_
 
@@ -30,4 +30,3 @@ class OutConnectionPage: public SettingsPage
 #else
 class OutConnectionPage;
 #endif
-*/
