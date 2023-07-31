@@ -28,7 +28,7 @@ void OutConnectionPage::show(GtkWidget *parent, GtkWidget* old)
 		frame = gtk_frame_new("Settings Outgoing Connection");
 
 		GtkWidget* table = gtk_grid_new();
-		gtk_container_add (GTK_CONTAINER(frame),table);
+		gtk_frame_set_child  (GTK_FRAME(frame),table);
 		//radio_direct = gtk_radio_button_new_with_label(NULL,"Direct");
 		//radio_sock = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON(radio_direct),"Sock5");	
 		gtk_grid_attach(GTK_GRID(table),radio_direct,0,0,1,1);
