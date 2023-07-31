@@ -56,8 +56,7 @@ void DownloadsPage::show(GtkWidget *parent, GtkWidget* old)
 	
 	g_signal_connect(button_browse, "clicked", G_CALLBACK(onBrowseFinished_gui), (gpointer)this);
 	g_signal_connect(button_browse_temp, "clicked", G_CALLBACK(onBrowseUnfinished_gui), (gpointer)this);
-	/*@Add to parent*/
-	SEUtil::reAddItemCo(parent,old,box_grid);
+
 }
 
 void DownloadsPage::write()

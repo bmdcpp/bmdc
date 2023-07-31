@@ -1,4 +1,4 @@
-
+/*//*/
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include "GeneralPage.hh"
@@ -31,7 +31,6 @@ using namespace std;
 SettingsDialog::SettingsDialog():
 previous_page(0), id(dcpp::Util::toString(Entry::SETTINGS_DIALOG) + ":") 
 {
-		GtkTreeIter iter;
 		GtkDialogFlags flags;
 		flags = GTK_DIALOG_DESTROY_WITH_PARENT;
 		dia = gtk_dialog_new_with_buttons("Settings",
@@ -50,122 +49,98 @@ previous_page(0), id(dcpp::Util::toString(Entry::SETTINGS_DIALOG) + ":")
 		mainBox = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
 		statusBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
 //@hadle ending
-//		okButton = gtk_button_new_with_label("Ok");
-//		stButton = gtk_button_new_with_label("Discard Changes");
-//		gtk_container_add(GTK_CONTAINER(statusBox),okButton);
-//		gtk_container_add(GTK_CONTAINER(statusBox),stButton);
-//		gtk_widget_set_sensitive(stButton,FALSE);
-//--------------
-		paned = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
-		tree = gtk_tree_view_new ();
+		okButton = gtk_button_new_with_label("Ok");
+		stButton = gtk_button_new_with_label("Discard Changes");
+		gtk_container_add(GTK_CONTAINER(statusBox),okButton);
+		gtk_container_add(GTK_CONTAINER(statusBox),stButton);
+
+		paned = gtk_stack_sidebar_new();
+		stack = gtk_stack_new();
 		GtkWidget *sw = gtk_scrolled_window_new ();
-//temp
 		containBox = sw;
 
-		gtk_paned_set_start_child(GTK_PANED(paned),tree);	
-		gtk_paned_set_end_child (GTK_PANED(paned),sw);
+		gtk_stack_sidebar_set_stack (paned, stack);
+		gtk_box_append(GTK_BOX(mainBox), paned);
+		gtk_box_append(GTK_BOX(mainBox), stack);
+		gtk_box_append(GTK_BOX(mainBox), statusBox);
+		gtk_box_append(GTK_BOX(dialogWin), mainBox);
 
-		gtk_paned_set_position (GTK_PANED(paned),115);//@todo not Fixed ?
-/*--------------*/
-		gtk_box_append(GTK_BOX(mainBox),paned);
-		gtk_box_append(GTK_BOX(mainBox),statusBox);
-		gtk_box_append(GTK_BOX(dialogWin),mainBox);
-///---------------------------------------------------------------------
 		//@1st page
 		int f_num = 0;
-		pages[f_num++] = new GeneralPage();
-		pages[0]->show(sw,NULL);
-
-		store = gtk_list_store_new(2, G_TYPE_INT, G_TYPE_STRING);
-		gtk_list_store_append(store,&iter);
-		gtk_list_store_set(store,&iter,0,0,1,pages[0]->get_name_page(),-1);
-		///2nd
-		pages[f_num++] = new ConnectionPage();
-		gtk_list_store_append(store,&iter);
-		gtk_list_store_set(store,&iter,0,1,1,pages[1]->get_name_page(),-1);
-		///3nd
-		pages[f_num++] = new AdvancedConnectionPage();
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store,&iter,0,2,1,pages[2]->get_name_page(),-1);
+		pages[f_num] = new GeneralPage();
+		pages[f_num]->show(NULL,NULL);
+		gtk_stack_add_titled(GTK_STACK(stack),pages[f_num]->getTopWidget(),pages[f_num]->get_name_page(),pages[f_num]->get_name_page());
 		
-		pages[f_num++] = new DownloadsPage();
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store,&iter,0,3,1,pages[3]->get_name_page(),-1);
+		pages[++f_num] = new ConnectionPage();
+		pages[f_num]->show(NULL,NULL);
+		gtk_stack_add_titled(GTK_STACK(stack),pages[f_num]->getTopWidget(),pages[f_num]->get_name_page(),pages[f_num]->get_name_page());
 		
-		pages[f_num++] = new QuenePage();
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store,&iter,0,4,1,pages[4]->get_name_page(),-1);
-
-		pages[f_num++] = new PreviewPage();
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store,&iter,0,5,1,pages[5]->get_name_page(),-1);
-
-		pages[f_num++] = new DownloadToPage();
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store,&iter,0,6,1,pages[6]->get_name_page(),-1);
-
-		pages[f_num++] = new SharingPage();
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store,&iter,0,7,1,pages[7]->get_name_page(),-1);
-
-		pages[f_num++] = new OSharingPage();
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store,&iter,0,8,1,pages[8]->get_name_page(),-1);
-
-		pages[f_num++] = new ApearencePage();
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store,&iter,0,9,1,pages[9]->get_name_page(),-1);
-
-		pages[f_num++] = new OApearencePage();
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store,&iter,0,10,1,pages[10]->get_name_page(),-1);
-
-		pages[f_num++] = new TabsPage();
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store,&iter,0,11,1,pages[11]->get_name_page(),-1);
-
-		pages[f_num++] = new WindowPage();
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store,&iter,0,12,1,pages[12]->get_name_page(),-1);
-
-		pages[f_num++] = new SoundPage();
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store,&iter,0,13,1,pages[13]->get_name_page(),-1);
-
-		pages[f_num++] = new ChatPage();
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store,&iter,0,14,1,pages[14]->get_name_page(),-1);
+		pages[++f_num] = new AdvancedConnectionPage();
+		pages[f_num]->show(NULL,NULL);
+		gtk_stack_add_titled(GTK_STACK(stack),pages[f_num]->getTopWidget(),pages[f_num]->get_name_page(),pages[f_num]->get_name_page());		
 		
-		pages[f_num++] = new HigPage();
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store,&iter,0,15,1,pages[15]->get_name_page(),-1);
+		pages[++f_num] = new DownloadsPage();
+		pages[f_num]->show(NULL,NULL);
+		gtk_stack_add_titled(GTK_STACK(stack),pages[f_num]->getTopWidget(),pages[f_num]->get_name_page(),pages[f_num]->get_name_page());
+				
+		pages[++f_num] = new QuenePage();
+		pages[f_num]->show(NULL,NULL);
+		gtk_stack_add_titled(GTK_STACK(stack),pages[f_num]->getTopWidget(),pages[f_num]->get_name_page(),pages[f_num]->get_name_page());
+
+		pages[++f_num] = new PreviewPage();
+		pages[f_num]->show(NULL,NULL);
+		gtk_stack_add_titled(GTK_STACK(stack),pages[f_num]->getTopWidget(),pages[f_num]->get_name_page(),pages[f_num]->get_name_page());
+
+		pages[++f_num] = new DownloadToPage();
+		pages[f_num]->show(NULL,NULL);
+		gtk_stack_add_titled(GTK_STACK(stack),pages[f_num]->getTopWidget(),pages[f_num]->get_name_page(),pages[f_num]->get_name_page());
+
+		pages[++f_num] = new SharingPage();
+		pages[f_num]->show(NULL,NULL);
+		gtk_stack_add_titled(GTK_STACK(stack),pages[f_num]->getTopWidget(),pages[f_num]->get_name_page(),pages[f_num]->get_name_page());
+
+		pages[++f_num] = new OSharingPage();
+		pages[f_num]->show(NULL,NULL);
+		gtk_stack_add_titled(GTK_STACK(stack),pages[f_num]->getTopWidget(),pages[f_num]->get_name_page(),pages[f_num]->get_name_page());
+
+		pages[++f_num] = new ApearencePage();
+		pages[f_num]->show(NULL,NULL);
+		gtk_stack_add_titled(GTK_STACK(stack),pages[f_num]->getTopWidget(),pages[f_num]->get_name_page(),pages[f_num]->get_name_page());
+
+		pages[++f_num] = new OApearencePage();
+		pages[f_num]->show(NULL,NULL);
+		gtk_stack_add_titled(GTK_STACK(stack),pages[f_num]->getTopWidget(),pages[f_num]->get_name_page(),pages[f_num]->get_name_page());
+
+		pages[++f_num] = new TabsPage();
+		pages[f_num]->show(NULL,NULL);
+		gtk_stack_add_titled(GTK_STACK(stack),pages[f_num]->getTopWidget(),pages[f_num]->get_name_page(),pages[f_num]->get_name_page());
+
+		pages[++f_num] = new WindowPage();
+		pages[f_num]->show(NULL,NULL);
+		gtk_stack_add_titled(GTK_STACK(stack),pages[f_num]->getTopWidget(),pages[f_num]->get_name_page(),pages[f_num]->get_name_page());
+
+		pages[++f_num] = new SoundPage();
+		pages[f_num]->show(NULL,NULL);
+		gtk_stack_add_titled(GTK_STACK(stack),pages[f_num]->getTopWidget(),pages[f_num]->get_name_page(),pages[f_num]->get_name_page());
+
+		pages[++f_num] = new ChatPage();
+		pages[f_num]->show(NULL,NULL);
+		gtk_stack_add_titled(GTK_STACK(stack),pages[f_num]->getTopWidget(),pages[f_num]->get_name_page(),pages[f_num]->get_name_page());
+		
+		pages[++f_num] = new HigPage();
+		pages[f_num]->show(NULL,NULL);
+		gtk_stack_add_titled(GTK_STACK(stack),pages[f_num]->getTopWidget(),pages[f_num]->get_name_page(),pages[f_num]->get_name_page());
 		
 #ifdef HAVE_NOTIFY
-		pages[f_num++] = new NotifyPage();
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store,&iter,0,16,1,pages[16]->get_name_page(),-1);
+		pages[++f_num] = new NotifyPage();
+		pages[f_num]->show(NULL,NULL);
+		gtk_stack_add_titled(GTK_STACK(stack),pages[f_num]->getTopWidget(),pages[f_num]->get_name_page(),pages[f_num]->get_name_page());
 #endif
 		m_num = f_num;
 	
 /*--------------------------------------------------------------------------*/
-		GtkCellRenderer *renderer = gtk_cell_renderer_text_new ();
-		GtkTreeViewColumn *column = gtk_tree_view_column_new_with_attributes ("", renderer,
-                                                     "text", 1,
-                                                      NULL);
-		gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
-
-		gtk_tree_view_set_model(GTK_TREE_VIEW(tree),GTK_TREE_MODEL(store));
-		gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree),FALSE);
-		/**/
-		tree_sel = gtk_tree_view_get_selection (GTK_TREE_VIEW(tree));
-		
-//		g_signal_connect(okButton,"clicked",G_CALLBACK(onOkButton),(gpointer)this);
-//		g_signal_connect(stButton,"clicked",G_CALLBACK(onStButton), (gpointer)this);
-
-		gtk_tree_selection_set_mode (tree_sel, GTK_SELECTION_SINGLE);
-		g_signal_connect (G_OBJECT (tree_sel), "changed",
-                  G_CALLBACK (tree_selection_changed_cb),
-                  (gpointer)this);
+		g_signal_connect(okButton,"clicked",G_CALLBACK(onOkButton),(gpointer)this);
+		g_signal_connect(stButton,"clicked",G_CALLBACK(onStButton), (gpointer)this);
 /*---------------------------------------------------------------------------*/ 
 gtk_widget_show(dia);                 
 }
@@ -187,6 +162,10 @@ void SettingsDialog::onOkButton(GtkWidget *widget, gpointer data)
 }
 
 void SettingsDialog::onStButton(GtkWidget *widget, gpointer data)
-{//revert
+{
+
+	SettingsDialog *sd = (SettingsDialog*)data;
+	if(sd != NULL)
+		sd->close();
 	
 }

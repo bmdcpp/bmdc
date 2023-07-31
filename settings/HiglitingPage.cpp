@@ -54,8 +54,6 @@ void HigPage::show(GtkWidget* parent, GtkWidget* old)
 	gtk_box_append(GTK_BOX(bbox),remButton);
 
 	gtk_grid_attach(GTK_GRID(box),bbox,0,1,1,1);
-/*@Add to parent*/
-	SEUtil::reAddItemCo(parent,old,box);
 
 	ColorList* cList = HighlightManager::getInstance()->getList();
 	GtkTreeIter iter;

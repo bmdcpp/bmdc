@@ -610,7 +610,6 @@ void MainWindow::addTabMenuItem_gui(GMenu* menu, GtkWidget* page)
 {
  	GMenuItem * menuItem = g_menu_item_new("Close Tab","app.tab-close");
  	g_menu_append_item(menu ,menuItem);
-
 }
 
 void MainWindow::removeTabMenuItem_gui(GtkWidget *menuItem)

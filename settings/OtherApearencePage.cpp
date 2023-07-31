@@ -89,7 +89,6 @@ void OApearencePage::show(GtkWidget *parent, GtkWidget* old)
 				gtk_combo_box_set_active(GTK_COMBO_BOX(actionUL), i - usersAction.begin());
 	}
 
-	SEUtil::reAddItemCo(parent,old,grid);
 }
 //New opt-add at end
 string OApearencePage::getNameAction(int num)

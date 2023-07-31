@@ -62,7 +62,6 @@ void OSharingPage::show(GtkWidget *parent, GtkWidget* old)
 
 	g_signal_connect(check_hiden, "toggled", G_CALLBACK(onShareHiddenPressed_gui), (gpointer)this);
 
-	SEUtil::reAddItemCo(parent,old,grid);
 }
 
 gboolean OSharingPage::onShareHiddenPressed_gui(GtkToggleButton *togglebutton, gpointer data)

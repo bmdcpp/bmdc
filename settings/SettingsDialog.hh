@@ -1,11 +1,5 @@
 /*
  * 
- * 
- * 
- * 
- * 
- * 
- * 
 */
 
 #ifndef _SETTINGS_DIALOG_
@@ -26,7 +20,7 @@ class SettingsDialog
 		GtkWidget* dialogWin,*dia ,
 		* mainBox,	* statusBox,
 		* okButton,*stButton,
-		* paned,*tree,
+		* paned,*tree,*stack,
 		* containBox;
 		GtkListStore *store;
 		GtkTreeModel *model;
@@ -37,40 +31,13 @@ class SettingsDialog
 		int m_num;
 	public:	
 		void close() { 
-			/*for(int i = 0; i < m_num; ++i) {
-				if(pages[i] != NULL && pages[i]->showed >= 1) {
+			for(int i = 0; i <= m_num; ++i) {
+				if(pages[i] != NULL) {
 					pages[i]->write();
 				}
-			}*/
-			if(pages[0] != NULL)
-				pages[0]->write();
-			
-			if(pages[previous_page] != NULL)
-				pages[previous_page]->write();
+			}
 		}
 	private:	
-static void tree_selection_changed_cb (GtkTreeSelection *selection, gpointer data)
-{
-		SettingsDialog *sd = (SettingsDialog*)data;
-        GtkTreeIter iter;
-        GtkTreeModel *model = NULL;
-        gint num = 0;
-
-        if (gtk_tree_selection_get_selected (selection, &model, &iter))
-        {
-                gtk_tree_model_get (model, &iter, 0, &num, -1);
-
-				if(sd->pages[sd->previous_page] != NULL)
-					sd->pages[sd->previous_page]->write();
-                if(num != sd->previous_page)
-                {
-						dcdebug("\npage %s\n",sd->pages[num]->get_name_page());
-						sd->pages[num]->show(sd->containBox,sd->pages[sd->previous_page]->getTopWidget());
-//						gtk_widget_show_all(sd->pages[num]->getTopWidget());
-				}
-				sd->previous_page = num;
-        }
-}
 		static void onOkButton(GtkWidget *widget, gpointer data);
 		static void onStButton(GtkWidget *widget, gpointer data);
 };

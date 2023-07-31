@@ -108,7 +108,7 @@ void QuenePage::show(GtkWidget *parent, GtkWidget* old)
 
 	qView = TreeView();//workaround for if selected double time
 	SEUtil::createOptionsView_gui(qView,queueStore);
-	//gtk_container_add(GTK_CONTAINER(box3),GTK_WIDGET(qView.get()));
+	gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW(box3),GTK_WIDGET(qView.get()));
 	gtk_grid_attach(GTK_GRID(table),box3,0,6,10,8);
 
 	gtk_grid_set_column_homogeneous (GTK_GRID(table),TRUE);
@@ -124,8 +124,6 @@ void QuenePage::show(GtkWidget *parent, GtkWidget* old)
 	SEUtil::addOption_gui(queueStore, _("Don't download files already in share"), SettingsManager::DONT_DL_ALREADY_SHARED);
 	SEUtil::addOption_gui(queueStore, _("Don't download files already in the queue"), SettingsManager::DONT_DL_ALREADY_QUEUED);
 
-	/*@Add to parent*/
-	SEUtil::reAddItemCo(parent,old,table);
 }
 
 void QuenePage::write()

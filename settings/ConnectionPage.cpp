@@ -136,9 +136,6 @@ void ConnectionPage::show(GtkWidget *parent, GtkWidget* old)
 
 	gtk_box_append(GTK_BOX(box),table);
 
-	/*@Add to parent*/
-	SEUtil::reAddItemCo(parent,old,box);
-	/*end*/
 	g_signal_connect(GTK_TOGGLE_BUTTON(radio_direct), "toggled", G_CALLBACK(onInDirect_gui),  (gpointer)this);
 	g_signal_connect(GTK_TOGGLE_BUTTON(radio_upnp),   "toggled", G_CALLBACK(onInDirect_gui), (gpointer)this);
 	g_signal_connect(GTK_TOGGLE_BUTTON(radio_manual), "toggled", G_CALLBACK(onInDirect_gui),  (gpointer)this);

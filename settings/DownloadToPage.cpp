@@ -52,7 +52,6 @@ void DownloadToPage::show(GtkWidget *parent, GtkWidget* old)
 		gtk_grid_attach(GTK_GRID(grid),buttonRem,1,0,1,1);
 		gtk_box_append(GTK_BOX(box),grid);
 
-		SEUtil::reAddItemCo(parent,old,box);
 		gtk_widget_set_sensitive(buttonRem, FALSE);
 
 		dcpp::StringPairList directories = dcpp::FavoriteManager::getInstance()->getFavoriteDirs();

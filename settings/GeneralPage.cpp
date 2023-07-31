@@ -94,8 +94,6 @@ void GeneralPage::show(GtkWidget *parent, GtkWidget* old)
 			if(WGETS("default-charset") == *it)
 				gtk_combo_box_set_active(GTK_COMBO_BOX(codepage), (it - charsets.begin()) );
 	}
-	/*@Add to parent*/
-	SEUtil::reAddItemCo(parent,old,box_grid);
 }
 
 void GeneralPage::write()
@@ -103,12 +101,9 @@ void GeneralPage::write()
 	dcpp::SettingsManager *sm = dcpp::SettingsManager::getInstance();
 	
 	const gchar* nick = NULL,*desc= NULL,*email = NULL;
-	//if(GTK_IS_ENTRY(entry_nick))
-		nick = gtk_editable_get_text(GTK_EDITABLE(entry_nick));
-	//if(GTK_IS_ENTRY(entry_desc))
-		desc = gtk_editable_get_text(GTK_EDITABLE(entry_desc));
-	//if(GTK_IS_ENTRY(entry_email))
-		email = gtk_editable_get_text(GTK_EDITABLE(entry_email));
+	nick = gtk_editable_get_text(GTK_EDITABLE(entry_nick));
+	desc = gtk_editable_get_text(GTK_EDITABLE(entry_desc));
+	email = gtk_editable_get_text(GTK_EDITABLE(entry_email));
 	
 	if(nick != NULL) {
 		sm->set(dcpp::SettingsManager::NICK, nick);

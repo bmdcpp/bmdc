@@ -57,8 +57,6 @@ void NotifyPage::show(GtkWidget *parent, GtkWidget* old){
 //	gtk_container_add(GTK_CONTAINER(scroll), GTK_WIDGET(notifyView.get()));
 	gtk_box_pack_start(GTK_BOX(box),scroll,TRUE,TRUE,0);
 
-	SEUtil::reAddItemCo(parent,old,box);
-
 	g_signal_connect(notifyView.getCellRenderOf(_("Use")), "toggled", G_CALLBACK(SEUtil::onOptionsViewToggled_gui), (gpointer)notifyStore);
 
 	addOption_gui(notifyStore, wsm, _("Download finished"),

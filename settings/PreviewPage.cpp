@@ -63,9 +63,9 @@ void PreviewPage::show(GtkWidget *parent, GtkWidget* old)
 		/*update*/
 	GtkWidget *frame = gtk_frame_new(_("Info"));
 	GtkWidget *grid2 = gtk_grid_new();
-	entry_name = gen;
-	entry_type = gen;
-	entry_app  = gen;
+	entry_name = gtk_entry_new();
+	entry_type = gtk_entry_new();
+	entry_app  = gtk_entry_new();
 	
 	gtk_grid_attach(GTK_GRID(grid2),gtk_label_new("Name"),0,0,1,1);
 	gtk_grid_attach(GTK_GRID(grid2),entry_name,1,0,1,1);
@@ -75,7 +75,7 @@ void PreviewPage::show(GtkWidget *parent, GtkWidget* old)
 
 	gtk_grid_attach(GTK_GRID(grid2),gtk_label_new("Types"),0,2,1,1);
 	gtk_grid_attach(GTK_GRID(grid2),entry_type,1,2,1,1);
-	//gtk_container_add(GTK_CONTAINER(frame),grid2);
+
 	gtk_box_append(GTK_BOX(box),frame);
 	infoLabel = gtk_label_new("");
 	gtk_box_append(GTK_BOX(box),infoLabel);
@@ -95,19 +95,18 @@ void PreviewPage::show(GtkWidget *parent, GtkWidget* old)
 		for (auto item = Apps.begin(); item != Apps.end(); ++item)
 		{
 			gtk_list_store_append(previewAppToStore, &iter);
-			dcdebug("\n%s -%s -%s\n", (*item)->name.c_str(), (*item)->app.c_str(), (*item)->ext.c_str() );
-			
 			gtk_list_store_set(previewAppToStore, &iter,
 				previewAppView.col(_("Name"))/*0*/, ((*item)->name).c_str(),
 				previewAppView.col(_("Application"))/*1*/, ((*item)->app).c_str(),
 				previewAppView.col(_("Extensions"))/*2*/, ((*item)->ext).c_str(),
 				-1);
 		}
-		SEUtil::reAddItemCo(parent,old,box);
 }
 
 void PreviewPage::write()
-{/**/}
+{
+
+}
 
 
 void PreviewPage::onPreviewAdd_gui(GtkWidget *widget, gpointer data)
@@ -207,7 +206,7 @@ void PreviewPage::onPreviewApply_gui(GtkWidget *widget, gpointer data)
 
 	if (name.empty() || app.empty() || ext.empty())
 	{
-		s->showErrorDialog(_("Must not be empty..."));
+//		s->showErrorDialog(_("Must not be empty..."));
 		return;
 	}
 

@@ -40,29 +40,23 @@ void SharingPage::show(GtkWidget *parent, GtkWidget *old)
 	shareStore = gtk_list_store_newv(shareView.getColCount(), shareView.getGTypes());
 	gtk_tree_view_set_model(shareView.get(), GTK_TREE_MODEL(shareStore));
 	shareView.setSortColumn_gui(_("Size"), "Real Size");
-	//gtk_container_add(GTK_CONTAINER(scroll),GTK_WIDGET(shareView.get()));
+	gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW(scroll),GTK_WIDGET(shareView.get()));
 
 	box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
 	gtk_box_append(GTK_BOX(box),scroll);
 
 	button_add = gtk_button_new_with_label("Add");
 	button_rem = gtk_button_new_with_label("Remove");
-//	button_edit = gtk_button_new_with_label("Remove");
+
 	grid = gtk_grid_new();	
 	gtk_grid_attach(GTK_GRID(grid),button_add,0,1,1,1);
 	gtk_grid_attach(GTK_GRID(grid),button_rem,1,1,1,1);
-//	gtk_grid_attach(GTK_GRID(grid),button_edit,2,0,1,1);
+
 	labelShareSize = gtk_label_new("");
 	gtk_grid_attach(GTK_GRID(grid),labelShareSize,2,2,1,1);
 	
 	gtk_box_append(GTK_BOX(box),grid);
 
-//	if(old != NULL)
-//		gtk_container_remove(GTK_CONTAINER(parent), old );
-//	gtk_container_add(GTK_CONTAINER(parent),box);
-	SEUtil::reAddItemCo(parent,old,box);
-
-	//g_signal_connect(shareView.get(), "button-release-event", G_CALLBACK(onShareButtonReleased_gui), (gpointer)this);
 	g_signal_connect(button_add, "clicked", G_CALLBACK(onAddShare_gui), (gpointer)this);
 	g_signal_connect(button_rem, "clicked", G_CALLBACK(onRemoveShare_gui), (gpointer)this);
 	gtk_widget_set_sensitive(button_rem, FALSE);
@@ -89,7 +83,6 @@ void SharingPage::onAddShare_gui(GtkWidget *widget, gpointer data)
 	GtkWidget* fileDialog = b_file_dialog_widget("Open Directory");
 	int response = -1;
  	//gint response = gtk_dialog_run(GTK_DIALOG(fileDialog));
-	//gtk_widget_hide(fileDialog);
 
 	if (response == GTK_RESPONSE_OK)
 	{

@@ -28,9 +28,6 @@ void  ApearencePage::show(GtkWidget *parent, GtkWidget* old)
 	box3 = gtk_scrolled_window_new();
 	appearenceView = TreeView();//Fix Crash
 	SEUtil::createOptionsView_gui(appearenceView,appStore);
-	//gtk_container_add(GTK_CONTAINER(box3),GTK_WIDGET(appearenceView.get()));
-	/*@Add to parent*/
-	SEUtil::reAddItemCo(parent,old,box3);
 
 	SEUtil::addOption_gui(appStore, _("Filter kick and NMDC debug messages"), SettingsManager::FILTER_MESSAGES);
 	SEUtil::addOption_gui(appStore, _("Show status icon"), SettingsManager::ALWAYS_TRAY);

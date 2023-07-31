@@ -205,9 +205,6 @@ void ChatPage::show(GtkWidget* parent, GtkWidget* old)
 	g_signal_connect(bStyle, "clicked", G_CALLBACK(onTextStyleClicked_gui), (gpointer)this);
 	g_signal_connect(bDef, "clicked", G_CALLBACK(onTextStyleDefaultClicked_gui), (gpointer)this);
 
-/*@Add to parent*/
-	SEUtil::reAddItemCo(parent,old,box);
-
 }
 
 

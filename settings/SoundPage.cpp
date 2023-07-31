@@ -26,7 +26,7 @@ void SoundPage::show(GtkWidget *parent, GtkWidget* old)
 		soundStore = gtk_list_store_newv(soundView.getColCount(), soundView.getGTypes());
 		gtk_tree_view_set_model(soundView.get(), GTK_TREE_MODEL(soundStore));
 		g_object_unref(soundStore);
-		//gtk_container_add(GTK_CONTAINER(scroll),GTK_WIDGET(soundView.get()));
+		gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW(scroll),GTK_WIDGET(soundView.get()));
 
 		gtk_box_append(GTK_BOX(box),scroll);
 		g_signal_connect(soundView.getCellRenderOf(_("Use")), "toggled", G_CALLBACK(SEUtil::onOptionsViewToggled_gui), (gpointer)soundStore);
@@ -54,7 +54,6 @@ void SoundPage::show(GtkWidget *parent, GtkWidget* old)
 		gtk_widget_set_sensitive(button_play, TRUE);
 		gtk_widget_set_sensitive(button_browse, TRUE);
 
-		SEUtil::reAddItemCo(parent,old,box);
 }
 
 

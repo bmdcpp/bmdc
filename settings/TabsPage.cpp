@@ -112,8 +112,6 @@ void TabsPage::show(GtkWidget *parent, GtkWidget *old)
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(note), grid4, pagelabel3);
 	
-	SEUtil::reAddItemCo(parent,old,box);
-	
 }
 
 void TabsPage::addItem_gui(string name, string key)

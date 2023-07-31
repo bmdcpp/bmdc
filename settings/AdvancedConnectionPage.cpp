@@ -48,9 +48,6 @@ void AdvancedConnectionPage::show(GtkWidget *parent, GtkWidget* old)
 	gtk_editable_set_text(GTK_EDITABLE(entry_bind), SETTING(BIND_ADDRESS).c_str());
 	gtk_editable_set_text(GTK_EDITABLE(entry_bind6), SETTING(BIND_ADDRESS6).c_str());
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin_recon), SETTING(TIME_RECCON));
-
-	/*@Add to parent*/
-	SEUtil::reAddItemCo(parent,old,box_grid);
 }
 
 void AdvancedConnectionPage::write()

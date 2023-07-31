@@ -74,7 +74,6 @@ void WindowPage::show(GtkWidget *parent, GtkWidget* old)
 	SEUtil::addOption_gui(windowStore3, _("Confirm favorite hub removal"), SettingsManager::CONFIRM_HUB_REMOVAL);
 	/// @todo: Uncomment when implemented
 	//SEUtil::addOption_gui(windowStore3, _("Confirm item removal in download queue"), SettingsManager::CONFIRM_ITEM_REMOVAL);
-	SEUtil::reAddItemCo(parent,old,box);
 }
 
 void WindowPage::write()
