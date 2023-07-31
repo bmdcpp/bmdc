@@ -51,8 +51,8 @@ previous_page(0), id(dcpp::Util::toString(Entry::SETTINGS_DIALOG) + ":")
 //@hadle ending
 		okButton = gtk_button_new_with_label("Ok");
 		stButton = gtk_button_new_with_label("Discard Changes");
-		gtk_container_add(GTK_CONTAINER(statusBox),okButton);
-		gtk_container_add(GTK_CONTAINER(statusBox),stButton);
+		gtk_box_append(GTK_BOX(statusBox),okButton);
+		gtk_box_append(GTK_BOX(statusBox),stButton);
 
 		paned = gtk_stack_sidebar_new();
 		stack = gtk_stack_new();
