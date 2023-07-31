@@ -59,7 +59,7 @@ previous_page(0), id(dcpp::Util::toString(Entry::SETTINGS_DIALOG) + ":")
 		GtkWidget *sw = gtk_scrolled_window_new ();
 		containBox = sw;
 
-		gtk_stack_sidebar_set_stack (GTK_STACK_SIDEBAR(paned), stack);
+		gtk_stack_sidebar_set_stack (GTK_STACK_SIDEBAR(paned),GTK_STACK(stack));
 		gtk_box_append(GTK_BOX(mainBox), paned);
 		gtk_box_append(GTK_BOX(mainBox), stack);
 		gtk_box_append(GTK_BOX(mainBox), statusBox);
