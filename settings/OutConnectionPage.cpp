@@ -18,7 +18,9 @@
 #include "OutConnectionPage.hh"
 #include "definitons.hh"
 
+using namespace std;
 using namespace dcpp;
+
 const char* OutConnectionPage::name_page = "→ Outgoing";
 
 void OutConnectionPage::show(GtkWidget *parent, GtkWidget* old) 
@@ -106,7 +108,7 @@ void OutConnectionPage::write()
 		}	
 }
 
-
+/*
 void OutConnectionPage::onOutDirect_gui(GtkToggleButton *button, gpointer data)
 {
 	OutConnectionPage *s = (OutConnectionPage *)data;
@@ -118,3 +120,4 @@ void OutConnectionPage::onSocks5_gui(GtkToggleButton *button, gpointer data)
 	OutConnectionPage *s = (OutConnectionPage *)data;
 
 }
+*/

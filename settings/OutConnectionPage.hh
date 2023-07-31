@@ -9,6 +9,8 @@
 class OutConnectionPage: public SettingsPage
 {
 		public:
+			OutConnectionPage(){ };
+			~OutConnectionPage(){ };
 			void show(GtkWidget *parent, GtkWidget* old);
 			const char* get_name_page()
 			{ return name_page; }
@@ -23,8 +25,8 @@ class OutConnectionPage: public SettingsPage
 			*entry_username,*entry_password,
 			*check_hostname,
 			*frame;
-			static void onOutDirect_gui(GtkToggleButton *button, gpointer data);
-			static void onSocks5_gui(GtkToggleButton *button, gpointer data);
+			//static void onOutDirect_gui(GtkToggleButton *button, gpointer data);
+			//static void onSocks5_gui(GtkToggleButton *button, gpointer data);
 
 };
 #else
