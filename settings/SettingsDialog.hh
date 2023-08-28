@@ -1,5 +1,5 @@
 /*
- * 
+ * GPL
 */
 
 #ifndef _SETTINGS_DIALOG_

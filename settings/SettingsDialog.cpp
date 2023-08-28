@@ -1,4 +1,4 @@
-/*//*/
+/*/GPL/*/
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include "GeneralPage.hh"
@@ -41,14 +41,12 @@ previous_page(0), id(dcpp::Util::toString(Entry::SETTINGS_DIALOG) + ":")
 									   _("_Storno"),
                                        GTK_RESPONSE_CANCEL,
                                        NULL);
+
 		dialogWin = gtk_dialog_get_content_area(GTK_DIALOG(dia));
-//		gtk_window_set_title (GTK_WINDOW(dialogWin),_("Settings"));
-//		gtk_window_set_default_size (GTK_WINDOW(dialogWin),600,500);
-//		gtk_window_set_modal(GTK_WINDOW(dialogWin),TRUE);
 		
 		mainBox = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
 		statusBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
-//@hadle ending
+
 		okButton = gtk_button_new_with_label("Ok");
 		stButton = gtk_button_new_with_label("Discard Changes");
 		gtk_box_append(GTK_BOX(statusBox),okButton);
@@ -56,6 +54,7 @@ previous_page(0), id(dcpp::Util::toString(Entry::SETTINGS_DIALOG) + ":")
 
 		paned = gtk_stack_sidebar_new();
 		stack = gtk_stack_new();
+		gtk_stack_set_transition_type(stack, GTK_STACK_TRANSITION_TYPE_SLIDE_DOWN);
 		GtkWidget *sw = gtk_scrolled_window_new ();
 		containBox = sw;
 
@@ -64,6 +63,15 @@ previous_page(0), id(dcpp::Util::toString(Entry::SETTINGS_DIALOG) + ":")
 		gtk_box_append(GTK_BOX(mainBox), stack);
 		gtk_box_append(GTK_BOX(mainBox), statusBox);
 		gtk_box_append(GTK_BOX(dialogWin), mainBox);
+
+
+		gtk_widget_show(mainBox);
+		gtk_widget_show(paned);
+		gtk_widget_show(stack);
+
+
+		gtk_widget_set_visible (paned, TRUE);
+		gtk_widget_set_visible (stack, TRUE);
 
 		//@1st page
 		int f_num = 0;
@@ -142,7 +150,7 @@ previous_page(0), id(dcpp::Util::toString(Entry::SETTINGS_DIALOG) + ":")
 		g_signal_connect(okButton,"clicked",G_CALLBACK(onOkButton),(gpointer)this);
 		g_signal_connect(stButton,"clicked",G_CALLBACK(onStButton), (gpointer)this);
 /*---------------------------------------------------------------------------*/ 
-gtk_widget_show(dia);                 
+		gtk_widget_show(dia);                 
 }
 	
 SettingsDialog::~SettingsDialog()
@@ -165,7 +173,7 @@ void SettingsDialog::onStButton(GtkWidget *widget, gpointer data)
 {
 
 	SettingsDialog *sd = (SettingsDialog*)data;
-	if(sd != NULL)
-		sd->close();
+	//if(sd != NULL)
+	//	sd->close();
 	
 }
