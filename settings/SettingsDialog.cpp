@@ -54,7 +54,7 @@ previous_page(0), id(dcpp::Util::toString(Entry::SETTINGS_DIALOG) + ":")
 
 		paned = gtk_stack_sidebar_new();
 		stack = gtk_stack_new();
-		gtk_stack_set_transition_type(stack, GTK_STACK_TRANSITION_TYPE_SLIDE_DOWN);
+		gtk_stack_set_transition_type(GTK_STACK(stack), GTK_STACK_TRANSITION_TYPE_SLIDE_DOWN);
 		GtkWidget *sw = gtk_scrolled_window_new ();
 		containBox = sw;
 
