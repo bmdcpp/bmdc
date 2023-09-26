@@ -7,11 +7,11 @@
 ## Introduction
 
 BMDC &ndash; DC++ client based on FreeDC++ with Ignore Users and other changes.<br/>
-See [BMDC-Changelog.txt](https://github.com/bmdcpp/bmdc/blob/master/BMDC-Changelog.txt) for detailed info.
+See [BMDC-Changelog.txt](https://github.com/bmdcpp/bmdc/blob/main/BMDC-Changelog.txt) for detailed info.
 
 ## License
 
-GNU GPL v2.0 or later. See [License.txt](https://github.com/bmdcpp/bmdc/blob/master/License.txt) for details.
+GNU GPL v2.0 or later. See [License.txt](https://github.com/bmdcpp/bmdc/blob/main/License.txt) for details.
 
 ## Links
 
@@ -90,7 +90,7 @@ or if you used scons to install into the file system then use the same scons com
 ## License
 
 GNU GPL Version 2 or later
-See License.txt for details.
+See [License.txt](https://github.com/bmdcpp/bmdc/blob/main/License.txt) for details.
 
 ## Contact
 [@bmdcpp](https://www.github.com/@bmdcpp)
