@@ -22,13 +22,11 @@ LIB_IS_NATPMP = True
 LIB_IS_GEO = False
 LIB_IS_TAR = False
 LIB_HAVE_XATTR = False
-# For Idle Detection, Enabled by defualt
-LIB_HAVE_XSS = False
 NEW_SETTING = True
 
 BUILD_FLAGS = {#'-Wno-unused-parameter','-Wno-unused-value',
-	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT','-pipe','-DUSE_STACKTRACE=1','-DUSE_NEW_SETTINGS=1' ,'-fpermissive'],#temp,'-DUSE_WIN32_CODE'
-	'debug'   : ['-O1','-g', '-ggdb','-W', '-Wall','-Wextra','-D_DEBUG' ,'-DUSE_ADDR2LINE','-Wno-reorder','-DGDK_DISABLE_DEPRECATED','-DGTK_DISABLE_DEPRECATED','-Wno-unused-parameter','-Wno-unused-value','-Wno-format','-Wfatal-errors'],#'-fpermissive' ,'-Wpadded'
+	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT','-pipe','-DUSE_STACKTRACE=1','-DUSE_NEW_SETTINGS=1' ,'-fpermissive'],
+	'debug'   : ['-O1','-g', '-ggdb','-W', '-Wall','-Wextra','-D_DEBUG' ,'-DUSE_ADDR2LINE','-Wno-reorder','-DGDK_DISABLE_DEPRECATED','-DGTK_DISABLE_DEPRECATED','-Wno-unused-parameter','-Wno-unused-value','-Wno-format','-Wfatal-errors'],
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }
 
@@ -117,7 +115,6 @@ vars.AddVariables(
 	BoolVariable('libnotify', 'Enable notifications through libnotify', 1),
 	BoolVariable('libtar', 'Enable Backup&Export with libtar', 1),
 	BoolVariable('libxattr', 'Enable xattr support for storing calculated Hash in extended attributes of file',1),
-	BoolVariable('libXss', 'Enable libxss support for AutoAway on idle feat',1),
 	BoolVariable('newSettings', 'Use new Settings dialog UI',0),
 	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local/', PathVariable.PathIsDir),
 	('FAKE_ROOT', 'Make scons install the program under a fake root', '')
@@ -322,7 +319,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		conf.env.Append(CPPDEFINES = 'USE_NEW_SETTINGS')
 		NEW_SETTING = True
 
-	#os.system('sh linux/gen.sh')
 	env = conf.Finish()
 
 # ----------------------------------------------------------------------
@@ -349,10 +345,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		env.Append(LIBS='attr')
 		env.Append(LINKFLAGS='-lattr')
 
-	if LIB_HAVE_XSS:
-		env.Append(LIBS='Xss')
-		env.Append(LINKFLAGS='-lXss')
-
 	env.ParseConfig('pkg-config --libs gtk4')
 	#env.ParseConfig('pkg-config --libs bz2')
 	
@@ -367,7 +359,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		if not _platform == 'win32':
 			env.Append(LIBS='dl')
 
-
 	if os.name == 'mac' or os.sys.platform == 'darwin':
 		conf.env.Append(CPPDEFINES = [('ICONV_CONST', ''),'-DAPPLE'])
 		env.Append(LIBS = ['iconv'])
@@ -381,7 +372,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if _platform == 'win32':
 		env.Append(LIBS = ['wsock32','iphlpapi','ws2_32' ,'Winmm' ,'ole32'])
 		env.Append(LINKFLAGS= '-Wl,-subsystem,windows')
-		#env.Append(CPPDEFINES = '_WIN32')
 		env.Append(LDFLAGS = '-L/usr/ucrt64/lib/')
 		env.Append(LDFLAGS = '-L/usr/msys64/usr/lib/')
 
@@ -463,8 +453,8 @@ else:
 	glade_files = env.Glob('ui/*.ui')
 	text_files = env.Glob('*.txt')
 	prefix = env['FAKE_ROOT'] + env['PREFIX']
-	shell_files = env.Glob('extensions/Scripts/*.sh')
-	py_files = env.Glob('extensions/Scripts/*.py')
+	#shell_files = env.Glob('extensions/Scripts/*.sh')
+	#py_files = env.Glob('extensions/Scripts/*.py')
 	country_files = env.Glob('country/*.png')
 	info_image_files = env.Glob('info/*.png')
 	desktop_file = os.path.join('data', PACKAGE + '.desktop')
@@ -480,8 +470,8 @@ else:
 	#env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'ui'), source = glade_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', 'doc', PACKAGE), source = text_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', 'applications'), source = desktop_file))
-	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'extensions/Scripts'), source = shell_files))
-	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'extensions/Scripts'), source = py_files))
+	#env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'extensions/Scripts'), source = shell_files))
+	#env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'extensions/Scripts'), source = py_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'country'), source = country_files))
  	#env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'info'), source = info_image_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'bin'), source = PACKAGE))

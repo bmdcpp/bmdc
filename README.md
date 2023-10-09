@@ -38,9 +38,6 @@ GNU GPL v2.0 or later. See [License.txt](https://github.com/bmdcpp/bmdc/blob/mai
 - libtar (Note: For Backup/Restore options )
 - libnotify >= 0.4.1 ( Note: For popups notifications )
 - xattr ( Note: for storing hashes beside files to not always re-hash )
-- Runtime-deps is also glib-networking ( or similar) for open URI
-- also python2-dbus and qdbus for Media Spam (/kaff and /vlc)
-
 
 ## Compiling and installing
 =======

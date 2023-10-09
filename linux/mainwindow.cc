@@ -80,7 +80,7 @@ const GActionEntry MainWindow::win_entries[] = {
 		{ "close-tab", onCloseClicked_gui, NULL, NULL, NULL }
 };
 
-static GtkWidget* createButtonToolbarWidget(std::string name, std::string label, bool bText )
+static GtkWidget* createButtonToolbarWidget(string name, string label, bool bText )
 {
 	GtkWidget* widget;
 	if(bText)
@@ -91,7 +91,7 @@ static GtkWidget* createButtonToolbarWidget(std::string name, std::string label,
 	return widget;	
 }
 
-MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
+MainWindow::MainWindow(GtkWidget* window /* = NULL*/):
 	Entry(Entry::MAIN_WINDOW, "mainwindow"),
 	transfers(NULL), minimized(false),
 	lastUpdate(0), lastUp(0), lastDown(0),
