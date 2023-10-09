@@ -16,7 +16,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#define APPNAME "BMDC++"
+#define APPNAME "BMDC"
 
 #define VERSIONSTRING "0.1.23"
 #define VERSIONFLOAT 0.851

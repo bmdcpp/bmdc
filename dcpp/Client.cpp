@@ -26,7 +26,6 @@
 #include "DebugManager.h"
 #include "LogManager.h"
 
-
 namespace dcpp {
 
 std::atomic_long Client::counts[COUNT_UNCOUNTED];

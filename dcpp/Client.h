@@ -199,7 +199,7 @@ private:
 	Client& operator=(const Client&);
 
 public:	
-	bool bIPv6,bIPv4;
+	bool bIPv6, bIPv4;
 	string sLocalIP;
 	
 };

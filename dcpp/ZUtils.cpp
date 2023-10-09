@@ -57,8 +57,9 @@ bool ZFilter::operator()(const void* in, size_t& insize, void* out, size_t& outs
 	if(compressing && insize > 0 && outsize > 16 && (totalIn > (64*1024)) && ((static_cast<double>(totalOut) / totalIn) > 0.95)) {
 		zs.avail_in = 0;
 		zs.avail_out = outsize;
-		if(deflateParams(&zs, 0, Z_DEFAULT_STRATEGY) != Z_OK) {
+		if(deflateParams(&zs, 0, Z_DEFAULT_STRATEGY) == Z_STREAM_ERROR) {
 			throw Exception(_("Error during compression"));
+			//return false;
 		}
 		zs.avail_in = insize;
 		compressing = false;

@@ -643,7 +643,8 @@ bool OnlineUser::getChecked(bool bFilelist/* = false*/, bool bCheckComplete/* = 
 		return bFilelist ? identity.isFileListChecked() : identity.isClientChecked();
 	return false;
 }
-////Protected users
+
+// Protected users
 bool Identity::isProtectedUser(const Client& c, bool bOpBotHubCheck) const {
 	if(isSet("PR") || getUser()->isSet(User::PROTECT))
 		return true;

@@ -47,7 +47,6 @@ class UsersManagerListener
 class UsersManager: public Singleton<UsersManager>, public Speaker<UsersManagerListener>
 {
 	typedef map<CID,string> OnlineHubUserMap;
-	
 	typedef std::unordered_multimap<CID, OnlineUser*> OnlineMap;
 	typedef OnlineMap::iterator OnlineIter;
 	typedef OnlineMap::const_iterator OnlineIterC;
@@ -104,8 +103,6 @@ class UsersManager: public Singleton<UsersManager>, public Speaker<UsersManagerL
 
 		return ret;
 	}
-
-
 
 vector<Identity> getIdentities(const UserPtr &u) const {
 	Lock l(cs);
@@ -241,14 +238,14 @@ void setIpAddress(const UserPtr& p, const string& ip) {
     Lock l(cs);
 	OnlineIterC i = onlineUsers.find(p->getCID());
 	if(i != onlineUsers.end()) {
-		bool ipv6 = false;	
+		bool bIPv6 = false;	
 
 		if(Util::isIp6(ip)) {
 			i->second->getIdentity().set("I6", ip);
-			ipv6 = true;
+			bIPv6 = true;
 		}
 		
-		if( ipv6 == false) {
+		if( bIPv6 == false) {
 			i->second->getIdentity().set("I4", ip);
 		}
 		fire(UsersManagerListener::UserUpdated(),(dynamic_cast<const OnlineUser&>(*i->second)));
@@ -261,13 +258,13 @@ void on(ClientListener::UserUpdated, dcpp::Client*, const OnlineUser& user) noex
 
 }
 
-
 void on(ClientListener::UsersUpdated, Client* , const OnlineUserList& l) noexcept {
 	for(OnlineUserList::const_iterator i = l.begin(), iend = l.end(); i != iend; ++i) {
 		updateNick(*(*i));
 		fire(UsersManagerListener::UserUpdated(), *(*i));
 	}
 }
+
 private:
 	OnlineHubUserMap onlineHubUsers;
 	OnlineMap onlineUsers;
