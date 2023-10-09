@@ -7,7 +7,7 @@ currently being supported with security updates.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 2022   | :white_check_mark: |
+| 2022.1   | :white_check_mark: |
 
 ## Reporting a Vulnerability
 
