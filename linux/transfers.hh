@@ -54,12 +54,10 @@ class Transfers:
 		virtual void show();
 
 	private:
-		//Made clang happy
 		using dcpp::ConnectionManagerListener::on;
 		using dcpp::DownloadManagerListener::on;
 		using dcpp::QueueManagerListener::on;
 		using dcpp::UploadManagerListener::on;
-		//End
 		// GUI functions
 		void addConnection_gui(dcpp::StringMap params, bool download);
 		void removeConnection_gui(const std::string cid, bool download);

@@ -102,7 +102,7 @@ int WulforManager::createMainWindow()
 {
 	int status;
 
-    application = gtk_application_new ("org.bmdcteam.bmdc", G_APPLICATION_FLAGS_NONE);//TODO::not-deprectaed
+    application = gtk_application_new ("org.bmdcteam.bmdc", G_APPLICATION_FLAGS_NONE); //TODO::not-deprectaed
     g_signal_connect (application, "activate", G_CALLBACK (activate), (gpointer)this);
     g_signal_connect (application, "shutdown", G_CALLBACK (shutdown), (gpointer)this);
 	status = g_application_run (G_APPLICATION (application), argc, argv);
@@ -110,7 +110,7 @@ int WulforManager::createMainWindow()
 }
 
 void WulforManager::shutdown(GtkApplication* app,
-          gpointer        user_data)
+          gpointer        data)
 {
 	WulforSettingsManager::deleteInstance();
 	std::cout << _("Shutting down dcpp client...") << std::endl;
@@ -121,10 +121,10 @@ void WulforManager::shutdown(GtkApplication* app,
 }          
 
 void WulforManager::activate(GtkApplication* app,
-          gpointer        user_data)
+          gpointer        data)
 {
 	GtkWidget* window = gtk_application_window_new (app);
-	WulforManager* w = (WulforManager*)user_data;
+	WulforManager* w = (WulforManager*)data;
 	w->mainWin = new MainWindow(window);
 	w->mainWin->show();
 }

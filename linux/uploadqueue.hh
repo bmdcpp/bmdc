@@ -39,7 +39,6 @@ class UploadQueue:
 		virtual void show();
 
 	private:
-		//made clang happy
 		using dcpp::UploadManagerListener::on;
 		void getParams(const std::string& file, dcpp::UserPtr user, dcpp::StringMap &params);
 		void addFile(dcpp::StringMap &params, GtkTreeIter *iter);

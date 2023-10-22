@@ -21,4 +21,4 @@
 
 #define GUI_PACKAGE "BMDC"
 #define GUI_LOCALE_PACKAGE "bmdc"
-#define GUI_VERSION_STRING "0.1.23"
+#define GUI_VERSION_STRING "0.1.24"

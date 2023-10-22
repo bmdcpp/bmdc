@@ -32,7 +32,6 @@
 class SystemLog:
 	public BookEntry, private dcpp::LogManagerListener
 {
-//@this is for clang	
 	private:
 		using dcpp::LogManagerListener::on;
 	public:

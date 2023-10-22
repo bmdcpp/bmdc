@@ -148,7 +148,7 @@ const char* WulforUtil::CountryCodes[] = {
 ///end
 
 
-#define LINE2 "-- http://launchpad.net/bmdc++ <BMDC++ " GUI_VERSION_STRING "." BMDC_REVISION_STRING ">"
+#define LINE2 "-- http://launchpad.net/bmdc++ <BMDC " GUI_VERSION_STRING "." BMDC_REVISION_STRING ">"
 
 const char* WulforUtil::msgs_dc[] = {
 		"\r\n-- Neo-...what? Nope...never heard of it...\r\n" LINE2,

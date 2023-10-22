@@ -98,7 +98,6 @@ class DetectionTab:
 		void editEntryDet_client(int id, dcpp::StringMap params);
 		void removeEntryDet_client(int id);
 
-		/**/
 		GtkListStore *detectionStore;
 		TreeView detectionView;
 		GtkTreeSelection *detectionSelection;

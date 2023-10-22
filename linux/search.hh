@@ -46,7 +46,6 @@ class Search:
 		void putValue_gui(const std::string &str, int64_t size, dcpp::SearchManager::SizeModes mode, dcpp::SearchManager::TypeModes type);
 
 	private:
-		//for clang
 		using dcpp::SearchManagerListener::on;
 		using dcpp::ClientManagerListener::on;
 		// Keep these and the items in .ui file in same order, otherwise it will break
