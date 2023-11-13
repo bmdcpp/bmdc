@@ -112,15 +112,12 @@ private:
 		//[BBCodes
 		void loadImage_gui(std::string target, std::string tth);
 		void openImage_gui(std::string target);
-		void insertBBcodeEntry_gui(std::string ch);
+//
 		void set_Header_tooltip_gui();
 		void columnHeader(int num, std::string name);
 
 		// GUI callbacks
 		static void onSizeWindowState_gui(GtkWidget* widget,GdkRectangle *allocation,gpointer data);
-//		static gboolean onNickListKeyRelease_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-//		static gboolean onEntryKeyPress_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-
 //		static gboolean onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
 //		static gboolean onLinkTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
 //		static gboolean onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
@@ -151,9 +148,6 @@ private:
 //		static void onDownloadClicked_gui(GtkWidget*,GVariant* v, gpointer data);
 		static void onCommandClicked_gui(GtkWidget *widget, gpointer data);
 		static void onUseEmoticons_gui(GtkWidget *widget, gpointer data);
-//		static void onItalicButtonClicked_gui(GtkWidget *widget, gpointer data);
-//		static void onBoldButtonClicked_gui(GtkWidget *widget, gpointer data);
-//		static void onUnderlineButtonClicked_gui(GtkWidget *widget, gpointer data);
 		static void onCloseItem(GtkWidget* ,GVariant*, gpointer data);
 		static void onCopyHubUrl(GtkWidget* ,GVariant*, gpointer data);
 		static void onAddFavItem(GtkWidget* ,GVariant*, gpointer data);

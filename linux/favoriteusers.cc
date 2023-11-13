@@ -90,9 +90,7 @@ FavoriteUsers::FavoriteUsers():
 //	g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveItemClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("ignoreItem"), "activate", G_CALLBACK(onIgnoreSetUserClicked_gui), (gpointer)this);
 
-//	g_signal_connect(favoriteUserView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 }
-
 
 void FavoriteUsers::on_right_btn_pressed (GtkGestureClick* /*gesture*/,
                                    int                /*n_press*/,
@@ -225,73 +223,17 @@ void FavoriteUsers::show()
 /*
 gboolean FavoriteUsers::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
-	FavoriteUsers *fu = (FavoriteUsers *)data;
-
-	if (gtk_tree_selection_count_selected_rows(fu->favoriteUserSelection) > 0)
-	{
-		if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_BackSpace)
-		{
-			fu->onRemoveItemClicked_gui(NULL, data);
-		}
-		else if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
-		{
-			#if GTK_CHECK_VERSION(3,22,0)
-				gtk_menu_popup_at_pointer(GTK_MENU(fu->getWidget("menu")),NULL);
-			#else
-			gtk_menu_popup(GTK_MENU(fu->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-			#endif
-		}
-	}
-
-	return FALSE;
+	
 }
 /*
 gboolean FavoriteUsers::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
-	FavoriteUsers *fu = (FavoriteUsers *)data;
-	fu->previous = event->type;
-
-	if (event->button == 3)
-	{
-		GtkTreePath *path;
-
-		if (gtk_tree_view_get_path_at_pos(fu->favoriteUserView.get(), (gint)event->x, (gint)event->y, &path, NULL, NULL, NULL))
-		{
-			bool selected = gtk_tree_selection_path_is_selected(fu->favoriteUserSelection, path);
-			gtk_tree_path_free(path);
-
-			if (selected)
-				return TRUE;
-		}
-	}
-	return FALSE;
+	
 }
 /*
 gboolean FavoriteUsers::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
-	FavoriteUsers *fu = (FavoriteUsers *)data;
-
-	if (gtk_tree_selection_count_selected_rows(fu->favoriteUserSelection) > 0)
-	{
-		/*if (event->button == 1 && fu->previous == GDK_2BUTTON_PRESS)
-		{
-		//	fu->clickAction(data);
-		}
-		else if (event->button == 2 && event->type == GDK_BUTTON_RELEASE)
-		{
-			fu->clickAction(data);
-		}
-		else if (event->button == 3 && event->type == GDK_BUTTON_RELEASE)
-		{
-			#if GTK_CHECK_VERSION(3,22,0)
-				gtk_menu_popup_at_pointer(GTK_MENU(fu->getWidget("menu")),NULL);
-			#else
-			gtk_menu_popup(GTK_MENU(fu->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-			#endif
-		}
-	}
-
-	return FALSE;
+	
 }
 */
 /*
@@ -645,22 +587,8 @@ void FavoriteUsers::onRemoveItemClicked_gui(GtkWidget *widget,GVariant  *paramet
 		g_list_free(list);
 
 		if (SETTING(CONFIRM_USER_REMOVAL))
-		{/*
-			
-			GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
-				GTK_DIALOG_DESTROY_WITH_PARENT,
-				GTK_MESSAGE_QUESTION,
-				GTK_BUTTONS_NONE,
-				_("Are you sure you want to delete favorite user(s)?"));
-			gtk_dialog_add_buttons(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL, "YES",
-				GTK_RESPONSE_YES, NULL);
-
-//			gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-
-			//gtk_widget_hide(dialog);
-
-			if (response != GTK_RESPONSE_YES)
-				return;*/
+		{
+			//;
 		}
 
 		for (vector<string>::const_iterator it = remove.begin(); it != remove.end(); ++it)

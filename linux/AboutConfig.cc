@@ -323,23 +323,6 @@ void AboutConfig::setStatus(const string smsg)
 	gtk_statusbar_push(GTK_STATUSBAR(getWidget("status")), 0, smsg.c_str());
 }
 
-/*
-gboolean AboutConfig::onKeyReleased_gui(GtkWidget* , GdkEventKey *event, gpointer data)
-{
-	AboutConfig *ps = (AboutConfig *)data;
-
-	if (gtk_tree_selection_get_selected(ps->aboutSelection, NULL, NULL))
-	{
-		if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
-		{
-			gtk_menu_popup_at_pointer(GTK_MENU(ps->getWidget("menu")),NULL);
-//			gtk_menu_popup(GTK_MENU(ps->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-		}
-	}
-
-	return FALSE;
-}
-*/
 void AboutConfig::onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointer data)
 {
 	AboutConfig *ps = (AboutConfig *)data;

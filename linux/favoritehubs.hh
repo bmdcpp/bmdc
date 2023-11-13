@@ -100,10 +100,6 @@ class FavoriteHubs:
 		static void key_released_gui (  GtkEventControllerKey* self,  guint keyval,
   							guint keycode,  GdkModifierType state,  gpointer data  );
 
-
-//		static gboolean onGroupsButtonReleased_gui(GtkWidget *widget, GdkEvent *event, gpointer data);
-//		static gboolean onGroupsKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-
 		// Client functions
 		void initializeList_client();
 		void editEntry_client(dcpp::FavoriteHubEntry* entry);

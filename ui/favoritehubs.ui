@@ -1,46 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <!--object class="GtkDialog" id="FavoriteHubGroupsDialog">
-    <property name="width-request">380</property>
-    <property name="height-request">400</property>
-    <property name="title" translatable="yes">Favorite Hub Groups</property>
-    <property name="resizable">0</property>
-    <property name="destroy-with-parent">1</property>
-    <child internal-child="content_area">
-      <object class="GtkBox">
-        <property name="visible">0</property>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="-5">okbutton3</action-widget>
-    </action-widgets>
-    <child internal-child="action_area">
-      <object class="GtkBox" id="dialog-action_area2">
-        <property name="visible">0</property>
-        <child>
-          <object class="GtkButton" id="okbutton3">
-            <property name="visible">0</property>
-            <property name="label">gtk-ok</property>
-          </object>
-        </child>
-      </object>
-    </child>
-  </object>
-  <object class="GtkDialog" id="favoriteHubsDialog">
-    <property name="title" translatable="yes">Favorite Hub Properties</property>
-    <property name="destroy-with-parent">1</property>
-    <child internal-child="content_area">
-      <object class="GtkBox">
-        <property name="visible">0</property>
-      </object>
-    </child>
-    <child internal-child="action_area">
-      <object class="GtkBox">
-        <property name="visible">0</property>
-      </object>
-    </child>
-  </object-->
   <object class="GtkBox" id="mainBox">
     <property name="visible">1</property>
     <property name="spacing">4</property>
@@ -89,14 +49,6 @@
 			<property name="valign">GTK_ALIGN_START</property>
             <property name="label">Remove</property>
             <property name="sensitive">1</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="manageGroupsButton">
-            <property name="visible">1</property>
-			<property name="valign">GTK_ALIGN_START</property>
-            <property name="label" translatable="yes">Manage groups</property>
-            <property name="receives-default">1</property>
           </object>
         </child>
       </object>

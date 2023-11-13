@@ -47,7 +47,6 @@ p_entry(entry)
 	aboutView.insertColumn(_("Type"), G_TYPE_STRING, TreeView::STRING, 60);
 	aboutView.insertColumn(_("Value"), G_TYPE_STRING, TreeView::STRING, 100);
 	aboutView.insertHiddenColumn("ForeColor", G_TYPE_STRING);
-	//aboutView.insertHiddenColumn("BackColor", G_TYPE_STRING);
 	aboutView.finalize();
 	aboutStore = gtk_list_store_newv(aboutView.getColCount(), aboutView.getGTypes());
 	gtk_tree_view_set_model(aboutView.get(), GTK_TREE_MODEL(aboutStore));
@@ -331,21 +330,7 @@ void AboutConfigFav::setStatus(const string msg)
 	gtk_statusbar_pop(GTK_STATUSBAR(getWidget("status")), 0);
 	gtk_statusbar_push(GTK_STATUSBAR(getWidget("status")), 0, msg.c_str());
 }
-/*
-gboolean AboutConfigFav::onKeyReleased_gui(GtkWidget* , GdkEventKey *event, gpointer data)
-{
-	AboutConfigFav *s = (AboutConfigFav *)data;
 
-	if (gtk_tree_selection_get_selected(s->aboutSelection, NULL, NULL))
-	{
-		if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
-		{
-			gtk_menu_popup_at_pointer(GTK_MENU(s->getWidget("menu")),NULL);
-		}
-	}
-	return FALSE;
-}
-*/
 void AboutConfigFav::onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointer data)
 {
 	AboutConfigFav *s = (AboutConfigFav *)data;

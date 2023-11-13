@@ -189,50 +189,11 @@ Hub::Hub(const string &address, const string &encoding):
 
 	useEmoticons = true;
 
-	// Chat commands
-	/*g_object_set_data_full(G_OBJECT(getWidget("awayCommandItem")), "command", g_strdup("/away"), g_free);
-	g_signal_connect(getWidget("awayCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-
-	g_object_set_data_full(G_OBJECT(getWidget("backCommandItem")), "command", g_strdup("/back"), g_free);
-	g_signal_connect(getWidget("backCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-
-	g_object_set_data_full(G_OBJECT(getWidget("clearCommandItem")), "command", g_strdup("/clear"), g_free);
-	g_signal_connect(getWidget("clearCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-
-	g_object_set_data_full(G_OBJECT(getWidget("favCommandItem")), "command", g_strdup("/fav"), g_free);
-	g_signal_connect(getWidget("favCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-
-	g_object_set_data_full(G_OBJECT(getWidget("lsfuCommandItem")), "command", g_strdup("/lsfu"), g_free);
-	g_signal_connect(getWidget("lsfuCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-
-	g_object_set_data_full(G_OBJECT(getWidget("helpCommandItem")), "command", g_strdup("/help"), g_free);
-	g_signal_connect(getWidget("helpCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-
-	g_object_set_data_full(G_OBJECT(getWidget("joinCommandItem")), "command", g_strdup("/join"), g_free);
-	g_signal_connect(getWidget("joinCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-
-	g_object_set_data_full(G_OBJECT(getWidget("meCommandItem")), "command", g_strdup("/me"), g_free);
-	g_signal_connect(getWidget("meCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-
-	g_object_set_data_full(G_OBJECT(getWidget("rebuildCommandItem")), "command", g_strdup("/rebuild"), g_free);
-	g_signal_connect(getWidget("rebuildCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-
-	g_object_set_data_full(G_OBJECT(getWidget("limitimgCommandItem")), "command", g_strdup("/limg"), g_free);
-	g_signal_connect(getWidget("limitimgCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-
-	g_object_set_data_full(G_OBJECT(getWidget("versionCommandItem")), "command", g_strdup("/bmdc"), g_free);
-	g_signal_connect(getWidget("versionCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-*/
-	// chat commands button
-//	g_signal_connect(getWidget("chatCommandsButton"), "button-release-event", G_CALLBACK(onChatCommandButtonRelease_gui), (gpointer)this);
-
 	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("chatScroll")));
 	// Connect the signals to their callback functions.
 	//g_signal_connect(getContainer(), "size-allocate", G_CALLBACK(onSizeWindowState_gui), (gpointer)this);
 //	g_signal_connect(nickView.get(), "key-release-event", G_CALLBACK(onNickListKeyRelease_gui), (gpointer)this);
 	g_signal_connect(getWidget("chatEntry"), "activate", G_CALLBACK(onSendMessage_gui), (gpointer)this);
-//	g_signal_connect(getWidget("chatText"), "motion-notify-event", G_CALLBACK(onChatPointerMoved_gui), (gpointer)this);
-//	g_signal_connect(getWidget("chatText"), "visibility-notify-event", G_CALLBACK(onChatVisibilityChanged_gui), (gpointer)this);
 	g_signal_connect(adjustment, "value_changed", G_CALLBACK(onChatScroll_gui), (gpointer)this);
 	g_signal_connect(adjustment, "changed", G_CALLBACK(onChatResize_gui), (gpointer)this);
 //	g_signal_connect(getWidget("nickToChatItem"), "activate", G_CALLBACK(onNickToChat_gui), (gpointer)this);
@@ -325,7 +286,7 @@ Hub::Hub(const string &address, const string &encoding):
 	}
 
 	setColorsRows();
-	//
+//signals
     GtkGesture *gesture;
     gesture = gtk_gesture_click_new ();
     gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
@@ -336,7 +297,6 @@ Hub::Hub(const string &address, const string &encoding):
     gtk_widget_add_controller (GTK_WIDGET(nickView.get()), GTK_EVENT_CONTROLLER (gesture));
 //------- keys stuff
 	GtkEventController* keys = gtk_event_controller_key_new ();
-
 	g_signal_connect (keys, "key-pressed",
                     G_CALLBACK (key_pressed_gui), (gpointer)this);
 	g_signal_connect (keys, "key-released",
@@ -2944,18 +2904,6 @@ gboolean Hub::onChatCommandButtonRelease_gui(GtkWidget *wid, GdkEventButton *eve
 	return FALSE;
 }
 *//*
-void Hub::onCommandClicked_gui(GtkWidget *widget, gpointer data)
-{
-	Hub *hub = (Hub *)data;
-
-	string command = (gchar*)g_object_get_data(G_OBJECT(widget), "command");
-
-	gint pos = 0;
-	GtkWidget *chatEntry = hub->getWidget("chatEntry");
-	gtk_editable_delete_text(GTK_EDITABLE(chatEntry), pos, -1);
-	gtk_editable_insert_text(GTK_EDITABLE(chatEntry), command.c_str(), -1, &pos);
-	gtk_editable_set_position(GTK_EDITABLE(chatEntry), pos);
-}
 
 void Hub::onUseEmoticons_gui(GtkWidget*, gpointer data)
 {
@@ -3856,74 +3804,6 @@ void Hub::on(QueueManagerListener::Finished, QueueItem *item, const string& , in
 	}
 }
 
-/*
-void Hub::onItalicButtonClicked_gui(GtkWidget*, gpointer data)
-{
-	Hub *hub = (Hub*) data;
-
-	hub->insertBBcodeEntry_gui("i");
-}
-
-void Hub::onBoldButtonClicked_gui(GtkWidget*, gpointer data)
-{
-	Hub *hub = (Hub*) data;
-
-	hub->insertBBcodeEntry_gui("b");
-}
-
-void Hub::onUnderlineButtonClicked_gui(GtkWidget*, gpointer data)
-{
-	Hub *hub = (Hub*) data;
-
-	hub->insertBBcodeEntry_gui("u");
-}
-
-void Hub::insertBBcodeEntry_gui(string ch)
-{
-	gint start_pos;
-	gint end_pos;
-	GtkEditable *chatEntry = GTK_EDITABLE(getWidget("chatEntry"));
-	if (gtk_editable_get_selection_bounds(chatEntry, &start_pos, &end_pos))
-	{
-		gchar *tmp = gtk_editable_get_chars(chatEntry, start_pos, end_pos);
-		string text = tmp;
-		g_free(tmp);
-		string::size_type a = 0, b = 0;
-		string res;
-
-		for (;;)
-		{
-			a = text.find_first_not_of("\r\n\t ", b);
-
-			if (a != string::npos)
-			{
-				b = text.find_first_of("\r\n\t ", a);
-
-				if (b != string::npos)
-				{
-					res += "[" + ch + "]" + text.substr(a, b - a) + "[/" + ch + "] ";
-				}
-				else
-				{
-					res += "[" + ch + "]" + text.substr(a) + "[/" + ch + "]";
-					break;
-				}
-			}
-			else
-				break;
-		}
-
-		gtk_editable_delete_text(chatEntry, start_pos, end_pos);
-		gtk_editable_insert_text(chatEntry, res.c_str(), -1, &start_pos);
-		gtk_editable_set_position(chatEntry, -1);
-	}
-	else
-	{
-		start_pos = gtk_editable_get_position(chatEntry);
-		gtk_editable_insert_text(chatEntry, string("[" + ch + "][/" + ch + "]").c_str(), -1, &start_pos);
-		gtk_editable_set_position(chatEntry, start_pos - 4);
-	}
-}
 */
 void Hub::on(FavoriteManagerListener::UserAdded, const FavoriteUser &user) noexcept
 {
@@ -4516,7 +4396,7 @@ void Hub::onSetTabText(GtkWidget* ,GVariant*, gpointer data)
 void Hub::SetTabText(gpointer data)
 {
 	Hub *hub = (Hub *)data;
-	if(!hub) return;
+	if (!hub) return;
 	GtkDialog *dialog =  GTK_DIALOG(gtk_dialog_new_with_buttons (_("Setting for a Tab Text"),
 								GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 								GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -4576,8 +4456,8 @@ void Hub::SetTabText(gpointer data)
 void Hub::onToglleButtonIcon(GtkToggleButton *button, gpointer data)
 {
 	Hub *pHub = (Hub *)data;
-	if(!pHub) return;
-	if(button == NULL) return;
+	if (!pHub) return;
+	if (button == NULL) return;
 
 	gboolean bActive = gtk_toggle_button_get_active(button);
 
