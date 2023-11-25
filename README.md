@@ -11,7 +11,7 @@ See [BMDC-Changelog.txt](https://github.com/bmdcpp/bmdc/blob/main/BMDC-Changelog
 
 ## License
 
-GNU GPL v2.0 or later. See [LICENSE](https://github.com/bmdcpp/bmdc/blob/main/LICENSE) for details.
+GNU GPL v3.0 or later. See [LICENSE](https://github.com/bmdcpp/bmdc/blob/main/LICENSE) for details.
 
 ## Links
 
@@ -86,7 +86,7 @@ or if you used scons to install into the file system then use the same scons com
 
 ## License
 
-GNU GPL Version 2 or later
+GNU GPL Version 3.0 or later
 See [LICENSE](https://github.com/bmdcpp/bmdc/blob/main/LICENSE) for details.
 
 ## Contact
