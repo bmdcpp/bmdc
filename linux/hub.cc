@@ -324,11 +324,11 @@ void Hub::on_right_btn_pressed (GtkGestureClick* /*gesture*/,
 	GMenuItem* favu = g_menu_item_new("Favorite User","hub.add-fav-user");
 	g_menu_append_item(menu ,favu);
 
-	GMenuItem* ignr = g_menu_item_new("Ignore User","hub.add-ignored");
-	g_menu_append_item(menu ,favu);
+	GMenuItem* ign = g_menu_item_new("Ignore User","hub.add-ignored");
+	g_menu_append_item(menu ,ign);
 
 	GMenuItem* ignr = g_menu_item_new("Remove Ignored User","hub.rem-ignored");
-	g_menu_append_item(menu ,favu);
+	g_menu_append_item(menu ,ignr);
 
 	GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
 	gtk_widget_set_parent(pop, GTK_WIDGET(hub->nickView.get()));
@@ -3049,7 +3049,7 @@ void Hub::onAddIgnoreUserItemClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 				else
 				{
 					string message = _("User Ignored ");
-					message += WulforUtil::getNicks(user, string());
+					message += WulforUtil::getNicks(user, hub->client->getHubUrl());
 					hub->addStatusMessage_gui(message, Msg::SYSTEM, Sound::NONE);
 				}
 			}
@@ -3089,7 +3089,7 @@ void Hub::onRemoveIgnoreUserItemClicked_gui(GtkWidget*,GVariant* v, gpointer dat
 				else
 				{
 					string message = _("User removed from ignored ");
-					message += WulforUtil::getNicks(user, hub->client->getHubUrl(),dcpp::Util::emptyString);
+					message += WulforUtil::getNicks(user, hub->client->getHubUrl());
 					hub->addStatusMessage_gui(message, Msg::SYSTEM, Sound::NONE);
 
 				}
