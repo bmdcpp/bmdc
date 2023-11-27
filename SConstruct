@@ -299,20 +299,20 @@ if not 'install' in COMMAND_LINE_TARGETS:
 
 	# GeoIp
 	if conf.CheckHeader('maxminddb.h'):
-		print ('Found GeoIP headers')
+		print ('\tFound maxminddb headers.')
 		conf.env.Append(CPPDEFINES = 'HAVE_GEOIPLIB')
 		LIB_IS_GEO = True
 	else:
-		print ('Dont Found GeoIP headers or libs')
+		print ('\tDont Found maxminddb headers.')
 
 	# libtar for Backup/Restore man...
 	if conf.env.get('libtar'):
 		if conf.CheckHeader('libtar.h'):
-			print ('Found Libtar\n')
+			print ('\tFound Libtar headers.')
 			conf.env.Append(CPPDEFINES = 'HAVE_LIBTAR')
 			LIB_IS_TAR = True
 		else:
-			print ('Dont Found libtar headers')
+			print ('\tDont Found libtar headers.')
 			LIB_IS_TAR = False
 
 	if conf.env.get('newSettings'):
@@ -453,8 +453,6 @@ else:
 	glade_files = env.Glob('ui/*.ui')
 	text_files = env.Glob('*.txt')
 	prefix = env['FAKE_ROOT'] + env['PREFIX']
-	#shell_files = env.Glob('extensions/Scripts/*.sh')
-	#py_files = env.Glob('extensions/Scripts/*.py')
 	country_files = env.Glob('country/*.png')
 	info_image_files = env.Glob('info/*.png')
 	desktop_file = os.path.join('data', PACKAGE + '.desktop')
@@ -466,12 +464,8 @@ else:
 	env.RecursiveInstall('icons/hicolor', os.path.join(prefix, 'share', PACKAGE, 'icons'), regular_icon_filter)
 	env.RecursiveInstall(BUILD_LOCALE_PATH, os.path.join(prefix, 'share', 'locale'))
 	env.RecursiveInstall('emoticons', os.path.join(prefix, 'share', PACKAGE))
-
-	#env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'ui'), source = glade_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', 'doc', PACKAGE), source = text_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', 'applications'), source = desktop_file))
-	#env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'extensions/Scripts'), source = shell_files))
-	#env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'extensions/Scripts'), source = py_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'country'), source = country_files))
  	#env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'info'), source = info_image_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'bin'), source = PACKAGE))

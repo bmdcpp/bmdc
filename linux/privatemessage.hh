@@ -104,7 +104,6 @@ class PrivateMessage:
 		static void onMagnetPropertiesClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onDownloadToClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onDownloadClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onCommandClicked_gui(GtkWidget *widget, gpointer data);
 		static void onUseEmoticons_gui(GtkWidget *widget, gpointer data);
 
 		static void onCopyIpItem_gui(GtkWidget *wid, gpointer data);

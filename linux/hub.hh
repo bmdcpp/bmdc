@@ -156,8 +156,8 @@ private:
 		static void onShareView(GtkWidget* ,GVariant*, gpointer data);
 		static void onReconnectItemTab(GtkWidget* ,GVariant*, gpointer data);
 		static void onRefreshShare(GtkWidget* ,GVariant*, gpointer data);
-//		static void onAddIgnoreUserItemClicked_gui(GtkWidget*,GVariant* v, gpointer data);
-//		static void onRemoveIgnoreUserItemClicked_gui(GtkWidget*,GVariant* v, gpointer data);
+		static void onAddIgnoreUserItemClicked_gui(GtkWidget*,GVariant* v, gpointer data);
+		static void onRemoveIgnoreUserItemClicked_gui(GtkWidget*,GVariant* v, gpointer data);
 //		static void onShowReportClicked_gui(GtkWidget*,GVariant* v, gpointer data);
 		static void selection_changed_userlist_gui(GtkTreeSelection *selection, GtkWidget *tree_view);
 		static gboolean onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data);

@@ -1,6 +1,6 @@
 Introduction:
 -------------
-BMDC++ - DC++ client based on FreeDC++ with Ignore Users,... 
+BMDC - DC++ client based on FreeDC++ with Ignore Users, 
 see BMDC-Changelog.txt for detailed info.
 
 Dependencies:
@@ -21,7 +21,6 @@ Dependencies:
 - libtar (Note: For Backup/Restore options )
 - libnotify >= 0.4.1 ( Note: For popups notifications )
 - xattr ( Note: for storing hashes beside files to not always re-hash )
-- also python2-dbus and qdbus for Media Spam (/kaff and /vlc)
 
 Compiling:
 ----------

@@ -61,12 +61,14 @@ const GActionEntry Hub::hub_entries[] = {
     { "rem-f-hub" , onRemoveFavHub , NULL, NULL,NULL},
     { "add-fav-user", onAddFavoriteUserClicked_gui, NULL, NULL, NULL},
     { "copy-url", onCopyHubUrl, NULL, NULL, NULL},
-    { "reconnect", onReconnectItemTab, NULL, NULL, NULL}
+    { "reconnect", onReconnectItemTab, NULL, NULL, NULL},
+    { "add-ignored", onAddIgnoreUserItemClicked_gui, NULL, NULL, NULL},
+    { "rem-ignored", onRemoveIgnoreUserItemClicked_gui, NULL, NULL, NULL}
 };
 
 Hub::Hub(const string &address, const string &encoding):
 	BookEntry(Entry::HUB, address, "hub", address),
-	client(nullptr),address(address),
+	client(nullptr), address(address),
 	encoding(encoding),	historyIndex(0),totalShared(0),
 	scrollToBottom(true), PasswordDialog(false), WaitingPassword(false),
 	notCreated(true), isFavBool(WGETI("notify-hub-chat-use")), width(-1)
@@ -190,13 +192,11 @@ Hub::Hub(const string &address, const string &encoding):
 	useEmoticons = true;
 
 	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("chatScroll")));
-	// Connect the signals to their callback functions.
-	//g_signal_connect(getContainer(), "size-allocate", G_CALLBACK(onSizeWindowState_gui), (gpointer)this);
+// Connect the signals to their callback functions.
 //	g_signal_connect(nickView.get(), "key-release-event", G_CALLBACK(onNickListKeyRelease_gui), (gpointer)this);
 	g_signal_connect(getWidget("chatEntry"), "activate", G_CALLBACK(onSendMessage_gui), (gpointer)this);
 	g_signal_connect(adjustment, "value_changed", G_CALLBACK(onChatScroll_gui), (gpointer)this);
 	g_signal_connect(adjustment, "changed", G_CALLBACK(onChatResize_gui), (gpointer)this);
-//	g_signal_connect(getWidget("nickToChatItem"), "activate", G_CALLBACK(onNickToChat_gui), (gpointer)this);
 //	g_signal_connect(getWidget("copyLinkItem"), "activate", G_CALLBACK(onCopyURIClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("openLinkItem"), "activate", G_CALLBACK(onOpenLinkClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("copyhubItem"), "activate", G_CALLBACK(onCopyURIClicked_gui), (gpointer)this);
@@ -207,8 +207,6 @@ Hub::Hub(const string &address, const string &encoding):
 //	g_signal_connect(getWidget("removeUserItem"), "activate", G_CALLBACK(onRemoveUserItemClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("userListCheckButton"), "toggled", G_CALLBACK(onUserListToggled_gui), (gpointer)this);
 //	g_signal_connect(getWidget("emotButton"), "button-release-event", G_CALLBACK(onEmotButtonRelease_gui), (gpointer)this);
-//	g_signal_connect(getWidget("ignoreMenuItem"), "activate", G_CALLBACK(onAddIgnoreUserItemClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("removeIgnoreMenuItem"), "activate", G_CALLBACK(onRemoveIgnoreUserItemClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("reportItem"), "activate", G_CALLBACK(onShowReportClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("checkItem"), "activate", G_CALLBACK(onCheckFLItemClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("testItem"), "activate", G_CALLBACK(onTestSURItemClicked_gui), (gpointer)this);
@@ -218,9 +216,6 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(getWidget("buttonrefresh"), "clicked", G_CALLBACK(onRefreshUserListClicked_gui), (gpointer)this);
 	//g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
 	//g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
-	//g_signal_connect(getWidget("italicButton"), "clicked", G_CALLBACK(onItalicButtonClicked_gui), (gpointer)this);
-	//g_signal_connect(getWidget("boldButton"), "clicked", G_CALLBACK(onBoldButtonClicked_gui), (gpointer)this);
-	//g_signal_connect(getWidget("underlineButton"), "clicked", G_CALLBACK(onUnderlineButtonClicked_gui), (gpointer)this);
 
 	// Set the pane position
 	gint panePosition = SETTING(NICK_PANE_POS);
@@ -329,6 +324,12 @@ void Hub::on_right_btn_pressed (GtkGestureClick* /*gesture*/,
 	GMenuItem* favu = g_menu_item_new("Favorite User","hub.add-fav-user");
 	g_menu_append_item(menu ,favu);
 
+	GMenuItem* ignr = g_menu_item_new("Ignore User","hub.add-ignored");
+	g_menu_append_item(menu ,favu);
+
+	GMenuItem* ignr = g_menu_item_new("Remove Ignored User","hub.rem-ignored");
+	g_menu_append_item(menu ,favu);
+
 	GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
 	gtk_widget_set_parent(pop, GTK_WIDGET(hub->nickView.get()));
 	gtk_popover_set_pointing_to(GTK_POPOVER(pop), &(const GdkRectangle){x,y,1,1});
@@ -431,7 +432,7 @@ void Hub::setColorRow(const string cell)
 								NULL);
 }
 
-void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
+void Hub::makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
 {
 		Hub* hub = (Hub *)data;
 		if(!hub)
@@ -868,13 +869,12 @@ void Hub::removeUser_gui(string cid)
 		gtk_list_store_remove(nickStore, &iter);
 		removeTag_gui(nick);
 		userMap.erase(nick);
-		//BMDC++
 		userFavoriteMap.erase(nick);
 		userIters.erase(cid);
 		setStatus_gui("statusUsers", Util::toString(userMap.size()) + _(" Users"));
 		setStatus_gui("statusShared", Util::formatBytes(totalShared));
 		//There is no reason do this if client == null
-		if (client && client->get(SettingsManager::SHOW_JOINS,SETTING(SHOW_JOINS)))
+		if (client && client->get(SettingsManager::SHOW_JOINS, SETTING(SHOW_JOINS)))
 		{
 			// Show parts in chat
 			string message = nick + _(" has quit hub ") + client->getHubName();
@@ -2630,7 +2630,7 @@ void Hub::onSendMessage_gui(GtkEntry *e, gpointer data)
 		else if ( command == "getloadhubinfo")
 		{
 			ClientManager* cm = ClientManager::getInstance();
-			hub->addMessage_gui("",cm->getHubsLoadInfo(),Msg::SYSTEM,"");
+			hub->addMessage_gui("",cm->getHubsLoadInfo(), Msg::SYSTEM,"");
 
 		}
 		/*else if( command == "gettempignore")
@@ -2895,16 +2895,7 @@ void Hub::onDownloadClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 	Hub *hub = (Hub *)data;
 	WulforManager::get()->getMainWindow()->fileToDownload_gui(hub->selectedTagStr, SETTING(DOWNLOAD_DIRECTORY));
 }
-*//*
-gboolean Hub::onChatCommandButtonRelease_gui(GtkWidget *wid, GdkEventButton *event, gpointer data)
-{
-	if (event->button == 1)
-	{
-	}
-	return FALSE;
-}
-*//*
-
+*/
 void Hub::onUseEmoticons_gui(GtkWidget*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
@@ -3031,7 +3022,7 @@ void Hub::onRemoveFavoriteUserClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 		g_list_free(list);
 	}
 }
-/*
+
 void Hub::onAddIgnoreUserItemClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 {
 	Hub *hub = (Hub *)data;
@@ -3097,9 +3088,9 @@ void Hub::onRemoveIgnoreUserItemClicked_gui(GtkWidget*,GVariant* v, gpointer dat
 				}
 				else
 				{
-					string message = _("User unIgnored ");
-					message += WulforUtil::getNicks(user, /*hub->client->getHubUrl()string());
-/*					hub->addStatusMessage_gui(message, Msg::SYSTEM, Sound::NONE);
+					string message = _("User removed from ignored ");
+					message += WulforUtil::getNicks(user, hub->client->getHubUrl(),dcpp::Util::emptyString);
+					hub->addStatusMessage_gui(message, Msg::SYSTEM, Sound::NONE);
 
 				}
 			}
@@ -3108,7 +3099,7 @@ void Hub::onRemoveIgnoreUserItemClicked_gui(GtkWidget*,GVariant* v, gpointer dat
 		g_list_free(list);
     }
 }
-
+/*
 //Protect Users
 void Hub::onProtectUserClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 {

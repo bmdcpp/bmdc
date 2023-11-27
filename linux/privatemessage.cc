@@ -52,11 +52,11 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	GSimpleActionGroup *group;
 	group = g_simple_action_group_new ();
 	g_action_map_add_action_entries (G_ACTION_MAP (group), pm_entries, G_N_ELEMENTS (pm_entries), (gpointer)this);
-	gtk_widget_insert_action_group(getContainer(),"pm" ,G_ACTION_GROUP(group));
+	gtk_widget_insert_action_group(getContainer(), "pm" ,G_ACTION_GROUP(group));
 
 	setName(cid);
 	//Set Colors
-	gtk_widget_set_name(getWidget("text"),"pm");
+	gtk_widget_set_name(getWidget("text"), "pm");
 	WulforUtil::setTextDeufaults(getWidget("text"),SETTING(BACKGROUND_PM_COLOR),SETTING(BACKGROUND_PM_IMAGE),true);
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	messageBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("text")));
@@ -1565,25 +1565,21 @@ GMenu *PrivateMessage::createmenu()
 	GMenuItem* label = g_menu_item_new(nicks.c_str(), NULL);
 	g_menu_prepend_item(menu ,label);
 
+	GMenuItem *copy = g_menu_item_new("Copy CID",NULL);
+	g_menu_prepend_item(menu ,copy);
+	GMenuItem *fav = g_menu_item_new("Add to Favorite Users",NULL);
+	g_menu_prepend_item(menu ,fav);
+		GMenuItem *copyNicks = g_menu_item_new("Copy nick(s)",NULL);
+	g_menu_prepend_item(menu , copyNicks);
 /*	
 	if(notCreated) {
 		userCommandMenu->cleanMenu_gui();
 		userCommandMenu->addUser(cid);
 		userCommandMenu->addHub(hubUrl);
 		userCommandMenu->buildMenu_gui();
-		
-		GtkWidget *u_item = gtk_menu_item_new_with_label(_("Users Commands"));
-		GtkWidget *copyHubUrl = gtk_menu_item_new_with_label(_("Copy CID"));
-		GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
-		GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite Users"));
-		GtkWidget *copyNicks = gtk_menu_item_new_with_label(_("Copy Nick(s)"));
-	
+		*u_item = gtk_menu_item_new_with_label(_("Users Commands"));
+		*close = gtk_menu_item_new_with_label(_("Close"));
 		gtk_menu_item_set_submenu(GTK_MENU_ITEM(u_item),userCommandMenu->getContainer());
-
-		g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyCID), (gpointer)this);
-		g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
-		g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFavItem), (gpointer)this);
-		g_signal_connect_swapped(copyNicks, "activate", G_CALLBACK(onCopyNicks), (gpointer)this);
 		notCreated = false;
 	}	
 	*/

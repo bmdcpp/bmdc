@@ -147,13 +147,13 @@ MainWindow::MainWindow(GtkWidget* window /* = NULL*/):
 	GtkWidget* uq = createButtonToolbarWidget("bmdc-upload-quene", "Upload Queue", bText);
 	gtk_box_append(GTK_BOX(wTool), uq);
 
-	GtkWidget* sp =createButtonToolbarWidget("bmdc-preferences","Settings",bText);
+	GtkWidget* sp =createButtonToolbarWidget("bmdc-preferences","Settings", bText);
 	gtk_box_append(GTK_BOX(wTool), sp);
 
 	GtkWidget* ac = gtk_button_new_with_label("About Config");
 	gtk_box_append(GTK_BOX(wTool), ac);
 
-	GtkWidget* nt = createButtonToolbarWidget("bmdc-notepad", "Notepad",bText);
+	GtkWidget* nt = createButtonToolbarWidget("bmdc-notepad", "Notepad", bText);
  	gtk_box_append(GTK_BOX(wTool), nt);
 
 	GtkWidget* sl = gtk_button_new_with_label("System Log");
@@ -248,7 +248,7 @@ MainWindow::MainWindow(GtkWidget* window /* = NULL*/):
 	Notify::start();
 }
 
-void MainWindow::onButtonPressed_gui(GtkGestureClick* self, gint n_press, gdouble x, gdouble y, gpointer user_data)
+void MainWindow::onButtonPressed_gui(GtkGestureClick* self, gint n_press, gdouble x, gdouble y, gpointer data)
 {
 
 }
