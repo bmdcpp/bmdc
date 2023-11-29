@@ -1235,7 +1235,7 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 			GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(chatBuffer), temp);
 			bool isTab = false;
 
-			if(WulforUtil::isHighlightingWorld(chatBuffer,tag,string(temp), isTab, (gpointer)this))
+			if(WulforUtil::isHighlightingWorld(chatBuffer,tag, string(temp), isTab, (gpointer)this))
 			{
 				gtk_text_buffer_apply_tag(chatBuffer, tag, &tag_start_iter, &tag_end_iter);
 				if(isTab)
@@ -1313,50 +1313,6 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 			}
 		}
 
-		if (bold_tag)
-		{
-			dcassert(tagMsg >= Tag::TAG_GENERAL && tagMsg < Tag::TAG_TIMESTAMP);
-
-			gtk_text_buffer_move_mark(chatBuffer, tag_mark, &tag_end_iter);
-			gtk_text_buffer_delete(chatBuffer, &tag_start_iter, &tag_end_iter);
-			gtk_text_buffer_insert_with_tags(chatBuffer, &tag_start_iter,
-				bold_text.c_str(), bold_text.size(), BoldTag, TagsMap[tagMsg], NULL);
-		}
-		else if (italic_tag)
-		{
-			dcassert(tagMsg >= Tag::TAG_GENERAL && tagMsg < Tag::TAG_TIMESTAMP);
-
-			gtk_text_buffer_move_mark(chatBuffer, tag_mark, &tag_end_iter);
-			gtk_text_buffer_delete(chatBuffer, &tag_start_iter, &tag_end_iter);
-			gtk_text_buffer_insert_with_tags(chatBuffer, &tag_start_iter,
-				italic_text.c_str(), italic_text.size(), ItalicTag, TagsMap[tagMsg], NULL);
-		}
-		else if (underline_tag)
-		{
-			dcassert(tagMsg >= Tag::TAG_GENERAL && tagMsg < Tag::TAG_TIMESTAMP);
-
-			gtk_text_buffer_move_mark(chatBuffer, tag_mark, &tag_end_iter);
-			gtk_text_buffer_delete(chatBuffer, &tag_start_iter, &tag_end_iter);
-			gtk_text_buffer_insert_with_tags(chatBuffer, &tag_start_iter,
-				underline_text.c_str(), underline_text.size(), UnderlineTag, TagsMap[tagMsg], NULL);
-		}
-
-		if ( bold_tag || italic_tag || underline_tag )
-		{
-			applyEmoticons_gui();
-
-			gtk_text_buffer_get_iter_at_mark(chatBuffer, &start_iter, tag_mark);
-
-			if (gtk_text_iter_is_end(&start_iter))
-				return;
-
-			gtk_text_buffer_move_mark(chatBuffer, end_mark, &tag_end_iter);///new
-
-			start = FALSE;
-
-			continue;
-		}
-
 		if (callback)
 		{
 			gtk_text_buffer_move_mark(chatBuffer, tag_mark, &tag_end_iter);
@@ -1421,7 +1377,6 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 		}
 	}
 }
-
 
 void Hub::applyEmoticons_gui()
 {
