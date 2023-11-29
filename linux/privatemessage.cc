@@ -79,44 +79,9 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 //	if (!SETTING(USE_EMOTS))
 //		gtk_widget_set_sensitive(getWidget("emotButton"), FALSE);
 
-	// PM commands
-	/*
-	g_object_set_data_full(G_OBJECT(getWidget("awayCommandItem")), "command", g_strdup("/away"), g_free);
-	g_signal_connect(getWidget("awayCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-
-	g_object_set_data_full(G_OBJECT(getWidget("backCommandItem")), "command", g_strdup("/back"), g_free);
-	g_signal_connect(getWidget("backCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-
-	g_object_set_data_full(G_OBJECT(getWidget("clearCommandItem")), "command", g_strdup("/clear"), g_free);
-	g_signal_connect(getWidget("clearCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-
-	g_object_set_data_full(G_OBJECT(getWidget("closeCommandItem")), "command", g_strdup("/close"), g_free);
-	g_signal_connect(getWidget("closeCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-
-	g_object_set_data_full(G_OBJECT(getWidget("fuserCommandItem")), "command", g_strdup("/fuser"), g_free);
-	g_signal_connect(getWidget("fuserCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-
-	g_object_set_data_full(G_OBJECT(getWidget("rmfuCommandItem")), "command", g_strdup("/rmfu"), g_free);
-	g_signal_connect(getWidget("rmfuCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-
-	g_object_set_data_full(G_OBJECT(getWidget("helpCommandItem")), "command", g_strdup("/help"), g_free);
-	g_signal_connect(getWidget("helpCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-
-	g_object_set_data_full(G_OBJECT(getWidget("getlistCommandItem")), "command", g_strdup("/getlist"), g_free);
-	g_signal_connect(getWidget("getlistCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-
-	g_object_set_data_full(G_OBJECT(getWidget("grantCommandItem")), "command", g_strdup("/grant"), g_free);
-	g_signal_connect(getWidget("grantCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-*/
-	// chat commands button
-//	g_signal_connect(getWidget("chatCommandsButton"), "button-release-event", G_CALLBACK(onChatCommandButtonRelease_gui), (gpointer)this);
-
-	// Connect the signals to their callback functions.
+// Connect the signals to their callback functions.
 /*	
-	g_signal_connect(getWidget("text"), "motion-notify-event", G_CALLBACK(onChatPointerMoved_gui), (gpointer)this);
-	g_signal_connect(getWidget("text"), "visibility-notify-event", G_CALLBACK(onChatVisibilityChanged_gui), (gpointer)this);
 	g_signal_connect(adjustment, "value_changed", G_CALLBACK(onChatScroll_gui), (gpointer)this);
-	g_signal_connect(adjustment, "changed", G_CALLBACK(onChatResize_gui), (gpointer)this);
 	g_signal_connect(getWidget("copyLinkItem"), "activate", G_CALLBACK(onCopyURIClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("openLinkItem"), "activate", G_CALLBACK(onOpenLinkClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("copyhubItem"), "activate", G_CALLBACK(onCopyURIClicked_gui), (gpointer)this);
@@ -126,7 +91,6 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	g_signal_connect(getWidget("magnetPropertiesItem"), "activate", G_CALLBACK(onMagnetPropertiesClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("emotButton"), "button-release-event", G_CALLBACK(onEmotButtonRelease_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
 
 	*/
 	GtkGesture *gesture;
@@ -979,17 +943,7 @@ void PrivateMessage::updateCursor(GtkWidget *widget)
 		selectedTag = newTag;
 	}
 }
-/*
-gboolean PrivateMessage::onFocusIn_gui(GtkWidget*, GdkEventFocus*, gpointer data)
-{
-	PrivateMessage *pm = (PrivateMessage *)data;
 
-	// fix select text
-	gtk_editable_set_position(GTK_EDITABLE(pm->getWidget("entry")), -1);
-
-	return TRUE;
-}
-*/
 void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 {
 	string text = gtk_editable_get_text(GTK_EDITABLE(entry));
@@ -1236,24 +1190,6 @@ gboolean PrivateMessage::onIpTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *e
 	return FALSE;
 }*/
 /*
-gboolean PrivateMessage::onChatPointerMoved_gui(GtkWidget* widget, GdkEventMotion* , gpointer data)
-{
-	PrivateMessage *pm = (PrivateMessage *)data;
-
-	pm->updateCursor(widget);
-
-	return FALSE;
-}
-
-gboolean PrivateMessage::onChatVisibilityChanged_gui(GtkWidget* widget, GdkEventVisibility* , gpointer data)
-{
-	PrivateMessage *pm = (PrivateMessage *)data;
-
-	pm->updateCursor(widget);
-
-	return FALSE;
-}
-
 gboolean PrivateMessage::onEmotButtonRelease_gui(GtkWidget* wid, GdkEventButton *event, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
@@ -1380,32 +1316,6 @@ void PrivateMessage::onMagnetPropertiesClicked_gui(GtkMenuItem*, gpointer data)
 	PrivateMessage *pm = (PrivateMessage *)data;
 
 	WulforManager::get()->getMainWindow()->propertiesMagnetDialog_gui(pm->selectedTagStr);
-}
-
-void PrivateMessage::onCommandClicked_gui(GtkWidget *widget, gpointer data)
-{
-	PrivateMessage *pm = (PrivateMessage *)data;
-
-	string command = (gchar *)g_object_get_data(G_OBJECT(widget), "command");
-
-	gint pos = 0;
-	GtkWidget *entry = pm->getWidget("entry");
-	if (!gtk_widget_is_focus(entry))
-		gtk_widget_grab_focus(entry);
-	gtk_editable_delete_text(GTK_EDITABLE(entry), pos, -1);
-	gtk_editable_insert_text(GTK_EDITABLE(entry), command.c_str(), -1, &pos);
-	gtk_editable_set_position(GTK_EDITABLE(entry), pos);
-}
-
-gboolean PrivateMessage::onChatCommandButtonRelease_gui(GtkWidget* wid, GdkEventButton *event, gpointer data)
-{
-	if (event->button == 1)
-	{
-		PrivateMessage *pm = (PrivateMessage *)data;
-		gtk_menu_popup_at_widget(GTK_MENU(pm->getWidget("chatCommandsMenu")),wid,GDK_GRAVITY_SOUTH_WEST,GDK_GRAVITY_NORTH_WEST,NULL);
-	}
-
-	return FALSE;
 }
 *//*
 void PrivateMessage::onUseEmoticons_gui(GtkWidget*, gpointer data)
@@ -1562,14 +1472,17 @@ GMenu *PrivateMessage::createmenu()
 {
 	string nicks = WulforUtil::getNicks(this->cid, this->hubUrl);
 	GMenu *menu = BookEntry::createmenu();
+	
 	GMenuItem* label = g_menu_item_new(nicks.c_str(), NULL);
 	g_menu_prepend_item(menu ,label);
 
 	GMenuItem *copy = g_menu_item_new("Copy CID",NULL);
 	g_menu_prepend_item(menu ,copy);
+	
 	GMenuItem *fav = g_menu_item_new("Add to Favorite Users",NULL);
 	g_menu_prepend_item(menu ,fav);
-		GMenuItem *copyNicks = g_menu_item_new("Copy nick(s)",NULL);
+	
+	GMenuItem *copyNicks = g_menu_item_new("Copy nick(s)",NULL);
 	g_menu_prepend_item(menu , copyNicks);
 /*	
 	if(notCreated) {

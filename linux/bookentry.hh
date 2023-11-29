@@ -74,7 +74,8 @@ class BookEntry : public Entry
 		void updateLabel_gui();
 		static void onCloseItem(GtkWidget*,GVariant* ,gpointer data);
 		void removeBooK_GUI();
-		std::string getName();//@NOTE: For CSS
+		//@NOTE: For CSS
+		std::string getName();
 		static void onButtonPressed_gui(GtkGestureClick *gesture,
                                    int                n_press,
                                    double             x,
@@ -98,7 +99,7 @@ class BookEntry : public Entry
 		bool urgent;
 		const glong labelSize; //@ size of Chars in Tab value in WulforSettingsManager
 		GtkWidget *icon;
-		//[BMDC++
+
 		GdkEventType previous;
 		GtkWidget *popTabMenuItem;
 		const EntryType type;

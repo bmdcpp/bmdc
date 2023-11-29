@@ -238,7 +238,7 @@ MainWindow::MainWindow(GtkWidget* window /* = NULL*/):
 //	gint isizeX = WGETI("main-window-size-x");
 //	gint isizeY = WGETI("main-window-size-y");
 	setMainStatus_gui(_("Welcome to ") + string(g_get_application_name()));
-	//	showTransfersPane_gui();
+	showTransfersPane_gui();
 	// Putting this after all the resizing and moving makes the window appear
 	// in the correct position instantly, looking slightly more cool
 	// (seems we have rather poor standards for cool?)
@@ -1407,7 +1407,6 @@ gboolean MainWindow::onCloseWindow_gui(GtkWidget*, GdkEvent*, gpointer data)
 	}
 
 	gint response = gtk_dialog_run(GTK_DIALOG(mw->getWidget("exitDialog")));
-	gtk_widget_hide(mw->getWidget("exitDialog"));
 
 	if (response == GTK_RESPONSE_OK)
 	{

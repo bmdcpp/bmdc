@@ -94,7 +94,6 @@ Hub::Hub(const string &address, const string &encoding):
 	nickView.insertColumn(_("Connection"), G_TYPE_STRING, TreeView::STRING, 85);
 	nickView.insertColumn("IP", G_TYPE_STRING, TreeView::STRING, 85);
 	nickView.insertColumn(_("eMail"), G_TYPE_STRING, TreeView::STRING, 90);
-	//BMDC++
 	nickView.insertColumn(_("Country"), G_TYPE_STRING, TreeView::PIXBUF_STRING, 70, "Pixbuf");
 	nickView.insertColumn(_("Exact Share"), G_TYPE_INT64, TreeView::EXSIZE, 100);
 	nickView.insertColumn(_("Slots"), G_TYPE_STRING, TreeView::STRING, 50);
@@ -103,12 +102,10 @@ Hub::Hub(const string &address, const string &encoding):
 	nickView.insertColumn(_("Cheat"), G_TYPE_STRING, TreeView::STRING, 80);
 	nickView.insertColumn(_("Generator"), G_TYPE_STRING, TreeView::STRING, 80);
 	nickView.insertColumn(_("Support"), G_TYPE_STRING, TreeView::STRING, 80);
-	//[BMDC++
 	nickView.insertHiddenColumn("Icon", G_TYPE_STRING);
 	nickView.insertHiddenColumn("Nick Order", G_TYPE_STRING);
 	nickView.insertHiddenColumn("CID", G_TYPE_STRING);
 	nickView.insertHiddenColumn("NickColor", G_TYPE_STRING);
-	//BMDC++
 	nickView.insertHiddenColumn("Pixbuf", GDK_TYPE_PIXBUF);
 	nickView.insertHiddenColumn("Client Type", G_TYPE_INT);
 
@@ -207,15 +204,16 @@ Hub::Hub(const string &address, const string &encoding):
 //	g_signal_connect(getWidget("removeUserItem"), "activate", G_CALLBACK(onRemoveUserItemClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("userListCheckButton"), "toggled", G_CALLBACK(onUserListToggled_gui), (gpointer)this);
 //	g_signal_connect(getWidget("emotButton"), "button-release-event", G_CALLBACK(onEmotButtonRelease_gui), (gpointer)this);
+
 //	g_signal_connect(getWidget("reportItem"), "activate", G_CALLBACK(onShowReportClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("checkItem"), "activate", G_CALLBACK(onCheckFLItemClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("testItem"), "activate", G_CALLBACK(onTestSURItemClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("protectItem"), "activate", G_CALLBACK(onProtectUserClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("UnProtectItem"), "activate", G_CALLBACK(onUnProtectUserClicked_gui), (gpointer)this);
+
 //	g_signal_connect(getWidget("menurefresh"), "activate", G_CALLBACK(onRefreshUserListClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonrefresh"), "clicked", G_CALLBACK(onRefreshUserListClicked_gui), (gpointer)this);
 	//g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
-	//g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
 
 	// Set the pane position
 	gint panePosition = SETTING(NICK_PANE_POS);
@@ -281,7 +279,7 @@ Hub::Hub(const string &address, const string &encoding):
 	}
 
 	setColorsRows();
-//signals
+// signals
     GtkGesture *gesture;
     gesture = gtk_gesture_click_new ();
     gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
@@ -956,11 +954,7 @@ void Hub::popupNickMenu_gui()
 	userCommandMenu->addHub(client->getHubUrl());
 	userCommandMenu->buildMenu_gui();
 	string color = WGETS("menu-userlist-color");//@ Settings of UserList Menu  text color (1st item)
-	gchar *markup = g_markup_printf_escaped ("<span fgcolor=\"%s\" ><b>%s</b></span>",color.c_str(),nicks.c_str());
-	//GtkMenuItem *item = GTK_MENU_ITEM(getWidget("nickItem"));
-	//GtkWidget *label = gtk_bin_get_child(GTK_BIN(item));
-	//gtk_label_set_markup (GTK_LABEL (label), markup);
-	g_free(markup);
+	g_autofree gchar *markup = g_markup_printf_escaped ("<span fgcolor=\"%s\" ><b>%s</b></span>",color.c_str(),nicks.c_str());
 }
 //END
 void Hub::getPassword_gui()
@@ -1049,7 +1043,7 @@ void Hub::addStatusMessage_gui(string message, Msg::TypeMsg typemsg, Sound::Type
 
 		setStatus_gui("statusMain", message);
 
-		if( client && client->get(SettingsManager::STATUS_IN_CHAT,SETTING(STATUS_IN_CHAT)))
+		if( client && client->get(SettingsManager::STATUS_IN_CHAT, SETTING(STATUS_IN_CHAT)))
 		{
 			string line = "*** " + message;
 			addMessage_gui("", line, typemsg, "");
@@ -1229,19 +1223,19 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 
 		GCallback callback = NULL;
 		bool isNick = false;
-		bool image_tag = false;
-		bool bold_tag = false;
-		bool italic_tag = false;
-		bool underline_tag = false;
-		string image_magnet, bold_text, italic_text, underline_text;
+//		bool image_tag = false;
+//		bool bold_tag = false;
+//		bool italic_tag = false;
+//		bool underline_tag = false;
+//		string image_magnet, bold_text, italic_text, underline_text;
 		gchar *temp = gtk_text_iter_get_text(&tag_start_iter, &tag_end_iter);
 
-		if(client && client->get(SettingsManager::USE_HIGHLITING,SETTING(USE_HIGHLITING)))
+		if(client && client->get(SettingsManager::USE_HIGHLITING, SETTING(USE_HIGHLITING)))
 		{
 			GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(chatBuffer), temp);
 			bool isTab = false;
 
-			if(WulforUtil::isHighlightingWorld(chatBuffer,tag,string(temp),isTab,(gpointer)this))
+			if(WulforUtil::isHighlightingWorld(chatBuffer,tag,string(temp), isTab, (gpointer)this))
 			{
 				gtk_text_buffer_apply_tag(chatBuffer, tag, &tag_start_iter, &tag_end_iter);
 				if(isTab)
@@ -1287,47 +1281,6 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 			else
 			{
 			   bool notlink = false;
-
-			// Support bbCode: [i]italic-text[/i], [u]underline-text[/u]
-			// [img]magnet-link[/img]
-				/*if (g_ascii_strncasecmp(tagName.c_str(), "[img]", 5) == 0)
-				{
-					string::size_type i = tagName.rfind("[/img]");
-					if (i != string::npos)
-					{
-						image_magnet = tagName.substr(5, i - 5);
-						if (WulforUtil::isMagnet(image_magnet))
-							notlink = image_tag = true;
-					}
-				}*/
-				if (g_ascii_strncasecmp(tagName.c_str(), "[b]", 3) == 0)
-				{
-					string::size_type i = tagName.rfind("[/b]");
-					if (i != string::npos)
-					{
-						bold_text = tagName.substr(3, i - 3);
-						notlink = bold_tag = true;
-					}
-				}
-				else if (g_ascii_strncasecmp(tagName.c_str(), "[i]", 3) == 0)
-				{
-					string::size_type i = tagName.rfind("[/i]");
-					if (i != string::npos)
-					{
-						italic_text = tagName.substr(3, i - 3);
-						notlink = italic_tag = true;
-					}
-				}
-				else if (g_ascii_strncasecmp(tagName.c_str(), "[u]", 3) == 0)
-				{
-					string::size_type i = tagName.rfind("[/u]");
-					if (i != string::npos)
-					{
-						underline_text = tagName.substr(3, i - 3);
-						notlink = underline_tag = true;
-					}
-				}
-
 
 				if (!notlink)
 				{
@@ -1867,15 +1820,7 @@ void Hub::addStatusMessage_gui(string message, Msg::TypeMsg typemsg, Sound::Type
 	addStatusMessage_gui(message, typemsg, sound);
 	Notify::get()->showNotify("<b>" + client->getHubUrl() + ":</b> ", message, notify);
 }
-/*
-gboolean Hub::onFocusIn_gui(GtkWidget*, GdkEventFocus*, gpointer data)
-{
-	Hub *hub = (Hub *)data;
-	// fix select text
-	gtk_editable_set_position(GTK_EDITABLE(hub->getWidget("chatEntry")), -1);
-	return TRUE;
-}
-*/
+
 void Hub::clickAction(gpointer data)
 {
 /*	//TODO:maybe..some other & UI settings & fav?
@@ -1920,11 +1865,6 @@ void Hub::clickAction(gpointer data)
 	}*/
 }
 /*
-		else if (event->keyval == GDK_KEY_Return)
-		{
-			hub->onBrowseItemClicked_gui(NULL, data);
-		}
-*//*
 gboolean Hub::onEntryKeyPress_gui(GtkWidget *entry, GdkEventKey *event, gpointer data)
 {
 	Hub *hub = (Hub *)data;
@@ -2633,20 +2573,6 @@ void Hub::onSendMessage_gui(GtkEntry *e, gpointer data)
 			hub->addMessage_gui("",cm->getHubsLoadInfo(), Msg::SYSTEM,"");
 
 		}
-		/*else if( command == "gettempignore")
-		{
-			IgnoreTempManager *im = IgnoreTempManager::getInstance();
-			Lock l(im->cs);
-			vector<string> tmp;
-			for(auto i:im->nickIgnore)
-				tmp.push_back(i.first);
-
-			string text;
-			for(auto i:tmp)
-					text += "\n "+ i;
-			hub->addMessage_gui("",text,Msg::SYSTEM,"");
-
-		}*/
 		// protect command
 		else if (command == "password")
 		{
@@ -3099,7 +3025,6 @@ void Hub::onRemoveIgnoreUserItemClicked_gui(GtkWidget*,GVariant* v, gpointer dat
 		g_list_free(list);
     }
 }
-/*
 //Protect Users
 void Hub::onProtectUserClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 {
@@ -3280,7 +3205,7 @@ void Hub::onCheckFLItemClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 		}
 	}
 }
-*/
+
 void Hub::onRefreshUserListClicked_gui(GtkWidget*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
@@ -3734,68 +3659,7 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	}
 
 }
-/*
-void Hub::download_client(string target, int64_t size, string tth, string cid)
-{
-	string real = realFile_client(tth);
-	if (!real.empty())
-	{
-		typedef Func2<Hub, string, string> F2;
-		F2 *f2 = new F2(this, &Hub::loadImage_gui, real, tth);
-		WulforManager::get()->dispatchGuiFunc(f2);
 
-		return;
-	}
-
-	try
-	{
-		UserPtr user = ClientManager::getInstance()->findUser(CID(cid),client->getHubUrl());//
-		if (user == NULL)
-			return;
-
-		string hubUrl = client->getHubUrl();
-		QueueManager::getInstance()->add(target, size, TTHValue(tth), HintedUser(user, hubUrl));
-	}
-	catch (const Exception&)
-	{
-		typedef Func2<Hub, string, string> F2;
-		F2 *f2 = new F2(this, &Hub::loadImage_gui, target, tth);
-		WulforManager::get()->dispatchGuiFunc(f2);
-	}
-}
-/*
-string Hub::realFile_client(string tth)
-{
-	try
-	{
-		string sVirt = ShareManager::getInstance()->toVirtual(TTHValue(tth));
-		string sReal = ShareManager::getInstance()->toReal(sVirt,false);
-
-		return sReal;
-	}
-	catch (const Exception&)
-	{
-
-	}
-	return dcpp::Util::emptyString;
-}
-/*
-void Hub::on(QueueManagerListener::Finished, QueueItem *item, const string& , int64_t ) noexcept
-{
-	if(item->isSet(QueueItem::FLAG_TESTSUR))
-		return;
-
-	typedef Func2<Hub, string, string> F2;
-	string tth = item->getTTH().toBase32();
-
-	if (!item->isSet(QueueItem::FLAG_CLIENT_VIEW | QueueItem::FLAG_USER_LIST) && !item->isSet(QueueItem::FLAG_XML_BZLIST))
-	{
-		F2 *f2 = new F2(this, &Hub::loadImage_gui, item->getTarget(), tth);
-		WulforManager::get()->dispatchGuiFunc(f2);
-	}
-}
-
-*/
 void Hub::on(FavoriteManagerListener::UserAdded, const FavoriteUser &user) noexcept
 {
 	if (user.getUrl() != client->getHubUrl())
@@ -4382,7 +4246,9 @@ void Hub::on_setImage_tab(GtkButton*, gpointer data)
 }
 
 void Hub::onSetTabText(GtkWidget* ,GVariant*, gpointer data)
-{ ((Hub *)data)->SetTabText(data); }
+{ 
+	((Hub *)data)->SetTabText(data); 
+}
 
 void Hub::SetTabText(gpointer data)
 {
@@ -4424,13 +4290,13 @@ void Hub::SetTabText(gpointer data)
 	gtk_widget_show(label);
 	gtk_widget_show(hbox);
 	gtk_widget_show(check);
-//	gtk_entry_set_text(GTK_ENTRY(entry) , hub->client->get(SettingsManager::HUB_TEXT_STR,SETTING(HUB_TEXT_STR)).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry) , hub->client->get(SettingsManager::HUB_TEXT_STR,SETTING(HUB_TEXT_STR)).c_str());
 
 	gint response  =-1;// gtk_dialog_run(dialog);
 
 	if(response == GTK_RESPONSE_OK)
 	{
-		const gchar *text = nullptr;//gtk_entry_get_text(GTK_ENTRY(entry));
+		const gchar *text = gtk_editable_get_text(GTK_EDITABLE(entry));
 		hub->client->set(SettingsManager::HUB_TEXT_STR,string(text));
 		hub->client->fire(ClientListener::HubUpdated(), hub->client);
 

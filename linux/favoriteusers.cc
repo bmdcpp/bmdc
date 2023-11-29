@@ -223,17 +223,6 @@ void FavoriteUsers::show()
 /*
 gboolean FavoriteUsers::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
-	
-}
-/*
-gboolean FavoriteUsers::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
-{
-	
-}
-/*
-gboolean FavoriteUsers::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
-{
-	
 }
 */
 /*

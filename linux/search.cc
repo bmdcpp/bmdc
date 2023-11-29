@@ -69,7 +69,6 @@ Search::Search(const string& str):
 */
 	// Configure the dialog
 	File::ensureDirectory(SETTING(DOWNLOAD_DIRECTORY));
-	//gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(getWidget("dirChooserDialog")), Text::fromUtf8(SETTING(DOWNLOAD_DIRECTORY)).c_str());
 
 	// Initialize check button options.
 	onlyFree = SETTING(SEARCH_ONLY_FREE_SLOTS);
@@ -143,7 +142,6 @@ Search::Search(const string& str):
 
 	// Initialize the user command menu
 	//userCommandMenu = new UserCommandMenu(getWidget("usercommandMenu"), ::UserCommand::CONTEXT_SEARCH);
-	//addChild(userCommandMenu);
 
 	// Initialize search types
 	GtkTreeIter iter;
