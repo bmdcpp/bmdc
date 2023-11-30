@@ -483,7 +483,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 			GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(messageBuffer), temp);
 			bool isTab = false;
 			
-			if(WulforUtil::isHighlightingWorld(messageBuffer,tag,string(temp),isTab,(gpointer)NULL))
+			if(WulforUtil::isHighlightingWord(messageBuffer,tag,string(temp),isTab,(gpointer)NULL))
 			{
 				gtk_text_buffer_apply_tag(messageBuffer, tag, &tag_start_iter, &tag_end_iter);
 				

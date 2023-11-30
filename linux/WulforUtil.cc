@@ -1047,7 +1047,7 @@ string WulforUtil::formatTimeDifference(uint64_t diff, size_t levels /*= 3*/) {
 	return buf;
 }	
 
-bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, string word, bool &tTab, gpointer hub)
+bool WulforUtil::isHighlightingWord( GtkTextBuffer *buffer, GtkTextTag* &tag, string word, bool &tTab, gpointer hub)
 {
 		string sMsgLower;
 		sMsgLower.resize(word.size()+1);

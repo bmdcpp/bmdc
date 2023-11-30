@@ -94,7 +94,7 @@ class WulforUtil
 		static std::string formatReport(const dcpp::Identity& identity);
 		static bool checkCommand(std::string& cmd, std::string& param, std::string& message, std::string& status, bool& thirdperson);
 
-		static bool isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, std::string word, bool &tTab, gpointer hub);
+		static bool isHighlightingWord( GtkTextBuffer *buffer, GtkTextTag* &tag, std::string word, bool &tTab, gpointer hub);
 
 		static std::map<std::string,int> getActions();
 

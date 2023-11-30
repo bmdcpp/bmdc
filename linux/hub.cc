@@ -1235,7 +1235,7 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 			GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(chatBuffer), temp);
 			bool isTab = false;
 
-			if(WulforUtil::isHighlightingWorld(chatBuffer,tag, string(temp), isTab, (gpointer)this))
+			if(WulforUtil::isHighlightingWord(chatBuffer,tag, string(temp), isTab, (gpointer)this))
 			{
 				gtk_text_buffer_apply_tag(chatBuffer, tag, &tag_start_iter, &tag_end_iter);
 				if(isTab)
