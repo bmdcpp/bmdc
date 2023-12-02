@@ -16,6 +16,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 #include "stdinc.h"
 #include "CryptoManager.h"
 
@@ -783,3 +786,4 @@ string CryptoManager::makeKey(const string& aLock) {
 }
 
 } // namespace dcpp
+#pragma GCC diagnostic pop
