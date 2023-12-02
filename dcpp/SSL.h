@@ -19,6 +19,9 @@
 #ifndef DCPLUSPLUS_DCPP_SSL_H
 #define DCPLUSPLUS_DCPP_SSL_H
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 #include "typedefs.h"
 
 #include <openssl/ssl.h>
@@ -81,5 +84,6 @@ ByteVector X509_digest(::X509* x509, const ::EVP_MD* md);
 }
 
 }
+#pragma GCC diagnostic pop
 
 #endif
