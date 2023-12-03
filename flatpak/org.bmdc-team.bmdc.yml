@@ -27,7 +27,7 @@
                     "name": "bmdc",
                     "buildsystem": "simple",
                     "build-commands": [
-                        "tar -xf scons-local-3.1.2.tar.gz",
+                        "tar -xf scons-local-3.1.2.tar.gz --no-same-owner",
                         "python3 scons.py libnotify=0 PREFIX=/app",
                         "python3 scons.py install"
                     ],
