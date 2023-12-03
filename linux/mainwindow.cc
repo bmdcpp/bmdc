@@ -175,7 +175,7 @@ MainWindow::MainWindow(GtkWidget* window /* = NULL*/):
 	GSimpleActionGroup *group;
 	group = g_simple_action_group_new ();
 	g_action_map_add_action_entries (G_ACTION_MAP (group), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
-	gtk_widget_insert_action_group(note,"app" ,G_ACTION_GROUP(group));
+	gtk_widget_insert_action_group(note, "app" ,G_ACTION_GROUP(group));
 	
 	gtk_paned_set_start_child (GTK_PANED (hpaned), note);
 
@@ -238,7 +238,6 @@ MainWindow::MainWindow(GtkWidget* window /* = NULL*/):
 //	gint isizeX = WGETI("main-window-size-x");
 //	gint isizeY = WGETI("main-window-size-y");
 	setMainStatus_gui(_("Welcome to ") + string(g_get_application_name()));
-	showTransfersPane_gui();
 	// Putting this after all the resizing and moving makes the window appear
 	// in the correct position instantly, looking slightly more cool
 	// (seems we have rather poor standards for cool?)
@@ -336,9 +335,9 @@ void MainWindow::autoOpen_gui()
 	if (WGETB("open-public"))
 		showPublicHubs_gui();
 	if (WGETB("open-queue"))
-		showBook(Entry::DOWNLOAD_QUEUE,new DownloadQueue());
+		showFinishedDownloads_gui();
 	if (WGETB("open-favorite-hubs"))
-		showBook(Entry::FAVORITE_HUBS, new FavoriteHubs());
+		showFavoriteHubs_gui();
 	if (WGETB("open-favorite-users"))
 		showFavoriteUsers_gui();
 	if (WGETB("open-finished-downloads"))
@@ -479,7 +478,7 @@ void MainWindow::raisePage_gui(GtkWidget *page)
 
 void MainWindow::removeBookEntry_gui(BookEntry *entry)
 {
-	if(!entry) return;//entry can not be NULL 
+	if(!entry) return;
 
 	string entryID = entry->getID();
 	Entry::EntryType type = entry->getType();
@@ -695,13 +694,12 @@ void MainWindow::showBook(const EntryType type, BookEntry* book)
 void MainWindow::onAboutConfigClicked_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	mw->showBook(Entry::ABOUT_CONFIG,new AboutConfig());
+	mw->showBook(Entry::ABOUT_CONFIG, new AboutConfig());
 }
 
 void MainWindow::showFavoriteHubs_gui()
 {
 	showBook(Entry::FAVORITE_HUBS, new FavoriteHubs());
-
 }
 
 void MainWindow::showFavoriteUsers_gui()

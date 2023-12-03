@@ -37,7 +37,6 @@
 
 
 #define C_EMPTY(x) ((x) == NULL || (x)[0] == '\0')
-// Some Global typedefs
 typedef std::unordered_map<std::string, GtkTreeIter> UnMapIter;
 
 class WulforUtil
