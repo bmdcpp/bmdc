@@ -1495,7 +1495,7 @@ void PrivateMessage::onCloseItem(gpointer data)
 		WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }
 */
-void PrivateMessage::onCopyCID(GtkWidget* wid , GVariant* var , gpointer data)
+void PrivateMessage::onCopyCID(GtkWidget* widget , GVariant* var , gpointer data)
 {
   PrivateMessage *pm = (PrivateMessage *)data;
 	
@@ -1511,7 +1511,7 @@ void PrivateMessage::onCopyCID(GtkWidget* wid , GVariant* var , gpointer data)
 
 }
 
-void PrivateMessage::onCopyNicks(GtkWidget* wid , GVariant* var , gpointer data)
+void PrivateMessage::onCopyNicks(GtkWidget* widget , GVariant* var , gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 	string nicks = WulforUtil::getNicks(pm->cid, pm->hubUrl);
