@@ -58,17 +58,10 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	gtk_widget_set_name(GTK_WIDGET(label),getName().c_str());//CSS
 	gtk_box_append(GTK_BOX(labelBox), GTK_WIDGET(label));
 
-	// Align text to the left (x = 0) and in the vertical center (0.5)
-	//gtk_widget_set_margin_start(GTK_WIDGET(label),0);
-	//gtk_widget_set_margin_end(GTK_WIDGET(label),0);
-	//gtk_widget_set_margin_top(GTK_WIDGET(label),0);
-	//gtk_widget_set_margin_bottom(GTK_WIDGET(label),0);
-
     if(bIsCloseButton || WGETB("use-close-button"))
      {
 		closeButton = gtk_button_new();
-		gtk_widget_set_name(closeButton,getName().c_str());
-     //   gtk_button_set_relief(GTK_BUTTON(closeButton), GTK_RELIEF_NONE);
+		gtk_widget_set_name(closeButton, getName().c_str());
         // Shrink the padding around the close button
 		//GtkCssProvider *provider =  gtk_css_provider_get_default ();
 		//GdkDisplay *display = gdk_display_get_default ();
@@ -153,10 +146,7 @@ void BookEntry::setIconPixbufs_gui(const std::string iconspath)
 
 void BookEntry::setLabel_gui(const string text)
 {
-	// Update the tab menu item label
-	//GtkWidget *child = gtk_bin_get_child(GTK_BIN(tabMenuItem));
-	//if (child && GTK_IS_LABEL(child))
-	//	gtk_label_set_text(GTK_LABEL(child), text.c_str());
+	//@TODO: Update the tab menu item label
 
 	if(bIsCloseButton || WGETB("use-close-button"))
     {

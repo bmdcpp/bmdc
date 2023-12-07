@@ -108,8 +108,8 @@ class PrivateMessage:
 
 		static void onCopyIpItem_gui(GtkWidget *wid, gpointer data);
 		static void onRipeDbItem_gui(GtkWidget *wid, gpointer data);
-		static void onCloseItem(gpointer data);
-		static void onCopyCID(gpointer data);*/
+		static void onCloseItem(gpointer data);*/
+		static void onCopyCID(gpointer data);
 		static void onAddFavItem(GtkWidget* wid , GVariant* var , gpointer data);
 		static void onDeleteFavItem(GtkWidget* wid , GVariant* var , gpointer data){};
 //		static void onCopyNicks(gpointer data);
@@ -145,7 +145,6 @@ class PrivateMessage:
 		EmoticonsDialog *emotdialog;
 		UserCommandMenu *userCommandMenu;
 		bool notCreated;
-		GtkWidget* m_menu;
 		static const GActionEntry pm_entries[];
 
 };

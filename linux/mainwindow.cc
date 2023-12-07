@@ -238,9 +238,7 @@ MainWindow::MainWindow(GtkWidget* window /* = NULL*/):
 //	gint isizeX = WGETI("main-window-size-x");
 //	gint isizeY = WGETI("main-window-size-y");
 	setMainStatus_gui(_("Welcome to ") + string(g_get_application_name()));
-	// Putting this after all the resizing and moving makes the window appear
-	// in the correct position instantly, looking slightly more cool
-	// (seems we have rather poor standards for cool?)
+
 	gtk_widget_show(GTK_WIDGET(window));
 
 	Sound::start();

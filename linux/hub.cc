@@ -1223,11 +1223,6 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 
 		GCallback callback = NULL;
 		bool isNick = false;
-//		bool image_tag = false;
-//		bool bold_tag = false;
-//		bool italic_tag = false;
-//		bool underline_tag = false;
-//		string image_magnet, bold_text, italic_text, underline_text;
 		gchar *temp = gtk_text_iter_get_text(&tag_start_iter, &tag_end_iter);
 
 		if(client && client->get(SettingsManager::USE_HIGHLITING, SETTING(USE_HIGHLITING)))

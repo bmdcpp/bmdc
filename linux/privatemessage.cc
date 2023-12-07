@@ -39,7 +39,8 @@ using namespace dcpp;
 
 const GActionEntry PrivateMessage::pm_entries[] = {
 		{ "add-fav-user", onAddFavItem, NULL, NULL, NULL },
-		{ "rem-fav-user", onDeleteFavItem, NULL, NULL, NULL }
+		{ "rem-fav-user", onDeleteFavItem, NULL, NULL, NULL },
+		{ "copy-cid", onCopyCID, NULL, NULL, NULL }
 };
 
 PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
@@ -57,7 +58,7 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	setName(cid);
 	//Set Colors
 	gtk_widget_set_name(getWidget("text"), "pm");
-	WulforUtil::setTextDeufaults(getWidget("text"),SETTING(BACKGROUND_PM_COLOR),SETTING(BACKGROUND_PM_IMAGE),true);
+	WulforUtil::setTextDeufaults(getWidget("text"), SETTING(BACKGROUND_PM_COLOR), SETTING(BACKGROUND_PM_IMAGE), true);
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	messageBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("text")));
 
@@ -76,12 +77,9 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 //	userCommandMenu = new UserCommandMenu(gtk_menu_new(), ::UserCommand::CONTEXT_USER);
 	// Emoticons dialog
 	emotdialog = new EmoticonsDialog(getWidget("entry"), getWidget("emotButton"), getWidget("emotMenu"));
-//	if (!SETTING(USE_EMOTS))
-//		gtk_widget_set_sensitive(getWidget("emotButton"), FALSE);
 
 // Connect the signals to their callback functions.
 /*	
-	g_signal_connect(adjustment, "value_changed", G_CALLBACK(onChatScroll_gui), (gpointer)this);
 	g_signal_connect(getWidget("copyLinkItem"), "activate", G_CALLBACK(onCopyURIClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("openLinkItem"), "activate", G_CALLBACK(onOpenLinkClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("copyhubItem"), "activate", G_CALLBACK(onCopyURIClicked_gui), (gpointer)this);
@@ -90,7 +88,6 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	g_signal_connect(getWidget("searchMagnetItem"), "activate", G_CALLBACK(onSearchMagnetClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("magnetPropertiesItem"), "activate", G_CALLBACK(onMagnetPropertiesClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("emotButton"), "button-release-event", G_CALLBACK(onEmotButtonRelease_gui), (gpointer)this);
-	g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
 
 	*/
 	GtkGesture *gesture;
@@ -102,7 +99,7 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
                     G_CALLBACK (on_right_btn_released), (gpointer)this);
   gtk_widget_add_controller (GTK_WIDGET(getContainer()), GTK_EVENT_CONTROLLER (gesture));
 
-  //------- keys stuff
+  // keys stuff
   GtkEventController* keys = gtk_event_controller_key_new ();
 
   g_signal_connect (keys, "key-pressed",
@@ -297,7 +294,7 @@ void PrivateMessage::preferences_gui()
 	{
 		gtk_widget_set_sensitive(getWidget("emotButton"), TRUE);
 	}
-	WulforUtil::setTextDeufaults(getWidget("text"),SETTING(BACKGROUND_CHAT_COLOR));
+	WulforUtil::setTextDeufaults(getWidget("text"), SETTING(BACKGROUND_CHAT_COLOR));
 	gtk_widget_queue_draw(getWidget("text"));
 }
 
@@ -537,7 +534,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 
 		}
 
-		/*if(isCountryFlag)
+		if(isCountryFlag)
 		{
 			gtk_text_buffer_move_mark(messageBuffer, tag_mark, &tag_end_iter);
 
@@ -546,14 +543,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 				GdkPixbuf *buffer = WulforUtil::LoadCountryPixbuf(country_text);
 				gtk_text_buffer_delete(messageBuffer, &tag_start_iter, &tag_end_iter);
 				GtkTextChildAnchor *anchor = gtk_text_buffer_create_child_anchor(messageBuffer, &tag_start_iter);
-			//	GtkWidget *event_box = gtk_event_box_new();
-				// Creating a visible window may cause artifacts that are visible to the user.
-			//	gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
-				GtkWidget *image = gtk_image_new_from_pixbuf(buffer);
-			//	gtk_container_add(GTK_CONTAINER(event_box),image);
-			//	gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("text")), event_box, anchor);
-			//	gtk_widget_set_tooltip_text(event_box, country_text.c_str());
-				g_object_unref(buffer);
+				gtk_text_buffer_insert_paintable(messageBuffer, &tag_start_iter, WulforUtil::convertPixBuf(buffer));
 			}
 
 			applyEmoticons_gui();
@@ -566,7 +556,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 			start = false;
 
 			continue;
-		}*/
+		}
 
 		if (callback)
 		{
@@ -584,8 +574,8 @@ void PrivateMessage::applyTags_gui(const string &line)
 			}
 
 			// apply tags
-			/*if (callback == G_CALLBACK(onMagnetTagEvent_gui) && WGETB("use-magnet-split"))
-			{
+			if (/*callback == G_CALLBACK(onMagnetTagEvent_gui) && WGETB("use-magnet-split")*/false)
+			{				
 				string line;
 
 				if (WulforUtil::splitMagnet(tagName, line))
@@ -596,7 +586,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 						line.c_str(), line.size(), tag, TagsMap[Tag::TAG_URL], NULL);
 				}
 			}
-			else*/
+			else
 			{
 				gtk_text_buffer_apply_tag(messageBuffer, tag, &tag_start_iter, &tag_end_iter);
 				gtk_text_buffer_apply_tag(messageBuffer, TagsMap[Tag::TAG_URL], &tag_start_iter, &tag_end_iter);
@@ -1476,10 +1466,10 @@ GMenu *PrivateMessage::createmenu()
 	GMenuItem* label = g_menu_item_new(nicks.c_str(), NULL);
 	g_menu_prepend_item(menu ,label);
 
-	GMenuItem *copy = g_menu_item_new("Copy CID",NULL);
+	GMenuItem *copy = g_menu_item_new("Copy CID", "pm.copy-cid");
 	g_menu_prepend_item(menu ,copy);
 	
-	GMenuItem *fav = g_menu_item_new("Add to Favorite Users",NULL);
+	GMenuItem *fav = g_menu_item_new("Add to Favorite Users", "pm.add-fav-user");
 	g_menu_prepend_item(menu ,fav);
 	
 	GMenuItem *copyNicks = g_menu_item_new("Copy nick(s)",NULL);
@@ -1491,7 +1481,6 @@ GMenu *PrivateMessage::createmenu()
 		userCommandMenu->addHub(hubUrl);
 		userCommandMenu->buildMenu_gui();
 		*u_item = gtk_menu_item_new_with_label(_("Users Commands"));
-		*close = gtk_menu_item_new_with_label(_("Close"));
 		gtk_menu_item_set_submenu(GTK_MENU_ITEM(u_item),userCommandMenu->getContainer());
 		notCreated = false;
 	}	
@@ -1505,14 +1494,14 @@ void PrivateMessage::onCloseItem(gpointer data)
     if(entry)
 		WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }
-
-void PrivateMessage::onCopyCID(gpointer data)
+*/
+void PrivateMessage::onCopyCID(GtkWidget* wid , GVariant* var , gpointer data)
 {
     PrivateMessage *pm = (PrivateMessage *)data;
-    gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), pm->cid.c_str(), pm->cid.length());
+//    gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), pm->cid.c_str(), pm->cid.length());
 }
-
-void PrivateMessage::onCopyNicks(gpointer data)
+/*
+void PrivateMessage::onCopyNicks(GtkWidget* wid , GVariant* var , gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 	string nicks = WulforUtil::getNicks(pm->cid, pm->hubUrl);

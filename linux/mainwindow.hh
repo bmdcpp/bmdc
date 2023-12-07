@@ -176,7 +176,6 @@ class MainWindow:
 		static gboolean onMenuButtonClicked_gui(GtkWidget *widget, gpointer data);
 		static gboolean onAddButtonClicked_gui(GtkWidget *widget, gpointer data);
 		static void onHubClicked_gui(GtkWidget *widget, gpointer data);
-
 		static void onCmdDebugClicked_gui( GtkWidget *widget, gpointer data);
 		static void onSystemLogClicked_gui(GtkWidget *widget, gpointer data);
 		static void onNotepadClicked_gui(GtkWidget *widget, gpointer data);
@@ -226,7 +225,6 @@ class MainWindow:
 		dcpp::StringList EntryList;
 		int statusFrame;
 		bool onQuit;
-		int ToolbarStyle;
 
 		class DirectoryListInfo {
             public:
@@ -291,7 +289,7 @@ class MainWindow:
 		FileListQueue listQueue;
 
 		std::queue<std::string> statustext;
-		//Hash statusbar
+		// Hash statusbar
 		uint64_t startBytes;
 		size_t startFiles;
 		uint32_t startTime;
