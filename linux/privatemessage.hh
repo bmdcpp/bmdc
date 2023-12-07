@@ -97,7 +97,8 @@ class PrivateMessage:
 		static gboolean onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event , GtkTextIter *iter, gpointer data);//BMDC
 		static gboolean onEmotButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);*/
 		static void onSendMessage_gui(GtkEntry *entry, gpointer data);
-		/*static void onCopyURIClicked_gui(GtkMenuItem *item, gpointer data);
+		/*
+		static void onCopyURIClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onOpenLinkClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onOpenHubClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onSearchMagnetClicked_gui(GtkMenuItem *item, gpointer data);
@@ -108,11 +109,11 @@ class PrivateMessage:
 
 		static void onCopyIpItem_gui(GtkWidget *wid, gpointer data);
 		static void onRipeDbItem_gui(GtkWidget *wid, gpointer data);
-		static void onCloseItem(gpointer data);*/
-		static void onCopyCID(gpointer data);
+*/
+		static void onCopyCID(GtkWidget* wid , GVariant* var , gpointer data);
 		static void onAddFavItem(GtkWidget* wid , GVariant* var , gpointer data);
 		static void onDeleteFavItem(GtkWidget* wid , GVariant* var , gpointer data){};
-//		static void onCopyNicks(gpointer data);
+		static void onCopyNicks(GtkWidget* wid , GVariant* var , gpointer data);
 //		void setImageButton(const std::string country);
 
 		// Client functions

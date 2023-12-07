@@ -1497,17 +1497,36 @@ void PrivateMessage::onCloseItem(gpointer data)
 */
 void PrivateMessage::onCopyCID(GtkWidget* wid , GVariant* var , gpointer data)
 {
-    PrivateMessage *pm = (PrivateMessage *)data;
-//    gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), pm->cid.c_str(), pm->cid.length());
+  PrivateMessage *pm = (PrivateMessage *)data;
+	
+	GValue value = G_VALUE_INIT;
+	g_value_init (&value, G_TYPE_STRING);
+	g_value_set_string (&value, pm->cid.c_str());
+
+	// Store the value in the clipboard object
+	GdkClipboard *clipboard = gtk_widget_get_clipboard (widget);
+	gdk_clipboard_set_value (clipboard, &value);
+
+	g_value_unset (&value);
+
 }
-/*
+
 void PrivateMessage::onCopyNicks(GtkWidget* wid , GVariant* var , gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 	string nicks = WulforUtil::getNicks(pm->cid, pm->hubUrl);
-	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), nicks.c_str(), nicks.length());
+	
+	GValue value = G_VALUE_INIT;
+	g_value_init (&value, G_TYPE_STRING);
+	g_value_set_string (&value, pm->nicks.c_str());
+
+	// Store the value in the clipboard object
+	GdkClipboard *clipboard = gtk_widget_get_clipboard (widget);
+	gdk_clipboard_set_value (clipboard, &value);
+
+	g_value_unset (&value);
 }
-*/
+
 void PrivateMessage::onAddFavItem(GtkWidget* wid , GVariant* var , gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
