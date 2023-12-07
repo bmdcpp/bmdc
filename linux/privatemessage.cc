@@ -1518,7 +1518,7 @@ void PrivateMessage::onCopyNicks(GtkWidget* widget , GVariant* var , gpointer da
 	
 	GValue value = G_VALUE_INIT;
 	g_value_init (&value, G_TYPE_STRING);
-	g_value_set_string (&value, pm->nicks.c_str());
+	g_value_set_string (&value, nicks.c_str());
 
 	// Store the value in the clipboard object
 	GdkClipboard *clipboard = gtk_widget_get_clipboard (widget);
