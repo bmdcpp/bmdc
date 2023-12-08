@@ -109,7 +109,8 @@ private:
 		void addProtected_gui(dcpp::StringMap params);
 
 		void addPrivateMessage_gui(Msg::TypeMsg typemsg, std::string nick, std::string cid, std::string url, std::string message, bool useSetting);
-		//[BBCodes
+
+//[BBCodes
 		void loadImage_gui(std::string target, std::string tth);
 		void openImage_gui(std::string target);
 //
@@ -122,8 +123,6 @@ private:
 //		static gboolean onLinkTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
 //		static gboolean onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
 //		static gboolean onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
-//		static gboolean onChatPointerMoved_gui(GtkWidget *widget, GdkEventMotion *event, gpointer data);
-//		static gboolean onChatVisibilityChanged_gui(GtkWidget *widget, GdkEventVisibility *event, gpointer data);
 //		static gboolean onEmotButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static void onChatScroll_gui(GtkAdjustment *adjustment, gpointer data);
 		static void onChatResize_gui(GtkAdjustment *adjustment, gpointer data);
@@ -188,6 +187,13 @@ private:
                                     double           x,
                                     double           y,
                                     GtkWidget       *widget);
+
+		static void onResponseSetText(GtkDialog *dialog,
+                    int        response,
+                    gpointer   data);
+		static void Hub::onResponseSetTextIcon(GtkDialog *dialog,
+                    int        response,
+                    gpointer   data);
 
 		// Client functions
 		void addFavoriteUser_client(const std::string& cid);
@@ -266,7 +272,7 @@ private:
 		std::string selectedTagStr;
 		GtkWidget *tab_image;
 		GtkWidget *tab_button;
-		GtkWidget *m_menu;
+		GtkWidget *TabEntry;
 		Tag::TypeTag tagMsg;
 		unsigned int historyIndex;
 		static const int maxLines = 500;

@@ -98,17 +98,17 @@ class PrivateMessage:
 		static gboolean onEmotButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);*/
 		static void onSendMessage_gui(GtkEntry *entry, gpointer data);
 		/*
-		static void onCopyURIClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onOpenLinkClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onOpenHubClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onSearchMagnetClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onMagnetPropertiesClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onDownloadToClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onDownloadClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onUseEmoticons_gui(GtkWidget *widget, gpointer data);
-
-		static void onCopyIpItem_gui(GtkWidget *wid, gpointer data);
-		static void onRipeDbItem_gui(GtkWidget *wid, gpointer data);
+		static void onCopyURIClicked_gui(GtkWidget* widget, GVariant* var,  gpointer data);
+		static void onOpenLinkClicked_gui(GtkWidget* widget , GVariant* var , gpointer data);
+		static void onOpenHubClicked_gui(GtkWidget* widget , GVariant* var ,  gpointer data);
+		static void onSearchMagnetClicked_gui(GtkWidget* widget , GVariant* var ,  gpointer data);
+		static void onMagnetPropertiesClicked_gui(GtkWidget* widget , GVariant* var ,  gpointer data);
+		static void onDownloadToClicked_gui(GtkWidget* widget , GVariant* var ,  gpointer data);
+		static void onDownloadClicked_gui(GtkWidget* widget , GVariant* var ,  gpointer data);
+		static void onUseEmoticons_gui(GtkWidget* widget , GVariant* var ,  gpointer data);
+*/
+		static void onCopyIpItem_gui(GtkWidget* widget , GVariant* var , gpointer data);
+/*		static void onRipeDbItem_gui(GtkWidget* widget , GVariant* var ,  gpointer data);
 */
 		static void onCopyCID(GtkWidget* wid , GVariant* var , gpointer data);
 		static void onAddFavItem(GtkWidget* wid , GVariant* var , gpointer data);

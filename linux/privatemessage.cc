@@ -1527,17 +1527,26 @@ void PrivateMessage::onCopyNicks(GtkWidget* widget , GVariant* var , gpointer da
 	g_value_unset (&value);
 }
 
-void PrivateMessage::onAddFavItem(GtkWidget* wid , GVariant* var , gpointer data)
+void PrivateMessage::onAddFavItem(GtkWidget* widget , GVariant* var , gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 	pm->addFavoriteUser_client();
 }
-/*
-void PrivateMessage::onCopyIpItem_gui(GtkWidget* widget, gpointer)
+
+void PrivateMessage::onCopyIpItem_gui(GtkWidget* widget , GVariant* var , gpointer)
 {
 	gchar* ip = (gchar*)g_object_get_data(G_OBJECT(widget),"ip_addr");
-}
+	GValue value = G_VALUE_INIT;
+	g_value_init (&value, G_TYPE_STRING);
+	g_value_set_string (&value, nicks.c_str());
 
+	// Store the value in the clipboard object
+	GdkClipboard *clipboard = gtk_widget_get_clipboard (widget);
+	gdk_clipboard_set_value (clipboard, &value);
+
+	g_value_unset (&value);
+}
+/*
 void PrivateMessage::onRipeDbItem_gui(GtkWidget* widget, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;

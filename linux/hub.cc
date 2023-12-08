@@ -63,7 +63,8 @@ const GActionEntry Hub::hub_entries[] = {
     { "copy-url", onCopyHubUrl, NULL, NULL, NULL},
     { "reconnect", onReconnectItemTab, NULL, NULL, NULL},
     { "add-ignored", onAddIgnoreUserItemClicked_gui, NULL, NULL, NULL},
-    { "rem-ignored", onRemoveIgnoreUserItemClicked_gui, NULL, NULL, NULL}
+    { "rem-ignored", onRemoveIgnoreUserItemClicked_gui, NULL, NULL, NULL},
+    { "set-tab-name", onSetTabText, NULL, NULL, NULL}
 };
 
 Hub::Hub(const string &address, const string &encoding):
@@ -204,16 +205,7 @@ Hub::Hub(const string &address, const string &encoding):
 //	g_signal_connect(getWidget("removeUserItem"), "activate", G_CALLBACK(onRemoveUserItemClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("userListCheckButton"), "toggled", G_CALLBACK(onUserListToggled_gui), (gpointer)this);
 //	g_signal_connect(getWidget("emotButton"), "button-release-event", G_CALLBACK(onEmotButtonRelease_gui), (gpointer)this);
-
-//	g_signal_connect(getWidget("reportItem"), "activate", G_CALLBACK(onShowReportClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("checkItem"), "activate", G_CALLBACK(onCheckFLItemClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("testItem"), "activate", G_CALLBACK(onTestSURItemClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("protectItem"), "activate", G_CALLBACK(onProtectUserClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("UnProtectItem"), "activate", G_CALLBACK(onUnProtectUserClicked_gui), (gpointer)this);
-
-//	g_signal_connect(getWidget("menurefresh"), "activate", G_CALLBACK(onRefreshUserListClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonrefresh"), "clicked", G_CALLBACK(onRefreshUserListClicked_gui), (gpointer)this);
-	//g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
 
 	// Set the pane position
 	gint panePosition = SETTING(NICK_PANE_POS);
@@ -4083,12 +4075,15 @@ GMenu* Hub::createmenu()
 	GMenuItem *reconnectItem  = g_menu_item_new("Reconnect" , "hub.reconnect");
 	g_menu_append_item(menu , reconnectItem);
 
+	GMenuItem *setTabName  = g_menu_item_new("Set Tab Name" , "hub.set-tab-name");
+	g_menu_append_item(menu , setTabName);
+
+
 	GMenuItem * userCommands = g_menu_item_new("User Commands", NULL);
 	g_menu_item_set_submenu(userCommands , G_MENU_MODEL(userCommandMenu1->getContainer()));
 	g_menu_append_item(menu , userCommands);
 	userCommandMenu1->addUser(client->getMyIdentity().getUser()->getCID().toBase32());
 /*
-		GtkWidget *setTab = gtk_menu_item_new_with_label(_("Set Tab Name"));
 		//custom share things...
         GtkWidget *shareView = NULL,*shareRefresh = NULL;
         ShareManager *sm = client->getShareManager();
@@ -4119,7 +4114,9 @@ void Hub::onRefreshShare(GtkWidget* ,GVariant*, gpointer data)
 }
 
 void Hub::onReconnectItemTab(GtkWidget* ,GVariant*, gpointer data)
-{ ((Hub*)data)->reconnect_client();}
+{ 
+	((Hub*)data)->reconnect_client();
+}
 
 void Hub::onCloseItem(GtkWidget* ,GVariant*, gpointer data)
 {
@@ -4171,11 +4168,17 @@ void Hub::on_setImage_tab(GtkButton*, gpointer data)
 				BMDC_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 				NULL);
 
-	//if (gtk_widget_show (GTK_DIALOG (dialog)))
-	{
-	//	g_autofree gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+	 g_signal_connect(dialog, "response",
+                         G_CALLBACK (onResponseSetTextIcon),
+                         (gpointer)this);
+}
+void Hub::onResponseSetTextIcon(GtkDialog *dialog,
+                    int        response,
+                    gpointer   data)
+{
+		g_autofree gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
 
-	/*	if(WulforUtil::is_format_supported(filename))
+		if(WulforUtil::is_format_supported(filename))
 		{
 			GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_scale(filename,15,15,FALSE,NULL);
 			gtk_image_set_from_pixbuf(GTK_IMAGE(hub->tab_image),pixbuf);
@@ -4191,8 +4194,7 @@ void Hub::on_setImage_tab(GtkButton*, gpointer data)
 			hub->client->fire(ClientListener::HubUpdated(), hub->client);
 
 		}
-*/
-	}
+
 }
 
 void Hub::onSetTabText(GtkWidget* ,GVariant*, gpointer data)
@@ -4214,7 +4216,7 @@ void Hub::SetTabText(gpointer data)
 								NULL));
 
 	GtkWidget *content_area = gtk_dialog_get_content_area (dialog);
-	GtkWidget *entry = gtk_entry_new();
+	hub->TabEntry = gtk_entry_new();
 	GtkWidget *label = gtk_label_new(_("Text: "));
 	GtkWidget *hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
 
@@ -4225,28 +4227,37 @@ void Hub::SetTabText(gpointer data)
 	hub->tab_button = gtk_button_new_with_label(_("Set Icon: "));
 
 	g_signal_connect(GTK_BUTTON(hub->tab_button), "clicked", G_CALLBACK(on_setImage_tab), hub);
-	g_signal_connect(GTK_TOGGLE_BUTTON(check), "toggled", G_CALLBACK(onToglleButtonIcon),hub);
+	g_signal_connect(GTK_TOGGLE_BUTTON(check), "toggled", G_CALLBACK(onToglleButtonIcon), hub);
 
-//	gtk_box_pack_start(GTK_BOX(hbox),check, FALSE, TRUE, 0);
-//	gtk_box_pack_start(GTK_BOX(hbox), hub->tab_button, FALSE, TRUE, 0);
-//	gtk_box_pack_start(GTK_BOX(hbox), hub->tab_image, FALSE, TRUE, 0);
-//	gtk_container_add(GTK_CONTAINER(content_area), label);
-//	gtk_container_add(GTK_CONTAINER(content_area), entry);
-//	gtk_container_add(GTK_CONTAINER(content_area), hbox);
+	gtk_box_append(GTK_BOX(hbox), check);
+	gtk_box_append(GTK_BOX(hbox), hub->tab_button);
+	gtk_box_append(GTK_BOX(hbox), hub->tab_image);
+	gtk_box_append(GTK_BOX(content_area), label);
+	gtk_box_append(GTK_BOX(content_area), entry);
+	gtk_box_append(GTK_BOX(content_area), hbox);
 
 	gtk_widget_show(hub->tab_button);
 	gtk_widget_show(hub->tab_image);
-	gtk_widget_show(entry);
+	gtk_widget_show(hub->TabEntry);
 	gtk_widget_show(label);
 	gtk_widget_show(hbox);
 	gtk_widget_show(check);
-	gtk_editable_set_text(GTK_EDITABLE(entry) , hub->client->get(SettingsManager::HUB_TEXT_STR,SETTING(HUB_TEXT_STR)).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(hub->TabEntry) , hub->client->get(SettingsManager::HUB_TEXT_STR,SETTING(HUB_TEXT_STR)).c_str());
 
-	gint response  =-1;// gtk_dialog_run(dialog);
+ 	g_signal_connect(dialog, "response",
+                         G_CALLBACK (onResponseSetText),
+                         (gpointer)this);
 
+}
+
+void Hub::onResponseSetText(GtkDialog *dialog,
+                    int        response,
+                    gpointer   data)
+{
+	Hub* hub = (Hub*)data;
 	if(response == GTK_RESPONSE_OK)
 	{
-		const gchar *text = gtk_editable_get_text(GTK_EDITABLE(entry));
+		const gchar *text = gtk_editable_get_text(GTK_EDITABLE(hub->TabEntry));
 		hub->client->set(SettingsManager::HUB_TEXT_STR,string(text));
 		hub->client->fire(ClientListener::HubUpdated(), hub->client);
 
@@ -4256,8 +4267,6 @@ void Hub::SetTabText(gpointer data)
 			FavoriteManager::getInstance()->save();
 		}
 	}
-	g_object_unref(pixbuf);
-
 }
 
 void Hub::onToglleButtonIcon(GtkToggleButton *button, gpointer data)
