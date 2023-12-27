@@ -4234,7 +4234,7 @@ void Hub::SetTabText(gpointer data)
 	gtk_box_append(GTK_BOX(hbox), hub->tab_button);
 	gtk_box_append(GTK_BOX(hbox), hub->tab_image);
 	gtk_box_append(GTK_BOX(content_area), label);
-	gtk_box_append(GTK_BOX(content_area), entry);
+	gtk_box_append(GTK_BOX(content_area), Hub->TabEntry);
 	gtk_box_append(GTK_BOX(content_area), hbox);
 
 	gtk_widget_show(hub->tab_button);
