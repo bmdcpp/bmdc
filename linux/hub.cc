@@ -4176,6 +4176,7 @@ void Hub::onResponseSetTextIcon(GtkDialog *dialog,
                     int        response,
                     gpointer   data)
 {
+	Hub * hub = (Hub*)data;
 		g_autofree gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
 
 		if(WulforUtil::is_format_supported(filename))
