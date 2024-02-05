@@ -4161,22 +4161,17 @@ void Hub::on_setImage_tab(GtkButton*, gpointer data)
 	Hub *hub = (Hub *)data;
 	if(!hub) return;
 
-	GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Open Icon File to Set to Tab"),
-				GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
-				GTK_FILE_CHOOSER_ACTION_OPEN,
-				"_Cancel", GTK_RESPONSE_CANCEL,
-				BMDC_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
-				NULL);
+//	GtkFileDialog *dialog = gtk_file_dialog_new ();
 
-	 g_signal_connect(dialog, "response",
-                         G_CALLBACK (onResponseSetTextIcon),
-                         (gpointer)this);
+//	 g_signal_connect(dialog, "response",
+  //                       G_CALLBACK (onResponseSetTextIcon),
+    //                     (gpointer)hub);
 }
 void Hub::onResponseSetTextIcon(GtkDialog *dialog,
                     int        response,
                     gpointer   data)
 {
-	Hub * hub = (Hub*)data;
+	/*Hub * hub = (Hub*)data;
 		g_autofree gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
 
 		if(WulforUtil::is_format_supported(filename))
@@ -4195,7 +4190,7 @@ void Hub::onResponseSetTextIcon(GtkDialog *dialog,
 			hub->client->fire(ClientListener::HubUpdated(), hub->client);
 
 		}
-
+*/
 }
 
 void Hub::onSetTabText(GtkWidget* ,GVariant*, gpointer data)
@@ -4234,7 +4229,7 @@ void Hub::SetTabText(gpointer data)
 	gtk_box_append(GTK_BOX(hbox), hub->tab_button);
 	gtk_box_append(GTK_BOX(hbox), hub->tab_image);
 	gtk_box_append(GTK_BOX(content_area), label);
-	gtk_box_append(GTK_BOX(content_area), Hub->TabEntry);
+	gtk_box_append(GTK_BOX(content_area), hub->TabEntry);
 	gtk_box_append(GTK_BOX(content_area), hbox);
 
 	gtk_widget_show(hub->tab_button);
