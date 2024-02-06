@@ -1538,7 +1538,7 @@ void PrivateMessage::onCopyIpItem_gui(GtkWidget* widget , GVariant* var , gpoint
 	gchar* ip = (gchar*)g_object_get_data(G_OBJECT(widget),"ip_addr");
 	GValue value = G_VALUE_INIT;
 	g_value_init (&value, G_TYPE_STRING);
-	g_value_set_string (&value, nicks.c_str());
+	g_value_set_string (&value, ip);
 
 	// Store the value in the clipboard object
 	GdkClipboard *clipboard = gtk_widget_get_clipboard (widget);
