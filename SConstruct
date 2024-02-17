@@ -114,8 +114,8 @@ vars.AddVariables(
 	BoolVariable('profile', 'Compile the program with profiling information', 0),
 	BoolVariable('libnotify', 'Enable notifications through libnotify', 0),
 	BoolVariable('libtar', 'Enable Backup&Export with libtar', 1),
-	BoolVariable('libxattr', 'Enable xattr support for storing calculated Hash in extended attributes of file',1),
-	BoolVariable('newSettings', 'Use new Settings dialog UI',0),
+	BoolVariable('libxattr', 'Enable xattr support for storing calculated Hash in extended attributes of file', 0),
+	BoolVariable('newSettings', 'Use new Settings dialog UI', 0),
 	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local/', PathVariable.PathIsDir),
 	('FAKE_ROOT', 'Make scons install the program under a fake root', '')
 )
