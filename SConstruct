@@ -112,7 +112,7 @@ vars.AddVariables(
 	BoolVariable('debug', 'Compile the program with debug information', 0),
 	BoolVariable('release', 'Compile the program with optimizations', 0),
 	BoolVariable('profile', 'Compile the program with profiling information', 0),
-	BoolVariable('libnotify', 'Enable notifications through libnotify', 1),
+	BoolVariable('libnotify', 'Enable notifications through libnotify', 0),
 	BoolVariable('libtar', 'Enable Backup&Export with libtar', 1),
 	BoolVariable('libxattr', 'Enable xattr support for storing calculated Hash in extended attributes of file',1),
 	BoolVariable('newSettings', 'Use new Settings dialog UI',0),
