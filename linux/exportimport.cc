@@ -94,24 +94,24 @@ void ExportDialog::onButtonExportedClicked(GtkWidget*,gpointer data)
 		valid = gtk_tree_model_iter_next(m, &iter);	
 	}
 
-	string sTo = gtk_entry_get_text(GTK_ENTRY(ed->getWidget("entry")));
-	ExportManager::getInstance()->export_(sTo,pslist);
+	string sTo = gtk_editable_get_text(GTK_EDITABLE(ed->getWidget("entry")));
+	ExportManager::getInstance()->export_(sTo, pslist);
 }
 
 void ExportDialog::onGetPathGui(GtkWidget*, gpointer data)
 {
 	ExportDialog *ed = (ExportDialog *)data;
-	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(ed->getWidget("fileChooserDialog")), GTK_FILE_CHOOSER_ACTION_SAVE);
-	gint response = gtk_dialog_run(GTK_DIALOG(ed->getWidget("fileChooserDialog")));
-	gtk_widget_hide(ed->getWidget("fileChooserDialog"));
+	//gtk_file_chooser_set_action(GTK_FILE_CHOOSER(ed->getWidget("fileChooserDialog")), GTK_FILE_CHOOSER_ACTION_SAVE);
+	//gint response = gtk_dialog_run(GTK_DIALOG(ed->getWidget("fileChooserDialog")));
+	//gtk_widget_hide(ed->getWidget("fileChooserDialog"));
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		gchar *path = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(ed->getWidget("fileChooserDialog")));
+	//	gchar *path = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(ed->getWidget("fileChooserDialog")));
 
 		if (path)
 		{
-			gtk_entry_set_text(GTK_ENTRY(ed->getWidget("entry")),path);
+			gtk_editable_set_text(GTK_EDITABLE(ed->getWidget("entry")), path);
 			
 		}
 	}
