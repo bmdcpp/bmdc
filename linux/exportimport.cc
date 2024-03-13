@@ -107,6 +107,7 @@ void ExportDialog::onGetPathGui(GtkWidget*, gpointer data)
 
 	//if (response == GTK_RESPONSE_OK)
 	{
+		g_autofree gchar* path = nullptr;
 	//	gchar *path = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(ed->getWidget("fileChooserDialog")));
 
 	//	if (path)
