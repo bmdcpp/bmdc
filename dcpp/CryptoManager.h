@@ -62,7 +62,6 @@ public:
 	bool TLSOk() const noexcept;
 
 	static void locking_function(int mode, int n, const char* /*file*/, int /*line*/);
-//	static RSA* tmp_rsa_cb(SSL* /*ssl*/, int /*is_export*/, int keylength);
 	static int verify_callback(int preverify_ok, X509_STORE_CTX *ctx);
 
 	static int idxVerifyData;

@@ -38,7 +38,6 @@
 
 namespace dcpp {
 
-void* CryptoManager::tmpKeysMap[KEY_LAST] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 CriticalSection* CryptoManager::cs = NULL;
 int CryptoManager::idxVerifyData = 0;
 char CryptoManager::idxVerifyDataName[] = APPNAME ".VerifyData";
