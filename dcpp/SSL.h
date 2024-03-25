@@ -65,8 +65,6 @@ private:
 
 typedef scoped_handle<ASN1_INTEGER, ASN1_INTEGER_free> ASN1_INTEGER;
 typedef scoped_handle<BIGNUM, BN_free> BIGNUM;
-typedef scoped_handle<DH, DH_free> DH;
-typedef scoped_handle<DSA, DSA_free> DSA;
 typedef scoped_handle<EVP_PKEY, EVP_PKEY_free> EVP_PKEY;
 typedef scoped_handle<RSA, RSA_free> RSA;
 typedef scoped_handle<SSL, SSL_free> SSL;
