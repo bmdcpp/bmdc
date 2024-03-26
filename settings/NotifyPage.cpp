@@ -26,8 +26,8 @@
 using namespace std;
 using namespace dcpp;
 
-#define ICON_SIZE 32
-#define ICON_SIZE_NORMAL 22
+constexpr int ICON_SIZE = 32;
+constexpr int ICON_SIZE_NORMAL = 22;
 
 const char* NotifyPage::name_page = "→ Notify";
 
