@@ -328,7 +328,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	env.MergeFlags(BUILD_FLAGS['common'])
 	env.MergeFlags(BUILD_FLAGS[env['mode']])
 
-	env.Append(CXXFLAGS = '-std=c++11')
+	env.Append(CXXFLAGS = '-std=c++17')
 	env.Append(LIBS = ['pcre'])
 	env.Append(LINKFLAGS = ['-lpcre'])
 	#temp

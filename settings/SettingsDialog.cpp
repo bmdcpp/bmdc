@@ -173,7 +173,5 @@ void SettingsDialog::onStButton(GtkWidget *widget, gpointer data)
 {
 
 	SettingsDialog *sd = (SettingsDialog*)data;
-	//if(sd != NULL)
-	//	sd->close();
 	
 }

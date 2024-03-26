@@ -13,7 +13,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 // MA 02110-1301, USA.
 // 
-//entry_new
+
 #define gen gtk_entry_new()
 
 #define sw_new gtk_scrolled_window_new()

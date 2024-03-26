@@ -102,15 +102,15 @@ void NotifyPage::show(GtkWidget *parent, GtkWidget* old){
 		bOK = gtk_button_new_with_label("OK");
 		bNone = gtk_button_new_with_label("None");
 		bDef = gtk_button_new_with_label("Default");
-		eTitle = gen;
+		eTitle = gtk_entry_new();
 
-		gtk_grid_attach(GTK_GRID(grid),gtk_label_new("Title"),0,0,1,1);
-		gtk_grid_attach(GTK_GRID(grid),eTitle,1,0,1,1);
-		gtk_grid_attach(GTK_GRID(grid),bTest,0,1,1,1);
-		gtk_grid_attach(GTK_GRID(grid),bIcon,1,1,1,1);
-		gtk_grid_attach(GTK_GRID(grid),bOK,2,1,1,1);
-		gtk_grid_attach(GTK_GRID(grid),bNone,3,1,1,1);
-		gtk_grid_attach(GTK_GRID(grid),bDef,4,1,1,1);
+		gtk_grid_attach(GTK_GRID(grid), gtk_label_new("Title"),0,0,1,1);
+		gtk_grid_attach(GTK_GRID(grid), eTitle,1,0,1,1);
+		gtk_grid_attach(GTK_GRID(grid), bTest,0,1,1,1);
+		gtk_grid_attach(GTK_GRID(grid), bIcon,1,1,1,1);
+		gtk_grid_attach(GTK_GRID(grid), bOK,2,1,1,1);
+		gtk_grid_attach(GTK_GRID(grid), bNone,3,1,1,1);
+		gtk_grid_attach(GTK_GRID(grid), bDef,4,1,1,1);
 		gtk_notebook_append_page(GTK_NOTEBOOK(note), grid, gtk_label_new(""));
 
 		sPMLenght = gtk_spin_button_new_with_range(0,600,1);
