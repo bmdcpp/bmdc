@@ -848,8 +848,10 @@ void AdcHub::search(int aSizeMode, int64_t aSize, int aFileType, const string& a
 
 	AdcCommand c(AdcCommand::CMD_SCH, AdcCommand::TYPE_BROADCAST);
 
-	if(!aToken.empty())
-		c.addParam("TO", aToken);
+	/* token format: [per-hub unique id] "/" [per-search actual token]
+	this allows easily knowing which hub a search was sent on when parsing a search result,
+	whithout having to bother maintaining a list of sent tokens. */
+	c.addParam("TO", std::to_string(getUniqueId()) + "/" + aToken);
 
 	if(aFileType == SearchManager::TYPE_TTH) {
 		c.addParam("TR", aString);
@@ -1020,11 +1022,11 @@ void AdcHub::infoImpl()
 	addParam(lastInfoMap, c, "SL", Util::toString(SETTING(SLOTS)));
 	addParam(lastInfoMap, c, "FS", Util::toString(UploadManager::getInstance()->getFreeSlots()));
 	addParam(lastInfoMap, c, "SS", getHideShare() ? "0" : sm->getShareSizeString());
-	addParam(lastInfoMap, c, "SF", getHideShare() ? "0" : Util::toString(sm->getSharedFiles()));
+	addParam(lastInfoMap, c, "SF", getHideShare() ? "0" : std::to_string(sm->getSharedFiles()));
 	addParam(lastInfoMap, c, "EM", HUBSETTING(EMAIL));
-	addParam(lastInfoMap, c, "HN", Util::toString(counts[COUNT_NORMAL]));
-	addParam(lastInfoMap, c, "HR", Util::toString(counts[COUNT_REGISTERED]));
-	addParam(lastInfoMap, c, "HO", Util::toString(counts[COUNT_OP]));
+	addParam(lastInfoMap, c, "HN", std::to_string(counts[COUNT_NORMAL]));
+	addParam(lastInfoMap, c, "HR", std::to_string(counts[COUNT_REGISTERED]));
+	addParam(lastInfoMap, c, "HO", std::to_string(counts[COUNT_OP]));
 	addParam(lastInfoMap, c, "AP", APPNAME);
 	addParam(lastInfoMap, c, "VE", VERSIONSTRING);
 	addParam(lastInfoMap, c, "AW", Util::getAway() ? "1" : Util::emptyString);
@@ -1042,7 +1044,7 @@ void AdcHub::infoImpl()
 	if (iLimit > 0) {
 		addParam(lastInfoMap, c, "US", Util::toString(iLimit * 1024));
 	} else {
-		addParam(lastInfoMap, c, "US", Util::toString((long)(Util::toDouble(SETTING(UPLOAD_SPEED))*1024*1024/8)));
+		addParam(lastInfoMap, c, "US", std::to_string((long)(Util::toDouble(SETTING(UPLOAD_SPEED))*1024*1024/8)));
 	}
 
 	string su(SEGA_FEATURE);

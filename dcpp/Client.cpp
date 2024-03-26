@@ -30,14 +30,16 @@ namespace dcpp {
 
 std::atomic_long Client::counts[COUNT_UNCOUNTED];
 
+uint32_t idCounter = 0;
+
 Client::Client(const string& hubURL, char separator_, bool secure_) :
-	myIdentity(ClientManager::getInstance()->getMe(), 0),
+	myIdentity(ClientManager::getInstance()->getMe(), 0),uniqueId(++idCounter),
 	reconnDelay(120), lastActivity(GET_TICK()), registered(false), autoReconnect(false),
 	encoding(Text::systemCharset), state(STATE_DISCONNECTED), sock(nullptr),
 	hubUrl(hubURL),separator(separator_),
 	secure(secure_), countType(COUNT_UNCOUNTED),
 	hideShare(true),checkClients(false), checkFilelists(false),
-	port(0),bIPv6(false),bIPv4(true) //Default is IPv4
+	port(0), bIPv6(false), bIPv4(true) //Default is IPv4
 	, ipv6(true) // Defualt allow ipv6
 {
 	string file, proto, query, fragment;
