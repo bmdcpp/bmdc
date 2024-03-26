@@ -22,7 +22,7 @@ GNU GPL v3.0 or later. See [LICENSE](https://github.com/bmdcpp/bmdc/blob/main/LI
 
 - scons >= 0.96
 - pkg-config
-- g++ >= 4.7
+- g++ >= 5
 - glib >= 2.32
 - gtk+ >= 4.0
 - pthread

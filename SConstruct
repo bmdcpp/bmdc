@@ -201,8 +201,8 @@ conf = env.Configure(
 # ----------------------------------------------------------------------
 
 if not 'install' in COMMAND_LINE_TARGETS:
-	if not conf.CheckCXXVersion(env['CXX'], 4, 1):
-		print ('Compiler version check failed. g++ 4.6 or later is needed')
+	if not conf.CheckCXXVersion(env['CXX'], 5, 0):
+		print ('Compiler version check failed. g++ 5 or later is needed')
 		Exit(1)
 	elif env['CXX'] == 'clang++':
 		print ('Use clang compiler')
