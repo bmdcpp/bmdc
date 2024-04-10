@@ -653,8 +653,8 @@ void MainWindow::setStats_gui(string hubs, string downloadSpeed,
 	gtk_label_set_text(GTK_LABEL(getWidget("labelUploadSpeed")), uploadSpeed.c_str());
 	gtk_label_set_text(GTK_LABEL(getWidget("labelUploaded")), uploaded.c_str());
 
-	string sfreeslots = Util::toString(UploadManager::getInstance()->getFreeSlots());
-	string sslots = _("Slots: ") + sfreeslots + "/" + Util::toString(SETTING(SLOTS));
+	string sfreeslots = std::to_string(UploadManager::getInstance()->getFreeSlots());
+	string sslots = _("Slots: ") + sfreeslots + "/" + std::to_string(SETTING(SLOTS));
 	string sshared = _("Shared: ") + Util::formatBytes(ShareManager::getInstance()->getShareSize());
 	gtk_label_set_text(GTK_LABEL(getWidget("labelShare")), sshared.c_str());
 	gtk_label_set_text(GTK_LABEL(getWidget("labelSlots")), sslots.c_str());

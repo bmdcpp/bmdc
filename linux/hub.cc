@@ -2369,7 +2369,7 @@ void Hub::onSendMessage_gui(GtkEntry *e, gpointer data)
 
 			map<string, string> info;
             info[_("Hub address")] = hub->address;
-			info[_("Hub IP & port")] = (dcpp::Util::isIp6(hub->client->getIp()) == true) ? ("["+hub->client->getIp()+"]:"+Util::toString(hub->client->getPort()))  : hub->client->getIpPort();
+			info[_("Hub IP & port")] = (dcpp::Util::isIp6(hub->client->getIp()) == true) ? ("["+hub->client->getIp()+"]:"+(std::to_string(hub->client->getPort())))  : hub->client->getIpPort();
 			info[_("Online users")] = Util::toString(hub->client->getUserCount());
 			info[_("Shared")] = Util::formatBytes(hub->client->getAvailable());
 
@@ -2383,7 +2383,7 @@ void Hub::onSendMessage_gui(GtkEntry *e, gpointer data)
 			FavoriteHubEntry* fav = hub->getFavoriteHubEntry();
 			if(fav){
 				info[_("Notification")] = fav->getNotify() ? _("Yes") : _("No");
-				info[_("Mode")] = Util::toString(fav->getMode());
+				info[_("Mode")] = std::to_string(fav->getMode());
 			}
 			info[_("Log Chat")] = (hub->client->get(SettingsManager::LOG_CHAT_B,SETTING(LOG_CHAT_B)) ? string(_("Yes")) : _("No")) +_(" ") + (isGlobalBool(hub->client->get(SettingsManager::LOG_CHAT_B,SETTING(LOG_CHAT_B)),SETTING(LOG_CHAT_B)) ? _("Global") : _("User Per Favorite Hub Set"));
 			info[_("Bold Tab")] = (hub->client->get(SettingsManager::BOLD_HUB,SETTING(BOLD_HUB)) ? string(_("Yes")) : _("No"))  +_(" ")+(isGlobalBool(hub->client->get(SettingsManager::BOLD_HUB,SETTING(BOLD_HUB)),SETTING(BOLD_HUB)) ? _("Global") : _("User Per Favorite Hub Set"));
@@ -3776,7 +3776,7 @@ void Hub::on(ClientListener::HubUpdated, Client *) noexcept
 	}
 
 	if (client->getHubName().empty())
-		hubName += client->getAddress() + ":" + Util::toString(client->getPort());
+		hubName += client->getAddress() + ":" + std::to_string(client->getPort());
 	else
 		hubName += client->getHubName();
 

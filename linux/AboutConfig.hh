@@ -62,7 +62,7 @@ class AboutConfig:
                     int        response,
                     gpointer   user_data);
 
-		void addItem_gui(const gchar* rowname, const gchar* isdefault, const gchar* types, const gchar* value, gboolean isWulf,bool);
+		void addItem_gui(const gchar* rowname, const gchar* isdefault, const gchar* types, const gchar* value, gboolean isWulf, bool);
 		void updateItem_gui(const std::string rowname, const std::string value, GtkTreeIter *iter, const gchar* status = _("Default"),gboolean wul = FALSE);
 		void setStatus(const std::string msg);
 		static void setSettings(std::string sName ,std::string sValue, bool bIsWulfor = false);

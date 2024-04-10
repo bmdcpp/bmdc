@@ -157,7 +157,7 @@ class TreeView
 		bool padding;
 		int count;
 		int visibleColumns;
-		//GtkMenu *menu;
+		GMenu *menu;
 		GType *gtypes;
 		std::map<std::string, GtkWidget*> colMenuItems;
 

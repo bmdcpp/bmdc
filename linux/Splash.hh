@@ -65,8 +65,8 @@ class Splash
 
 	void update()
 	{
-		gtk_label_set_text(GTK_LABEL(label),("Loading ..."+Text+" "+Util::toString(percentage*100)+" %").c_str());
-		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR(progressbar),percentage);
+		gtk_label_set_text(GTK_LABEL(label),("Loading ..." + Text + " "+ std::to_string(percentage*100) + " %").c_str());
+		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR(progressbar), percentage);
 		while (g_main_context_iteration(NULL, FALSE));
 	}
 	void destroy() { gtk_widget_hide(win); }

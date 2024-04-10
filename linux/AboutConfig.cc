@@ -188,7 +188,7 @@ void AboutConfig::show()
 				case SettingsManager::TYPE_INT:
 				{
 					sprintf(types,"Integer");
-					value = g_strdup(Util::toString((int)sm->get(static_cast<SettingsManager::IntSetting>(n))).c_str());
+					value = g_strdup(std::to_string( (int)sm->get(static_cast<SettingsManager::IntSetting>(n)) ).c_str());
 					if(!sm->isDefault(static_cast<SettingsManager::IntSetting>(n))){
 						isdefault = _("User set");
 						bIsDef = false;
@@ -199,7 +199,7 @@ void AboutConfig::show()
 				case SettingsManager::TYPE_INT64:
 				{
 					sprintf(types,"Int64");
-					value = g_strdup(Util::toString((int64_t)sm->get(static_cast<SettingsManager::Int64Setting>(n))).c_str());
+					value = g_strdup(std::to_string((int64_t)sm->get(static_cast<SettingsManager::Int64Setting>(n))).c_str());
 					if(!sm->isDefault(static_cast<SettingsManager::Int64Setting>(n))){
 						isdefault = _("User set");
 						bIsDef = false;
@@ -210,7 +210,7 @@ void AboutConfig::show()
 				case SettingsManager::TYPE_FLOAT:
 				{
 					sprintf(types,"Float");
-					value = g_strdup(Util::toString((float)sm->get(static_cast<SettingsManager::FloatSetting>(n))).c_str());
+					value = g_strdup(std::to_string((float)sm->get(static_cast<SettingsManager::FloatSetting>(n))).c_str());
 					if(!sm->isDefault(static_cast<SettingsManager::FloatSetting>(n))){
 						isdefault = _("User set");
 						bIsDef = false;
@@ -221,12 +221,12 @@ void AboutConfig::show()
 				case SettingsManager::TYPE_BOOL:
 				{
 					sprintf(types,"Bool");
-					value = g_strdup(Util::toString((int)sm->get(static_cast<SettingsManager::BoolSetting>(n))).c_str());
+					value = g_strdup(std::to_string((int)sm->get(static_cast<SettingsManager::BoolSetting>(n))).c_str());
 					if(!sm->isDefault(static_cast<SettingsManager::BoolSetting>(n))) {
 					 isdefault = _("User set");
 					 bIsDef = false;
 					}
-					addItem_gui(rowname, isdefault, types, value,FALSE,bIsDef);
+					addItem_gui(rowname, isdefault, types, value, FALSE, bIsDef);
 					continue;
 				}
 				default:
@@ -481,7 +481,7 @@ void AboutConfig::onSetDefault(GtkWidget*,GVariant  *parameter, gpointer data)
 			}
 			if(wsm->isInt(name)) {
 				wsm->SetIntDef(name);
-				value = Util::toString(wsm->getInt(name));
+				value = std::to_string(wsm->getInt(name));
 			}
 			s->updateItem_gui(name,value,&iter,_("Default"),TRUE);
 			s->setStatus("Value "+name+" Setted to Default "+value);
@@ -537,13 +537,13 @@ void AboutConfig::on_dialog_response(GtkDialog *dialog,
 			case TYPE_BOOL:
 			{
 				bool val = gtk_switch_get_active(GTK_SWITCH(item->item));
-				value = Util::toString(val);
+				value = std::to_string(val);
 				break;
 			}
 			case TYPE_INT:
 			{
 				int val = gtk_spin_button_get_value(GTK_SPIN_BUTTON(item->item));
-				value = Util::toString(val);
+				value = std::to_string(val);
 				break;
 			}
 			case TYPE_STRING:

@@ -190,7 +190,7 @@ void AboutConfigFav::makeColor(GtkTreeViewColumn*,GtkCellRenderer *cell, GtkTree
 	AboutConfigFav* acf = (AboutConfigFav*)data;
 	if(!acf){return;}
 	if(model == NULL) {return;}
-	if(iter == NULL){return;}
+	if(iter == NULL) {return;}
 	if(cell == NULL) {return;}
 	string sColor = acf->aboutView.getString(iter,"ForeColor",model);
 	g_object_set(cell,"foreground-set",TRUE,"foreground",sColor.c_str(),NULL);
@@ -226,7 +226,7 @@ void AboutConfigFav::show()
 					if(strcmp(value,temp) == 0)
 					{	
 						isdefault = _("Default");
-						bIsSame = true;//they are same
+						bIsSame = true; //they are same
 					}	
 					addItem_gui(rowname, isdefault, types, value, bIsSame);
 					continue;
@@ -235,11 +235,11 @@ void AboutConfigFav::show()
 				{
 					bool bIsSame = false;
 					types = "Integer";
-					const gchar* value = g_strdup(Util::toString(p_entry->get(static_cast<SettingsManager::IntSetting>(n),
+					const gchar* value = g_strdup(std::to_string(p_entry->get(static_cast<SettingsManager::IntSetting>(n),
 					sm->get(static_cast<SettingsManager::IntSetting>(n)))
 					).c_str());
 
-					const gchar* temp = Util::toString(sm->getDefault(static_cast<SettingsManager::IntSetting>(n))).c_str();
+					const gchar* temp = std::to_string(sm->getDefault(static_cast<SettingsManager::IntSetting>(n))).c_str();
 					if(strcmp(value,temp) == 0)
 					{	
 						isdefault = _("Default");
@@ -261,9 +261,9 @@ void AboutConfigFav::show()
 				{
 					bool bIsSame = false;
 					types = "Bool";
-					const gchar* value = g_strdup(Util::toString(p_entry->get(static_cast<SettingsManager::BoolSetting>(n),sm->get(static_cast<SettingsManager::BoolSetting>(n)))).c_str());
+					const gchar* value = g_strdup(std::to_string(p_entry->get(static_cast<SettingsManager::BoolSetting>(n),sm->get(static_cast<SettingsManager::BoolSetting>(n)))).c_str());
 
-					const gchar* temp = Util::toString(sm->getDefault(static_cast<SettingsManager::BoolSetting>(n))).c_str();
+					const gchar* temp = std::to_string(sm->getDefault(static_cast<SettingsManager::BoolSetting>(n))).c_str();
 					if(strcmp(value,temp) == 0)
 					{	
 						isdefault = _("Default");

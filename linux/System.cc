@@ -31,7 +31,7 @@ BookEntry(Entry::SYSTEML,_("System Log"),"system"),
 {
 	
 	WulforUtil::setTextDeufaults(getWidget("systextview"),SETTING(BACKGROUND_CHAT_COLOR),"",false,"","SystemLog");
-	WulforUtil::setTextColor(WGETS("text-system-fore-color"),string("SystemLog"),getWidget("systextview"));
+	WulforUtil::setTextColor(WGETS("text-system-fore-color"), string("SystemLog"), getWidget("systextview"));
 
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("systextview")));
 	gtk_text_buffer_get_end_iter(buffer, &iter);
@@ -57,7 +57,7 @@ void SystemLog::add_gui(time_t t, string message,int sev)
 {
 	gtk_text_buffer_move_mark(buffer, sysMark, &iter);
 	gtk_text_buffer_get_end_iter(buffer, &iter);
-	gtk_text_buffer_insert_paintable(buffer, &iter , getImageSev(sev));//The Severinity image
+	gtk_text_buffer_insert_paintable(buffer, &iter , getImageSev(sev));
 	gtk_text_buffer_move_mark(buffer, sysMark, &iter);
 	
 	string line = "[ " + Util::getShortTimeString(t)+" ] " + message + "\n\0";

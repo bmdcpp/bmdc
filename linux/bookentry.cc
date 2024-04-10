@@ -540,7 +540,7 @@ void BookEntry::setBackForeGround(const EntryType type)
 
 	string t_css = dcpp::Util::emptyString;
 	if(WGETB("custom-font-size")) {
-		string size = dcpp::Util::toString(WGETI("book-font-size"))+" %";
+		string size = std::to_tring(WGETI("book-font-size"))+" %";
 		t_css = std::string("#"+name+" { color:"+fg+"; background: "+bg+"; font-size:"+size+"; }\n\0");
 	} else
 		t_css = std::string("#"+name+" { color:"+fg+"; background: "+bg+"; }\n\0");

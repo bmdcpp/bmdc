@@ -131,7 +131,7 @@ void TreeView::finalize()
 	
 	dcassert(count > 0);
 
-//	menu = GTK_MENU(gtk_menu_new());
+	menu = g_menu_new();
 	visibleColumns = columns.size();
 
 	if (restoreMain && !name.empty())
@@ -238,7 +238,7 @@ void TreeView::exactsizeDataFunc(GtkTreeViewColumn*, GtkCellRenderer *renderer, 
 
 	if (size >= 0)
 	{
-		sizeString = dcpp::Util::toString(size);
+		sizeString = std::to_string(size);
 	}
 
 	g_object_set(renderer, "text", sizeString.c_str(), NULL);
@@ -253,7 +253,7 @@ void TreeView::timeLeftDataFunc(GtkTreeViewColumn*, GtkCellRenderer *renderer, G
 
 	if (seconds >= 0)
 	{
-		timeLeftString = dcpp::Util::formatTime("%H:%M:%S",seconds);
+		timeLeftString = dcpp::Util::formatTime("%H:%M:%S", seconds);
 	}
 
 	g_object_set(renderer, "text", timeLeftString.c_str(), NULL);
@@ -335,7 +335,6 @@ void TreeView::addColumn_gui(Column& column)
 		case PIXBUF_STRING:
 		{
 			renderer = gtk_cell_renderer_pixbuf_new();
-//			g_object_set(G_OBJECT(renderer),"height",(gint)GTK_ICON_SIZE_MENU,NULL);//This Fixes bogus Icon ( not at all but still beter)
 			col = gtk_tree_view_column_new();
 			gtk_tree_view_column_set_title(col, column.title.c_str());
 			gtk_tree_view_column_pack_start(col, renderer, false);
@@ -426,7 +425,6 @@ void TreeView::addColumn_gui(Column& column)
 		return;
 
 	// If columns are too small, they can't be manipulated
-	//hmm is 20 consider as small?
 	if (column.width >= 20)
 	{
 		gtk_tree_view_column_set_resizable(col, TRUE);
@@ -451,7 +449,6 @@ void TreeView::addColumn_gui(Column& column)
 	 * Breaks GTK+ API, but is the only way to attach a signal to a gtktreeview column header. See GTK bug #141937.
 	 * @todo: Replace when GTK adds a way to add a signal to the entire header (remove visibleColumns var, too).
 	 */
-//	g_signal_connect(gtk_tree_view_column_get_button(col), "button-release-event", G_CALLBACK(popupMenu_gui), (gpointer)this);
 }
 
 void TreeView::setSortColumn_gui(const string &column, const string &sortColumn)
@@ -613,18 +610,14 @@ void TreeView::saveSettings()
 //Copy Menu
 void TreeView::buildCopyMenu(GtkWidget *wid)
 {
-	/*GtkWidget *menuItem;
-	GtkWidget *_menu = wid;
+	GMenuItem *menuItem;
+	GMenu *_menu = wid;
 
-//	gtk_container_foreach(GTK_CONTAINER(_menu), (GtkCallback)gtk_widget_destroy, NULL);
+	menuItem = g_menu_item_new_with_label(_("Copy All"));
 
-	menuItem = gtk_menu_item_new_with_label(_("Copy All"));
+	//g_signal_connect(menuItem, "activate", GCallback(onCopyRowClicked_gui), (gpointer)this);
 
-	g_signal_connect(menuItem, "activate", GCallback(onCopyRowClicked_gui), (gpointer)this);
-
-	gtk_menu_shell_append(GTK_MENU_SHELL(_menu), menuItem);
-	menuItem = gtk_separator_menu_item_new();
-	gtk_menu_shell_append(GTK_MENU_SHELL(_menu), menuItem);
+	g_menu_append_item(G_MENU(_menu), menuItem);
 
 	for (int i = 0; i < getColCount(); i++)
     {
@@ -637,12 +630,12 @@ void TreeView::buildCopyMenu(GtkWidget *wid)
 
         if (visible && !title.empty())
         {
-			menuItem = gtk_menu_item_new_with_label(title.c_str());
-			g_signal_connect(menuItem, "activate", GCallback(onCopyDataItemClicked_gui), (gpointer)this);
-			g_object_set_data_full(G_OBJECT(menuItem), "title", g_strdup(title.c_str()), g_free);
-			gtk_menu_shell_append(GTK_MENU_SHELL(_menu), menuItem);
+			menuItem = g_menu_item_new_with_label(title.c_str());
+		//	g_signal_connect(menuItem, "activate", GCallback(onCopyDataItemClicked_gui), (gpointer)this);
+		//	g_object_set_data_full(G_OBJECT(menuItem), "title", g_strdup(title.c_str()), g_free);
+			g_menu_append_item(GTK_MENU_SHELL(_menu), menuItem);
 	    }
-    }*/
+    }
 }
 /*
 void TreeView::onCopyRowClicked_gui(GtkMenuItem*, gpointer data)

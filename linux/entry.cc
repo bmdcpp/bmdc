@@ -31,7 +31,7 @@ using namespace std;
 Entry::Entry(const EntryType type, const string &ui, const string &id):
 	xml(NULL),
 	type(type),
-	id(dcpp::Util::toString(type) + ":" + id)
+	id(std::to_string(type) + ":" + id)
 {
 	if(!ui.empty()) // Load the Builder XML resource, if applicable
 	{
@@ -82,7 +82,7 @@ void Entry::addChild(Entry *entry)
 
 Entry *Entry::getChild(const EntryType childType, const string &childId)
 {
-	string id = dcpp::Util::toString(childType) + ":" + childId;
+	string id = std::to_string(childType) + ":" + childId;
 	unordered_map<string, Entry *>::const_iterator it = children.find(id);
 
 	if (it == children.end())

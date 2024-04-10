@@ -34,9 +34,6 @@ class IgnoreMenu
 	private:
 
 		GtkWidget *appsPreviewMenu;
-		//static void onClicked_gui(GtkMenuItem *menuItem, gpointer data);
-		//static void onClickedIp_gui(GtkMenuItem *menuItem, gpointer data);
-		//static void onClickedCid_gui(GtkMenuItem *menuItem, gpointer data);
 };
 
 #else

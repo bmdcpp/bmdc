@@ -95,7 +95,6 @@ string("\r\n/away\r\n\t") + _("Set away mode") +
 +"\r\n/imdb\r\n\t"+ _("Search on imdb")
 ;
 
-//GeoIP
 const char* WulforUtil::CountryNames[] = {
 "ANDORRA", "UNITED ARAB EMIRATES", "AFGHANISTAN", "ANTIGUA AND BARBUDA",
 "ANGUILLA", "ALBANIA", "ARMENIA", "NETHERLANDS ANTILLES", "ANGOLA", "ANTARCTICA", "ARGENTINA", "AMERICAN SAMOA",
@@ -472,7 +471,7 @@ void WulforUtil::copyValue_gui(GtkTreeStore *store, GtkTreeIter *fromIter, GtkTr
 	gtk_tree_store_set_value(store, toIter, position, &value);
 	g_value_unset(&value);
 }
-//maybe?
+
 GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string country)
 {
 	if(country.empty())
@@ -499,7 +498,7 @@ string WulforUtil::getCountryCode(string _countryname)
 	}
 	return string();
 }
-//end
+
 string WulforUtil::formatReport(const Identity& identity)
 {
 	map<string, string> mss_reportMap = identity.getReport();
@@ -524,7 +523,7 @@ string WulforUtil::generateLeech() {
 		Util::toString(DownloadManager::getInstance()->getDownloadCount()).c_str(), Util::formatBytes(DownloadManager::getInstance()->getRunningAverage()).c_str());
 	return buf;
 }
-//Return True if hadles by this func otherwise False
+
 bool WulforUtil::checkCommand(string& cmd, string& param, string& message, string& status, bool& thirdperson)
 {
 	string::size_type separator = cmd.find_first_of(' ');
