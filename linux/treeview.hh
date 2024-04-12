@@ -88,7 +88,7 @@ class TreeView
 			return static_cast<C>(getValue<T>(i, column, m));
 		}
 		void setSelection(GtkTreeSelection *&selection) { sel = selection;}
-		void buildCopyMenu(GtkWidget *wid);
+		void buildCopyMenu(GMenu *wid);
 		GtkCellRenderer *getCellRenderOf(const std::string &title);
 		GtkCellRenderer *getCellRenderOf2(const std::string &title);
 		GtkTreeViewColumn *getColumn(const std::string &title);

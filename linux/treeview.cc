@@ -608,7 +608,7 @@ void TreeView::saveSettings()
 }
 
 //Copy Menu
-void TreeView::buildCopyMenu(GtkWidget *wid)
+void TreeView::buildCopyMenu(GMenu *wid)
 {
 	GMenuItem *menuItem;
 	GMenu *_menu = wid;
@@ -633,7 +633,7 @@ void TreeView::buildCopyMenu(GtkWidget *wid)
 			menuItem = g_menu_item_new_with_label(title.c_str());
 		//	g_signal_connect(menuItem, "activate", GCallback(onCopyDataItemClicked_gui), (gpointer)this);
 		//	g_object_set_data_full(G_OBJECT(menuItem), "title", g_strdup(title.c_str()), g_free);
-			g_menu_append_item(GTK_MENU_SHELL(_menu), menuItem);
+			g_menu_append_item(_menu, menuItem);
 	    }
     }
 }
