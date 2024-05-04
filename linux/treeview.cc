@@ -613,11 +613,11 @@ void TreeView::buildCopyMenu(GMenu *wid)
 	GMenuItem *menuItem;
 	GMenu *_menu = wid;
 
-	menuItem = g_menu_item_new_with_label(_("Copy All"));
+//	menuItem = g_menu_item_new_with_label(_("Copy All"));
 
 	//g_signal_connect(menuItem, "activate", GCallback(onCopyRowClicked_gui), (gpointer)this);
 
-	g_menu_append_item(G_MENU(_menu), menuItem);
+//	g_menu_append_item(G_MENU(_menu), menuItem);
 
 	for (int i = 0; i < getColCount(); i++)
     {
@@ -630,10 +630,10 @@ void TreeView::buildCopyMenu(GMenu *wid)
 
         if (visible && !title.empty())
         {
-			menuItem = g_menu_item_new_with_label(title.c_str());
+		//	menuItem = g_menu_item_new_with_label(title.c_str());
 		//	g_signal_connect(menuItem, "activate", GCallback(onCopyDataItemClicked_gui), (gpointer)this);
 		//	g_object_set_data_full(G_OBJECT(menuItem), "title", g_strdup(title.c_str()), g_free);
-			g_menu_append_item(_menu, menuItem);
+		//	g_menu_append_item(_menu, menuItem);
 	    }
     }
 }
