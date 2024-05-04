@@ -239,7 +239,7 @@ void AboutConfigFav::show()
 					sm->get(static_cast<SettingsManager::IntSetting>(n)))
 					).c_str());
 
-					const gchar* temp = std::to_string(sm->getDefault(static_cast<SettingsManager::IntSetting>(n))).c_str();
+					const gchar* temp = g_strdup(std::to_string(sm->getDefault(static_cast<SettingsManager::IntSetting>(n))).c_str());
 					if(strcmp(value,temp) == 0)
 					{	
 						isdefault = _("Default");
@@ -263,7 +263,7 @@ void AboutConfigFav::show()
 					types = "Bool";
 					const gchar* value = g_strdup(std::to_string(p_entry->get(static_cast<SettingsManager::BoolSetting>(n),sm->get(static_cast<SettingsManager::BoolSetting>(n)))).c_str());
 
-					const gchar* temp = std::to_string(sm->getDefault(static_cast<SettingsManager::BoolSetting>(n))).c_str();
+					const gchar* temp = g_strdup(std::to_string(sm->getDefault(static_cast<SettingsManager::BoolSetting>(n))).c_str());
 					if(strcmp(value,temp) == 0)
 					{	
 						isdefault = _("Default");

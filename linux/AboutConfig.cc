@@ -263,7 +263,7 @@ void AboutConfig::show()
 		bIsOk = imap.find(rowname) != imap.end();
 		sDefualt = bIsOk ? _("User set") : _("Default");
 		rowname = j->first.c_str();
-		dValue = Util::toString(j->second).c_str();
+		dValue = g_strdup(Util::toString(j->second).c_str());
 		value = g_strdup(Util::toString((bIsOk ? imap.find(rowname)->second : 0)).c_str());
 
 		addItem_gui(rowname, sDefualt, types, ( !bIsOk ? dValue : value), TRUE,bIsOk);
