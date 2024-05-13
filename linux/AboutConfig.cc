@@ -163,7 +163,7 @@ void AboutConfig::show()
 	const gchar* rowname = NULL;
 	const gchar* isdefault = _("Default");
 	gchar types[10];
-	const gchar* value = NULL;
+	g_autofree const gchar* value = NULL;
 
 	for(int n = 0; n < SettingsManager::SETTINGS_LAST-1; n++ ) {
 		const gchar* tmp = (sm->getSettingTags()[n].c_str());
