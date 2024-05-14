@@ -28,9 +28,9 @@
 
 using namespace std;
 
-const GActionEntry BookEntry::win_entries[] =
+const GActionEntry BookEntry::book_entries[] =
  {
-    { "close-butt", onCloseItem , NULL, NULL, NULL }
+    { "close-button", onCloseItem , NULL, NULL, NULL }
 };
 
 
@@ -46,37 +46,24 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 {
 	labelBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,1);
 	GSimpleActionGroup* simple = g_simple_action_group_new ();
-	g_action_map_add_action_entries (G_ACTION_MAP (simple), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	g_action_map_add_action_entries (G_ACTION_MAP (simple), book_entries, G_N_ELEMENTS (book_entries), (gpointer)this);
 	gtk_widget_insert_action_group(labelBox,"book" ,G_ACTION_GROUP(simple));
-	gtk_widget_set_name(labelBox,getName().c_str());//CSS
+	gtk_widget_set_name(labelBox,getName().c_str());
 	// icon
 	icon = gtk_image_new();
-	gtk_widget_set_name(icon,getName().c_str());//CSS
+	gtk_widget_set_name(icon,getName().c_str());
 	gtk_box_append(GTK_BOX(labelBox), icon);
 
 	label = GTK_LABEL(gtk_label_new(text.c_str()));
-	gtk_widget_set_name(GTK_WIDGET(label),getName().c_str());//CSS
+	gtk_widget_set_name(GTK_WIDGET(label),getName().c_str());
 	gtk_box_append(GTK_BOX(labelBox), GTK_WIDGET(label));
 
     if(bIsCloseButton || WGETB("use-close-button"))
      {
 		closeButton = gtk_button_new();
 		gtk_widget_set_name(closeButton, getName().c_str());
-        // Shrink the padding around the close button
-		//GtkCssProvider *provider =  gtk_css_provider_get_default ();
-		//GdkDisplay *display = gdk_display_get_default ();
-		//GdkScreen *screen = gdk_display_get_default_screen (display);
-		//gtk_css_provider_load_from_data(provider,".button {\n"
-        //        "-GtkButton-default-border : 0px;\n"
-        //        "-GtkButton-default-outside-border : 0px;\n"
-        //        "-GtkButton-inner-border: 0px;\n"
-        //        "-GtkWidget-focus-line-width : 0px;\n"
-        //        "-GtkWidget-focus-padding : 0px;\n"
-        //        "padding: 0px;}\n\0",-1, NULL);
-	//	gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-     // Add the image to the close button
+     	// Add the image to the close button
         GtkWidget* image = gtk_image_new_from_icon_name ("window-close");
-
         gtk_button_set_child(GTK_BUTTON(closeButton), image);
         gtk_box_append(GTK_BOX(labelBox), closeButton);
     }
@@ -264,7 +251,7 @@ GMenu *BookEntry::createmenu()
     GMenu* menu = g_menu_new();
     GMenuItem* item_one = createItemFirstMenu();
     g_menu_append_item(menu, item_one);
-    GMenuItem* item = g_menu_item_new("Close" , "book.close-butt");
+    GMenuItem* item = g_menu_item_new("Close" , "book.close-button");
 	g_menu_append_item(menu, item);
 	return menu;
 }

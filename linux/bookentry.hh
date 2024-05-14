@@ -104,7 +104,7 @@ class BookEntry : public Entry
 		GtkWidget *popTabMenuItem;
 		const EntryType type;
 		bool bIsCloseButton;
-		static const GActionEntry win_entries[];
+		static const GActionEntry book_entries[];
 };
 
 #else

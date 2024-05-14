@@ -210,10 +210,6 @@ MainWindow::MainWindow(GtkWidget* window /* = NULL*/):
 	g_signal_connect(sl, "clicked", G_CALLBACK(onSystemLogClicked_gui), (gpointer)this);
 	g_signal_connect(df, "clicked", G_CALLBACK(onFinishedDownloadsClicked_gui), (gpointer)this);
 	g_signal_connect(du, "clicked", G_CALLBACK(onFinishedUploadsClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("openFileListMenuItem"), "activate", G_CALLBACK(onOpenFileListClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("openOwnListMenuItem"), "activate", G_CALLBACK(onOpenOwnListClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("refreshFileListMenuItem"), "activate", G_CALLBACK(onRefreshFileListClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("reconnectMenuItem"), "activate", G_CALLBACK(onReconnectClicked_gui), (gpointer)this);
 	g_signal_connect(sp, "clicked", G_CALLBACK(onPreferencesClicked_gui), (gpointer)this);
 	g_signal_connect(cmd, "clicked", G_CALLBACK(onCmdDebugClicked_gui), (gpointer)this);
 	g_signal_connect(uq, "clicked", G_CALLBACK(onUploadQueueClicked_gui), (gpointer)this);
@@ -320,9 +316,7 @@ void MainWindow::setUrgent_gui()
 {
 
 }
-/*
- * Create and show Transfers pane
- */
+
 void MainWindow::showTransfersPane_gui()
 {
 
