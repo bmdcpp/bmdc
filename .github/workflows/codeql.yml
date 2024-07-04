@@ -28,11 +28,13 @@ jobs:
       actions: read
       contents: read
       security-events: write
+      id-token: write
+      attestations: write
 
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'cpp', 'python' ]
+        language: [ 'cpp' ]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
         # Use only 'java' to analyze code written in Java, Kotlin or both
         # Use only 'javascript' to analyze code written in JavaScript, TypeScript or both
@@ -77,3 +79,14 @@ jobs:
       uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{matrix.language}}"
+   
+    - name: Upload
+      uses: actions/upload-artifact@v4
+      with:
+            name: bmdc
+            path: ${{ github.workspace }}/build/release/
+    
+    - name: Generate artifact attestation
+      uses: actions/attest-build-provenance@v1
+      with:
+          subject-path: ${{ github.workspace }}/build/release/
