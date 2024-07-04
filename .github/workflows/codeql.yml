@@ -80,11 +80,11 @@ jobs:
       with:
         category: "/language:${{matrix.language}}"
    
-    - name: publish test results
+    - name: Upload
       uses: actions/upload-artifact@v1
       with:
-            name: build
-            path: build/*
+            name: bmdc
+            path: build/release/*
     
     - name: Generate artifact attestation
       uses: actions/attest-build-provenance@v1
