@@ -84,9 +84,9 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
             name: bmdc
-            path: ${{ github.workspace }}/build/release/
+            path: ${{ github.workspace }}/bmdc
     
     - name: Generate artifact attestation
       uses: actions/attest-build-provenance@v1
       with:
-          subject-path: ${{ github.workspace }}/build/release/
+          subject-path: ${{ github.workspace }}/
