@@ -89,4 +89,4 @@ jobs:
     - name: Generate artifact attestation
       uses: actions/attest-build-provenance@v1
       with:
-          subject-path: 'PATH/TO/ARTIFACT'
+          subject-path: 'build/release/bmdc'
