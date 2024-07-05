@@ -15,8 +15,8 @@ GNU GPL v3.0 or later. See [LICENSE](https://github.com/bmdcpp/bmdc/blob/main/LI
 
 ## Links
 
-- Website: https://bmdcpp.github.io/bmdc
-- Sources: https://github.com/bmdcpp/bmdc
+- Website: [https://bmdcpp.github.io](https://bmdcpp.github.io/)
+- Sources: [https://github.com/bmdcpp/bmdc](https://github.com/bmdcpp/bmdc)
 
 ## Dependencies
 
@@ -35,10 +35,9 @@ GNU GPL v3.0 or later. See [LICENSE](https://github.com/bmdcpp/bmdc/blob/main/LI
 
 ### Optional dependencies
 
-- libtar (Note: For Backup/Restore options )
-- libnotify >= 0.4.1 ( Note: For popups notifications )
 - xattr ( Note: for storing hashes beside files to not always re-hash )
-
+- libtar (Note: For Backup/Restore options )
+  
 ## Compiling and installing
 =======
 
