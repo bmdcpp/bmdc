@@ -23,7 +23,6 @@ bmdcpp_sources = files ( [
 'AboutConfig.cc',
 'AboutConfigFav.cc',
 'adlsearch.cc',
-'bacon-message-connection.cc',
 'bookentry.cc',
 'cmddebug.cc',
 'detectiontab.cc',
