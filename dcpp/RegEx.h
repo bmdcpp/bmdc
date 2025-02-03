@@ -11,59 +11,72 @@
 #ifndef REG_EX_H
 #define REG_EX_H
 
-#include <pcre.h>  /* PCRE lib */
+#include <pcre2.h>  /* PCRE lib */
 #include "StringTokenizer.h"
 #include "debug.h"
 
 namespace dcpp {
 
 namespace RegEx {
-#define OVECCOUNT 200
+
 template<typename T>
 bool match(const T& text, const T& pattern, bool ignoreCase = true)  {
 	if(pattern.empty())
 		return false;
 	if(text.empty())
 		return false;	
-
-	const char *error;
-	int   erroffset;
-	pcre *re;
+	pcre2_match_data *match_data;
+	int error;
+	PCRE2_SIZE erroffset;
+	pcre2_code *re;
 	int rc;
-	int ovector[OVECCOUNT];
-	re = pcre_compile (
-		pattern.c_str(),					/* the pattern */
-		ignoreCase ? PCRE_CASELESS : 0,	/* default options */
+	PCRE2_SIZE *ovector;
+
+	re = pcre2_compile (
+		pattern.c_str(),		/* the pattern */
+		PCRE2_ZERO_TERMINATED,	/* default options */
+		0,
 		&error,							/* for error message */
 		&erroffset,						/* for error offset */
-		0);									/* use default character tables */
+		NULL);									/* use default character tables */
 			 
-	if (!re) {
-			printf("pcre_compile failed (offset: %d), %s\n", erroffset, error);
-			return false;
-	}
+		if (!re)
+  		{
+  			PCRE2_UCHAR buffer[256];
+  			pcre2_get_error_message(error, buffer, sizeof(buffer));
+  			dcdebug("PCRE2 compilation failed at offset %d: %s\n", (int)erroroffset,
+    		buffer);
+  			return false;
+  		}
+		match_data = pcre2_match_data_create_from_pattern(re, NULL);
+	
+	/* Now run the match. */
 
-	rc = pcre_exec (
-		re,						/* the compiled pattern */
-		0,						/* no extra data - pattern was not studied */
-		text.c_str(),			/* the string to match */
-		text.length(),			/* the length of the string */
-		0,						/* start at offset 0 in the subject */
-		0,						/* default options */
-		ovector,				/* output vector for substring information */
-		OVECCOUNT);			/* number of elements in the output vector */
-	free(re);
+		rc = pcre2_match(
+  			re,                   /* the compiled pattern */
+  			text.c_str()              /* the subject string */
+  			text.length(),       /* the length of the subject */
+  			0,                    /* start at offset 0 in the subject */
+  			0,                    /* default options */
+  			match_data,           /* block for storing the result */
+  			NULL);                /* use default match context */
+
 	if (rc < 0) {
        switch (rc) {
-            case PCRE_ERROR_NOMATCH:
+            case PCRE2_ERROR_NOMATCH:
                 dcdebug("String didn't match");
 				return false;
             default:
-                printf("Error while matching: %d\n", rc);
+                dcdebug("Error while matching: %d\n", rc);
                 return false;
         }
         return true;
     }
+    if( rc == 0)
+    {	
+  	 		dcdebug("ovector was not big enough for all the captured substrings\n");
+  	 		return true;
+	}
     if(rc > 1)
 		return true;
 
