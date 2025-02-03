@@ -45,7 +45,7 @@ bool match(const T& text, const T& pattern, bool ignoreCase = true)  {
   		{
   			PCRE2_UCHAR buffer[256];
   			pcre2_get_error_message(error, buffer, sizeof(buffer));
-  			dcdebug("PCRE2 compilation failed at offset %d: %s\n", (int)erroroffset,
+  			dcdebug("PCRE2 compilation failed at offset %d: %s\n", (int)erroffset,
     		buffer);
   			return false;
   		}
