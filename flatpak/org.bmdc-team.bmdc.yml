@@ -1,7 +1,7 @@
 {
     "app-id" : "org.bmdcteam.bmdc",
     "runtime" : "org.gnome.Sdk",
-    "runtime-version" : "44",
+    "runtime-version" : "47",
     "sdk" : "org.gnome.Sdk",
     "command" : "bmdc",
     "finish-args" : [
