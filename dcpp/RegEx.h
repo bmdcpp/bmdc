@@ -55,7 +55,7 @@ bool match(const T& text, const T& pattern, bool ignoreCase = true)  {
 
 		rc = pcre2_match(
   			re,                   /* the compiled pattern */
-  			text.c_str()              /* the subject string */
+  			text.c_str(),              /* the subject string */
   			text.length(),       /* the length of the subject */
   			0,                    /* start at offset 0 in the subject */
   			0,                    /* default options */
