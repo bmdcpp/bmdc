@@ -8,14 +8,14 @@ jobs:
     name: "Flatpak"
     runs-on: ubuntu-latest
     container:
-      image: bilelmoussaoui/flatpak-github-actions:gnome-44
+      image: bilelmoussaoui/flatpak-github-actions:gnome-47
       options: --privileged
     steps:
     - uses: actions/checkout@v3
     - name: Install deps
       run: |
             dnf -y install g++ gcc autoconf automake libtool scons python3 gtk4-devel scons libmaxminddb-devel libnatpmp-devel miniupnpc-devel gettext bzip2-devel
-    - uses: flatpak/flatpak-github-actions/flatpak-builder@v6.1
+    - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
       with:
         bundle: bmdc-team.bmdc.flatpak
         manifest-path: flatpak/org.bmdc-team.bmdc.yml
