@@ -1,4 +1,4 @@
-project('bmdcpp', ['c','cpp'], default_options : ['c_std=c11', 'cpp_std=c++11'])
+project('bmdcpp', ['c','cpp'], default_options : ['c_std=c11', 'cpp_std=c++17'])
 pkg_config = import('gnome')
 pkg_config = import('pkgconfig')
 gtkdep = dependency('gtk4')
