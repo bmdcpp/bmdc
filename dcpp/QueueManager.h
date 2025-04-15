@@ -181,6 +181,11 @@ public:
     string getListPath(const HintedUser& user);
 	void getSizeInfo(int64_t& size, int64_t& pos, const string& target) noexcept;
 
+	bool hasRunning(void) const {
+		Lock l(cs);
+		return !userQueue.isEmpty();
+	};
+
 	GETSET(uint64_t, lastSave, LastSave);
 	GETSET(string, queueFile, QueueFile);
 private:
@@ -265,6 +270,7 @@ private:
 			return (running.find(aUser) != running.end());
 		}
 
+		bool isEmpty(void) const { return running.empty(); }
 		pair<size_t, int64_t> getQueued(const UserPtr& aUser) const;
 	private:
 		/** QueueItems by priority and user (this is where the download order is determined) */

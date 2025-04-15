@@ -241,6 +241,17 @@ MainWindow::~MainWindow()
 	TimerManager::getInstance()->removeListener(this);
 	LogManager::getInstance()->removeListener(this);
 
+	ConnectionManager::getInstance()->disconnectAll();
+	// Poll to see if all queue items are stopped so their progress can be saved.
+	// We've got at least 30 seconds here before termination but
+	// also let's allow some time to get larger queues saved properly...
+	// See https://learn.microsoft.com/en-us/previous-versions/windows/desktop/ms700677(v=vs.85)
+	// Looks like these all still apply to Windows 10 / 11.
+
+	for(int i = 0; (i < 20) && QueueManager::getInstance()->hasRunning(); i++) {
+		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+	}
+
 	listQueue.shutdown();
 
 	// Save window state and position

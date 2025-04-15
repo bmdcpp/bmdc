@@ -118,7 +118,8 @@ public:
 
 	void disconnect(const UserPtr& aUser); // disconnect downloads and uploads
 	void disconnect(const UserPtr& aUser, bool isDownload);
-
+	void disconnectAll(); // disconnect all transfers for all users
+	
 	void shutdown();
 
 	/** Find a suitable port to listen on, and start doing it */

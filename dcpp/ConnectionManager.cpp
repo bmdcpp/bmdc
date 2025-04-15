@@ -808,16 +808,19 @@ void ConnectionManager::disconnect(const UserPtr& aUser, bool isDownload) {
 	}
 }
 
+void ConnectionManager::disconnectAll() {
+	Lock l(cs);
+	for(auto j: userConnections) {
+		j->disconnect(true);
+	}
+}
+
+
 void ConnectionManager::shutdown() {
 	TimerManager::getInstance()->removeListener(this);
 	shuttingDown = true;
 	disconnect();
-	{
-		Lock l(cs);
-		for(auto j = userConnections.begin(); j != userConnections.end(); ++j) {
-			(*j)->disconnect(true);
-		}
-	}
+	disconnectAll();
 	// Wait until all connections have died out...
 	while(true) {
 		{
