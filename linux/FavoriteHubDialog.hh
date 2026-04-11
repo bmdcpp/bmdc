@@ -79,7 +79,7 @@ private:
 		//@: User-info related stuff
 					*entryUsername,
 					*entryPassword,
-					*entryUserDescriptio,
+					*entryUserDescription,
 					*entryMail,
 		//@: Checking
 					*entryProtectedUser,
