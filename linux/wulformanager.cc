@@ -68,14 +68,10 @@ mainWin(NULL)
 	// Initialize sempahore variables
 	g_rw_lock_init(&entryMutex);
 	// Determine path to data files
-
-//	const gchar* const* g_path = g_get_system_data_dirs();
-//path = string(_DATADIR) + "bmdc" + G_DIR_SEPARATOR_S;
 	path = ".";
-
    	// Set the custom icon search path so GTK+ can find our icons
    const string iconPath = path + G_DIR_SEPARATOR_S + "icons";
-   const string themes = path + G_DIR_SEPARATOR_S + "themes";
+   //const string themes = path + G_DIR_SEPARATOR_S + "themes";
 
 	GtkIconTheme* icon_theme = gtk_icon_theme_get_for_display (gdk_display_get_default());
    gtk_icon_theme_add_search_path(icon_theme , iconPath.c_str());
