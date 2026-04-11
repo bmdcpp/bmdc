@@ -86,9 +86,9 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 	gtk_grid_attach(GTK_GRID(boxSimple),entryPassword,1,4,1,1);
 	
 	gtk_grid_attach(GTK_GRID(boxSimple),gtk_label_new(_("User Description: ")) ,0,5,1,1);
-	entryUserDescriptio = gtk_entry_new();
-	gtk_editable_set_text (GTK_EDITABLE( entryUserDescriptio), p_entry->get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION)).c_str());
-	gtk_grid_attach(GTK_GRID(boxSimple),entryUserDescriptio,1,5,1,1);
+	entryUserDescription = gtk_entry_new();
+	gtk_editable_set_text (GTK_EDITABLE( entryUserDescription), p_entry->get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION)).c_str());
+	gtk_grid_attach(GTK_GRID(boxSimple),entryUserDescription,1,5,1,1);
 
 	gtk_grid_attach(GTK_GRID(boxSimple),gtk_label_new(_("e-Mail: ")) ,0,6,1,1);
 	entryMail = gtk_entry_new();
@@ -474,7 +474,7 @@ void FavoriteHubDialog::onResponse(GtkWidget* dialog ,gint response, gpointer da
 
 		fhd->p_entry->set(SettingsManager::NICK, gtk_editable_get_text(GTK_EDITABLE(fhd->entryUsername)));
 
-		fhd->p_entry->set(SettingsManager::DESCRIPTION, gtk_editable_get_text(GTK_EDITABLE(fhd->entryUserDescriptio)));
+		fhd->p_entry->set(SettingsManager::DESCRIPTION, gtk_editable_get_text(GTK_EDITABLE(fhd->entryUserDescription)));
 
 		if (fhd->p_entry->getName().empty() || fhd->p_entry->getServer().empty())
 		{
