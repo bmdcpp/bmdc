@@ -38,7 +38,7 @@ using namespace dcpp;
 
 static bool b_crash = false;
 
-void handle_crash(int )
+void handle_crash(int /*signal*/ )
 {
     if(b_crash)
         abort();
@@ -93,13 +93,11 @@ int main(int argc, char *argv[])
 	dcpp::Util::PathsMap map;
 	string home = string(g_get_home_dir ()) + "/.bmdc++/";
 	map[dcpp::Util::PATH_GLOBAL_CONFIG] = home;
-	if(argc >= 1) {
-		if(argv[1] != NULL) {
+	if(argc > 1 && argv[1] != NULL) {
 			map[dcpp::Util::PATH_GLOBAL_CONFIG] = string(argv[1]);
 			map[dcpp::Util::PATH_USER_CONFIG] = string(argv[1]);
 			map[dcpp::Util::PATH_DOWNLOADS] = string(argv[1]);
-			}
-	}
+		}
 	// Start the DC++ client core
 	if(map.size() > 1) {
 		dcpp::Util::initialize(map);
@@ -108,7 +106,7 @@ int main(int argc, char *argv[])
 
 	gtk_init();
 
-	Splash* pSplash = new Splash();
+	std::unique_ptr<Splash> pSplash = new Splash();
 	pSplash->show();
 	dcpp::startup();
 	try{
@@ -118,10 +116,9 @@ int main(int argc, char *argv[])
 	///
 	}
 	pSplash->destroy();
-	delete pSplash;
 	try {
-	dcpp::TimerManager::getInstance()->start();
-	}catch(...){
+		dcpp::TimerManager::getInstance()->start();
+	} catch (...) {
 	///
 	}
 	g_set_application_name("BMDC++");
