@@ -15,6 +15,7 @@
 #include <gtk/gtk.h>
 #include <glib.h>
 #include <string>
+#include <unordered_map>
 
 #include "dialogentry.hh"
 #include "func.hh"
