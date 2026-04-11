@@ -168,7 +168,7 @@ void AboutConfig::show()
 			switch(type) {
 				case SettingsManager::TYPE_STRING:
 				{
-					sprintf(types,"String");
+					snprintf(types,sizeof(types),"String");
 					value = g_strdup(sm->get(static_cast<SettingsManager::StrSetting>(n)).c_str());
 					if(!sm->isDefault(static_cast<SettingsManager::StrSetting>(n))) {
 						isdefault = _("User set");
@@ -179,7 +179,7 @@ void AboutConfig::show()
 				}
 				case SettingsManager::TYPE_INT:
 				{
-					sprintf(types,"Integer");
+					snprintf(types,sizeof(types),"Integer");
 					value = g_strdup(std::to_string( (int)sm->get(static_cast<SettingsManager::IntSetting>(n)) ).c_str());
 					if(!sm->isDefault(static_cast<SettingsManager::IntSetting>(n))){
 						isdefault = _("User set");
@@ -190,7 +190,7 @@ void AboutConfig::show()
 				}
 				case SettingsManager::TYPE_INT64:
 				{
-					sprintf(types,"Int64");
+					snprintf(types,sizeof(types),"Int64");
 					value = g_strdup(std::to_string((int64_t)sm->get(static_cast<SettingsManager::Int64Setting>(n))).c_str());
 					if(!sm->isDefault(static_cast<SettingsManager::Int64Setting>(n))){
 						isdefault = _("User set");
@@ -201,7 +201,7 @@ void AboutConfig::show()
 				}
 				case SettingsManager::TYPE_FLOAT:
 				{
-					sprintf(types,"Float");
+					snprintf(types,sizeof(types),"Float");
 					value = g_strdup(std::to_string((float)sm->get(static_cast<SettingsManager::FloatSetting>(n))).c_str());
 					if(!sm->isDefault(static_cast<SettingsManager::FloatSetting>(n))){
 						isdefault = _("User set");
@@ -212,7 +212,7 @@ void AboutConfig::show()
 				}
 				case SettingsManager::TYPE_BOOL:
 				{
-					sprintf(types,"Bool");
+					snprintf(types,sizeof(types),"Bool");
 					value = g_strdup(std::to_string((int)sm->get(static_cast<SettingsManager::BoolSetting>(n))).c_str());
 					if(!sm->isDefault(static_cast<SettingsManager::BoolSetting>(n))) {
 					 isdefault = _("User set");
@@ -231,7 +231,7 @@ void AboutConfig::show()
 	WulforSettingsManager::StringMap map = wsm->getStringMap();
 	WulforSettingsManager::StringMap defaultStringMap = wsm->getStringDMap();
 	const gchar* dValue = NULL;
-	sprintf(types,"String");
+	snprintf(types,sizeof(types),"String");
 	bool bIsOk = false;
 	gchar* sDefualt = _("Default");
 
@@ -247,7 +247,7 @@ void AboutConfig::show()
 
 	WulforSettingsManager::IntMap imap = wsm->getIntMap();
 	WulforSettingsManager::IntMap defIMap = wsm->getIntDMap();
-	sprintf(types,"Integer");
+	snprintf(types,sizeof(types),"Integer");
 	bIsOk = false;
 	sDefualt = _("Default");
 	for(auto j = defIMap.begin();j != defIMap.end();++j)
