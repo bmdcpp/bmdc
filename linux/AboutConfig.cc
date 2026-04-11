@@ -436,7 +436,7 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget*, GVariant  *parameter, gpoi
 	gtk_grid_attach(GTK_GRID(grip),item,1,2,1,1);
 	gtk_box_append(GTK_BOX(box),grip);
 	
-	ItemPass *pass = new ItemPass();
+	std::unique_ptr<ItemPass> pass = new ItemPass();
 	pass->ft = ft;
 	pass->item = item;
 	pass->name =  sName;
@@ -541,6 +541,7 @@ void AboutConfig::on_dialog_response(GtkDialog *dialog,
 			case TYPE_STRING:
 			{
 				value = gtk_editable_get_text(GTK_EDITABLE(item->item));
+				break;
 			}
 			default:break;
 		}
