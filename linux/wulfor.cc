@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
 
 	gtk_init();
 
-	auto pSplash = std::make_unique<Splash>();
+	auto pSplash = new Splash();
 	pSplash->show();
 	dcpp::startup();
 	try{
