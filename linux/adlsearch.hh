@@ -1,6 +1,6 @@
 /*
  * Copyright © 2009-2012 freedcpp, http://code.google.com/p/freedcpp
-* Copyright © 2011-2025 BMDC
+* Copyright © 2011-2027 BMDC
 * This file is part of BMDC.
 * BMDC is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
 *
@@ -28,7 +28,6 @@ class SearchADL:
 		virtual ~SearchADL();
 		virtual void show();
 	private:
-		//typedef std::vector<ADLSearch>::size_type SearchType;
 
 		// GUI functions
 		void setSearch_gui(dcpp::ADLSearch &search, GtkTreeIter *iter);

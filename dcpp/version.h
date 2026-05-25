@@ -18,7 +18,7 @@
 
 #define APPNAME "BMDC"
 
-#define VERSIONSTRING "0.1.23"
+#define VERSIONSTRING "0.1.27"
 #define VERSIONFLOAT 0.851
 //This does rep nothing
 #ifndef DCPP_REVISION
@@ -36,7 +36,7 @@
 	#ifdef  BZR_REVISION_STRING
 		#define BMDC_REVISION_STRING BZR_REVISION_STRING
 	#else
-		#define BMDC_REVISION_STRING "0.1.23"
+		#define BMDC_REVISION_STRING "0.1.27"
 	#endif	
 #endif
 

@@ -1,5 +1,5 @@
 /*
-* Copyright © 2011-2025 BMDC
+* Copyright © 2011-2027 BMDC
 * This file is part of BMDC.
 * BMDC is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
 *
@@ -47,11 +47,9 @@ BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config")
 	g_object_unref(aboutStore);
 
 	aboutSelection = gtk_tree_view_get_selection(aboutView.get());
-	//g_signal_connect(aboutView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 
 	if(SETTING(AC_DISCLAIM) == false) {
 			gtk_widget_set_sensitive(getWidget("scrolledwindow"),FALSE);
-			//gtk_dialog_run(GTK_DIALOG(getWidget("infobar")));//@ need show this dialog
 	}
 	if(SETTING(AC_DISCLAIM) == true) {// we already confrim editing and so on
 		gtk_widget_set_sensitive(getWidget("scrolledwindow"),TRUE);

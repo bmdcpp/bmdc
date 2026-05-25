@@ -1,5 +1,5 @@
 /*
-* Copyright © 2025 BMDC
+* Copyright © 2025-2027 BMDC
 * This file is part of BMDC.
 * BMDC is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
 *
@@ -10,4 +10,4 @@
 
 #define GUI_PACKAGE "BMDC"
 #define GUI_LOCALE_PACKAGE "bmdc"
-#define GUI_VERSION_STRING "0.1.24"
+#define GUI_VERSION_STRING "0.1.27"

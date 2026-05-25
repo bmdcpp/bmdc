@@ -1,6 +1,6 @@
 /*
 * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
-* Copyright © 2011-2025 BMDC
+* Copyright © 2011-2027 BMDC
 * This file is part of BMDC.
 * BMDC is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
 *
@@ -24,7 +24,6 @@ PublicHubs::PublicHubs():
 	BookEntry(Entry::PUBLIC_HUBS, _("Public Hubs"), "publichubs"),
 	hubs(0), filter("")
 {
-	//@TODO: non-deprecated things
 	GSimpleActionGroup* simple = g_simple_action_group_new ();
 	g_simple_action_group_add_entries(simple, pub_entries, G_N_ELEMENTS (pub_entries), (gpointer)this);
 	gtk_widget_insert_action_group(getContainer(),"pub" ,G_ACTION_GROUP(simple));

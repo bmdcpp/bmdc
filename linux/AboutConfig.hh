@@ -1,5 +1,5 @@
 /*
-* Copyright © 2011-2025 BMDC
+* Copyright © 2011-2027 BMDC
 * This file is part of BMDC.
 * BMDC is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
 *
@@ -36,7 +36,6 @@ class AboutConfig:
 		void setColorRow(std::string);
 		static void makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter, gpointer data);
 	
-		//static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static void onPropertiesClicked_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
 		static void onSetDefault(GtkWidget *widget,GVariant  *parameter, gpointer data);
 		static void onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointer data );

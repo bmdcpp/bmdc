@@ -1,5 +1,5 @@
 /*
-* Copyright © 2011-2025 BMDC
+* Copyright © 2011-2027 BMDC
 * This file is part of BMDC.
 * BMDC is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
 *
@@ -54,7 +54,6 @@ p_entry(entry)
 
 	if(SETTING(AC_DISCLAIM) == false) {
 			gtk_widget_set_sensitive(getWidget("scrolledwindow"),FALSE);
-//			gtk_dialog_run(GTK_DIALOG(getWidget("infobar")));//@we need show this dialog
 	}
 	if(SETTING(AC_DISCLAIM) == true) {// we already confrim editing and so on
 		gtk_widget_set_sensitive(getWidget("scrolledwindow"),TRUE);
