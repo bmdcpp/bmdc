@@ -50,9 +50,7 @@ class UploadQueue:
                                     double           x,
                                     double           y,
                                     GtkWidget       *widget);
-		
-/*		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-*/
+
 		//client funcs
 		void grantSlot_client(const std::string &cid);
 		void getFileList_client(const std::string &cid);
