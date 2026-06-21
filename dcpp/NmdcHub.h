@@ -108,7 +108,7 @@ private:
 	uint64_t lastProtectedIPsUpdate;
 	StringList protectedIPs;
 
-	NmdcHub(const string& aHubURL);
+	NmdcHub(const string& aHubURL, bool secure = false);
 	virtual ~NmdcHub();
 
 	string salt;
