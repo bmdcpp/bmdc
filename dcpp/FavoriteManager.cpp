@@ -358,7 +358,7 @@ public:
 			const string& maxUsers = getAttrib(attribs, "Maxusers", 5);
 			const string& reliability = getAttrib(attribs, "Reliability", 5);
 			const string& rating = getAttrib(attribs, "Rating", 5);
-			publicHubs.emplace_back(name, secureServer.empty() ? server : secureServer, description, users, country, shared, minShare, minSlots, maxHubs, maxUsers, reliability, rating)
+			publicHubs.emplace_back(name, secureServer.empty() ? server : secureServer, description, users, country, shared, minShare, minSlots, maxHubs, maxUsers, reliability, rating);
 		}
 	}
 	virtual void endTag(const string&) {
