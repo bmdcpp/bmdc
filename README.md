@@ -1,6 +1,5 @@
 [![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.png?v=103)](https://opensource.org/licenses/GPL-3.0/) 
-[![CodeQL](https://github.com/bmdcpp/bmdc/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/bmdcpp/bmdc/actions/workflows/codeql.yml)
-![Maintenance](https://img.shields.io/maintenance/yes/2026)
+[![CodeQL](https://github.com/bmdcpp/bmdc/actions/workflows/codeql.yml/badge.svg)](https://github.com/bmdcpp/bmdc/actions/workflows/codeql.yml)![Maintenance](https://img.shields.io/maintenance/yes/2026)
 
 # BMDC &ndash; file sharing using DC and ADC protocols
 
