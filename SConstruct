@@ -329,7 +329,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	env.MergeFlags(BUILD_FLAGS[env['mode']])
 
 	env.Append(CXXFLAGS = '-std=c++17')
-	env.Append(LIBS = ['pcre2'])
+	env.Append(LIBS = ['pcre2-8'])
 	env.Append(LINKFLAGS = ['-lpcre2-8'])
 	#temp
 	env.Append(LIBS = ['maxminddb'])
